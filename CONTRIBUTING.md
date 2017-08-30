@@ -1,5 +1,21 @@
 # Contributing
 
+## Step-by-step To-Dos for commits
+1. `git pull --rebase upstream master` (**before** starting any code changes; skip to next step if you already have made changes)
+1. `git checkout -b <branchname>` (see below for name format)
+1. do your code changes
+1. `git add <your files you want>` or `git add .` if the only changed files are onces you want to add
+1. `git commit -m '...'`
+1. `git pull --rebase upstream master` (before pushing)
+1. resolve any conflicts (if any or skip to git push step)
+1. `git add .` (any changes, **do not commit** in the middle of a rebase)
+1. `git rebase --continue` (don't need to commit again)
+1. repeat the resolve/add/continue for each commit that rebase is layering on top.
+1. `git push -u origin <branchname>` (to your fork)
+1. if your fork:branch already exists, you may hit a conflict and have to delete the branch on the fork and then redo the git push
+1. go to github and create pull request from your fork:repo to team repo:master
+1. ask someone to check your work and merge the PR
+
 ## General Workflow
 
 1. Fork the repo
@@ -37,7 +53,7 @@ These commands will help you do this:
 git checkout -b `your-branch-name`
 ```
 
-### Make commits to your feature branch. 
+### Make commits to your feature branch.
 
 Prefix each commit like so
   - (feat) Add a new feature
