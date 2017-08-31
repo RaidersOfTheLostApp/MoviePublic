@@ -98,6 +98,8 @@ IMPORTANT: ensure `postgres` is running before performing these steps with below
 Other helpful postgres command lines:
 `\l` - list databases
 `\c <database>` - connect to a database
+`\dt` - list tables in a connected database
+`\d <table>` - list columns on a table
 
 ### Database Creation:
 
