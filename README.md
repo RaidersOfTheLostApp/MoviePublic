@@ -95,6 +95,10 @@ IMPORTANT: ensure `postgres` is running before performing these steps with below
 `\du`
 5. Exit the prompt with `\q`
 
+Other helpful postgres command lines:
+`\l` - list databases
+`\c <database>` - connect to a database
+
 ### Database Creation:
 
 Use grunt to create a new database for your development and test environments:
