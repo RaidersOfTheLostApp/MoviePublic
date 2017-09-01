@@ -11,15 +11,27 @@ class Results extends React.Component {
     super(props);
   }
 
+  // clickThroughURL(website) {
+  // console.log(website);
+  // <a
+  // href={website}
+  // target="_blank"
+  // <a/>
+  // }
+
   render() {
     return (
       <div className='gridRoot'>
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
           {this.props.data.map((movie, i) => (
-            <GridTile key={i} title={movie.title}>
-              <img src = {movie.Poster}/>
+            <a href = {movie.Website} target = "_blank">
+            <GridTile 
+            key={i} 
+            title={movie.title}>
+            <img src = {movie.Poster}/>
             </GridTile>
+            </a>
           ))}
         </GridList>
       </div>
@@ -28,3 +40,4 @@ class Results extends React.Component {
 }
 
 export default Results;
+

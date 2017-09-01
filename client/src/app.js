@@ -4,7 +4,6 @@ import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LandingPage from './components/landingpage/LandingPage';
 import data from './fakeData.js';
-import Navbar from './components/Navbar.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +14,6 @@ class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div className='muiThemeProvider'>
-          <Navbar />
           <LandingPage data = {this.props.data} />
         </div>
       </MuiThemeProvider>

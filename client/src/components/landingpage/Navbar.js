@@ -16,8 +16,8 @@ class Navbar extends React.Component {
         </ToolbarGroup>
         <ToolbarGroup lastChild={true}>
           <div className='toolBarGroupLast'>
-            <RaisedButton label="View Trips" className='raisedButton'/>
-            <RaisedButton label="Create Trip" />
+            <RaisedButton label="Favorites" className='raisedButton'/>
+            <RaisedButton label="Following" />
           </div>
           <div className='toolBarPadding'>
           </div>

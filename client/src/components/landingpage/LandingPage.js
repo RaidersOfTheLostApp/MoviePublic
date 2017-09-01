@@ -1,5 +1,7 @@
 import React from 'react';
 import Results from './Results';
+import Search from './Search';
+import Navbar from './Navbar';
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -10,6 +12,8 @@ class LandingPage extends React.Component {
     return (
       <div className='resultsRoot'>
         <div className='resultsInner'>
+          <Navbar/>
+          <Search />
           <Results data = {this.props.data}/>
         </div>
       </div>
