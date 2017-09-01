@@ -3,6 +3,8 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 class Results extends React.Component {
   constructor(props) {
@@ -11,34 +13,32 @@ class Results extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-around',
-          padding: '0px 30px 0px 30px'
-        }}
+    <div style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    }}
       >
         <GridList
           cellHeight={200}
           cols={3}
           style={{
-            overflowY: 'scroll'
+          width: 500,
+          height: 450,
+          overflowY: 'auto',
           }}
         >
-          {
-            this.props.data.map( (movie, i) => {
-              console.log('the data')
-              return (
+        <Subheader>December</Subheader>
+          {this.props.data.map((movie, i) => (
                 <GridTile
                   key={i}
                   title={movie.title}
                   actionIcon={movie.poster}
                 >
+                <img src = {movie.Website}/>
                 </GridTile>
-              )
-            })
-          }
+              
+            ))}
         </GridList>
       </div>
     )
@@ -46,4 +46,18 @@ class Results extends React.Component {
 }
 
 export default Results;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

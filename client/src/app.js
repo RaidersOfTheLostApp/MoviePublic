@@ -4,6 +4,14 @@ import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LandingPage from './components/landingpage/index';
 import data from './fakeData.js';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 
 class App extends React.Component {
   constructor(props) {
