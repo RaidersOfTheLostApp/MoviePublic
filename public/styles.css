@@ -1,0 +1,71 @@
+.body {
+  font-family: 'Roboto', sans-serif;
+  padding-top:80px;
+  font-size: 14px;
+  color: rgb(60, 60, 60);
+  margin: 0px;
+}
+
+.root {
+    display: 'flex';
+    flexWrap: 'wrap';
+    justifyContent: 'space-around';
+}
+
+.muiThemeProvider {
+  display: 'flex';
+  flexDirection: 'row';
+  width: '100%';
+  height: '100%';
+}
+
+.gridList {
+  width: 1200;
+  height: 800;
+  overflowY: 'auto';
+}
+
+.titleStyle {
+  color: 'rgb(0, 188, 212)';
+}
+
+.gridRoot {
+  display: 'flex';
+  flexWrap: 'nowrap';
+  justifyContent: 'space-around';
+}
+
+.resultsRoot {
+  flexGrow: 2;
+  flexBasis: '67%';
+}
+
+.resultsInner {
+  height: '87%';
+  overflowY: 'scroll';
+}
+
+.toolBar {
+  backgroundColor: 'white';
+  width: '100%';
+  paddingTop: '30px';
+}
+
+.toolBarGroupFirst {
+  padding: '0 25px 0 30px';
+}
+
+.toolBarGroupLast {
+  display: 'flex';
+  flexDirection: 'row';
+  paddingRight: '15px';
+  alignItems: 'center';
+}
+
+.raisedButton {
+  marginRight: '3px';
+}
+
+.toolBarPadding {
+  paddingRight: '30px';
+}
