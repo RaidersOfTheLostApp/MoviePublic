@@ -9,7 +9,7 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 class Results extends React.Component {
   constructor(props) {
     super(props);
-  };
+  }
 
   render() {
     return (
@@ -36,27 +36,12 @@ class Results extends React.Component {
                 >
                 <img src = {movie.Poster}/>
                 </GridTile>
-              
+
             ))}
         </GridList>
       </div>
-    )
+    );
   }
 }
 
 export default Results;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
