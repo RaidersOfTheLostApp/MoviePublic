@@ -15,27 +15,26 @@ class Results extends React.Component {
     return (
     <div style={{
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     justifyContent: 'space-around',
     }}
       >
         <GridList
           cellHeight={200}
-          cols={3}
+          cols={5}
           style={{
-          width: 500,
-          height: 450,
+          width: 1200,
+          height: 800,
           overflowY: 'auto',
           }}
         >
-        <Subheader>December</Subheader>
+        <Subheader>Popular Movies</Subheader>
           {this.props.data.map((movie, i) => (
                 <GridTile
                   key={i}
                   title={movie.title}
-                  actionIcon={movie.poster}
                 >
-                <img src = {movie.Website}/>
+                <img src = {movie.Poster}/>
                 </GridTile>
               
             ))}
