@@ -14,15 +14,10 @@ class App extends React.Component {
   render() {
     return (
       <MuiThemeProvider>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            width: '100%',
-            height: '100%'
-          }}>
-      <Navbar />
-      <LandingPage data = {this.props.data} />
-      </div>
+        <div className='muiThemeProvider'>
+          <Navbar />
+          <LandingPage data = {this.props.data} />
+        </div>
       </MuiThemeProvider>
     );
   }

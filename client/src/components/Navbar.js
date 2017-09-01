@@ -8,40 +8,20 @@ class Navbar extends React.Component {
     super(props);
   }
   render() {
-    return ( 
-      <Toolbar
-        style={{
-          backgroundColor: 'white',
-          width: '100%',
-          paddingTop: '30px'
-        }}
-      >
+    return (
+      <Toolbar className='toolBar'>
         <ToolbarGroup firstChild={true}>
-          <div style={{
-            padding: '0 25px 0 30px'
-          }}>
-          </div> 
+          <div className='toolBarGroupFirst'>
+          </div>
         </ToolbarGroup>
         <ToolbarGroup lastChild={true}>
-          <div 
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              paddingRight: '15px',
-              alignItems: 'center'
-            }}
-          >
-            <RaisedButton 
-              label="View Trips"
-              style={{marginRight: '3px'}}
-            />
-            <RaisedButton
-              label="Create Trip"
-            />
+          <div className='toolBarGroupLast'>
+            <RaisedButton label="View Trips" className='raisedButton'/>
+            <RaisedButton label="Create Trip" />
           </div>
-          <div style={{paddingRight: '30px'}}>
+          <div className='toolBarPadding'>
           </div>
-        </ToolbarGroup> 
+        </ToolbarGroup>
       </Toolbar>
     );
   }

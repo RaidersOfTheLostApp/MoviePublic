@@ -8,11 +8,8 @@ class LandingPage extends React.Component {
 
   render() {
     return (
-      <div style={{flexGrow: 2, flexBasis: '67%'}}>
-        <div style={{
-          height: '87%',
-          overflowY: 'scroll'
-        }}>
+      <div className='resultsRoot'>
+        <div className='resultsInner'>
           <Results data = {this.props.data}/>
         </div>
       </div>

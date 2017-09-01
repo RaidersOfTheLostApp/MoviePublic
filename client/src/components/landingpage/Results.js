@@ -13,31 +13,14 @@ class Results extends React.Component {
 
   render() {
     return (
-    <div style={{
-    display: 'flex',
-    flexWrap: 'nowrap',
-    justifyContent: 'space-around',
-    }}
-      >
-        <GridList
-          cellHeight={200}
-          cols={5}
-          style={{
-          width: 1200,
-          height: 800,
-          overflowY: 'auto',
-          }}
-        >
-        <Subheader>Popular Movies</Subheader>
+      <div className='gridRoot'>
+        <GridList cellHeight={200} cols={5} className='gridList'>
+          <Subheader>Popular Movies</Subheader>
           {this.props.data.map((movie, i) => (
-                <GridTile
-                  key={i}
-                  title={movie.title}
-                >
-                <img src = {movie.Poster}/>
-                </GridTile>
-
-            ))}
+            <GridTile key={i} title={movie.title}>
+              <img src = {movie.Poster}/>
+            </GridTile>
+          ))}
         </GridList>
       </div>
     );
