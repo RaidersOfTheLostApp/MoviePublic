@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.route('/')
   .get(middleware.auth.verify, (req, res) => {
+    console.log(req.body)
     res.render('index.ejs');
   });
 
@@ -12,7 +13,7 @@ router.route('/login')
   .get((req, res) => {
     res.render('login.ejs', { message: req.flash('loginMessage') });
   })
-  .post(middleware.passport.authenticate('local-login', {
+  .post(middleware.passport.authenticate('local-login', { 
     successRedirect: '/profile',
     failureRedirect: '/login',
     failureFlash: true
