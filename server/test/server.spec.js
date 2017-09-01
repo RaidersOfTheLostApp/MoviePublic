@@ -24,4 +24,13 @@ describe('basic server', function() {
       })
       .end(done);
   });
+  it('accepts GET request for /search', function(done) {
+    request(app)
+      .get('/search')
+      .expect(200)
+      // .expect(function(res) {
+      //   expect(res.body.data).to.equal('Posted!');
+      // })
+      .end(done);
+  });
 });

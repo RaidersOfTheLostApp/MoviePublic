@@ -13,7 +13,7 @@ router.route('/login')
   .get((req, res) => {
     res.render('login.ejs', { message: req.flash('loginMessage') });
   })
-  .post(middleware.passport.authenticate('local-login', { 
+  .post(middleware.passport.authenticate('local-login', {
     successRedirect: '/profile',
     failureRedirect: '/login',
     failureFlash: true
@@ -41,6 +41,12 @@ router.route('/logout')
     req.logout();
     res.redirect('/');
   });
+
+router.route('/search')
+  .get((req, res) => {
+    console.log('search success!')
+    res.status(200).end();
+  })
 
 router.get('/auth/google', middleware.passport.authenticate('google', {
   scope: ['email', 'profile']
