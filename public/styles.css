@@ -7,9 +7,9 @@
 }
 
 .root {
-    display: 'flex';
-    flexWrap: 'wrap';
-    justifyContent: 'space-around';
+  display: 'flex';
+  flexWrap: 'wrap';
+  justifyContent: 'space-around';
 }
 
 .muiThemeProvider {
@@ -82,4 +82,9 @@
 
 .flatButton {
   marginRight: 12;
+}
+
+.demoVideo {
+  display: flex;
+  justify-content: center;
 }

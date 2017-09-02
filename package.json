@@ -41,6 +41,7 @@
     "pg": "^6.1.5",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-player": "^0.21.0",
     "react-router-dom": "^4.2.2",
     "redis": "^2.8.0",
     "redis-server": "^1.1.0"

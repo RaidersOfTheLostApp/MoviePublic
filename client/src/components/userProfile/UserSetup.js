@@ -8,8 +8,9 @@ import Subheader from 'material-ui/Subheader';
 import {Step, Stepper, StepLabel} from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import ReactPlayer from 'react-player';
 
-class UserProfile extends React.Component {
+class UserSetup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +37,7 @@ class UserProfile extends React.Component {
   getStepContent(stepIndex) {
     switch (this.state.stepIndex) {
     case 0:
-      return 'Demo Video';
+      return null;
     case 1:
       return 'Follow to Get Notifications';
     case 2:
@@ -54,7 +55,6 @@ class UserProfile extends React.Component {
           <ListItem
             leftIcon={<Avatar src={this.props.user.avatar} />}
             primaryText={this.props.user.display}
-            secondaryText="Name"
           />
         </List>
         <Divider />
@@ -77,10 +77,16 @@ class UserProfile extends React.Component {
               </p>
             ) : (
               <div>
-                <p>{this.getStepContent(this.state.stepIndex)}</p>
-                <div className='buttonOuter'>
-                  <FlatButton className='flatButton' label='Back' disabled={this.state.stepIndex === 0} onClick={this.handlePrev.bind(this)} />
-                  <RaisedButton label={this.state.stepIndex === 2 ? 'All Good' : 'Next'} primary={true} onClick={this.handleNext.bind(this)} />
+                <div className='demoVideo'>
+                  <p>{this.getStepContent(this.state.stepIndex)}</p>
+                  <div className='buttonOuter'>
+                    <FlatButton className='flatButton' label='Back' disabled={this.state.stepIndex === 0} onClick={this.handlePrev.bind(this)} />
+                    <RaisedButton label={this.state.stepIndex === 2 ? 'All Good' : 'Next'} primary={true} onClick={this.handleNext.bind(this)} />
+                  </div>
+                </div>
+                <br/><br/>
+                <div className='demoVideo'>
+                  <ReactPlayer url='https://www.youtube.com/watch?v=ZUG9qYTJMsI' playing />
                 </div>
               </div>
             )}
@@ -91,5 +97,5 @@ class UserProfile extends React.Component {
   }
 }
 
-export default UserProfile;
+export default UserSetup;
 // ReactDOM.render(<UserProfile />, document.getElementById('profile'));
