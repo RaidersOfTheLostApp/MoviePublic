@@ -11,14 +11,14 @@ class Results extends React.Component {
     super(props);
   }
 
-  getFavoriteIcon(movie) {
-    console.log('hi!');
-    return (
-      <IconButton>
-      <FavoriteBorder color="green" />  
-      </IconButton>
-    );
-  }
+  // getFavoriteIcon() {
+  //   // console.log('hi!');
+  //   return (
+  //     <IconButton />
+  //       <FavoriteBorder color="green" />
+  //     </IconButton>
+  //   );
+  // }
 
   render() {
     return (
@@ -26,15 +26,13 @@ class Results extends React.Component {
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
           {this.props.data.map((movie, i) => (
-            <a href = {movie.Website} target = "_blank">
-            <GridTile 
-            key={i} 
-            title={movie.title}
-            actionIcon={this.getFavoriteIcon}
-            >
-            <img src = {movie.Poster}/>
-
-            </GridTile>
+            <a key={i} href = {movie.Website} target = "_blank">
+              <GridTile className='titleStyle' key={i}
+                title={movie.title}
+                actionIcon={<IconButton><StarBorder color="rgb(0, 188, 212)" /></IconButton>}
+                titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
+                <img src = {movie.Poster}/>
+              </GridTile>
             </a>
           ))}
         </GridList>
@@ -44,4 +42,3 @@ class Results extends React.Component {
 }
 
 export default Results;
-

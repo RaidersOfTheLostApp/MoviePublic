@@ -4,6 +4,7 @@ import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LandingPage from './components/landingpage/LandingPage';
 import Navbar from './components/landingpage/Navbar';
+// import UserProfile from './UserProfile';
 // import data from './fakeData.js';
 
 class App extends React.Component {
