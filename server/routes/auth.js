@@ -11,7 +11,8 @@ router.route('/')
   .get(middleware.auth.verify, (req, res) => {
     // console.log(req.query);
     res.render('index.ejs', {
-      movies: movies // from fakeData file
+      movies: movies, // from fakeData file
+      user: req.user
     });
   });
 
@@ -37,9 +38,10 @@ router.route('/login')
 
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
-    res.render('profile.ejs', {
-      user: req.user // get the user out of session and pass to template
-    });
+    // res.render('profile.ejs', {
+    //   user: req.user // get the user out of session and pass to template
+    // });
+    res.redirect('/account');
   });
 
 router.route('/logout')
@@ -59,7 +61,7 @@ router.get('/auth/google', middleware.passport.authenticate('google', {
 }));
 
 router.get('/auth/google/callback', middleware.passport.authenticate('google', {
-  successRedirect: '/profile',
+  successRedirect: '/account',
   failureRedirect: '/login'
 }));
 
@@ -68,7 +70,7 @@ router.get('/auth/facebook', middleware.passport.authenticate('facebook', {
 }));
 
 router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook', {
-  successRedirect: '/profile',
+  successRedirect: '/account',
   failureRedirect: '/login',
   failureFlash: true
 }));

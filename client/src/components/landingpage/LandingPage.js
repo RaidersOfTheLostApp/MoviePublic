@@ -10,10 +10,12 @@ class LandingPage extends React.Component {
 
   render() {
     return (
-      <div className='resultsRoot'>
-        <div className='resultsInner'>
-          <Search />
-          <Results data = {this.props.data}/>
+      <div className='muiThemeProvider'>
+        <div className='resultsRoot'>
+          <div className='resultsInner'>
+            <Search />
+            <Results data = {this.props.data}/>
+          </div>
         </div>
       </div>
     );

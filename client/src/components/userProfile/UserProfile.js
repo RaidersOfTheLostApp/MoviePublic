@@ -20,12 +20,12 @@ class UserProfile extends React.Component {
             <div className="col-sm-6">
               <div className="well">
                 <h3><span className="fa fa-user"></span> Local</h3>
-                {userFromServer.email ? (
+                {this.props.user.email ? (
                   <div>
                     <p>
-                      <strong>display name</strong>: {userFromServer.display}<br/>
-                      <strong>id</strong>: {userFromServer.id}<br/>
-                      <strong>email</strong>: {userFromServer.email}
+                      <strong>display name</strong>: {this.props.user.display}<br/>
+                      <strong>id</strong>: {this.props.user.id}<br/>
+                      <strong>email</strong>: {this.props.user.email}
                     </p>
                     <a href="/unlink/local" className="btn btn-default">Unlink</a>
                   </div>
@@ -41,4 +41,5 @@ class UserProfile extends React.Component {
   }
 }
 
-ReactDOM.render(<UserProfile />, document.getElementById('profile'));
+export default UserProfile;
+// ReactDOM.render(<UserProfile />, document.getElementById('profile'));

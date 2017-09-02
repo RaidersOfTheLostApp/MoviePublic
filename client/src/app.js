@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Flexbox from 'flexbox-react';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+// import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LandingPage from './components/landingpage/LandingPage';
 import Navbar from './components/landingpage/Navbar';
-// import UserProfile from './UserProfile';
+import UserProfile from './components/userProfile/UserProfile';
 // import data from './fakeData.js';
 
 class App extends React.Component {
@@ -14,11 +15,24 @@ class App extends React.Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <div className='muiThemeProvider'>
-          <LandingPage data = {moviesFromServer} />
+      <BrowserRouter>
+        <div>
+          <Switch>
+            <Route exact path="/" render={() => (
+              <MuiThemeProvider>
+                <LandingPage data = {moviesFromServer} />
+              </MuiThemeProvider>
+            )}
+            />
+            <Route path="/account" render={() => (
+              <MuiThemeProvider>
+                <UserProfile user={userFromServer} />
+              </MuiThemeProvider>
+            )}
+            />
+          </Switch>
         </div>
-      </MuiThemeProvider>
+      </BrowserRouter>
     );
   }
 }
