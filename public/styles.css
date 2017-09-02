@@ -70,5 +70,16 @@
   paddingRight: '30px';
 }
 
+.stepper {
+  width: '100%';
+  maxWidth: 700;
+  margin: 'auto';
+}
 
+.buttonOuter {
+  marginTop: 12;
+}
 
+.flatButton {
+  marginRight: 12;
+}
