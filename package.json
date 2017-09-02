@@ -28,6 +28,7 @@
     "express-session": "^1.15.1",
     "flexbox-react": "^4.4.0",
     "global": "^4.3.2",
+    "grunt-http": "^2.2.0",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
     "jquery": "^3.2.1",
     "knex": "^0.13.0",

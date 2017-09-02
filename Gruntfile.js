@@ -1,4 +1,5 @@
 const config = require('config')['knex'];
+const http = require('http');
 
 module.exports = function(grunt) {
 
@@ -28,6 +29,14 @@ module.exports = function(grunt) {
           database: 'template1'
         },
         name: config.connection.database
+      }
+    }
+
+    http: {
+      your_service: {
+        options: {
+          url: ''
+        }
       }
     }
 

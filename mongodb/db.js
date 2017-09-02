@@ -4,40 +4,42 @@ mongoose.connect(uri, {
   useMongoClient: true
 });
 
-var db = mongoose.connection;
+var searchDb = mongoose.connection;
 
-db.on('error', () => {
+searchDb.on('error', () => {
   console.log('mongoose connection error');
 });
 
-db.once('open', () => {
+searchDb.once('open', () => {
   console.log('mongoose connected successfully');
 });
 
-
-
 var movieSchema = mongoose.Schema({
-
-})
-var userSchema = mongoose.Schema({
-  userName: String,
   id: Number,
-  hashPass: String,
-  salt: String,
-  voteCount: Number
-});
-
-var imageSchema = mongoose.Schema({
-  id: String,
-  userId: Number,
-  imageUrl: String,
-  caption: String,
-  geoLocation: {type:[Number], index:'2d sphere'},
-  tags: Array,
-  timeStamp: Number,
-  comments: Array,
-  likeCount: Number,
-  dislikeCount: Number
+  title: String,
+  year: Number,
+  release_date: String,
+  genre: Array,
+  runtime: String,
+  directors: Array,
+  writers: Array,
+  actors: Array,
+  description: String,
+  awards: Array,
+  poster: String,
+  ratings: Array,
+  language: Array,
+  box_office: Number,
+  production: String,
+  website: String,
+  theater: Array
 });
 
 var Movie = mongoose.model('Movie', movieSchema, 'movies');
+
+var searchByTitle = (title, cb) => {
+  Movie.find({title: title}, cb)
+}
+
+module.exports = searchDb;
+module.exports.searchByTitle = searchByTitle;

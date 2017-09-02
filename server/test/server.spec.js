@@ -3,6 +3,7 @@ const request = require('supertest');
 const express = require('express');
 const expect = require('chai').expect;
 const app = require('../app.js');
+// const mongodb = require('../../mongodb');
 
 describe('basic server', function() {
   it('sends back hello world', function(done) {
@@ -24,13 +25,13 @@ describe('basic server', function() {
       })
       .end(done);
   });
-  it('accepts GET request for /search', function(done) {
+  it('accepts GET request for /search and queries search database', function(done) {
     request(app)
       .get('/search')
       .expect(200)
-      // .expect(function(res) {
-      //   expect(res.body.data).to.equal('Posted!');
-      // })
+      .expect(function(res) {
+        expect(res.body.data).to.equal(undefined);
+      })
       .end(done);
   });
 });

@@ -1,8 +1,17 @@
 const express = require('express');
 const middleware = require('../middleware');
+<<<<<<< HEAD
 var bodyParser = require('body-parser');
+<<<<<<< HEAD
 const movieone = require('../fakeData1.js');
 const movietwo = require('../fakeData2.js');
+=======
+const movies = require('../fakeData.js');
+
+=======
+const searchDb = require('../../mongodb/db.js');
+>>>>>>> added grunt http and finished searchByTitle route
+>>>>>>> added grunt http and finished searchByTitle route
 const router = express.Router();
 const app = express();
 app.use(bodyParser.text({ type: 'text/plain' }));
@@ -79,9 +88,20 @@ router.route('/logout')
 
 router.route('/search')
   .get((req, res) => {
+<<<<<<< HEAD
     // console.log(req.query.value);
     res.status(200).end('the GET request to the Search route was good');
   });
+=======
+    searchDb.searchByTitle('black swan', (err, res) => {
+      if(err){
+        console.log('searcherror')
+      }
+      console.log(res, 'searchsuccess')
+    })
+    res.status(200).end();
+  })
+>>>>>>> added grunt http and finished searchByTitle route
 
 router.get('/auth/google', middleware.passport.authenticate('google', {
   scope: ['email', 'profile']
