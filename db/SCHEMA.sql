@@ -3,7 +3,7 @@ CREATE DATABASE movies;
 
 \c movies;
 
-CREATE TABLE movies (
+CREATE TABLE movie (
   id SERIAL PRIMARY KEY,
   name TEXT UNIQUE NOT NULL,
   year SMALLINT,
@@ -13,7 +13,7 @@ CREATE TABLE movies (
   awards TEXT[],
   director TEXT[],
   writer TEXT[],
---   cast TEXT[],
+  crew_id TEXT[],
   production TEXT,
   boxOffice DOUBLE PRECISION
 );
@@ -22,15 +22,6 @@ CREATE TABLE genre (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     movies TEXT[]
-);
-
-CREATE TABLE crew_awards (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    year SMALLINT,
-    category TEXT,
-    movies_id INTEGER REFERENCES movies(id,
-    crew_id INTEGER REFERENCES crew(id)    
 );
 
 CREATE TABLE crew (
@@ -43,19 +34,40 @@ CREATE TABLE crew (
     writer BOOLEAN
 );
 
+CREATE TABLE awards (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    year SMALLINT,
+    category TEXT,
+    movie_id INTEGER REFERENCES movie(id),
+    crew_id INTEGER REFERENCES crew(id)    
+);
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     first_name TEXT NOT NULL,
     last_name TEXT,
+    display TEXT,
     avatar TEXT,
-    email TEXT,
+    email TEXT UNIQUE,
+    phone INTEGER,
     follow_genre TEXT[],
     follow_director TEXT[],
     follow_actor TEXT[],
     follow_movies TEXT[],
     follow_writers TEXT[],
     favorites TEXT[],
-    first BOOLEAN DEFAULT TRUE
+    first BOOLEAN DEFAULT TRUE,
+    stamp timestamp
+);
+
+CREATE TABLE AUTHS (
+  id SERIAL PRIMARY KEY,
+  type TEXT NOT NULL,
+  oauth_id TEXT,
+  password TEXT,
+  sale TEXT,
+  user_id INTEGER references users(id)
 );
 
 CREATE TABLE payment (

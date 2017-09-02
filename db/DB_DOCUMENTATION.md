@@ -14,5 +14,19 @@ https://www.postgresql.org/docs/devel/static/datatype-json.html
 https://blog.2ndquadrant.com/postgresql-anti-patterns-unnecessary-jsonhstore-dynamic-columns/
 For using PostgresQL with External MongoDB
 
-<!-- Windows: -->
-c:/Users/Arthur/cs/MovieMaster/db/SCHEMA.SQL
+<!-- For Mac --> 
+> psql -f {file_name} 
+
+OR 
+
+> psql -U {user_name} -d {database_name} -f {file_path} -h {host_name}
+database_name: Which database should you insert your file data in.
+
+file_path: Absolute path to the file through which you want to perform the importing.
+
+host_name: The name of the host. For development purposes, it is mostly localhost.
+
+<!-- Windows: Run Below in the PSQL Command Line -->
+-Enter the PSQL Command Prompt
+-Import the SQL File via the command on the next line.
+> \i c:/Users/Arthur/cs/MovieMaster/db/SCHEMA.SQL
