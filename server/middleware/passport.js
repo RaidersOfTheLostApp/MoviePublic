@@ -133,6 +133,8 @@ passport.use('facebook', new FacebookStrategy({
 // );
 
 const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
+  console.log('*********getOrCreateOAuthProfile user profile ', oauthProfile);
+
   return models.Auth.where({ type, oauth_id: oauthProfile.id }).fetch({
     withRelated: ['profile']
   })
@@ -149,14 +151,14 @@ const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
       return models.Profile.where({ email: oauthProfile.emails[0].value }).fetch();
     })
     .then(profile => {
-
       let profileInfo = {
         first: oauthProfile.name.givenName,
         last: oauthProfile.name.familyName,
         display: oauthProfile.displayName || `${oauthProfile.name.givenName} ${oauthProfile.name.familyName}`,
-        email: oauthProfile.emails[0].value
+        email: oauthProfile.emails[0].value,
+        avatar: oauthProfile.photos[0].value || oauthProfile.profileUrl
       };
-
+      console.log('******** profileInfo in passport.js ', profileInfo);
       if (profile) {
         //update profile with info from oauth
         return profile.save(profileInfo, { method: 'update' });

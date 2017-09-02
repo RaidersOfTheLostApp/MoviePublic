@@ -1,6 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import CommunicationCall from 'material-ui/svg-icons/communication/call';
+import CommunicationEmail from 'material-ui/svg-icons/communication/email';
+import Avatar from 'material-ui/Avatar';
+import Subheader from 'material-ui/Subheader';
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -8,35 +15,30 @@ class UserProfile extends React.Component {
   }
   render() {
     return (
-      <MuiThemeProvider>
-        <div className='muiThemeProvider'>
-          <div className="page-header text-center">
-            <h1><span className="fa fa-anchor"></span> Profile Page</h1>
-            <a href="/" className="btn btn-default btn-sm">Home page</a>
-            <a href="/logout" className="btn btn-default btn-sm">Logout</a>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-6">
-              <div className="well">
-                <h3><span className="fa fa-user"></span> Local</h3>
-                {this.props.user.email ? (
-                  <div>
-                    <p>
-                      <strong>display name</strong>: {this.props.user.display}<br/>
-                      <strong>id</strong>: {this.props.user.id}<br/>
-                      <strong>email</strong>: {this.props.user.email}
-                    </p>
-                    <a href="/unlink/local" className="btn btn-default">Unlink</a>
-                  </div>
-                ) : (
-                  <a href="/connect/local" className="btn btn-default">Connect Local</a>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </MuiThemeProvider>
+      <div className='muiThemeProvider'>
+        <Subheader>Account Profile</Subheader>
+        <List>
+          <ListItem
+            leftIcon={<Avatar src={this.props.user.avatar} />}
+            primaryText={this.props.user.display}
+            secondaryText="Name"
+          />
+          <ListItem
+            insetChildren={true}
+            leftIcon={<CommunicationEmail />}
+            primaryText={this.props.user.email}
+            secondaryText="Email"
+          />
+        </List>
+        <Divider inset={true} />
+        <List>
+          <ListItem
+            leftIcon={<ActionGrade />}
+            primaryText="movie list goes here"
+            secondaryText="Favorite Movies"
+          />
+        </List>
+      </div>
     );
   }
 }
