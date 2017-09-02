@@ -1,15 +1,18 @@
 const express = require('express');
 const middleware = require('../middleware');
 var bodyParser = require('body-parser');
+const movies = require('../fakeData.js');
 
 const router = express.Router();
 const app = express();
-app.use(bodyParser.text({ type: 'text/plain' }))
+app.use(bodyParser.text({ type: 'text/plain' }));
 
 router.route('/')
   .get(middleware.auth.verify, (req, res) => {
     console.log(req.query);
-    res.render('index.ejs');
+    res.render('index.ejs', {
+      movies: movies // from fakeData file
+    });
   });
 
 router.route('/login')
@@ -34,7 +37,7 @@ router.route('/login')
 
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
-    res.render('body.ejs', {
+    res.render('profile.ejs', {
       user: req.user // get the user out of session and pass to template
     });
   });
@@ -49,7 +52,7 @@ router.route('/search')
   .get((req, res) => {
     console.log(req.query.value);
     res.status(200).end('the GET request to the Search route was good');
-  })
+  });
 
 router.get('/auth/google', middleware.passport.authenticate('google', {
   scope: ['email', 'profile']
@@ -79,27 +82,7 @@ router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook
 
 module.exports = router;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // app.use(express.static(__dirname + '/../react-client/dist'));
-
-app.use(bodyParser.text({ type: 'text/plain' }))
 
 // var chosencategory;
 // var dbvalues = [];
@@ -120,7 +103,7 @@ app.use(bodyParser.text({ type: 'text/plain' }))
 //       var playlist = data[m];
 //       mysql.insertValues(playlist);
 //     }
-// } 
+// }
 
 // // app.post('/items', function (req, res) {
 // //   console.log('we received the POST request on the server!');
@@ -141,6 +124,6 @@ app.use(bodyParser.text({ type: 'text/plain' }))
 // //       console.log('this worked!');
 // //       dbdata(data);
 // //       res.send(dbvalues);
-// //     }  
+// //     }
 // //   });
 // // })

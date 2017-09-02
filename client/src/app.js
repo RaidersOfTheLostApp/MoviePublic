@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LandingPage from './components/landingpage/LandingPage';
-import data from './fakeData.js';
+import Navbar from './components/landingpage/Navbar';
+// import data from './fakeData.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,13 +15,13 @@ class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div className='muiThemeProvider'>
-          <LandingPage data = {this.props.data} />
+          <LandingPage data = {moviesFromServer} />
         </div>
       </MuiThemeProvider>
     );
   }
 }
 
-ReactDOM.render(<App data = {data}/>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 
-export default App;
+// export default App;
