@@ -1,9 +1,9 @@
-<% include head.ejs%>
-<% include navBar.ejs%>
+<% include ./partials/head.ejs%>
+<% include ./partials/navBar.ejs%>
 
   <div id='profile'></div>
     <script type='text/javascript'>
       var userFromServer =<%-JSON.stringify(user)%>
     </script>
 
-<% include footReact.ejs%>
+<% include ./partials/footReact.ejs%>

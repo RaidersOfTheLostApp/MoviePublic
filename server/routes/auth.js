@@ -9,7 +9,7 @@ app.use(bodyParser.text({ type: 'text/plain' }));
 
 router.route('/')
   .get(middleware.auth.verify, (req, res) => {
-    console.log(req.query);
+    // console.log(req.query);
     res.render('index.ejs', {
       movies: movies // from fakeData file
     });

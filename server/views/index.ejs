@@ -1,9 +1,9 @@
-<% include head.ejs%>
-<% include navBar.ejs%>
+<% include ./partials/head.ejs%>
+<% include ./partials/navBar.ejs%>
 
-    <div id='root'></div>
+    <div id='root'><%-root%></div>
     <script type='text/javascript'>
       var moviesFromServer =<%-JSON.stringify(movies)%>
     </script>
 
-<% include footReact.ejs%>
+<% include ./partials/footReact.ejs%>

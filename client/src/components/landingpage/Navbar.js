@@ -20,8 +20,10 @@ class Navbar extends React.Component {
             </ToolbarGroup>
             <ToolbarGroup lastChild={true}>
               <div className='toolBarGroupLast'>
+                <a href="/" ><RaisedButton label="Home" /></a>
                 <RaisedButton label="Favorites" className='raisedButton'/>
                 <RaisedButton label="Following" />
+                <a href="/profile" ><RaisedButton label="Profile" /></a>
                 <a href="/logout" ><RaisedButton label="Logout" /></a>
               </div>
               <div className='toolBarPadding'>
