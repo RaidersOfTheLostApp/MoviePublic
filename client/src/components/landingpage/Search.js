@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import $ from 'jquery';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -15,9 +16,26 @@ class Search extends React.Component {
   }
 
   updateSearch(event) {
-    this.debouncedSearch(event.target.value);
     this.setState({searchTerm: event.target.value});
   }
+
+searchToServer() {
+  var searchInput = document.getElementById('text-field').value;
+  console.log(searchInput);
+   $.ajax({
+      url: '/search',
+      method: 'GET',
+      data: {value: searchInput},
+      dataType: 'json',
+      contentType: 'text/plain',
+      success: (results) => {
+        console.log(results);
+      },
+      error: (err) => {
+        console.log('err', err);
+      }
+  })
+}
 
   render() {
     return (
@@ -35,15 +53,9 @@ class Search extends React.Component {
           <div style={{
             paddingLeft: '30px'
           }}>
-          </div>
-          <div style={{
-            paddingLeft: '30px'
-          }}>
             <TextField
               hintText="Search movies..."
-              textareaStyle={{
-                backgroundColor: 'gray'
-              }}
+              id = "text-field"
               underlineFocusStyle={{
                 borderColor: 'rgb(40, 130, 150)',
                 borderBottomStyle: 'solid',
@@ -53,14 +65,9 @@ class Search extends React.Component {
               style={{
                 width: '500px'
               }}
-              value={this.state.searchTerm}
             />
-            <span style={{width: '30px'}}></span>
+            <button onClick={this.searchToServer} type="button" id = "submit">Submit</button>
           </div>
-        </div>
-        <div style={{
-          paddingRight: '30px'
-        }}>
         </div>
       </div>
     );

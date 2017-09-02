@@ -1,11 +1,14 @@
 const express = require('express');
 const middleware = require('../middleware');
+var bodyParser = require('body-parser');
 
 const router = express.Router();
+const app = express();
+app.use(bodyParser.text({ type: 'text/plain' }))
 
 router.route('/')
   .get(middleware.auth.verify, (req, res) => {
-    console.log(req.body)
+    console.log(req.query);
     res.render('index.ejs');
   });
 
@@ -44,8 +47,8 @@ router.route('/logout')
 
 router.route('/search')
   .get((req, res) => {
-    console.log('search success!')
-    res.status(200).end();
+    console.log(req.query.value);
+    res.status(200).end('the GET request to the Search route was good');
   })
 
 router.get('/auth/google', middleware.passport.authenticate('google', {
@@ -75,3 +78,69 @@ router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook
 // }));
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.use(express.static(__dirname + '/../react-client/dist'));
+
+app.use(bodyParser.text({ type: 'text/plain' }))
+
+// var chosencategory;
+// var dbvalues = [];
+
+// var dbdata = function(data) {
+//   for (var i = 0; i < data.length; i++) {
+//     dbvalues.push(data[i].playlistname + ': ' + data[i].playlisturl);
+//   }
+//   console.log('the sql values are' + dbvalues);
+// }
+
+// var modifieddata = function(data) {
+//   for (var i = 0; i < data.length; i++) {
+//     if (data[i].push(chosencategory));
+//   }
+
+//   for (var m = 0; m < data.length; m++) {
+//       var playlist = data[m];
+//       mysql.insertValues(playlist);
+//     }
+// } 
+
+// // app.post('/items', function (req, res) {
+// //   console.log('we received the POST request on the server!');
+// //   var category = req.body;
+// //   chosencategory = category;
+// //   console.log(chosencategory);
+// //   var newreq = apiHelpers.categoryRouter(category, apiHelpers.listFormatter);
+// // });
+
+// // app.get('/items', function (req, res) {
+// //   console.log('we received the GET request on the server!')
+// //   var category = req.query.value;
+// //   mysql.grabValues(category, function(err, data) {
+// //     if (err) {
+// //       console.log(err);
+// //     }
+// //     else {
+// //       console.log('this worked!');
+// //       dbdata(data);
+// //       res.send(dbvalues);
+// //     }  
+// //   });
+// // })

@@ -27,6 +27,7 @@
     "flexbox-react": "^4.4.0",
     "global": "^4.3.2",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
+    "jquery": "^3.2.1",
     "knex": "^0.12.9",
     "material-ui": "^0.19.0",
     "mongodb": "^2.2.31",
