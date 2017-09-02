@@ -17,20 +17,18 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div>
-          <Switch>
-            <Route exact path="/" render={() => (
-              <MuiThemeProvider>
-                <LandingPage data = {moviesFromServer} />
-              </MuiThemeProvider>
-            )}
-            />
-            <Route path="/account" render={() => (
-              <MuiThemeProvider>
-                <UserProfile user={userFromServer} />
-              </MuiThemeProvider>
-            )}
-            />
-          </Switch>
+          <Route exact path="/" render={() => (
+            <MuiThemeProvider>
+              <LandingPage data = {dataFromServer.movies} />
+            </MuiThemeProvider>
+          )}
+          />
+          <Route path="/profile" render={() => (
+            <MuiThemeProvider>
+              <UserProfile user={dataFromServer.user} />
+            </MuiThemeProvider>
+          )}
+          />
         </div>
       </BrowserRouter>
     );

@@ -41,7 +41,11 @@ router.route('/profile')
     // res.render('profile.ejs', {
     //   user: req.user // get the user out of session and pass to template
     // });
-    res.redirect('/account');
+    // res.redirect('/account');
+    res.render('index.ejs', {
+      movies: movies, // from fakeData file
+      user: req.user
+    });
   });
 
 router.route('/logout')
@@ -61,7 +65,7 @@ router.get('/auth/google', middleware.passport.authenticate('google', {
 }));
 
 router.get('/auth/google/callback', middleware.passport.authenticate('google', {
-  successRedirect: '/account',
+  successRedirect: '/profile',
   failureRedirect: '/login'
 }));
 
@@ -70,10 +74,14 @@ router.get('/auth/facebook', middleware.passport.authenticate('facebook', {
 }));
 
 router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook', {
-  successRedirect: '/account',
+  successRedirect: '/profile',
   failureRedirect: '/login',
   failureFlash: true
 }));
+
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../react-client/dist/index.html'));
+// });
 
 // router.get('/auth/twitter', middleware.passport.authenticate('twitter'));
 //

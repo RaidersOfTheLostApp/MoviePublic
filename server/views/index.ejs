@@ -4,9 +4,7 @@
   <div id='root'></div>
 
     <script type='text/javascript'>
-      var moviesFromServer =<%-JSON.stringify(movies)%>
-      var userFromServer =<%-JSON.stringify(user)%>
+      var dataFromServer =<%-JSON.stringify({'movies': movies, 'user': user})%>
     </script>
-
 
 <% include ./partials/footReact.ejs%>
