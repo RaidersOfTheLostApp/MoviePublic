@@ -6,7 +6,7 @@ module.exports.verify = (req, res, next) => {
   if (req.isAuthenticated()) {
     // console.log(req.body);
     return next();
-  }else{
+  } else {
     // console.log(res.body)
     res.redirect('/login');
   }
