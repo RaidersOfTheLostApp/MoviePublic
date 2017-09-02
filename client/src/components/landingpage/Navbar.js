@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Avatar from 'material-ui/Avatar';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import Favorites from './Favorites'
+import Favorites from './Favorites';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Navbar extends React.Component {
             <ToolbarGroup lastChild={true}>
               <div className='toolBarGroupLast'>
                 <a href="/" ><RaisedButton label="Home" /></a>
-                <RaisedButton label="Favorites" className='raisedButton'/>
+                <RaisedButton label="Favorites" className='raisedButton' onClick={() => this.props.buttonClick()}/>
                 <RaisedButton label="Following" />
                 <a href="/profile"><RaisedButton label="Profile" /></a>
                 <a href="/setup"><RaisedButton label="Setup" /></a>
@@ -38,5 +38,5 @@ class Navbar extends React.Component {
   }
 }
 
-// export default Navbar;
-ReactDOM.render(<Navbar />, document.getElementById('nav'));
+export default Navbar;
+// ReactDOM.render(<Navbar />, document.getElementById('nav'));

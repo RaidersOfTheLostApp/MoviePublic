@@ -25,7 +25,7 @@ class Results extends React.Component {
       <div className='gridRoot'>
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
-          {this.props.data.map((movie, i) => (
+          {this.props.results.map((movie, i) => (
             <a href = {movie.Website} target = "_blank">
             <GridTile 
             key={i} 

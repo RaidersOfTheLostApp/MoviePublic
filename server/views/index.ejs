@@ -4,7 +4,11 @@
   <div id='root'></div>
 
     <script type='text/javascript'>
+<<<<<<< HEAD
       var dataFromServer =<%-JSON.stringify(data)%>
+=======
+      var dataFromServer =<%-JSON.stringify({'movieone': movieone, 'movietwo': movietwo, 'user': user})%>
+>>>>>>> Clicking on the favorites button is now working as intended. Next step is figuring out how to add the materialUI icon so that we can actually add favorites
     </script>
 
 <% include ./partials/footReact.ejs%>

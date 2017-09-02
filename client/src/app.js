@@ -21,8 +21,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" render={() => (
             <MuiThemeProvider>
-              <LandingPage data={dataFromServer} />
-            </MuiThemeProvider>
+              <LandingPage results = {dataFromServer.movieone} favorites = {dataFromServer.movietwo} />
           )}
           />
           <Route path="/profile" render={() => (

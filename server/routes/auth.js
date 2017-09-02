@@ -1,8 +1,8 @@
 const express = require('express');
 const middleware = require('../middleware');
 var bodyParser = require('body-parser');
-const movies = require('../fakeData.js');
-
+const movieone = require('../fakeData1.js');
+const movietwo = require('../fakeData2.js');
 const router = express.Router();
 const app = express();
 app.use(bodyParser.text({ type: 'text/plain' }));
@@ -10,7 +10,9 @@ app.use(bodyParser.text({ type: 'text/plain' }));
 router.route('/')
   .get(middleware.auth.verify, (req, res) => {
     res.render('index.ejs', {
-      data: movies // from fakeData file
+      movieone: movieone, // from fakeData file
+      movietwo: movietwo, // from fakeData file
+      user: req.user
     });
   });
 
@@ -56,6 +58,9 @@ router.route('/setup')
     // if statement for new user, go here, else redirect to /
     res.render('index.ejs', {
       data: req.user
+      movieone: movieone, // from fakeData file
+      movietwo: movietwo, // from fakeData file
+      user: req.user
     });
   });
 

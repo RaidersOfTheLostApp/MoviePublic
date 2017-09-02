@@ -1,4 +1,10 @@
 import React from 'react';
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import Favorite from 'material-ui/svg-icons/action/favorite';
+import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 class Favorites extends React.Component {
   constructor(props) {
@@ -6,8 +12,22 @@ class Favorites extends React.Component {
   }
 
 render() {
-    return (
-     <h1> Hello World! </h1>
+     return (
+      <div className='gridRoot'>
+        <GridList cellHeight={200} cols={5} className='gridList'>
+          <Subheader>Favorites</Subheader>
+          {this.props.favorites.map((favorite, i) => (
+            <a href = {favorite.Website} target = "_blank">
+            <GridTile 
+            key={i} 
+            title={favorite.title}
+            >
+            <img src = {favorite.Poster}/>
+            </GridTile>
+            </a>
+          ))}
+        </GridList>
+      </div>
     );
   }
 }
