@@ -11,8 +11,7 @@ router.route('/')
   .get(middleware.auth.verify, (req, res) => {
     // console.log(req.query);
     res.render('index.ejs', {
-      movies: movies, // from fakeData file
-      user: req.user
+      data: movies // from fakeData file
     });
   });
 
@@ -43,8 +42,18 @@ router.route('/profile')
     // });
     // res.redirect('/account');
     res.render('index.ejs', {
-      movies: movies, // from fakeData file
-      user: req.user
+      data: req.user
+    });
+  });
+
+router.route('/setup')
+  .get(middleware.auth.verify, (req, res) => {
+    // res.render('profile.ejs', {
+    //   user: req.user // get the user out of session and pass to template
+    // });
+    // res.redirect('/account');
+    res.render('index.ejs', {
+      data: req.user
     });
   });
 
