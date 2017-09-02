@@ -11,13 +11,14 @@ class Results extends React.Component {
     super(props);
   }
 
-  // clickThroughURL(website) {
-  // console.log(website);
-  // <a
-  // href={website}
-  // target="_blank"
-  // <a/>
-  // }
+  getFavoriteIcon(movie) {
+    console.log('hi!');
+    return (
+      <IconButton>
+      <FavoriteBorder color="green" />  
+      </IconButton>
+    );
+  }
 
   render() {
     return (
@@ -28,8 +29,11 @@ class Results extends React.Component {
             <a href = {movie.Website} target = "_blank">
             <GridTile 
             key={i} 
-            title={movie.title}>
+            title={movie.title}
+            actionIcon={this.getFavoriteIcon}
+            >
             <img src = {movie.Poster}/>
+
             </GridTile>
             </a>
           ))}
