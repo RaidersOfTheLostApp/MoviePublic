@@ -19,10 +19,10 @@ class Search extends React.Component {
     this.setState({searchTerm: event.target.value});
   }
 
-searchToServer() {
-  var searchInput = document.getElementById('text-field').value;
-  console.log(searchInput);
-   $.ajax({
+  searchToServer() {
+    var searchInput = document.getElementById('text-field').value;
+    // console.log(searchInput);
+    $.ajax({
       url: '/search',
       method: 'GET',
       data: {value: searchInput},
@@ -34,8 +34,8 @@ searchToServer() {
       error: (err) => {
         console.log('err', err);
       }
-  })
-}
+    });
+  }
 
   render() {
     return (

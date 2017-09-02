@@ -50,7 +50,7 @@ router.route('/logout')
 
 router.route('/search')
   .get((req, res) => {
-    console.log(req.query.value);
+    // console.log(req.query.value);
     res.status(200).end('the GET request to the Search route was good');
   });
 
