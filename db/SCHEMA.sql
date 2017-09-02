@@ -13,7 +13,7 @@ CREATE TABLE movies (
   awards TEXT[],
   director TEXT[],
   writer TEXT[],
-  cast TEXT[],
+--   cast TEXT[],
   production TEXT,
   boxOffice DOUBLE PRECISION
 );
@@ -29,8 +29,8 @@ CREATE TABLE crew_awards (
     name TEXT NOT NULL,
     year SMALLINT,
     category TEXT,
-    movie_id TEXT REFERENCES movies(id),
-    crew_id TEXT REFERENCES crew(id)    
+    movies_id INTEGER REFERENCES movies(id,
+    crew_id INTEGER REFERENCES crew(id)    
 );
 
 CREATE TABLE crew (
@@ -46,22 +46,21 @@ CREATE TABLE crew (
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     first_name TEXT NOT NULL,
-    last_name TEXT, 1353
+    last_name TEXT,
+    avatar TEXT,
     email TEXT,
     follow_genre TEXT[],
     follow_director TEXT[],
     follow_actor TEXT[],
     follow_movies TEXT[],
     follow_writers TEXT[],
-    favorites TEXT[]
-    first BOOLEAN DEFAULT TRUE,
+    favorites TEXT[],
+    first BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE payment (
     user_id INTEGER,
     email TEXT,
     method TEXT,
-    CCN INTEGER
+    CCN BIGINT
 );
-
--- \d movies;

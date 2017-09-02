@@ -10,3 +10,9 @@ In addition, we can accept the loss in added conversion overhead as:
     2) After this initalization, we will only be pulling new inputs once a day, the expected input amount each day will be not as significant as, unless the entertainment industry decides to only announce all their movies/tv shows on a single day, there will be only so much new movies & TV shows that will be announced on a certain day.
     
 https://www.postgresql.org/docs/devel/static/datatype-json.html
+
+https://blog.2ndquadrant.com/postgresql-anti-patterns-unnecessary-jsonhstore-dynamic-columns/
+For using PostgresQL with External MongoDB
+
+<!-- Windows: -->
+c:/Users/Arthur/cs/MovieMaster/db/SCHEMA.SQL
