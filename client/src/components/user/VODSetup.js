@@ -10,6 +10,10 @@ class VODSetup extends React.Component {
   render() {
     return (
       <div className='demoVideo'>
+        // use Table & Toggle from MUI
+        // netflix, hbo go, hulu, amazon video
+        // toggle for turned on
+        // table to display with logos
         {this.props.header}
       </div>
     );

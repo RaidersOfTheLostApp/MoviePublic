@@ -5,8 +5,8 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LandingPage from './components/landingpage/LandingPage';
 import Navbar from './components/landingpage/Navbar';
-import UserProfile from './components/userProfile/UserProfile';
-import UserSetup from './components/userProfile/UserSetup';
+import UserProfile from './components/user/UserProfile';
+import UserSetup from './components/user/UserSetup';
 
 // import data from './fakeData.js';
 
