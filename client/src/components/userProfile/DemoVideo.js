@@ -18,4 +18,3 @@ class DemoVideo extends React.Component {
 }
 
 export default DemoVideo;
-// ReactDOM.render(<UserProfile />, document.getElementById('profile'));

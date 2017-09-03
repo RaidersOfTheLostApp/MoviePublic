@@ -17,4 +17,3 @@ class VODSetup extends React.Component {
 }
 
 export default VODSetup;
-// ReactDOM.render(<UserProfile />, document.getElementById('profile'));

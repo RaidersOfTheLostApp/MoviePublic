@@ -105,4 +105,3 @@ class UserSetup extends React.Component {
 }
 
 export default UserSetup;
-// ReactDOM.render(<UserProfile />, document.getElementById('profile'));

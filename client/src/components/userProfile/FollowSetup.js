@@ -17,4 +17,3 @@ class FollowSetup extends React.Component {
 }
 
 export default FollowSetup;
-// ReactDOM.render(<UserProfile />, document.getElementById('profile'));

@@ -44,4 +44,3 @@ class UserProfile extends React.Component {
 }
 
 export default UserProfile;
-// ReactDOM.render(<UserProfile />, document.getElementById('profile'));
