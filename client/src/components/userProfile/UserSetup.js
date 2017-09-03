@@ -8,7 +8,9 @@ import Subheader from 'material-ui/Subheader';
 import {Step, Stepper, StepLabel} from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import ReactPlayer from 'react-player';
+import DemoVideo from './DemoVideo';
+import FollowSetup from './FollowSetup';
+import VODSetup from './VODSetup';
 
 class UserSetup extends React.Component {
   constructor(props) {
@@ -35,7 +37,7 @@ class UserSetup extends React.Component {
   }
 
   getStepContent(stepIndex) {
-    switch (this.state.stepIndex) {
+    switch (stepIndex) {
     case 0:
       return null;
     case 1:
@@ -78,16 +80,21 @@ class UserSetup extends React.Component {
             ) : (
               <div>
                 <div className='demoVideo'>
-                  <p>{this.getStepContent(this.state.stepIndex)}</p>
                   <div className='buttonOuter'>
                     <FlatButton className='flatButton' label='Back' disabled={this.state.stepIndex === 0} onClick={this.handlePrev.bind(this)} />
                     <RaisedButton label={this.state.stepIndex === 2 ? 'All Good' : 'Next'} primary={true} onClick={this.handleNext.bind(this)} />
                   </div>
                 </div>
                 <br/><br/>
-                <div className='demoVideo'>
-                  <ReactPlayer url='https://www.youtube.com/watch?v=ZUG9qYTJMsI' playing />
-                </div>
+                {this.state.stepIndex === 0 ? (
+                  <DemoVideo header={this.getStepContent(this.state.stepIndex)}/>
+                ) : (
+                  this.state.stepIndex === 1 ? (
+                    <FollowSetup header={this.getStepContent(this.state.stepIndex)}/>
+                  ) : (
+                    <VODSetup header={this.getStepContent(this.state.stepIndex)}/>
+                  )
+                )}
               </div>
             )}
           </div>
