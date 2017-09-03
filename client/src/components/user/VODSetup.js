@@ -1,4 +1,6 @@
 import React from 'react';
+import Subheader from 'material-ui/Subheader';
+import Toggle from 'material-ui/Toggle';
 
 class VODSetup extends React.Component {
   constructor(props) {
@@ -10,11 +12,15 @@ class VODSetup extends React.Component {
   render() {
     return (
       <div className='demoVideo'>
-        // use Table & Toggle from MUI
-        // netflix, hbo go, hulu, amazon video
-        // toggle for turned on
+        <Subheader>{this.props.header}</Subheader>
+        <div className='vod'>
+          <Toggle className='toggle' label='Netflix' />
+          <Toggle className='toggle' label='HBO GO' />
+          <Toggle className='toggle' label='Hulu' />
+          <Toggle className='toggle' label='Amazon Video' />
+        </div>
+        // use Table?
         // table to display with logos
-        {this.props.header}
       </div>
     );
   }

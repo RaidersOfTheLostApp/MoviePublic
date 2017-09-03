@@ -88,3 +88,10 @@
   display: flex;
   justify-content: center;
 }
+
+.vod {
+
+}
+.toggle {
+  marginBottom: 16;
+}

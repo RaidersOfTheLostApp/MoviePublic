@@ -1,4 +1,5 @@
 import React from 'react';
+import Subheader from 'material-ui/Subheader';
 
 class FollowSetup extends React.Component {
   constructor(props) {
@@ -10,11 +11,12 @@ class FollowSetup extends React.Component {
   render() {
     return (
       <div className='demoVideo'>
+        <Subheader>{this.props.header}</Subheader>
         // user Auto Complete & Select Field from MUI
         // select field for dropdown of actor, director, writer, movies
         // autocomplete to autofill text from our db and allow new entries
         // display sections of 'current follows' broken into sections with delete keys
-        {this.props.header}
+
       </div>
     );
   }
