@@ -43,7 +43,7 @@ class UserSetup extends React.Component {
     case 1:
       return 'Follow to Get Notifications';
     case 2:
-      return 'VOD Subscriptions';
+      return 'Select Your VOD Subscriptions';
     default:
       'New Account Setup Instructions';
     }
@@ -82,10 +82,9 @@ class UserSetup extends React.Component {
                 <div className='demoVideo'>
                   <div className='buttonOuter'>
                     <FlatButton className='flatButton' label='Back' disabled={this.state.stepIndex === 0} onClick={this.handlePrev.bind(this)} />
-                    <RaisedButton label={this.state.stepIndex === 2 ? 'All Good' : 'Next'} primary={true} onClick={this.handleNext.bind(this)} />
+                    <RaisedButton label={this.state.stepIndex === 3 ? 'All Good' : 'Next'} primary={true} onClick={this.handleNext.bind(this)} />
                   </div>
                 </div>
-                <br/><br/>
                 {this.state.stepIndex === 0 ? (
                   <DemoVideo header={this.getStepContent(this.state.stepIndex)}/>
                 ) : (

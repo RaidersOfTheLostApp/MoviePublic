@@ -1,4 +1,4 @@
-.body {
+body {
   font-family: 'Roboto', sans-serif;
   padding-top:80px;
   font-size: 14px;
@@ -12,14 +12,17 @@
   justifyContent: 'space-around';
 }
 
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+tbody {
+  border: 1px solid grey;
 }
 
 .loginIcons {
   margin-right:15px;
+}
+
+.iconSize {
+  width:29px;
+  height:29px;
 }
 
 .muiThemeProvider {
@@ -100,7 +103,8 @@
 }
 
 .vod {
-
+  display: flex;
+  justify-content: center;
 }
 
 .toggle {
