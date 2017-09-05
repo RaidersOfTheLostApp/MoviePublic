@@ -1,16 +1,23 @@
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const redisClient = require('redis').createClient();
+var Promise = require('bluebird');
 
 module.exports.verify = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    // console.log(req.body);
-    return next();
-  } else {
-    // console.log(res.body)
-    res.redirect('/login');
-  }
-};
+
+  Promise.resolve(req.isAuthenticated())
+    .then( () => {
+      if (req.isAuthenticated()) {
+        console.log(req.body);
+        next();
+      }
+        // console.log(res.body)
+        res.redirect('/login');
+
+    })
+  };
+
+
 
 module.exports.session = session({
   store: new RedisStore({

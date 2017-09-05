@@ -6,6 +6,7 @@ const movieone = require('../fakeData1.js');
 const movietwo = require('../fakeData2.js');
 =======
 const movies = require('../fakeData.js');
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -14,8 +15,14 @@ const searchDb = require('../../mongodb/db.js');
 >>>>>>> added grunt http and finished searchByTitle route
 =======
 >>>>>>> for rebase
+=======
+const searchDb = require('../../mongodb/db.js')
+>>>>>>> rebasing
 const router = express.Router();
 const app = express();
+const axios = require('axios');
+
+
 app.use(bodyParser.text({ type: 'text/plain' }));
 
 router.route('/')
@@ -31,7 +38,9 @@ router.route('/')
 
 router.route('/login')
   .get((req, res) => {
-    res.render('login.ejs', { message: req.flash('loginMessage') });
+    res.render('login.ejs', { message: req.flash('loginMessage'), getMovieList: function(query){
+      console.log(req.body)
+    } });
   })
   .post(middleware.passport.authenticate('local-login', {
     //if new user, then go to /setup, else go to movies page
@@ -80,6 +89,7 @@ router.route('/setup')
       }
     });
   });
+
 
 router.route('/logout')
   .get((req, res) => {

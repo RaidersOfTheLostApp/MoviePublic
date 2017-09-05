@@ -2,9 +2,14 @@
   "name": "course.thesis",
   "version": "1.0.0",
   "scripts": {
+<<<<<<< HEAD
     "start": "node server/index.js",
     "server-dev": "nodemon server",
     "test": "NODE_ENV=test grunt test",
+=======
+    "start": "nodemon server",
+    "test": "grunt test",
+>>>>>>> rebasing
     "build": "webpack --watch",
     "knex": "knex migrate:rollback",
     "knex2": "knex seed:run",
@@ -13,6 +18,7 @@
   "author": "Hack Reactor",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.16.2",
     "babel-core": "^6.24.1",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.5.0",
@@ -30,6 +36,7 @@
     "global": "^4.3.2",
     "grunt-http": "^2.2.0",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
+    "hawk": "^6.0.2",
     "jquery": "^3.2.1",
     "knex": "^0.13.0",
     "material-design-icons": "^3.0.1",
@@ -51,7 +58,8 @@
     "react-player": "^0.21.0",
     "react-router-dom": "^4.2.2",
     "redis": "^2.8.0",
-    "redis-server": "^1.1.0"
+    "redis-server": "^1.1.0",
+    "tmdb": "^0.0.1"
   },
   "devDependencies": {
     "babel-loader": "^7.0.0",
