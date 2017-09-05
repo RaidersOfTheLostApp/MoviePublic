@@ -14,6 +14,7 @@ exports.up = function (knex, Promise) {
       table.string('phone', 100).nullable();
       table.timestamps(true, true);
     }),
+
     knex.schema.createTableIfNotExists('auths', function(table) {
       table.increments('id').unsigned().primary();
       table.string('type', 8).notNullable();
@@ -23,10 +24,13 @@ exports.up = function (knex, Promise) {
       table.integer('profile_id').references('profiles.id').onDelete('CASCADE');
     }),
 
-    knex.schema.createTableIfNotExists('genre', function(table) {
+    knex.schema.createTableIfNotExists('awards', function(table) {
       table.increments('id').unsigned().primary();
       table.text('name').notNullable();
-      table.text('movies').nullable();
+      table.smallInteger('year').nullable();
+      table.text('category').nullable();        
+      table.foreign('crew').references('id').inTable('crew').onDelete('CASCADE');
+      table.foreign('movie').references('id').inTable('movies').onDelete('CASCADE');
     }),
 
     knex.schema.createTableIfNotExists('crew', function(table) {
@@ -36,15 +40,28 @@ exports.up = function (knex, Promise) {
       table.jsonb('awards').nullable();        
       table.boolean('actor').nullable();        
       table.boolean('director').nullable();        
-      table.boolean('writer').nullable();        
+      table.boolean('writer').nullable();
     }),
 
-    knex.schema.createTableIfNotExists('awards', function(table) {
+    knex.schema.createTableIfNotExists('genre', function(table) {
       table.increments('id').unsigned().primary();
       table.text('name').notNullable();
+      table.jsonb('movies').nullable();
+    }),
+
+    knex.schema.createTableIfNotExists('movies', function(table) {
+      table.increments('id').unsigned().primary();
+      table.text('title').notNullable();
       table.smallInteger('year').nullable();
-      table.text('category').nullable();        
-      table.jsonb('actor').nullable(); //change to FK       
+      table.jsonb('release_date').nullable();
+      table.jsonb('genre').nullable();
+      table.jsonb('awards').nullable();
+      table.jsonb('director').notNullable();
+      table.jsonb('writer').notNullable();
+      table.jsonb('actors').notNullable();
+      table.bigInteger('box_office').nullable();
+      table.text('production').nullable();
+      table.jsonb('ratings').nullable();
     }),
 
     knex.schema.createTableIfNotExists('users', function(table) {
@@ -62,15 +79,19 @@ exports.up = function (knex, Promise) {
       table.jsonb('follow_director').nullable();
       table.jsonb('follow_movies').nullable();
       table.jsonb('follow_writers').nullable();
-      table.boolean('first').defaultTo('True');
+      table.boolean('new_user').defaultTo('True');
       table.timestamps('stamp').nullable();
+      //Payment Columns
+      table.text('payment_method').nullable();
+      table.bigInteger('CCN').nullable();        
     }),
 
-    knex.schema.createTableIfNotExists('payment', function(table) {
-      // table.increments('id').unsigned().primary();
+    //Possible Table for Transactions
+    knex.schema.createTableIfNotExists('transaction', function(table) {
+      table.increments('id').unsigned().primary(); //Transaction Number
       table.text('email').notNullable();
-      table.text('method').nullable();
-      table.bigInteger('CCN').nullable();        
+      table.foreign('method').references('payment_method').inTable('users');
+      table.bigInteger('CCN').references('CCN').inTable('users');
     }),
 
   ]);
