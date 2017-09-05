@@ -9,16 +9,29 @@ class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showFavorites: false
+      showFavorites: false,
+      favorites: [],
+      favoriteId: []
     };
   }
 
-   onButtonClick() {
+  onButtonClick() {
     console.log(this.state.showFavorites);
     this.setState({
       showFavorites: true
     });
   }
+
+  addFavorites(movie) {
+    console.log(this.state.favorites);
+    this.state.favoriteId.push(movie.imdbID);
+    var arr = this.state.favorites;
+    arr.push(movie);
+    this.setState({
+      favorites: arr
+    })
+  }
+
 
   render() {
     return (
@@ -28,9 +41,9 @@ class LandingPage extends React.Component {
             <Navbar buttonClick={this.onButtonClick.bind(this)} />
             <Search />
             {this.state.showFavorites ? 
-            <Favorites favorites = {this.props.favorites}/>
+            <Favorites favorites = {this.state.favorites}/>
             :
-            <Results results = {this.props.results}/>
+            <Results results = {this.props.results} favoriteId = {this.state.favoriteId} addFavorites = {this.addFavorites.bind(this)}/>
             }
           </div>
         </div>

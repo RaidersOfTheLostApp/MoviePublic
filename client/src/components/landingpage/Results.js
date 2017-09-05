@@ -5,29 +5,43 @@ import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import AccessAlarmIcon from 'material-ui-icons/AccessAlarm';
 
 class Results extends React.Component {
   constructor(props) {
     super(props);
   }
 
+getFavoriteIcon(movie) {
+  var arr = this.props.favoriteId;
+  return (
+  <IconButton onClick={()=>{
+  if (arr.indexOf(movie.imdbID) === -1) {
+    this.props.addFavorites(movie);
+  }
+  }}>
+  {movie.imdbID in this.props.favoriteId ?
+    <Favorite color="white" /> :
+    <FavoriteBorder color="white" /> 
+  }
+  </IconButton>
+  );
+}
   render() {
     return (
       <div className='gridRoot'>
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
           {this.props.results.map((movie, i) => (
-            <a href = {movie.Website} target = "_blank">
             <GridTile 
             key={i} 
-            title={movie.title}
-            actionIcon = {<IconButton><AccessAlarmIcon color="white" /></IconButton>}
+            subtitle={<span>by <b>{movie.Director}</b></span>}
+            actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+            title={movie.Title}
+            actionIcon = {this.getFavoriteIcon(movie)}
             >
             <img src = {movie.Poster}/>
 
             </GridTile>
-            </a>
           ))}
         </GridList>
       </div>
@@ -36,4 +50,12 @@ class Results extends React.Component {
 }
 
 export default Results;
+
+
+
+
+
+
+
+
 

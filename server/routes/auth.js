@@ -44,7 +44,10 @@ router.route('/profile')
     // });
     // res.redirect('/account');
     res.render('index.ejs', {
-      data: req.user
+      movieone: movieone,
+      movietwo: movietwo,
+      data: req.user,
+      user: req.user
     });
   });
 
@@ -57,9 +60,11 @@ router.route('/setup')
 
     // if statement for new user, go here, else redirect to /
     res.render('index.ejs', {
-      data: req.user
-      movieone: movieone, // from fakeData file
-      movietwo: movietwo, // from fakeData file
+      movieone: movieone,
+      movietwo: movietwo,
+      data: req.user,
+       // from fakeData file
+      // movietwo: movietwo, // from fakeData file
       user: req.user
     });
   });

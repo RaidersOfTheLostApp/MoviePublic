@@ -20,7 +20,8 @@ render() {
             <a href = {favorite.Website} target = "_blank">
             <GridTile 
             key={i} 
-            title={favorite.title}
+            title={favorite.Title}
+            subtitle={<span>by <b>{favorite.Director}</b></span>}
             >
             <img src = {favorite.Poster}/>
             </GridTile>
@@ -28,6 +29,7 @@ render() {
           ))}
         </GridList>
       </div>
+      
     );
   }
 }

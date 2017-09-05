@@ -22,6 +22,7 @@ class App extends React.Component {
           <Route exact path="/" render={() => (
             <MuiThemeProvider>
               <LandingPage results = {dataFromServer.movieone} favorites = {dataFromServer.movietwo} />
+            </MuiThemeProvider>
           )}
           />
           <Route path="/profile" render={() => (
@@ -34,12 +35,11 @@ class App extends React.Component {
             <MuiThemeProvider>
               <UserSetup user={dataFromServer} />
             </MuiThemeProvider>
-          )}
+            )}
           />
         </Switch>
       </BrowserRouter>
-    );
-  }
+    )}
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
