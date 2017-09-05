@@ -12,6 +12,16 @@
   justifyContent: 'space-around';
 }
 
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginIcons {
+  margin-right:15px;
+}
+
 .muiThemeProvider {
   display: 'flex';
   flexDirection: 'row';
@@ -92,6 +102,7 @@
 .vod {
 
 }
+
 .toggle {
   marginBottom: 16;
 }
