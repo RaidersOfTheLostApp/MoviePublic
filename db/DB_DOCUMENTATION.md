@@ -14,6 +14,12 @@ https://www.postgresql.org/docs/devel/static/datatype-json.html
 https://blog.2ndquadrant.com/postgresql-anti-patterns-unnecessary-jsonhstore-dynamic-columns/
 For using PostgresQL with External MongoDB
 
+
+Pooling
+We also integrated pooling as it is to our users' advantage that we execute commands/transactions at x at a time rather than the whole entire database. We limited the amount of connections open as as user will gravitate towards the first set of movies, say 5, before looking at the next 5, which would optimize user experience. Example: Rendering 20 movies at a time would take some initalization, compared to rendering 5 first, while the application is able to come up with the next 5 while the user is pursuing the first 5 rendered movies.
+  pool: { min: 0, max: 5 }
+
+
 <!-- For Mac --> 
 > psql -f {file_name} 
 
