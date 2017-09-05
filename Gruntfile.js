@@ -32,13 +32,13 @@ module.exports = function(grunt) {
       }
     }
 
-    http: {
-      your_service: {
-        options: {
-          url: ''
-        }
-      }
-    }
+    // http: {
+    //   your_service: {
+    //     options: {
+    //       url: ''
+    //     }
+    //   }
+    // }
 
   });
 
