@@ -9,7 +9,6 @@ app.use(bodyParser.text({ type: 'text/plain' }));
 
 router.route('/')
   .get(middleware.auth.verify, (req, res) => {
-    // console.log(req.query);
     res.render('index.ejs', {
       data: movies // from fakeData file
     });
@@ -20,7 +19,8 @@ router.route('/login')
     res.render('login.ejs', { message: req.flash('loginMessage') });
   })
   .post(middleware.passport.authenticate('local-login', {
-    successRedirect: '/profile',
+    //if new user, then go to /setup, else go to movies page
+    successRedirect: '/setup',
     failureRedirect: '/login',
     failureFlash: true
   }));
@@ -52,6 +52,8 @@ router.route('/setup')
     //   user: req.user // get the user out of session and pass to template
     // });
     // res.redirect('/account');
+
+    // if statement for new user, go here, else redirect to /
     res.render('index.ejs', {
       data: req.user
     });
@@ -59,6 +61,7 @@ router.route('/setup')
 
 router.route('/logout')
   .get((req, res) => {
+    console.log('******** logout call');
     req.logout();
     res.redirect('/');
   });
@@ -74,7 +77,7 @@ router.get('/auth/google', middleware.passport.authenticate('google', {
 }));
 
 router.get('/auth/google/callback', middleware.passport.authenticate('google', {
-  successRedirect: '/profile',
+  successRedirect: '/setup',
   failureRedirect: '/login'
 }));
 
@@ -83,7 +86,7 @@ router.get('/auth/facebook', middleware.passport.authenticate('facebook', {
 }));
 
 router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook', {
-  successRedirect: '/profile',
+  successRedirect: '/setup',
   failureRedirect: '/login',
   failureFlash: true
 }));
