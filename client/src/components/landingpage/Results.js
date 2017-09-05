@@ -5,19 +5,11 @@ import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import AccessAlarmIcon from 'material-ui-icons/AccessAlarm';
 
 class Results extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  getFavoriteIcon(movie) {
-
-    return (
-      <IconButton>
-      <FavoriteBorder className='material-icons' color="white" />  
-      </IconButton>
-    );
   }
 
   render() {
@@ -30,9 +22,10 @@ class Results extends React.Component {
             <GridTile 
             key={i} 
             title={movie.title}
-            actionIcon={this.getFavoriteIcon(movie)}
+            actionIcon = {<IconButton><AccessAlarmIcon color="white" /></IconButton>}
             >
             <img src = {movie.Poster}/>
+
             </GridTile>
             </a>
           ))}
@@ -43,3 +36,4 @@ class Results extends React.Component {
 }
 
 export default Results;
+

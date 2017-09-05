@@ -33,3 +33,6 @@ render() {
 }
 
 export default Favorites;
+
+
+
