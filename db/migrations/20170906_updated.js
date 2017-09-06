@@ -1,13 +1,13 @@
 
 exports.up = function (knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('auths'),
-    knex.schema.dropTable('awards'),
-    knex.schema.dropTable('crew'),
-    knex.schema.dropTable('genres'),
-    knex.schema.dropTable('movies'),
-    knex.schema.dropTable('transactions'),
-    knex.schema.dropTable('profiles'),
+    // knex.schema.dropTable('auths'),
+    // knex.schema.dropTable('awards'),
+    // knex.schema.dropTable('crew'),
+    // knex.schema.dropTable('genres'),
+    // knex.schema.dropTable('movies'),
+    // knex.schema.dropTable('transactions'),
+    // knex.schema.dropTable('profiles'),
     knex.schema.createTableIfNotExists('profiles', function (table) {
       table.increments('id').unsigned().primary();
       table.string('first', 100).nullable();
@@ -23,7 +23,8 @@ exports.up = function (knex, Promise) {
       table.jsonb('follow_director').nullable();
       table.jsonb('follow_movies').nullable();
       table.jsonb('follow_writers').nullable();
-      table.boolean('new_user').defaultTo('true');
+      table.jsonb('vod_subscriptions').nullable();
+      table.boolean('new_user').defaultTo(true);
       // table.timestamps('stamp').nullable();
       //Payment Columns
       // table.string('payment_method').nullable();
@@ -119,12 +120,12 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('auths'),
-    knex.schema.dropTable('awards'),
-    knex.schema.dropTable('crew'),
-    knex.schema.dropTable('genres'),
-    knex.schema.dropTable('movies'),
-    knex.schema.dropTable('transactions'),
-    knex.schema.dropTable('profiles')
+    // knex.schema.dropTable('auths'),
+    // knex.schema.dropTable('awards'),
+    // knex.schema.dropTable('crew'),
+    // knex.schema.dropTable('genres'),
+    // knex.schema.dropTable('movies'),
+    // knex.schema.dropTable('transactions'),
+    // knex.schema.dropTable('profiles')
   ]);
 };

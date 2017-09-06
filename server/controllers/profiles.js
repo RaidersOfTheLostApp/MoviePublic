@@ -50,16 +50,41 @@ module.exports.update = (req, res) => {
       return profile.save(req.body, { method: 'update' });
     })
     .then(() => {
-      console.log('********* in then success update ');
       res.sendStatus(201);
     })
     .error(err => {
-      console.log('********* in error ', err);
       res.status(500).send(err);
     })
     .catch((e) => {
       console.log('********* in catch ', e);
-      console.log('*********** catch because database is not setup yet');
+      res.sendStatus(404);
+    });
+};
+
+module.exports.setUpVOD = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      var subs = [];
+      for (var key in req.body) {
+        if (req.body[key]) {
+          subs.push(req.body[key]);
+        }
+      }
+      return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
+    })
+    .then(() => {
+      console.log('********* in then success update ');
+      res.sendStatus(201);
+    })
+    .error(err => {
+      console.log('********* error in setUpVOD ', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in setUpVOD ', e);
       res.sendStatus(404);
     });
 };

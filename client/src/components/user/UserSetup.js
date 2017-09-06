@@ -37,7 +37,7 @@ class UserSetup extends React.Component {
       //update database with VOD updates
       $.ajax({
         method: 'POST',
-        url: '/api/profiles',
+        url: '/api/profiles/vod',
         data: {
           netflix: this.state.netflix,
           hbo: this.state.hbo,

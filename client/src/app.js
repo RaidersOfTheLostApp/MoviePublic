@@ -18,7 +18,7 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
+        <Switch>
           <Route exact path="/" render={() => (
             <MuiThemeProvider>
               <LandingPage data={dataFromServer} />
@@ -37,7 +37,7 @@ class App extends React.Component {
             </MuiThemeProvider>
           )}
           />
-        </div>
+        </Switch>
       </BrowserRouter>
     );
   }
