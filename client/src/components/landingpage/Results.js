@@ -39,8 +39,9 @@ getFavoriteIcon(movie) {
             title={movie.Title}
             actionIcon = {this.getFavoriteIcon(movie)}
             >
+            <a href = {movie.Website} target = "_blank">
             <img src = {movie.Poster}/>
-
+            </a>
             </GridTile>
           ))}
         </GridList>

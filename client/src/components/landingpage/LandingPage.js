@@ -25,11 +25,7 @@ class LandingPage extends React.Component {
   addFavorites(movie) {
     console.log(this.state.favorites);
     this.state.favoriteId.push(movie.imdbID);
-    var arr = this.state.favorites;
-    arr.push(movie);
-    this.setState({
-      favorites: arr
-    })
+    this.state.favorites.push(movie);
   }
 
 
