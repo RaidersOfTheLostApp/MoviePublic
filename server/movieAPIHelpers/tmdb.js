@@ -1,5 +1,6 @@
-(function() {
-	window.tmdb = {
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
+const tmdb = {
 		"api_key": "2a43b2c5a07e8be85e7ec15a2b12ab5c",
 		"base_uri": "http://api.themoviedb.org/3",
 		"images_uri": "http://image.tmdb.org/t/p",
@@ -23,7 +24,8 @@
 				if (this.readyState === 4) {
 					if (this.status === 200){
 						if (typeof success == "function") {
-							success(JSON.parse(this.response));
+							console.log(this, '@@@@')
+							success(JSON.parse(this.responseText));
 						}else{
 							throw('No success, but the request gave results')
 						}
@@ -39,4 +41,6 @@
 			xhr.send();
 		}
 	}
-})()
+
+	module.exports = tmdb;
+// })()

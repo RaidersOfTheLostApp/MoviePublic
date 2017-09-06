@@ -21,7 +21,10 @@ const searchDb = require('../../mongodb/db.js')
 const router = express.Router();
 const app = express();
 const axios = require('axios');
-
+const tmdb = require('../movieAPIHelpers/tmdb.js');
+const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
+// const MovieList = require('./getMovies.js');
+var moviedata;
 
 app.use(bodyParser.text({ type: 'text/plain' }));
 
@@ -36,11 +39,31 @@ router.route('/')
     });
   });
 
+  tmdbHelp.getMoviesByTitle((data)=>{
+    if(!data){
+      console.log(data)
+    }else{
+      var storage = [];
+      data.results.forEach( (value)=>{storage.push(value.title)});
+      console.log(storage, "THISISDATA")
+      //grab each movie title and send API request to OMDB to get movie data
+      searchDb.saveMovies(storage, (err, data) => {
+        if(err){
+          alert('savebroken')
+        }else{
+          //save full movie data to mongo by title
+          console.log(data, 'datainAUTH')
+        }
+      })
+      // console.log(data, '22222')
+    }
+  })
 router.route('/login')
   .get((req, res) => {
-    res.render('login.ejs', { message: req.flash('loginMessage'), getMovieList: function(query){
-      console.log(req.body)
-    } });
+    res.render('login.ejs', {
+      message: req.flash('loginMessage'),
+      movies: req.body
+    });
   })
   .post(middleware.passport.authenticate('local-login', {
     //if new user, then go to /setup, else go to movies page
@@ -48,6 +71,7 @@ router.route('/login')
     failureRedirect: '/login',
     failureFlash: true
   }));
+  // console.log(movies);
 
 router.route('/favorites')
   .get(middleware.auth.verify, (req, res) => {
