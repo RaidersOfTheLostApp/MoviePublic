@@ -26,7 +26,7 @@ module.exports.getAll = (req, res) => {
 // };
 
 module.exports.getOne = (req, res) => {
-  models.Profile.where({ id: req.params.id }).fetch()
+  models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       if (!profile) {
         throw profile;
@@ -42,7 +42,7 @@ module.exports.getOne = (req, res) => {
 };
 
 module.exports.update = (req, res) => {
-  models.Profile.where({ id: req.params.id }).fetch()
+  models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       if (!profile) {
         throw profile;
@@ -50,18 +50,22 @@ module.exports.update = (req, res) => {
       return profile.save(req.body, { method: 'update' });
     })
     .then(() => {
+      console.log('********* in then success update ');
       res.sendStatus(201);
     })
     .error(err => {
+      console.log('********* in error ', err);
       res.status(500).send(err);
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log('********* in catch ', e);
+      console.log('*********** catch because database is not setup yet');
       res.sendStatus(404);
     });
 };
 
 // module.exports.deleteOne = (req, res) => {
-//   models.Profile.where({ id: req.params.id }).fetch()
+//   models.Profile.where({ id: req.session.passport.user }).fetch()
 //     .then(profile => {
 //       if (!profile) {
 //         throw profile;

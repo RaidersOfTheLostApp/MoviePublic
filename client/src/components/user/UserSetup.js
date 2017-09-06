@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
@@ -17,11 +18,41 @@ class UserSetup extends React.Component {
     super(props);
     this.state = {
       finished: false,
-      stepIndex: 0
+      stepIndex: 0,
+      netflix: false,
+      hbo: false,
+      hulu: false,
+      amazon: false
     };
   }
 
+  handleToggle(e, isInputChecked) {
+    var stateObj = {};
+    stateObj[e.target.id] = isInputChecked;
+    this.setState(stateObj);
+  }
+
   handleNext() {
+    if (this.state.stepIndex === 2) {
+      //update database with VOD updates
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles',
+        data: {
+          netflix: this.state.netflix,
+          hbo: this.state.hbo,
+          hulu: this.state.hulu,
+          amazon: this.state.amazon
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success vod update user ', user);
+        },
+        error: (error) => {
+          console.log('************* update vod handleNext ERROR:', error);
+        }
+      });
+    }
     this.setState({
       finished: this.state.stepIndex >= 2,
       stepIndex: this.state.stepIndex + 1
@@ -91,7 +122,7 @@ class UserSetup extends React.Component {
                   this.state.stepIndex === 1 ? (
                     <FollowSetup header={this.getStepContent(this.state.stepIndex)}/>
                   ) : (
-                    <VODSetup header={this.getStepContent(this.state.stepIndex)}/>
+                    <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>
                   )
                 )}
               </div>
