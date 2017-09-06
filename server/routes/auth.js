@@ -47,7 +47,7 @@ router.route('/')
       data.results.forEach( (value)=>{storage.push(value.title)});
       console.log(storage, "THISISDATA")
       //grab each movie title and send API request to OMDB to get movie data
-      searchDb.saveMovies(storage, (err, data) => {
+      searchDb.saveMovies(data.results, (err, data) => {
         if(err){
           alert('savebroken')
         }else{
