@@ -85,6 +85,8 @@ IMPORTANT: ensure `postgres` is running before performing these steps with below
 
 `brew services start postgresql`
 
+See DB_DOCUMENTATION.md for more explanation of the DB setup
+
 ## Database User Setup
 
 1. Open the postgresql command prompt with `psql postgres`
