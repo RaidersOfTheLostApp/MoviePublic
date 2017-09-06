@@ -79,6 +79,8 @@ And https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-e
 If you are using Atom and don't see these new files, follow instructions here:
 http://blog.lukebennett.com/2015/09/21/show-hidden-files-in-atom-sidebar/
 
+If you have any CRLF and LF errors due to a mix between Mac and Windows contributors, run `git config core.autocrlf false`
+
 ## Database Initialization
 
 IMPORTANT: ensure `postgres` is running before performing these steps with below command:
