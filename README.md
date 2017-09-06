@@ -128,6 +128,10 @@ To rollback a version, run:
 
 `knex migrate:rollback --env NODE_ENV`
 
+To create a new migration after altering schema, run:
+
+`knex migrate:make [migration name]`
+
 To populate the database with seed data, run:
 
 `knex seed:run --env NODE_ENV`
