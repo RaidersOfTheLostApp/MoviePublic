@@ -19,11 +19,17 @@ See [CONTRIBUTING.md]for contribution guidelines.
 
 # Table of Contents
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+1. [Usage](#usage)
+2. [Requirements](#requirements)
+3. [Development](#development)
+    1. [Installing Dependencies](#installing-system-dependencies)
+    2. [Install Project Dependencies](#installing-project-dependencies)
+    3. [App Configuration](#app-configuration)
+4. [Database Initialization](#database-initialization)
+    1. [User Setup](#database-user-setup)
+    2. [Creation](#database-creation)
+    3. [Migration & Data Seeding](#run-migrations-&-data-seeds)
+5. [Running the App](#running-the-app)
 
 ## Usage
 
@@ -67,7 +73,7 @@ yarn global add grunt-cli knex eslint
 yarn install
 ```
 
-## App Configuration
+### App Configuration
 
 Override settings `config/default.json` in any environment by making a copy of `config/ENV.example.json` and naming it `config/ENV.json` and setting the appropriate variable.
 
@@ -81,7 +87,7 @@ http://blog.lukebennett.com/2015/09/21/show-hidden-files-in-atom-sidebar/
 
 If you have any CRLF and LF errors due to a mix between Mac and Windows contributors, run `git config core.autocrlf false`
 
-## Database Initialization
+# Database Initialization
 
 IMPORTANT: ensure `postgres` is running before performing these steps with below command:
 
@@ -89,7 +95,7 @@ IMPORTANT: ensure `postgres` is running before performing these steps with below
 
 See DB_DOCUMENTATION.md for more explanation of the DB setup
 
-## Database User Setup
+### Database User Setup
 
 1. Open the postgresql command prompt with `psql postgres`
 2. Create a project specific user with this command:
@@ -132,6 +138,15 @@ To create a new migration after altering schema, run:
 
 `knex migrate:make [migration name]`
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+*Use a descriptive migration name.
+
+=======
+>>>>>>> 6d70361fd5f28ce71c657739ecf48ef0a4c4bbd4
+=======
+
+>>>>>>> 34d47067d4c2fa2e9ff2b91baf3223731e36a561
 To populate the database with seed data, run:
 
 `knex seed:run --env NODE_ENV`
