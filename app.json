@@ -1,0 +1,30 @@
+
+
+ {
+  "name": "Raiders Of The Lost App - Movie Master",
+  "description": "Movie App for your VOD subsciption - Helps you decide what to watch - follow, favorite, search, and get improved recommendations",
+  "keywords": [
+  ],
+  "website": "https://raiderofthelostapp.com/",
+  "repository": "https://github.com/RaidersOfTheLostApp/MovieMaster",
+  "success_url": "/",
+  "scripts": {
+  },
+  "env": {
+    "FACEBOOK_CLIENT_ID": {"required": true},
+    "FACEBOOK_CLIENT_SECRET": {"required": true},
+    "FACEBOOK_CALLBACK_URL": {"required": true},
+    "GOOGLE_CLIENT_ID": {"required": true},
+    "GOOGLE_CLIENT_SECRET": {"required": true},
+    "GOOGLE_CALLBACK_URL": {"required": true}
+  },
+  "addons": [
+    "heroku-redis",
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

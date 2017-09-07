@@ -147,3 +147,9 @@ To run server: `yarn run start`
 To run tests: `yarn run test`
 
 To run your redis server for the session store `redis-server`
+
+## Deploy to heroku
+
+Your master will auto deploy so if you want to deploy from your branch, follow this command:
+
+`git push heroku <nameofbranch>:master`
