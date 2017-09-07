@@ -155,3 +155,9 @@ Your master will auto deploy so if you want to deploy from your branch, follow t
 `git push heroku <nameofbranch>:master`
 
 Install Heroku Addons for Heroku Postgres, Heroku Redis, and mLab MongoDB
+
+Heroku Postgres - populate the schema by following instructions for `Import`
+https://devcenter.heroku.com/articles/heroku-postgres-import-export
+You can use DropBox to host the saved dump
+Original schema load: https://www.dropbox.com/s/ke8bwdlo9dwzjkj/thesis_devel.dump?dl=0
+also saved in `thesis_devel.dump`
