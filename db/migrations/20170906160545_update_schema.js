@@ -2,6 +2,12 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('auths'),
+    knex.schema.dropTable('awards'),
+    knex.schema.dropTable('genres'),
+    // knex.schema.dropTable('payment_methods'),
+    knex.schema.dropTable('transactions'),
+    knex.schema.dropTable('movies'),
+    knex.schema.dropTable('crew'),
     knex.schema.dropTable('profiles'),
     knex.schema.createTableIfNotExists('profiles', function(table) {
       table.increments('id').unsigned().primary();
@@ -29,15 +35,6 @@ exports.up = function(knex, Promise) {
       table.integer('profile_id').references('profiles.id').onDelete('CASCADE');
     }),
 
-    knex.schema.createTableIfNotExists('awards', function(table) {
-      table.increments('id').unsigned().primary();
-      table.text('name').notNullable();
-      table.smallint('year').nullable();
-      table.text('category').nullable();
-      table.integer('crew').references('id').inTable('crew').onDelete('CASCADE');
-      table.integer('movie').references('id').inTable('movies').onDelete('CASCADE');
-    }),
-
     knex.schema.createTableIfNotExists('crew', function(table) {
       table.increments('id').unsigned().primary();
       table.text('name').notNullable();
@@ -59,7 +56,7 @@ exports.up = function(knex, Promise) {
       table.text('title').notNullable();
       table.smallint('year').nullable();
       table.jsonb('release_date').nullable();
-      table.jsonb('genre').nullable();
+      table.jsonb('genres').nullable();
       table.jsonb('awards').nullable();
       table.jsonb('director').notNullable();
       table.jsonb('writer').notNullable();
@@ -67,6 +64,15 @@ exports.up = function(knex, Promise) {
       table.bigint('box_office').nullable();
       table.text('production').nullable();
       table.jsonb('ratings').nullable();
+    }),
+
+    knex.schema.createTableIfNotExists('awards', function(table) {
+      table.increments('id').unsigned().primary();
+      table.text('name').notNullable();
+      table.smallint('year').nullable();
+      table.text('category').nullable();
+      table.integer('crew').references('id').inTable('crew').onDelete('CASCADE');
+      table.integer('movie').references('id').inTable('movies').onDelete('CASCADE');
     }),
 
     knex.schema.createTableIfNotExists('payment_methods', function(table) {
@@ -90,13 +96,12 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('auths'),
-    knex.schema.dropTable('profiles'),
     knex.schema.dropTable('awards'),
-    knex.schema.dropTable('crew'),
     knex.schema.dropTable('genres'),
-    knex.schema.dropTable('movies'),
     knex.schema.dropTable('payment_methods'),
-    knex.schema.dropTable('transactions')
+    knex.schema.dropTable('transactions'),
+    knex.schema.dropTable('movies'),
+    knex.schema.dropTable('crew'),
+    knex.schema.dropTable('profiles')
   ]);
 };
-
