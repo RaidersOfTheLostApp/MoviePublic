@@ -24,7 +24,6 @@ const tmdb = {
       if (this.readyState === 4) {
         if (this.status === 200) {
           if (typeof success == 'function') {
-            console.log(this, '@@@@');
             success(JSON.parse(this.responseText));
           } else {
             throw ('No success, but the request gave results');

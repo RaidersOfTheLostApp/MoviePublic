@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 const movieone = require('../fakeData1.js');
 const movietwo = require('../fakeData2.js');
 const searchDb = require('../../mongodb/db.js');
+const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const router = express.Router();
 const app = express();
 app.use(bodyParser.text({ type: 'text/plain' }));

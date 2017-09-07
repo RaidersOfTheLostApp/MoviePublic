@@ -64,8 +64,8 @@ var saveMovies = (movies, cb) => {
       data = JSON.parse(data.body);
       var newMovie = new Movie({
         id: id,
-        title: data.Title,
-        year: data.Year,
+        title: data.title,
+        year: data.year,
         release_date: data.Release_Date,
         genre: data.Genre,
         runtime: data.Runtime,

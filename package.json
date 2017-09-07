@@ -54,7 +54,8 @@
     "react-router-dom": "^4.2.2",
     "redis": "^2.8.0",
     "redis-server": "^1.1.0",
-    "tmdb": "^0.0.1"
+    "tmdb": "^0.0.1",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "babel-loader": "^7.0.0",

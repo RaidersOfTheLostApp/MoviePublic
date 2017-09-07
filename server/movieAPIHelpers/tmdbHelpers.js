@@ -1,12 +1,17 @@
 const tmdb = require('./tmdb.js');
 const request = require('request');
 
-console.log(tmdb);
 var MovieList = {
-  getMoviesByTitle: (cb) => {
+  getMoviesByTitle: (query, cb) => {
+    console.log(query, 'TMDB');
     tmdb.call('/discover/movie', {
-      'query': 'indiana jones'
-    }, cb);
+      'query': JSON.stringify(query),
+    }, (e) => {
+      console.log(e, 'EEEEEEEEEEE');
+      cb(null, e);
+    }, (e)=>{
+      cb(e, null);
+    });
   }
 };
 
