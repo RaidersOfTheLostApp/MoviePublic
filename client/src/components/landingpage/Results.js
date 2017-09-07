@@ -12,6 +12,7 @@ class Results extends React.Component {
   }
 
   getFavoriteIcon(movie) {
+    console.log(movie, '@@@@')
     var arr = this.props.favoriteId;
     return (
       <IconButton onClick={()=>{
@@ -21,7 +22,7 @@ class Results extends React.Component {
       }}>
         {movie.imdbID in this.props.favoriteId ?
           <Favorite color="white" /> :
-          <FavoriteBorder color="white" /> 
+          <FavoriteBorder color="white" />
         }
       </IconButton>
     );
@@ -33,14 +34,14 @@ class Results extends React.Component {
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
           {this.props.results.map((movie, i) => (
-            <GridTile 
-              key={i} 
-              subtitle={<span>by <b>{movie.Director}</b></span>}
-              title={movie.Title}
+            <GridTile
+              key={i}
+              subtitle={<span>by <b>{movie.directors}</b></span>}
+              title={movie.title}
               actionIcon = {this.getFavoriteIcon(movie)}
             >
-              <a href = {movie.Website} target = "_blank">
-                <img src = {movie.Poster}/>
+              <a href = {movie.website} target = "_blank">
+                <img src = {movie.poster}/>
               </a>
             </GridTile>
           ))}

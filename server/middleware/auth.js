@@ -10,9 +10,11 @@ module.exports.verify = (req, res, next) => {
       if (req.isAuthenticated()) {
         console.log(req.body);
         next();
+      }else{
+        res.redirect('/login');
+
       }
       // console.log(res.body)
-      res.redirect('/login');
 
     });
 };

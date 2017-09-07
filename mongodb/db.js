@@ -42,6 +42,17 @@ var searchByTitle = (title, cb) => {
   Movie.find({title: title}, cb);
 };
 
+var getMovies = (query, cb) => {
+  Movie.find (query, (err, res) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      // console.log(res, 'indb')
+      cb(null, res);
+    }
+  });
+};
+
 var saveMovies = (movies, cb) => {
   movies.forEach( (value) => {
     var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
@@ -90,3 +101,4 @@ var saveMovies = (movies, cb) => {
 module.exports = searchDb;
 module.exports.searchByTitle = searchByTitle;
 module.exports.saveMovies = saveMovies;
+module.exports.getMovies = getMovies;

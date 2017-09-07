@@ -9,15 +9,26 @@ const app = express();
 app.use(bodyParser.text({ type: 'text/plain' }));
 
 router.route('/')
-  .get(middleware.auth.verify, (req, res) => {
-    res.render('index.ejs', {
-      data: {
-        movieone: movieone,
-        movietwo: movietwo,
-        user: req.user
-      }
+  .get (middleware.auth.verify, (req, res, next) => {
+    var movies;
+    searchDb.getMovies( (err, data) => {
+        if(err){
+          console.log(err)
+        }else{
+          movies = data;
+          // console.log(movies)
+          res.render('index.ejs', {
+            data: {
+              movieone: movies,
+              movietwo: movies,
+              user: req.user
+            }
+            // data: movies // from fakeData file
+          });
+        }
     });
-  });
+
+  })
 
 router.route('/login')
   .get((req, res) => {
@@ -78,16 +89,36 @@ router.route('/logout')
     res.redirect('/');
   });
 
-router.route('/search')
-  .get((req, res) => {
-    searchDb.searchByTitle('black swan', (err, res) => {
-      if (err) {
-        console.log('searcherror');
-      }
-      console.log(res, 'searchsuccess');
+  router.route('/search')
+
+    .get((req, res) => {
+      searchDb.searchByTitle(req.query.value, (err, res) => {
+        if (err) {
+          alert('search broken try again');
+        } else {
+          console.log(res, 'RESPONSEBODY');
+          if (res) {
+            tmdbHelp.getMoviesByTitle(req.query.value, (err, data)=> {
+              if (err) {
+                console.log(err, 'ERRORGETMOVIESERROR');
+              } else {
+                //grab each movie title and send API request to OMDB to get movie data
+                searchDb.saveMovies(data.results, (err, data) => {
+                  if (err) {
+                    alert('savebroken');
+                  } else {
+                    //save full movie data to mongo by title
+                    console.log(data, 'datainAUTH');
+                  }
+                });
+                // console.log(data, '22222')
+              }
+            });
+          }
+        }
+      });
+      res.status(200).end();
     });
-    res.status(200).end();
-  });
 
 router.get('/auth/google', middleware.passport.authenticate('google', {
   scope: ['email', 'profile']
