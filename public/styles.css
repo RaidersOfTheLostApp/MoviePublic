@@ -110,3 +110,20 @@ tbody {
 .toggle {
   marginBottom: 16;
 }
+
+.searchfilter-container {
+  display: 'flex';
+  flex-direction: 'row';
+  width: '100%';
+  height: '100%';
+  flex-flow: row wrap;
+}
+
+.filteritem {
+  order: 1;
+}
+
+.searchitem {
+  order: 2;
+}
+

@@ -7,6 +7,7 @@ import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
 import Search from './Search';
+import Filtering from './Filtering';
 
 class Results extends React.Component {
   constructor(props) {
@@ -67,6 +68,7 @@ class Results extends React.Component {
     return (
       <div className='gridRoot'>
         <Search searchToServer={this.searchToServer.bind(this)}/>
+        <Filtering />
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
           {(this.state.movies).map((movie, i) => (

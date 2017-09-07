@@ -66,7 +66,7 @@ class Search extends React.Component {
                 transform: 'scaleX(0)',
               }}
               style={{
-                width: '500px'
+                width: '300px'
               }}
             />
           <button onClick={this.props.searchToServer} type="button" id = "submit">Submit</button>
