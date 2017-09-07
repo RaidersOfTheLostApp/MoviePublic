@@ -119,11 +119,7 @@ tbody {
   flex-flow: row wrap;
 }
 
-.filteritem {
-  order: 1;
+.searchfilter-child {
+  display: 'inline-block';
+  width: 25%;
 }
-
-.searchitem {
-  order: 2;
-}
-

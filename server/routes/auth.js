@@ -9,6 +9,8 @@ const searchDb = require('../../mongodb/db.js');
 const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const router = express.Router();
 const app = express();
+// const tmdb = require('../movieAPIHelpers.tmdb.js');
+// const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 app.use(bodyParser.text({ type: 'text/plain' }));
 
 router.route('/')
@@ -94,6 +96,37 @@ router.route('/logout')
     req.logout();
     res.redirect('/');
   });
+
+  // router.route('/search')
+
+  //   .get((req, res) => {
+  //     searchDb.searchByTitle(req.query.value, (err, res) => {
+  //       if (err) {
+  //         alert('search broken try again');
+  //       } else {
+  //         console.log(res, 'RESPONSEBODY');
+  //         if (res) {
+  //           tmdbHelp.getMoviesByTitle(req.query.value, (err, data)=> {
+  //             if (err) {
+  //               console.log(err, 'ERRORGETMOVIESERROR');
+  //             } else {
+  //               //grab each movie title and send API request to OMDB to get movie data
+  //               searchDb.saveMovies(data.results, (err, data) => {
+  //                 if (err) {
+  //                   alert('savebroken');
+  //                 } else {
+  //                   //save full movie data to mongo by title
+  //                   console.log(data, 'datainAUTH');
+  //                 }
+  //               });
+  //               // console.log(data, '22222')
+  //             }
+  //           });
+  //         }
+  //       }
+  //     });
+  //     res.status(200).end();
+  //   });
 
 router.get('/auth/google', middleware.passport.authenticate('google', {
   scope: ['email', 'profile']
