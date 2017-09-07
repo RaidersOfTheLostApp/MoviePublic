@@ -153,3 +153,5 @@ To run your redis server for the session store `redis-server`
 Your master will auto deploy so if you want to deploy from your branch, follow this command:
 
 `git push heroku <nameofbranch>:master`
+
+Install Heroku Addons for Heroku Postgres, Heroku Redis, and mLab MongoDB
