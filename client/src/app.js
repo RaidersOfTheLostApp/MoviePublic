@@ -4,8 +4,8 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 // import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Navbar from './components/landingpage/Navbar';
-import UserProfile from './components/userProfile/UserProfile';
-import UserSetup from './components/userProfile/UserSetup';
+import UserProfile from './components/user/UserProfile';
+import UserSetup from './components/user/UserSetup';
 import Results from './components/landingpage/Results';
 import Favorites from './components/landingpage/Favorites';
 

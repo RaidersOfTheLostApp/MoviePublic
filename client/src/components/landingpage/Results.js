@@ -4,6 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
+import Search from './Search';
 
 class Results extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ getFavoriteIcon(movie) {
   render() {
     return (
       <div className='gridRoot'>
+        <Search />
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
           {this.props.results.map((movie, i) => (
