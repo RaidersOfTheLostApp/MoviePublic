@@ -172,3 +172,5 @@ also saved in `thesis_devel.dump`
 
 Heroku Redis - promote the redis store to the app
 `heroku redis:promote <redisStoreName -a <appName>`
+
+Update Heroku Config variables and change all callback urls to match the stage
