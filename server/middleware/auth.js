@@ -1,7 +1,27 @@
 const session = require('express-session');
+const config = require('config')['redis'];
 const RedisStore = require('connect-redis')(session);
-const redisClient = require('redis').createClient();
+const Redis = require('ioredis');
 var Promise = require('bluebird');
+
+if (process.env.NODE_ENV === 'production') {
+  const redisClient = require('redis').createClient(config.REDIS_URL);
+  var newRedis = new Redis(config.REDIS_URL);
+  var redisStoreClient = {
+    url: config.REDIS_URL
+  };
+} else {
+  const redisClient = require('redis').createClient();
+  var newRedis = new RedisStore(redisStoreClient);
+  var redisStoreClient = {
+    client: redisClient,
+    host: 'localhost',
+    port: 6379
+  };
+}
+
+// console.log('************ env ', process.env.NODE_ENV);
+// console.log('************* newRedis ', newRedis);
 
 module.exports.verify = (req, res, next) => {
 
@@ -20,11 +40,7 @@ module.exports.verify = (req, res, next) => {
 
 
 module.exports.session = session({
-  store: new RedisStore({
-    client: redisClient,
-    host: 'localhost',
-    port: 6379
-  }),
+  store: newRedis,
   secret: 'more laughter, more love, more life',
   resave: false,
   saveUninitialized: false

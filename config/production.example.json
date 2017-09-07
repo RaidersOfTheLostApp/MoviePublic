@@ -28,5 +28,9 @@
       "consumerSecret": "FILL_ME_IN",
       "callbackURL": "http://FILL_ME_IN/auth/twitter/callback"
     }
+  },
+
+  "redis": {
+    "setup": "FILL_ME_IN_WITH_HEROKU_REDIS_URL"
   }
 }

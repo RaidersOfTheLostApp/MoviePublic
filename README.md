@@ -138,15 +138,8 @@ To create a new migration after altering schema, run:
 
 `knex migrate:make [migration name]`
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-*Use a descriptive migration name.
+Use a descriptive migration name.
 
-=======
->>>>>>> 6d70361fd5f28ce71c657739ecf48ef0a4c4bbd4
-=======
-
->>>>>>> 34d47067d4c2fa2e9ff2b91baf3223731e36a561
 To populate the database with seed data, run:
 
 `knex seed:run --env NODE_ENV`
@@ -176,3 +169,6 @@ https://devcenter.heroku.com/articles/heroku-postgres-import-export
 You can use DropBox to host the saved dump
 Original schema load: https://www.dropbox.com/s/ke8bwdlo9dwzjkj/thesis_devel.dump?dl=0
 also saved in `thesis_devel.dump`
+
+Heroku Redis - promote the redis store to the app
+`heroku redis:promote <redisStoreName -a <appName>`
