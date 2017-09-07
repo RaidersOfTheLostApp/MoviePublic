@@ -2,14 +2,9 @@
   "name": "course.thesis",
   "version": "1.0.0",
   "scripts": {
-<<<<<<< HEAD
     "start": "node server/index.js",
     "server-dev": "nodemon server",
     "test": "NODE_ENV=test grunt test",
-=======
-    "start": "nodemon server",
-    "test": "grunt test",
->>>>>>> rebasing
     "build": "webpack --watch",
     "knex": "knex migrate:rollback",
     "knex2": "knex seed:run",
@@ -59,8 +54,7 @@
     "react-router-dom": "^4.2.2",
     "redis": "^2.8.0",
     "redis-server": "^1.1.0",
-    "tmdb": "^0.0.1",
-    "xmlhttprequest": "^1.8.0"
+    "tmdb": "^0.0.1"
   },
   "devDependencies": {
     "babel-loader": "^7.0.0",

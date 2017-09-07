@@ -39,16 +39,16 @@ var movieSchema = mongoose.Schema({
 var Movie = mongoose.model('Movie', movieSchema, 'movies');
 
 var searchByTitle = (title, cb) => {
-  Movie.find({title: title}, cb)
-}
+  Movie.find({title: title}, cb);
+};
 
 var saveMovies = (movies, cb) => {
   movies.forEach( (value) => {
     var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
     var id = value.id;
     searchTitle(value.title, (err, data) => {
-      if(err){
-        console.log('brokeninsaveMovies')
+      if (err) {
+        console.log('brokeninsaveMovies');
       }
       data = JSON.parse(data.body);
       var newMovie = new Movie({
@@ -70,19 +70,19 @@ var saveMovies = (movies, cb) => {
         production: data.Production,
         website: data.Website,
         theater: data.Theater
-      })
-      console.log(newMovie, '1234321')
+      });
+      console.log(newMovie, '1234321');
       newMovie.save( (err, res) => {
-        if(err){
-          console.log('error')
-        }else{
-          console.log('success')
+        if (err) {
+          console.log('error');
+        } else {
+          console.log('success');
         }
       });
 
-    })
+    });
 
-    })
+  });
 
 
 };

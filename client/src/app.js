@@ -20,28 +20,28 @@ class App extends React.Component {
     };
   }
 
-getFavoriteIcon(movie) {
-  var arr = this.favoriteId;
-  return (
-  <IconButton onClick={()=>{
-  if (arr.indexOf(movie.imdbID) === -1) {
-    this.addFavorites(movie);
+  getFavoriteIcon(movie) {
+    var arr = this.favoriteId;
+    return (
+      <IconButton onClick={()=>{
+        if (arr.indexOf(movie.imdbID) === -1) {
+          this.addFavorites(movie);
+        }
+      }}>
+        {movie.imdbID in this.favoriteId ?
+          <Favorite color="white" /> :
+          <FavoriteBorder color="white" /> 
+        }
+      </IconButton>
+    );
   }
-  }}>
-  {movie.imdbID in this.favoriteId ?
-    <Favorite color="white" /> :
-    <FavoriteBorder color="white" /> 
-  }
-  </IconButton>
-  );
-}
 
-addFavorites(movie) {
+  addFavorites(movie) {
     this.state.favoriteId.push(movie.imdbID);
     this.state.favorites.push(movie);
     console.log(this.state.favoriteId);
     console.log(this.state.favorites);
-}
+  }
 
   render() {
     return (
@@ -54,9 +54,9 @@ addFavorites(movie) {
           )}
           />
           <Route path="/favorites" render={() => (
-          <MuiThemeProvider>
-            <Favorites favorites = {this.state.favorites} />
-          </MuiThemeProvider>
+            <MuiThemeProvider>
+              <Favorites favorites = {this.state.favorites} />
+            </MuiThemeProvider>
           )}
           />    
           <Route path="/profile" render={() => (
@@ -69,11 +69,12 @@ addFavorites(movie) {
             <MuiThemeProvider>
               <UserSetup user={dataFromServer.user} />
             </MuiThemeProvider>
-            )}
+          )}
           />
         </Switch>
       </BrowserRouter>
-    )}
+    ); 
+  }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));

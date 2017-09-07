@@ -12,26 +12,26 @@ class Favorites extends React.Component {
     super(props);
   }
 
-render() {
-     console.log(this.props.favorites);
-     return (
+  render() {
+    console.log(this.props.favorites);
+    return (
       <div className='muiThemeProvider'>
-      <div className='gridRoot'>
-        <Search />
-        <GridList cellHeight={200} cols={5} className='gridList'>
-          <Subheader>Favorites</Subheader>
-          {this.props.favorites.map((favorite, i) => (
-            <a href = {favorite.Website} target = "_blank">
-            <GridTile 
-            key={i} 
-            title={favorite.Title}
-            subtitle={<span>by <b>{favorite.Director}</b></span>}
-            >
-            <img src = {favorite.Poster}/>
-            </GridTile>
-            </a>
-          ))}
-        </GridList>
+        <div className='gridRoot'>
+          <Search />
+          <GridList cellHeight={200} cols={5} className='gridList'>
+            <Subheader>Favorites</Subheader>
+            {this.props.favorites.map((favorite, i) => (
+              <a href = {favorite.Website} target = "_blank">
+                <GridTile 
+                  key={i} 
+                  title={favorite.Title}
+                  subtitle={<span>by <b>{favorite.Director}</b></span>}
+                >
+                  <img src = {favorite.Poster}/>
+                </GridTile>
+              </a>
+            ))}
+          </GridList>
         </div>
       </div>
     );

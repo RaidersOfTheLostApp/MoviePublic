@@ -7,9 +7,12 @@
         <% if (message.length) { %>
         <div class="alert alert-danger"><%= message %></div>
         <% } %>
-        <script>()=>{console.log(movies,'@@##$$##@@')}</script>
+        <script>
+        tmdb.call('/discover/movie', {
+          "query":  "indiana jones"
+        }, (data)=>{console.log(data)}, (error)=>{console.log(error)})</script>
         <!-- LOGIN FORM -->
-        <!-- <form action="/login" method="post">
+        <form action="/login" method="post">
             <div class="form-group">
                 <label>Email</label>
                 <input type="text" class="form-control" name="email">
@@ -20,16 +23,8 @@
             </div>
 
             <button type="submit" class="btn btn-warning btn-lg">Login</button>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        </form> -->
-=======
         </form>
-=======
-        </form> -->
->>>>>>> saves list of movies from api to mongodb as movie documents
 
->>>>>>> rebasing
         <hr>
         <button>SEND API CALL</button>
         <div>

@@ -11,21 +11,21 @@ class Results extends React.Component {
     super(props);
   }
 
-getFavoriteIcon(movie) {
-  var arr = this.props.favoriteId;
-  return (
-  <IconButton onClick={()=>{
-  if (arr.indexOf(movie.imdbID) === -1) {
-    this.props.addFavorites(movie);
+  getFavoriteIcon(movie) {
+    var arr = this.props.favoriteId;
+    return (
+      <IconButton onClick={()=>{
+        if (arr.indexOf(movie.imdbID) === -1) {
+          this.props.addFavorites(movie);
+        }
+      }}>
+        {movie.imdbID in this.props.favoriteId ?
+          <Favorite color="white" /> :
+          <FavoriteBorder color="white" /> 
+        }
+      </IconButton>
+    );
   }
-  }}>
-  {movie.imdbID in this.props.favoriteId ?
-    <Favorite color="white" /> :
-    <FavoriteBorder color="white" /> 
-  }
-  </IconButton>
-  );
-}
   render() {
     return (
       <div className='gridRoot'>
@@ -34,14 +34,14 @@ getFavoriteIcon(movie) {
           <Subheader>Popular Movies</Subheader>
           {this.props.results.map((movie, i) => (
             <GridTile 
-            key={i} 
-            subtitle={<span>by <b>{movie.Director}</b></span>}
-            title={movie.Title}
-            actionIcon = {this.getFavoriteIcon(movie)}
+              key={i} 
+              subtitle={<span>by <b>{movie.Director}</b></span>}
+              title={movie.Title}
+              actionIcon = {this.getFavoriteIcon(movie)}
             >
-            <a href = {movie.Website} target = "_blank">
-            <img src = {movie.Poster}/>
-            </a>
+              <a href = {movie.Website} target = "_blank">
+                <img src = {movie.Poster}/>
+              </a>
             </GridTile>
           ))}
         </GridList>

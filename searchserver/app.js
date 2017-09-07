@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const middleware = require('./middleware');
 const routes = require('./routes');
-const db = require('../mongodb/db.js')
+const db = require('../mongodb/db.js');
 const app = express();
 
 app.use(middleware.morgan('dev'));
@@ -19,7 +19,7 @@ app.use(middleware.bodyParser.json());
 // app.use(middleware.flash());
 app.get('/search', (req, res => {
   
-}))
+}));
 
 
 var port = process.env.PORT || 3001;

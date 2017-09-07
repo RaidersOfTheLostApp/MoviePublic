@@ -11,11 +11,11 @@ module.exports.verify = (req, res, next) => {
         console.log(req.body);
         next();
       }
-        // console.log(res.body)
-        res.redirect('/login');
+      // console.log(res.body)
+      res.redirect('/login');
 
-    })
-  };
+    });
+};
 
 
 
