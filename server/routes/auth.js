@@ -10,9 +10,11 @@ app.use(bodyParser.text({ type: 'text/plain' }));
 router.route('/')
   .get(middleware.auth.verify, (req, res) => {
     res.render('index.ejs', {
-      movieone: movieone, // from fakeData file
-      movietwo: movietwo, // from fakeData file
-      user: req.user
+      data: {
+        movieone: movieone,
+        movietwo: movietwo,
+        user: req.user
+      }
     });
   });
 
@@ -27,15 +29,18 @@ router.route('/login')
     failureFlash: true
   }));
 
-// router.route('/signup')
-//   .get((req, res) => {
-//     res.render('signup.ejs', { message: req.flash('signupMessage') });
-//   })
-//   .post(middleware.passport.authenticate('local-signup', {
-//     successRedirect: '/profile',
-//     failureRedirect: '/signup',
-//     failureFlash: true
-//   }));
+router.route('/favorites')
+  .get(middleware.auth.verify, (req, res) => {
+    // res.render('profile.ejs', {
+    //   user: req.user // get the user out of session and pass to template
+    // });
+    // res.redirect('/account');
+    res.render('index.ejs', {
+      data: {
+        user: req.user
+      }
+    });
+  });
 
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
@@ -44,10 +49,9 @@ router.route('/profile')
     // });
     // res.redirect('/account');
     res.render('index.ejs', {
-      movieone: movieone,
-      movietwo: movietwo,
-      data: req.user,
-      user: req.user
+      data: {
+        user: req.user
+      }
     });
   });
 
@@ -60,12 +64,9 @@ router.route('/setup')
 
     // if statement for new user, go here, else redirect to /
     res.render('index.ejs', {
-      movieone: movieone,
-      movietwo: movietwo,
-      data: req.user,
-       // from fakeData file
-      // movietwo: movietwo, // from fakeData file
-      user: req.user
+      data: {
+        user: req.user
+      }
     });
   });
 

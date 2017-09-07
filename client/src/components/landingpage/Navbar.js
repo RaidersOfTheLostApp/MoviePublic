@@ -22,10 +22,10 @@ class Navbar extends React.Component {
             <ToolbarGroup lastChild={true}>
               <div className='toolBarGroupLast'>
                 <a href="/" ><RaisedButton label="Home" /></a>
-                <RaisedButton label="Favorites" className='raisedButton' onClick={() => this.props.buttonClick()}/>
+                <a href="/favorites"><RaisedButton label="Favorites" /></a>
                 <RaisedButton label="Following" />
                 <a href="/profile"><RaisedButton label="Profile" /></a>
-                <a href="/setup"><RaisedButton label="Setup" /></a>
+                <a href="/setup"><RaisedButton label="Setup" /></a>                                                                                            
                 <a href="/logout"><RaisedButton label="Logout" /></a>
               </div>
               <div className='toolBarPadding'>
@@ -38,5 +38,6 @@ class Navbar extends React.Component {
   }
 }
 
-export default Navbar;
-// ReactDOM.render(<Navbar />, document.getElementById('nav'));
+ReactDOM.render(<Navbar />, document.getElementById('nav'));
+
+

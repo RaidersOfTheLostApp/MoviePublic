@@ -5,6 +5,7 @@ import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import Search from './Search';
 
 class Favorites extends React.Component {
   constructor(props) {
@@ -12,8 +13,11 @@ class Favorites extends React.Component {
   }
 
 render() {
+     console.log(this.props.favorites);
      return (
+      <div className='muiThemeProvider'>
       <div className='gridRoot'>
+        <Search />
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Favorites</Subheader>
           {this.props.favorites.map((favorite, i) => (
@@ -28,13 +32,15 @@ render() {
             </a>
           ))}
         </GridList>
+        </div>
       </div>
-      
     );
   }
 }
 
 export default Favorites;
+
+
 
 
 
