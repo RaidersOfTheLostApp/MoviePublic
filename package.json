@@ -8,8 +8,7 @@
     "build": "webpack --watch",
     "knex": "knex migrate:rollback",
     "knex2": "knex seed:run",
-    "redis": "redis-server",
-    "heroku-postbuild": "webpack -p"
+    "redis": "redis-server"
   },
   "author": "Hack Reactor",
   "license": "MIT",
