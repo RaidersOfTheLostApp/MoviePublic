@@ -7,7 +7,7 @@ var MovieList = {
     tmdb.call('/discover/movie', {
       'query': JSON.stringify(query),
     }, (e) => {
-      console.log(e, 'EEEEEEEEEEE');
+      // console.log(e, 'EEEEEEEEEEE');
       cb(null, e);
     }, (e)=>{
       cb(e, null);

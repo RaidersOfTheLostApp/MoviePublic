@@ -12,7 +12,6 @@ class Results extends React.Component {
   }
 
   getFavoriteIcon(movie) {
-    console.log(movie, '@@@@')
     var arr = this.props.favoriteId;
     return (
       <IconButton onClick={()=>{

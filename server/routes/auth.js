@@ -1,6 +1,8 @@
 const express = require('express');
 const middleware = require('../middleware');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const fuse = require('fuse.js');
+const Fuse = require('../../node_modules/fuse.js/src/index.js')
 const movieone = require('../fakeData1.js');
 const movietwo = require('../fakeData2.js');
 const searchDb = require('../../mongodb/db.js');
@@ -13,20 +15,20 @@ router.route('/')
   .get (middleware.auth.verify, (req, res, next) => {
     var movies;
     searchDb.getMovies( (err, data) => {
-        if(err){
-          console.log(err)
-        }else{
-          movies = data;
-          // console.log(movies)
-          res.render('index.ejs', {
-            data: {
-              movieone: movies,
-              movietwo: movies,
-              user: req.user
-            }
-            // data: movies // from fakeData file
-          });
-        }
+      if(err) {
+        console.log(err)
+      } else {
+        movies = data;
+        // console.log(movies)
+        res.render('index.ejs', {
+          data: {
+            movieone: movies,
+            movietwo: movies,
+            user: req.user
+          }
+          // data: movies // from fakeData file
+        });
+      }
     });
 
   })
@@ -90,36 +92,56 @@ router.route('/logout')
     res.redirect('/');
   });
 
-  router.route('/search')
-
-    .get((req, res) => {
-      searchDb.searchByTitle(req.query.value, (err, res) => {
-        if (err) {
-          alert('search broken try again');
-        } else {
-          console.log(res, 'RESPONSEBODY');
-          if (res) {
-            tmdbHelp.getMoviesByTitle(req.query.value, (err, data)=> {
-              if (err) {
-                console.log(err, 'ERRORGETMOVIESERROR');
-              } else {
-                //grab each movie title and send API request to OMDB to get movie data
-                searchDb.saveMovies(data.results, (err, data) => {
-                  if (err) {
-                    alert('savebroken');
-                  } else {
-                    //save full movie data to mongo by title
-                    console.log(data, 'datainAUTH');
-                  }
-                });
-                // console.log(data, '22222')
-              }
-            });
-          }
+router.route('/search')
+  .get((req, res) => {
+    searchDb.getMovies( {}, (err, res) => {
+      if (err) {
+        alert('search broken try again');
+      } else {
+        var options = {
+          shouldSort: true,
+          tokenize: true,
+          findAllMatches: true,
+          includeScore: true,
+          includeMatches: true,
+          threshold: 0.6,
+          location: 0,
+          distance: 100,
+          maxPatternLength: 32,
+          minMatchCharLength: 3,
+          keys: [
+            "title",
+            "actors",
+            "genre",
+            "year"
+          ]
+        };
+        var fuse = new Fuse(res, options); // "list" is the item array
+        var result = fuse.search(req.query.value);
+        // console.log(result, '@#$@$%$#')
+        // console.log(res, 'RESPONSEBODY');
+        if (res) {
+          tmdbHelp.getMoviesByTitle(req.query.value, (err, data)=> {
+            if (err) {
+              // console.log(err, 'ERRORGETMOVIESERROR');
+            } else {
+              //grab each movie title and send API request to OMDB to get movie data
+              searchDb.saveMovies(data.results, (err, data) => {
+                if (err) {
+                  alert('savebroken');
+                } else {
+                  //save full movie data to mongo by title
+                  // console.log(data, 'datainAUTH');
+                }
+              });
+              // console.log(data, '22222')
+            }
+          });
         }
-      });
-      res.status(200).end();
+      }
     });
+    res.status(200).end();
+  });
 
 router.get('/auth/google', middleware.passport.authenticate('google', {
   scope: ['email', 'profile']

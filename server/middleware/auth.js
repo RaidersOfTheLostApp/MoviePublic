@@ -8,7 +8,7 @@ module.exports.verify = (req, res, next) => {
   Promise.resolve(req.isAuthenticated())
     .then( () => {
       if (req.isAuthenticated()) {
-        console.log(req.body);
+        // console.log(req.body);
         next();
       }else{
         res.redirect('/login');

@@ -28,6 +28,8 @@
     "express": "^4.15.2",
     "express-session": "^1.15.1",
     "flexbox-react": "^4.4.0",
+    "fuse": "^0.4.0",
+    "fuse.js": "^3.1.0",
     "global": "^4.3.2",
     "grunt-http": "^2.2.0",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
