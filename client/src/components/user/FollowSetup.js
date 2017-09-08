@@ -13,6 +13,11 @@ class FollowSetup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      follow_movie: [],
+      follow_genre: [],
+      follow_actor: [],
+      follow_director: [],
+      follow_writer: [],
       select_value: 0,
       hintText: ['Enter a Movie to Follow', 'Enter a Movie Genre to Follow', 'Enter an Actor/Actress to Follow', 'Enter a Director to Follow', 'Enter a Screenwriter to Follow'],
       dataSource: props.movieList,
@@ -76,7 +81,7 @@ class FollowSetup extends React.Component {
       if (!this.state.addToDB) {
         //TODO change to a function to call the parent to set this state
         this.setState({
-          followName: this.props[followName].push(this.state.latestFollow)
+          followName: this.state[followName].push(this.state.latestFollow)
         });
       } else {
         //not an existing value in the DB
