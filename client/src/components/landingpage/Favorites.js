@@ -13,7 +13,6 @@ class Favorites extends React.Component {
   }
 
   render() {
-    console.log(this.props.favorites);
     return (
       <div className='muiThemeProvider'>
         <div className='gridRoot'>
@@ -21,11 +20,11 @@ class Favorites extends React.Component {
           <GridList cellHeight={200} cols={5} className='gridList'>
             <Subheader>Favorites</Subheader>
             {this.props.favorites.map((favorite, i) => (
-              <a href = {favorite.Website} target = "_blank">
+              <a href = {favorite.website} target = "_blank">
                 <GridTile 
                   key={i} 
-                  title={favorite.Title}
-                  subtitle={<span>by <b>{favorite.Director}</b></span>}
+                  title={favorite.title}
+                  subtitle={<span>by <b>{favorite.director}</b></span>}
                 >
                   <img src = {favorite.Poster}/>
                 </GridTile>

@@ -74,7 +74,7 @@ class Results extends React.Component {
           {(this.state.movies).map((movie, i) => (
             <GridTile
               key={i}
-              subtitle={<span>by <b>{movie.directors}</b></span>}
+              subtitle={<span>by <b>{movie.director}</b></span>}
               title={movie.title}
               actionIcon = {this.getFavoriteIcon(movie)}
             >
