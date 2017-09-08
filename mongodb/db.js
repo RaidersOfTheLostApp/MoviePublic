@@ -23,9 +23,15 @@ var movieSchema = mongoose.Schema({
   release_date: {type: String, required: true},
   genre: {type: Array, required: true},
   runtime: String,
+<<<<<<< HEAD
   directors: {type: Array, required: true},
   writers: {type: Array, required: true},
   actors: {type: Array, required: true},
+=======
+  director: Array,
+  writer: Array,
+  actors: Array,
+>>>>>>> I fixed the API call and now have the director and writer being pulled in correctly
   description: String,
   awards: Array,
   poster: String,
@@ -126,8 +132,8 @@ var saveMovies = (movies, cb) => {
         release_date: data.Release_Date,
         genre: data.Genre,
         runtime: data.Runtime,
-        directors: data.Directors,
-        writers: data.Writers,
+        director: data.Director,
+        writer: data.Writer,
         actors: data.Actors,
         description: data.Description,
         awards: data.Awards,
