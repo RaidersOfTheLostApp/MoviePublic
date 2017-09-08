@@ -49,7 +49,7 @@ module.exports.update = (req, res) => {
       }
       return profile.save(req.body, { method: 'update' });
     })
-    .then(() => {
+    .then((result) => {
       res.sendStatus(201);
     })
     .error(err => {
@@ -73,7 +73,9 @@ module.exports.setUpVOD = (req, res) => {
           subs.push(req.body[key]);
         }
       }
-      return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
+      var result = profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
+      console.log('************ setupvod result ', JSON.stringify(result));
+      return null;
     })
     .then(() => {
       console.log('********* in then success update for setUpVOD ');
@@ -90,21 +92,27 @@ module.exports.setUpVOD = (req, res) => {
 };
 
 module.exports.setUpFollows = (req, res) => {
+  console.log('*********** in setUpFollows req body', req.body);
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
+      console.log('********** in then - profile ', profile);
       if (!profile) {
         throw profile;
       }
-      var follows = [];
-      // add all follow arrays - update below and save command
-      for (var key in req.body) {
-        if (req.body[key]) {
-          follows.push(req.body[key]);
-        }
-      }
-      return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
+      //incoming keys: movieFollow, genreFollow, actorFollow, directorFollow, writerFollow
+      //format of each value: [{'text': chosenRequest, 'id': null},...]
+      console.log('********* setUpFollows req body ', req.body);
+      var result = profile.save({follow_movies: JSON.stringify(req.body.movieFollow),
+        follow_movies: JSON.stringify(req.body.movieFollow),
+        follow_genre: JSON.stringify(req.body.genreFollow),
+        follow_actor: JSON.stringify(req.body.actorFollow),
+        follow_director: JSON.stringify(req.body.directorFollow),
+        follow_writers: JSON.stringify(req.body.writerFollow)
+      }, {patch: true});
+      console.log('********* result from setupfollows profile save ', result);
+      return null;
     })
-    .then(() => {
+    .then((result) => {
       console.log('********* in then success update for setUpFollows ');
       res.sendStatus(201);
     })

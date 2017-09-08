@@ -13,11 +13,6 @@ class FollowSetup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      follow_movie: [],
-      follow_genre: [],
-      follow_actor: [],
-      follow_director: [],
-      follow_writer: [],
       select_value: 0,
       hintText: ['Enter a Movie to Follow', 'Enter a Movie Genre to Follow', 'Enter an Actor/Actress to Follow', 'Enter a Director to Follow', 'Enter a Screenwriter to Follow'],
       dataSource: props.movieList,
@@ -26,20 +21,9 @@ class FollowSetup extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // data should be in format [{text: 'text for dropdown', id: <unique id>}, ..]
-    //get all movie and id data
-    // do first before loading rendering component, rest can be async
-    //get all genre and id data
-    //get all actor and id data
-    //get all director and id data
-    //get all writer and id data
-    //set to state for datasources in autocomplete fields
-  }
-
   getValue(index, callback) {
-    var followList = ['movie', 'genre', 'actor', 'director', 'writer'];
-    callback(followList[index]);
+    var dropDownList = ['movie', 'genre', 'actor', 'director', 'writer'];
+    callback(dropDownList[index]);
   }
 
   handleChange(e, i, value) {
@@ -70,26 +54,22 @@ class FollowSetup extends React.Component {
       });
     } else {
       this.setState({
-        latestFollow: this.state.dataSource[index]
+        latestFollow: {'text': this.state.dataSource[index]['text'], 'id': this.state.dataSource[index]['id']}
       });
     }
   }
-  //TODO refactor to move this to the parent and call with props
+
   addFollow(e) {
     this.getValue(this.state.select_value, dataSourceName => {
-      var followName = 'follow_' + dataSourceName;
+      var followName = dataSourceName + 'Follow';
       if (!this.state.addToDB) {
-        //TODO change to a function to call the parent to set this state
-        this.setState({
-          followName: this.state[followName].push(this.state.latestFollow)
-        });
+        this.props.updateFollowList(followName, this.state.latestFollow);
       } else {
         //not an existing value in the DB
-        //add to a crone job to search for it? check if already exists in the job
-        //add to favorites list without an id for now
-        //crone job will have to check for non-id values and replace them as possible
+        //TODO add to a crone job to search for it? check if already exists in the job
+        //crone job will have to check for non-id values in follow list and replace them as possible
+        this.props.updateFollowList(followName, this.state.latestFollow);
         this.setState({
-          followName: this.state[followName].push(this.state.latestFollow),
           addToDB: true
         });
       }
@@ -144,8 +124,8 @@ class FollowSetup extends React.Component {
           <Divider />
           <Subheader>MOVIES</Subheader>
           <List>
-            {this.state.follow_movie.map(movie =>
-              <ListItem id={movie.id}
+            {this.props.movieFollow.map(movie =>
+              <ListItem key={movie.id}
                 leftIcon={<ActionGrade />}
                 primaryText={movie.text}
               />
@@ -153,8 +133,8 @@ class FollowSetup extends React.Component {
           </List>
           <Subheader>GENRES</Subheader>
           <List>
-            {this.state.follow_genre.map(genre =>
-              <ListItem id={genre.id}
+            {this.props.genreFollow.map(genre =>
+              <ListItem key={genre.id}
                 leftIcon={<ActionGrade />}
                 primaryText={genre.text}
               />
@@ -162,8 +142,8 @@ class FollowSetup extends React.Component {
           </List>
           <Subheader>ACTOR/ACTRESSES</Subheader>
           <List>
-            {this.state.follow_actor.map(actor =>
-              <ListItem id={actor.id}
+            {this.props.actorFollow.map(actor =>
+              <ListItem key={actor.id}
                 leftIcon={<ActionGrade />}
                 primaryText={actor.text}
               />
@@ -171,8 +151,8 @@ class FollowSetup extends React.Component {
           </List>
           <Subheader>DIRECTORS</Subheader>
           <List>
-            {this.state.follow_director.map(director =>
-              <ListItem id={director.id}
+            {this.props.directorFollow.map(director =>
+              <ListItem key={director.id}
                 leftIcon={<ActionGrade />}
                 primaryText={director.text}
               />
@@ -180,8 +160,8 @@ class FollowSetup extends React.Component {
           </List>
           <Subheader>SCREENWRITERS</Subheader>
           <List>
-            {this.state.follow_writer.map(writer =>
-              <ListItem id={writer.id}
+            {this.props.writerFollow.map(writer =>
+              <ListItem key={writer.id}
                 leftIcon={<ActionGrade />}
                 primaryText={writer.text}
               />

@@ -23,14 +23,28 @@ class UserSetup extends React.Component {
       hbo: false,
       hulu: false,
       amazon: false,
-      //TODO refactor to pass followMovie down as props
-      
+      movieFollow: [],
+      genreFollow: [],
+      actorFollow: [],
+      directorFollow: [],
+      writerFollow: [],
       movieList: [{'text': 'Raiders of the Lost Ark', 'id': 1}, {'text': 'Temple of Doom', 'id': 2}],
       genreList: [{'text': 'Comedy', 'id': 1}, {'text': 'Horror', 'id': 2}, {'text': 'Drama', 'id': 3}],
       actorList: [{'text': 'Jennifer Aniston', 'id': 1}, {'text': 'Brad Pitt', 'id': 2}],
       directorList: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other directors', 'id': 2}],
       writerList: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other writers', 'id': 2}]
     };
+  }
+
+  componentDidMount() {
+    // data should be in format [{text: 'text for dropdown', id: <unique id>}, ..]
+    //get all movie and id data
+    // do first before loading rendering component, rest can be async
+    //get all genre and id data
+    //get all actor and id data
+    //get all director and id data
+    //get all writer and id data
+    //set to state for datasources in autocomplete fields
   }
 
   handleToggle(e, isInputChecked) {
@@ -40,25 +54,13 @@ class UserSetup extends React.Component {
   }
 
   handleNext() {
+    if (this.state.stepIndex === 1) {
+      //update database with Follow List
+      this.finishStepTwo();
+    }
     if (this.state.stepIndex === 2) {
       //update database with VOD updates
-      $.ajax({
-        method: 'POST',
-        url: '/api/profiles/vod',
-        data: {
-          netflix: this.state.netflix,
-          hbo: this.state.hbo,
-          hulu: this.state.hulu,
-          amazon: this.state.amazon
-        },
-        success: (user) => {
-          user = JSON.parse(user);
-          console.log('********* success vod update user ', user);
-        },
-        error: (error) => {
-          console.log('************* update vod handleNext ERROR:', error);
-        }
-      });
+      this.finishStepThree();
     }
     this.setState({
       finished: this.state.stepIndex >= 2,
@@ -74,6 +76,48 @@ class UserSetup extends React.Component {
     }
   }
 
+  finishStepTwo() {
+    $.ajax({
+      method: 'POST',
+      url: '/api/profiles/follows',
+      data: {
+        movieFollow: this.state.movieFollow,
+        genreFollow: this.state.genreFollow,
+        actorFollow: this.state.actorFollow,
+        directorFollow: this.state.directorFollow,
+        writerFollow: this.state.writerFollow
+        //format of values: [{'text': chosenRequest, 'id': null},...]
+      },
+      success: (user) => {
+        user = JSON.parse(user);
+        console.log('********* success user setup follow list ', user);
+      },
+      error: (error) => {
+        console.log('************* update follow list handleNext ERROR:', error);
+      }
+    });
+  }
+
+  finishStepThree() {
+    $.ajax({
+      method: 'POST',
+      url: '/api/profiles/vod',
+      data: {
+        netflix: this.state.netflix,
+        hbo: this.state.hbo,
+        hulu: this.state.hulu,
+        amazon: this.state.amazon
+      },
+      success: (user) => {
+        user = JSON.parse(user);
+        console.log('********* success user setup vod update ', user);
+      },
+      error: (error) => {
+        console.log('************* update vod handleNext ERROR:', error);
+      }
+    });
+  }
+
   getStepContent(stepIndex) {
     switch (stepIndex) {
     case 0:
@@ -85,6 +129,12 @@ class UserSetup extends React.Component {
     default:
       'New Account Setup Instructions';
     }
+  }
+
+  updateFollowList(followName, latestFollow) {
+    this.setState({
+      followName: this.state[followName].push(latestFollow)
+    });
   }
 
   render() {
@@ -127,7 +177,18 @@ class UserSetup extends React.Component {
                   <DemoVideo header={this.getStepContent(this.state.stepIndex)}/>
                 ) : (
                   this.state.stepIndex === 1 ? (
-                    <FollowSetup header={this.getStepContent(this.state.stepIndex)} movieList={this.state.movieList} genreList={this.state.genreList} actorList={this.state.actorList} directorList={this.state.directorList} writerList={this.state.writerList}/>
+                    <FollowSetup header={this.getStepContent(this.state.stepIndex)}
+                      movieList={this.state.movieList}
+                      genreList={this.state.genreList}
+                      actorList={this.state.actorList}
+                      directorList={this.state.directorList}
+                      writerList={this.state.writerList}
+                      movieFollow={this.state.movieFollow}
+                      genreFollow={this.state.genreFollow}
+                      actorFollow={this.state.actorFollow}
+                      directorFollow={this.state.directorFollow}
+                      writerFollow={this.state.writerFollow}
+                      updateFollowList={this.updateFollowList.bind(this)}/>
                   ) : (
                     <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>
                   )
