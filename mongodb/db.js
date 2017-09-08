@@ -19,13 +19,13 @@ searchDb.once('open', () => {
 var movieSchema = mongoose.Schema({
   id: Number,
   title: String,
-  year: Number,
-  release_date: String,
-  genre: Array,
+  year: {type: Number, required: true},
+  release_date: {type: String, required: true},
+  genre: {type: Array, required: true},
   runtime: String,
-  directors: Array,
-  writers: Array,
-  actors: Array,
+  directors: {type: Array, required: true},
+  writers: {type: Array, required: true},
+  actors: {type: Array, required: true},
   description: String,
   awards: Array,
   poster: String,
@@ -33,7 +33,7 @@ var movieSchema = mongoose.Schema({
   language: Array,
   box_office: Number,
   production: String,
-  website: String,
+  website: {type: String, required: true},
   theater: Array
 });
 
@@ -62,12 +62,12 @@ var getMovies = (query, cb) => {
 };
 
 var saveMovies = (movies, cb) => {
-  console.log(movies, '@@@@@|')
+  // console.log(movies, '@@@@@|')
   movies.forEach( (value) => {
-    console.log(value, '@@@')
+    // console.log(value, '@@@')
     searchByTitle(value.title, (err, res) => {
       if(err){
-        console.log('db/searchByTitle in saveMOvies is broken')
+        cb(err);
       }else{
         // console.log(res, '@@@@@@@@@@@@@@@@@@@@@@@@@')
       }
@@ -81,13 +81,13 @@ var saveMovies = (movies, cb) => {
         console.log('brokeninsaveMovies');
       }else{
         Movie.find({title: value.title}, (err, res) => {
-          // console.log(res, '@@@@@@@@@@@')
+          // console.log(data, '@@@@@@@@@@@')
           if(res.length === 0){
             var newMovie = new Movie({
               id: id,
               title: data.Title,
               year: data.Year,
-              release_date: data.Release_Date,
+              release_date: data.Released,
               genre: data.Genre,
               runtime: data.Runtime,
               directors: data.Director,
@@ -122,7 +122,7 @@ var saveMovies = (movies, cb) => {
     });
 
   });
-
+  cb();
 
 };
 
