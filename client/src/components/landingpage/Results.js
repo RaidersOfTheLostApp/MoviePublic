@@ -62,7 +62,27 @@ class Results extends React.Component {
       }
     });
 
+  addFavorites(result) {
+    if (this.state.favoriteId.indexOf(result.id) === -1) {
+      this.state.favoriteId.push(result.id);
+      this.state.favorites.push(result);
+      $.ajax({
+        method: 'POST',
+        url: '/api/favorite/savefavorites',
+        data: {
+          favorites: this.state.favorites
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success favorites updated for user ', user);
+        },
+        error: (error) => {
+          console.log('************* error updating favorites for user', error);
+        }
+      });
+    }
   }
+  
   handleSearch() {
     this.searchToServer( () => {
       this.render();
