@@ -19,23 +19,26 @@ class Search extends React.Component {
     this.setState({searchTerm: event.target.value});
   }
 
-  searchToServer() {
-    var searchInput = document.getElementById('text-field').value;
-    // console.log(searchInput);
-    $.ajax({
-      url: '/search',
-      method: 'GET',
-      data: {value: searchInput},
-      dataType: 'json',
-      contentType: 'text/plain',
-      success: (results) => {
-        console.log(results);
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  }
+  // searchToServer() {
+  //   var searchInput = document.getElementById('text-field').value;
+  //   // console.log(searchInput);
+  //   $.ajax({
+  //     url: '/search',
+  //     method: 'GET',
+  //     data: {value: searchInput},
+  //     dataType: 'json',
+  //     contentType: 'text/plain',
+  //     success: (results) => {
+  //       setTimeout( ()=>{
+  //
+  //       console.log(results, '@@@@@@@');
+  //       }, 1000);
+  //     },
+  //     error: (err) => {
+  //       console.log('err', err);
+  //     }
+  //   });
+  // }
 
   render() {
     return (
@@ -66,7 +69,7 @@ class Search extends React.Component {
                 width: '500px'
               }}
             />
-            <button onClick={this.searchToServer} type="button" id = "submit">Submit</button>
+          <button onClick={this.props.searchToServer} type="button" id = "submit">Submit</button>
           </div>
         </div>
       </div>
