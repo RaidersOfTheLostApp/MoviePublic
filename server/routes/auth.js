@@ -18,12 +18,15 @@ router.route('/')
       if(err) {
         console.log(err)
       } else {
+
         movies = data;
-        // console.log(movies)
+
+        var sorted = sortByKey(movies, 'year');
+
         res.render('index.ejs', {
           data: {
-            movieone: movies,
-            movietwo: movies,
+            movieone: sorted,
+            movietwo: sorted,
             user: req.user
           }
           // data: movies // from fakeData file
@@ -90,58 +93,6 @@ router.route('/logout')
     console.log('******** logout call');
     req.logout();
     res.redirect('/');
-  });
-
-router.route('/search')
-  .get((req, res) => {
-    searchDb.getMovies( {}, (err, res) => {
-      if (err) {
-        alert('search broken try again');
-      } else {
-        var options = {
-          shouldSort: true,
-          tokenize: true,
-          findAllMatches: true,
-          includeScore: true,
-          includeMatches: true,
-          threshold: 0.6,
-          location: 0,
-          distance: 100,
-          maxPatternLength: 32,
-          minMatchCharLength: 3,
-          keys: [
-            "title",
-            "actors",
-            "genre",
-            "year"
-          ]
-        };
-        var fuse = new Fuse(res, options); // "list" is the item array
-        var result = fuse.search(req.query.value);
-        // console.log(result, '@#$@$%$#')
-        // console.log(res, 'RESPONSEBODY');
-        if (res) {
-          tmdbHelp.getMoviesByTitle(req.query.value, (err, data)=> {
-            if (err) {
-              // console.log(err, 'ERRORGETMOVIESERROR');
-            } else {
-              // console.log(data, '@@@@@@@')
-              //grab each movie title and send API request to OMDB to get movie data
-              searchDb.saveMovies(data, (err, data2) => {
-                if (err) {
-                  console.log('savebroken')
-                } else {
-                  //save full movie data to mongo by title
-                  console.log('datainAUTH');
-                }
-              });
-              // console.log(data, '22222')
-            }
-          });
-        }
-      }
-    });
-    res.status(200).end();
   });
 
 router.get('/auth/google', middleware.passport.authenticate('google', {

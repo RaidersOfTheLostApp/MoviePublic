@@ -11,6 +11,7 @@ var MovieList = {
     }, (e) => {
       // console.log(e, 'EEEEEEEEEEE');
       cb(null, e.results);
+
     }, (e)=>{
       cb(e, null);
     });
