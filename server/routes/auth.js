@@ -125,13 +125,14 @@ router.route('/search')
             if (err) {
               // console.log(err, 'ERRORGETMOVIESERROR');
             } else {
+              // console.log(data, '@@@@@@@')
               //grab each movie title and send API request to OMDB to get movie data
-              searchDb.saveMovies(data.results, (err, data) => {
+              searchDb.saveMovies(data, (err, data2) => {
                 if (err) {
-                  alert('savebroken');
+                  console.log('savebroken')
                 } else {
                   //save full movie data to mongo by title
-                  // console.log(data, 'datainAUTH');
+                  console.log('datainAUTH');
                 }
               });
               // console.log(data, '22222')

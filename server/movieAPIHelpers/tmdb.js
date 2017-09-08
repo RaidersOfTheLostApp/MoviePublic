@@ -6,6 +6,7 @@ const tmdb = {
   'images_uri': 'http://image.tmdb.org/t/p',
   'timeout': 5000,
   call: function(url, params, success, error) {
+
     var params_str = 'api_key=' + tmdb.api_key;
     for (var key in params) {
       if (params.hasOwnProperty(key)) {

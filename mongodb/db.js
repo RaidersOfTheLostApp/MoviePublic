@@ -62,8 +62,9 @@ var getMovies = (query, cb) => {
 };
 
 var saveMovies = (movies, cb) => {
+  console.log(movies, '@@@@@|')
   movies.forEach( (value) => {
-    // console.log(value)
+    console.log(value, '@@@')
     searchByTitle(value.title, (err, res) => {
       if(err){
         console.log('db/searchByTitle in saveMOvies is broken')
@@ -71,23 +72,16 @@ var saveMovies = (movies, cb) => {
         // console.log(res, '@@@@@@@@@@@@@@@@@@@@@@@@@')
       }
     })
-
-
-
-
-
-
     var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
     var id = value.id;
-
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.body);
 
       if (err) {
         console.log('brokeninsaveMovies');
       }else{
-        Movie.find({}, (err, res) => {
-          console.log(res, '@@@@@@@@@@@')
+        Movie.find({title: value.title}, (err, res) => {
+          // console.log(res, '@@@@@@@@@@@')
           if(res.length === 0){
             var newMovie = new Movie({
               id: id,
