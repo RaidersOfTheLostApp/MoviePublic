@@ -8,25 +8,25 @@ import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
 import Search from './Search';
 import Filtering from './Filtering';
+import $ from 'jquery';
 
 class Results extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
+      favoriteId: [],
+      favorites: [],
       movies: this.props.results
     }
   }
 
   getFavoriteIcon(movie) {
-    var arr = this.props.favoriteId;
+    var arr = this.state.favoriteId;
     return (
       <IconButton onClick={()=>{
-        if (arr.indexOf(movie.imdbID) === -1) {
-          this.props.addFavorites(movie);
-        }
+        this.addFavorites(movie);
       }}>
-        {movie.imdbID in this.props.favoriteId ?
+        {movie.imdbID in this.state.favoriteId ?
           <Favorite color="white" /> :
           <FavoriteBorder color="white" />
         }
@@ -61,6 +61,25 @@ class Results extends React.Component {
       }
     });
 
+  addFavorites(result) {
+    if (this.state.favoriteId.indexOf(result.id) === -1) {
+      this.state.favoriteId.push(result.id);
+      this.state.favorites.push(result);
+      $.ajax({
+        method: 'POST',
+        url: '/api/favorite/savefavorites',
+        data: {
+          favorites: this.state.favorites,
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success favorites updated for user ', user);
+        },
+        error: (error) => {
+          console.log('************* error updating favorites for user', error);
+        }
+      });
+    }
   }
 
   render() {

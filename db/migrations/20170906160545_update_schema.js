@@ -2,12 +2,12 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('auths'),
-    knex.schema.dropTable('awards'),
-    knex.schema.dropTable('genres'),
-    // knex.schema.dropTable('payment_methods'),
-    knex.schema.dropTable('transactions'),
-    knex.schema.dropTable('movies'),
-    knex.schema.dropTable('crew'),
+    // knex.schema.dropTable('awards'),
+    // knex.schema.dropTable('genres'),
+    // // knex.schema.dropTable('payment_methods'),
+    // knex.schema.dropTable('transactions'),
+    // knex.schema.dropTable('movies'),
+    // knex.schema.dropTable('crew'),
     knex.schema.dropTable('profiles'),
     knex.schema.createTableIfNotExists('profiles', function(table) {
       table.increments('id').unsigned().primary();

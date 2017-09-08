@@ -12,10 +12,8 @@ module.exports.verify = (req, res, next) => {
         next();
       }else{
         res.redirect('/login');
-
       }
       // console.log(res.body)
-
     });
 };
 

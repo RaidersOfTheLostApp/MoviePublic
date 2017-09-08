@@ -40,7 +40,6 @@ class App extends React.Component {
     this.state.favoriteId.push(movie.imdbID);
     this.state.favorites.push(movie);
     console.log(this.state.favoriteId);
-    console.log(this.state.favorites);
   }
 
   render() {
