@@ -100,11 +100,18 @@ tbody {
 .demoVideo {
   display: flex;
   justify-content: center;
+  padding-top: 25px;
 }
 
 .vod {
   display: flex;
   justify-content: center;
+}
+
+.follow {
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
 }
 
 .toggle {
@@ -121,4 +128,8 @@ tbody {
 .searchfilter-child {
   display: 'inline-block';
   width: 50%;
+}
+
+.floatButton {
+  marginRight: 20;
 }
