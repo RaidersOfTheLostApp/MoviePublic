@@ -19,5 +19,10 @@ router.route('/vod')
   // .delete(ProfileController.deleteOne)
 ;
 
+router.route('/follows')
+  .post(ProfileController.setUpFollows)
+  // .delete(ProfileController.deleteOne)
+;
+
 
 module.exports = router;

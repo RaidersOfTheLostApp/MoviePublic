@@ -22,7 +22,18 @@ class UserSetup extends React.Component {
       netflix: false,
       hbo: false,
       hulu: false,
-      amazon: false
+      amazon: false,
+      //TODO refactor to pass followMovie down as props
+      follow_movie: [],
+      follow_genre: [],
+      follow_actor: [],
+      follow_director: [],
+      follow_writer: [],
+      movieList: [{'text': 'Raiders of the Lost Ark', 'id': 1}, {'text': 'Temple of Doom', 'id': 2}],
+      genreList: [{'text': 'Comedy', 'id': 1}, {'text': 'Horror', 'id': 2}, {'text': 'Drama', 'id': 3}],
+      actorList: [{'text': 'Jennifer Aniston', 'id': 1}, {'text': 'Brad Pitt', 'id': 2}],
+      directorList: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other directors', 'id': 2}],
+      writerList: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other writers', 'id': 2}]
     };
   }
 
@@ -120,7 +131,7 @@ class UserSetup extends React.Component {
                   <DemoVideo header={this.getStepContent(this.state.stepIndex)}/>
                 ) : (
                   this.state.stepIndex === 1 ? (
-                    <FollowSetup header={this.getStepContent(this.state.stepIndex)}/>
+                    <FollowSetup header={this.getStepContent(this.state.stepIndex)} movieList={this.state.movieList} genreList={this.state.genreList} actorList={this.state.actorList}  directorList={this.state.directorList}  writerList={this.state.writerList}/>
                   ) : (
                     <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>
                   )

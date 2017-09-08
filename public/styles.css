@@ -133,3 +133,8 @@ tbody {
 .floatButton {
   marginRight: 20;
 }
+
+.outline {
+  border: 1px solid grey;
+  width: 25%
+}

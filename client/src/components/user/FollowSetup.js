@@ -13,19 +13,9 @@ class FollowSetup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      follow_movie: [],
-      follow_genre: [],
-      follow_actor: [],
-      follow_director: [],
-      follow_writer: [],
-      movie_list: [{'text': 'Raiders of the Lost Ark', 'id': 1}, {'text': 'Temple of Doom', 'id': 2}],
-      genre_list: [{'text': 'Comedy', 'id': 1}, {'text': 'Horror', 'id': 2}, {'text': 'Drama', 'id': 3}],
-      actor_list: [{'text': 'Jennifer Aniston', 'id': 1}, {'text': 'Brad Pitt', 'id': 2}],
-      director_list: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other directors', 'id': 2}],
-      writer_list: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other writers', 'id': 2}],
       select_value: 0,
       hintText: ['Enter a Movie to Follow', 'Enter a Movie Genre to Follow', 'Enter an Actor/Actress to Follow', 'Enter a Director to Follow', 'Enter a Screenwriter to Follow'],
-      dataSource: [{'text': 'Raiders of the Lost Ark', 'id': 1}, {'text': 'Temple of Doom', 'id': 2}], //need to pass this movie data down as props for first render to work
+      dataSource: props.movieList,
       latestFollow: '',
       addToDB: false
     };
@@ -53,7 +43,7 @@ class FollowSetup extends React.Component {
         select_value: value,
         latestFollow: '',
         addToDB: false,
-        dataSource: this.state[dataSourceName + '_list']
+        dataSource: this.props[dataSourceName + 'List']
       });
       this.clearSearchField(value);
     });
@@ -79,13 +69,14 @@ class FollowSetup extends React.Component {
       });
     }
   }
-
+  //TODO refactor to move this to the parent and call with props
   addFollow(e) {
     this.getValue(this.state.select_value, dataSourceName => {
       var followName = 'follow_' + dataSourceName;
       if (!this.state.addToDB) {
+        //TODO change to a function to call the parent to set this state
         this.setState({
-          followName: this.state[followName].push(this.state.latestFollow)
+          followName: this.props[followName].push(this.state.latestFollow)
         });
       } else {
         //not an existing value in the DB
@@ -143,7 +134,7 @@ class FollowSetup extends React.Component {
             </div>
           </div>
         </div>
-        <div className='muiThemeProvider'>
+        <div className='muiThemeProvider outline'>
           <Subheader>Your Current Following:</Subheader>
           <Divider />
           <Subheader>MOVIES</Subheader>
