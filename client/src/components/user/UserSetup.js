@@ -54,6 +54,10 @@ class UserSetup extends React.Component {
   }
 
   handleNext() {
+    if (this.state.stepIndex === 0) {
+      //update newUser field to false
+      this.finishStepOne();
+    }
     if (this.state.stepIndex === 1) {
       //update database with Follow List
       this.finishStepTwo();
@@ -74,6 +78,23 @@ class UserSetup extends React.Component {
         stepIndex: this.state.stepIndex - 1
       });
     }
+  }
+
+  finishStepOne() {
+    $.ajax({
+      method: 'POST',
+      url: '/api/profiles/newUser',
+      data: {
+        newUser: false
+      },
+      success: (user) => {
+        user = JSON.parse(user);
+        console.log('********* success new user field updated ', user);
+      },
+      error: (error) => {
+        console.log('************* update new user field handleNext ERROR:', error);
+      }
+    });
   }
 
   finishStepTwo() {

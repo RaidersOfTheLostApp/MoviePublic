@@ -38,6 +38,56 @@ class UserProfile extends React.Component {
             secondaryText="Favorite Movies"
           />
         </List>
+        <Divider insert={true} />
+        <div className='muiThemeProvider outline'>
+          <Subheader>Currently Following:</Subheader>
+          <Divider />
+          <Subheader>MOVIES</Subheader>
+          <List>
+            {this.props.movieFollow.map(movie =>
+              <ListItem key={movie.id}
+                leftIcon={<ActionGrade />}
+                primaryText={movie.text}
+              />
+            )}
+          </List>
+          <Subheader>GENRES</Subheader>
+          <List>
+            {this.props.genreFollow.map(genre =>
+              <ListItem key={genre.id}
+                leftIcon={<ActionGrade />}
+                primaryText={genre.text}
+              />
+            )}
+          </List>
+          <Subheader>ACTOR/ACTRESSES</Subheader>
+          <List>
+            {this.props.actorFollow.map(actor =>
+              <ListItem key={actor.id}
+                leftIcon={<ActionGrade />}
+                primaryText={actor.text}
+              />
+            )}
+          </List>
+          <Subheader>DIRECTORS</Subheader>
+          <List>
+            {this.props.directorFollow.map(director =>
+              <ListItem key={director.id}
+                leftIcon={<ActionGrade />}
+                primaryText={director.text}
+              />
+            )}
+          </List>
+          <Subheader>SCREENWRITERS</Subheader>
+          <List>
+            {this.props.writerFollow.map(writer =>
+              <ListItem key={writer.id}
+                leftIcon={<ActionGrade />}
+                primaryText={writer.text}
+              />
+            )}
+          </List>
+        </div>
       </div>
     );
   }

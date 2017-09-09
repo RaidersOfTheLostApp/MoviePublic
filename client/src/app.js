@@ -30,7 +30,7 @@ class App extends React.Component {
       }}>
         {movie.imdbID in this.favoriteId ?
           <Favorite color="white" /> :
-          <FavoriteBorder color="white" /> 
+          <FavoriteBorder color="white" />
         }
       </IconButton>
     );
@@ -57,10 +57,15 @@ class App extends React.Component {
               <Favorites favorites = {this.state.favorites} />
             </MuiThemeProvider>
           )}
-          />    
+          />
           <Route path="/profile" render={() => (
             <MuiThemeProvider>
-              <UserProfile user={dataFromServer.user} />
+              <UserProfile user={dataFromServer.user}
+                movieFollow={dataFromServer.movieFollow}
+                genreFollow={dataFromServer.genreFollow}
+                actorFollow={dataFromServer.actorFollow}
+                directorFollow={dataFromServer.directorFollow}
+                writerFollow={dataFromServer.writerFollow}/>
             </MuiThemeProvider>
           )}
           />
@@ -72,20 +77,8 @@ class App extends React.Component {
           />
         </Switch>
       </BrowserRouter>
-    ); 
+    );
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,15 +4,15 @@
       <br/>
         <h1>Welcome to the Movie Master App</h1>
 
-        <% if (message.length) { %>
+        <!-- <% if (message.length) { %>
         <div class="alert alert-danger"><%= message %></div>
         <% } %>
         <script>
         tmdb.call('/discover/movie', {
           "query":  "indiana jones"
         }, (data)=>{console.log(data)}, (error)=>{console.log(error)})</script>
-        <!-- LOGIN FORM -->
-        <form action="/login" method="post">
+        <! LOGIN FORM -->
+        <!-- <form action="/login" method="post">
             <div class="form-group">
                 <label>Email</label>
                 <input type="text" class="form-control" name="email">
@@ -23,9 +23,9 @@
             </div>
 
             <button type="submit" class="btn btn-warning btn-lg">Login</button>
-        </form>
+        </form> -->
 
-        <hr>
+        
         <button>SEND API CALL</button>
         <div>
             <!-- Or login with any of the following services:<br /> -->

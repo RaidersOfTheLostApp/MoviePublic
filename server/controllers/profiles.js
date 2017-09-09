@@ -61,6 +61,27 @@ module.exports.update = (req, res) => {
     });
 };
 
+module.exports.newUser = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      return profile.save({new_user: false}, {patch: true});
+    })
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .error(err => {
+      console.log('********* error in newUser ', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in newUser ', e);
+      res.sendStatus(404);
+    });
+};
+
 module.exports.setUpVOD = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
@@ -76,7 +97,6 @@ module.exports.setUpVOD = (req, res) => {
       return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
     })
     .then(() => {
-      console.log('********* in then success update for setUpVOD ');
       res.sendStatus(201);
     })
     .error(err => {
@@ -109,11 +129,9 @@ module.exports.setUpFollowMovies = (req, res) => {
           save = !save;
         }
       }
-      console.log('*********** movieSet');
       return profile.save({follow_movies: JSON.stringify(movieSet)}, {patch: true});
     })
     .then((result) => {
-      console.log('********* in then success update for setUpFollowMovies ');
       res.sendStatus(201);
     })
     .error(err => {
@@ -147,7 +165,6 @@ module.exports.setUpFollowGenres = (req, res) => {
       return profile.save({follow_genre: JSON.stringify(genreSet)}, {patch: true});
     })
     .then((result) => {
-      console.log('********* in then success update for setUpFollowGenres ');
       res.sendStatus(201);
     })
     .error(err => {
@@ -181,7 +198,6 @@ module.exports.setUpFollowActors = (req, res) => {
       return profile.save({follow_actor: JSON.stringify(actorSet)}, {patch: true});
     })
     .then((result) => {
-      console.log('********* in then success update for setUpFollowActors ');
       res.sendStatus(201);
     })
     .error(err => {
@@ -215,7 +231,6 @@ module.exports.setUpFollowDirectors = (req, res) => {
       return profile.save({follow_director: JSON.stringify(directorSet)}, {patch: true});
     })
     .then((result) => {
-      console.log('********* in then success update for setUpFollowDirectors ');
       res.sendStatus(201);
     })
     .error(err => {
@@ -249,7 +264,6 @@ module.exports.setUpFollowWriters = (req, res) => {
       return profile.save({follow_writers: JSON.stringify(writerSet)}, {patch: true});
     })
     .then((result) => {
-      console.log('********* in then success update for setUpFollowWriters ');
       res.sendStatus(201);
     })
     .error(err => {

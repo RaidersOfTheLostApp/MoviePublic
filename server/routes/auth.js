@@ -2,7 +2,7 @@ const express = require('express');
 const middleware = require('../middleware');
 const bodyParser = require('body-parser');
 const fuse = require('fuse.js');
-const Fuse = require('../../node_modules/fuse.js/src/index.js')
+const Fuse = require('../../node_modules/fuse.js/src/index.js');
 const movieone = require('../fakeData1.js');
 const movietwo = require('../fakeData2.js');
 const searchDb = require('../../mongodb/db.js');
@@ -10,37 +10,42 @@ const router = express.Router();
 const app = express();
 const tmdb = require('../movieAPIHelpers/tmdb.js');
 const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
+const models = require('../../db/models');
+
 app.use(bodyParser.text({ type: 'text/plain' }));
 const sortByKey = (array, key) => {
   return array.sort(function(a, b) {
-      var x = a[key]; var y = b[key];
-      return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+    var x = a[key]; var y = b[key];
+    return ((x > y) ? -1 : ((x < y) ? 1 : 0));
   });
-}
+};
 router.route('/')
-  .get (middleware.auth.verify, (req, res, next) => {
-    var movies;
-    searchDb.getMovies( (err, data) => {
-      if(err) {
-        console.log(err)
-      } else {
-
-        movies = data;
-
-        var sorted = sortByKey(movies, 'year');
-
-        res.render('index.ejs', {
-          data: {
-            movieone: sorted,
-            movietwo: sorted,
-            user: req.user
-          }
-          // data: movies // from fakeData file
-        });
-      }
-    });
-
-  })
+  .get (middleware.auth.verify, (req, res) => {
+    models.Profile.where({ id: req.session.passport.user }).fetch()
+      .then(profile => {
+        if (profile.new_user) {
+          res.redirect('/setup');
+        } else {
+          var movies;
+          searchDb.getMovies( (err, data) => {
+            if (err) {
+              console.log(err);
+            } else {
+              movies = data;
+              var sorted = sortByKey(movies, 'year');
+              res.render('index.ejs', {
+                data: {
+                  movieone: sorted,
+                  movietwo: sorted,
+                  user: req.user
+                }
+                // data: movies // from fakeData file
+              });
+            }
+          });
+        }
+      });
+  });
 
 router.route('/login')
   .get((req, res) => {
@@ -68,15 +73,34 @@ router.route('/favorites')
 
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
-    // res.render('profile.ejs', {
-    //   user: req.user // get the user out of session and pass to template
-    // });
-    // res.redirect('/account');
-    res.render('index.ejs', {
-      data: {
-        user: req.user
-      }
-    });
+    models.Profile.where({ id: req.session.passport.user }).fetch()
+      .then(profile => {
+        // console.log('*********** profile ', profile);
+        // console.log('*********** movieFollow result ', profile.attributes.follow_movies);
+        // console.log('*********** genreFollow result ', profile.attributes.follow_genre);
+        // console.log('*********** actorFollow result ', profile.attributes.follow_actor);
+        // console.log('*********** directorFollow result ', profile.attributes.follow_director);
+        // console.log('*********** writerFollow result ', profile.attributes.follow_writers);
+        if (profile.new_user) {
+          res.redirect('/setup');
+        } else {
+          res.render('index.ejs', {
+            data: {
+              user: req.user,
+              movieFollow: profile.attributes.follow_movies, // get these from the database
+              genreFollow: profile.attributes.follow_genre,
+              actorFollow: profile.attributes.follow_actor,
+              directorFollow: profile.attributes.follow_director,
+              writerFollow: profile.attributes.follow_writers,
+              vod_subscriptions: profile.attributes.vod_subscriptions
+            }
+          });
+        }
+      })
+      .catch(err => {
+        // This code indicates an outside service (the database) did not respond in time
+        res.status(503).send(err);
+      });
   });
 
 router.route('/setup')
@@ -115,11 +139,11 @@ router.route('/search')
             if (err) {
               console.log(err, 'ERRORGETMOVIESERROR');
             } else {
-              console.log(data, '@@@@@@@')
+              console.log(data, '@@@@@@@');
               //grab each movie title and send API request to OMDB to get movie data
               searchDb.saveMovies(data, () => {
 
-                  // console.log(req,' @@@')
+                // console.log(req,' @@@')
                 searchDb.getMovies( {}, (err, res2) => {
                   // console.log(err, res2, 'erres')
                   var options = {
@@ -134,12 +158,11 @@ router.route('/search')
                     maxPatternLength: 32,
                     minMatchCharLength: 3,
                     keys: [
-                      "title",
-                      "actors",
-                      "director",
-                      "genre",
-                      "year",
-
+                      'title',
+                      'actors',
+                      'director',
+                      'genre',
+                      'year',
                     ]
                   };
                   var fuse = new Fuse(res2, options); // "list" is the item array
@@ -150,13 +173,12 @@ router.route('/search')
                   res.send(result);
                   console.log(outputarr);
                   // res.send(200);
-                })
-
+                });
               });
               // console.log(data, '22222')
             }
           });
-        }else{
+        } else {
           var sorted = sortByKey(res1, 'year');
           res.send(sorted);
         }

@@ -14,6 +14,11 @@ router.route('/:id')
   // .delete(ProfileController.deleteOne)
 ;
 
+router.route('/newUser')
+  .post(ProfileController.newUser)
+  // .delete(ProfileController.deleteOne)
+;
+
 router.route('/vod')
   .post(ProfileController.setUpVOD)
   // .delete(ProfileController.deleteOne)
