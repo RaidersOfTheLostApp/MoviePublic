@@ -17,7 +17,8 @@ class FollowSetup extends React.Component {
       hintText: ['Enter a Movie to Follow', 'Enter a Movie Genre to Follow', 'Enter an Actor/Actress to Follow', 'Enter a Director to Follow', 'Enter a Screenwriter to Follow'],
       dataSource: props.movieList,
       latestFollow: '',
-      addToDB: false
+      addToDB: false,
+      nonKey: 0
     };
   }
 
@@ -49,7 +50,7 @@ class FollowSetup extends React.Component {
   setLatestFollow(chosenRequest, index) {
     if (index === -1) {
       this.setState({
-        latestFollow: {'text': chosenRequest, 'id': null},
+        latestFollow: {'text': chosenRequest, 'id': 'nonKey' + this.state.nonKey++},
         addToDB: true
       });
     } else {
@@ -60,17 +61,29 @@ class FollowSetup extends React.Component {
   }
 
   addFollow(e) {
+    //TODO user entered field isn't showing up in box of currently following
     this.getValue(this.state.select_value, dataSourceName => {
       var followName = dataSourceName + 'Follow';
-      if (!this.state.addToDB) {
+      if (this.state.latestFollow === '') {
+        //not an existing value in the DB
+        var enteredText = document.getElementById('follow-field').value;
+        this.props.updateFollowList(followName, {'text': enteredText, 'id': 'nonKey' + this.state.nonKey++});
+        this.setState({
+          addToDB: true
+        });
+      } else if (!this.state.addToDB) {
         this.props.updateFollowList(followName, this.state.latestFollow);
+        this.setState({
+          latestFollow: ''
+        });
       } else {
         //not an existing value in the DB
         //TODO add to a crone job to search for it? check if already exists in the job
         //crone job will have to check for non-id values in follow list and replace them as possible
         this.props.updateFollowList(followName, this.state.latestFollow);
         this.setState({
-          addToDB: true
+          addToDB: true,
+          latestFollow: ''
         });
       }
     });
