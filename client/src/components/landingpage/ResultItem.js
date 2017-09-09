@@ -12,17 +12,17 @@ import Results from './Results';
 
 class ResultsListItem extends React.Component {
   constructor(props) {
-    super(props)
-    console.log(this.props.i, 'CONSOLELOG')
+    super(props);
+    console.log(this.props.i, 'CONSOLELOG');
     this.state = {
       movieI: this.props.movieP
-    }
-    console.log(this.state.movieI)
+    };
+    console.log(this.state.movieI);
   }
 
 
   render() {
-    console.log(this.state, '10000')
+    console.log(this.state, '10000');
     return (
       <GridTile
         key= {this.props.i}

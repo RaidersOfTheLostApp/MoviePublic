@@ -42,12 +42,12 @@ var Movie = mongoose.model('Movie', movieSchema, 'movies');
 var searchByTitle = (title, cb) => {
 
   getMovies({title: title}, (err, res) => {
-    if(err){
-      cb(err, null)
-    }else{
-      cb(null, res)
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, res);
     }
-  })
+  });
 };
 
 var searchByIds = (idArray, cb) => {
@@ -56,14 +56,14 @@ var searchByIds = (idArray, cb) => {
   idArray.map( value => {
 
     getMovies({_id: value}, (err, res) => {
-      if(err){
-        cb(err, null)
-      }else{
-        movieList.push(res)
+      if (err) {
+        cb(err, null);
+      } else {
+        movieList.push(res);
       }
-    })
+    });
 
-  })
+  });
   cb(null, movieList);
 };
 
@@ -88,9 +88,9 @@ var saveMovies = (movies, cb) => {
 
       if (err) {
         console.log('brokeninsaveMovies');
-      }else{
+      } else {
         Movie.find({title: value.title}, (err, res) => {
-          if(res.length === 0){
+          if (res.length === 0) {
             var newMovie = new Movie({
               id: id,
               title: data.Title,
@@ -121,7 +121,7 @@ var saveMovies = (movies, cb) => {
 
           }
 
-        })
+        });
 
 
       }

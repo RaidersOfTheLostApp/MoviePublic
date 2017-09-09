@@ -31,7 +31,7 @@ module.exports.verify = (req, res, next) => {
       if (req.isAuthenticated()) {
         // console.log(req.body);
         next();
-      }else{
+      } else {
         res.redirect('/login');
       }
       // console.log(res.body)
@@ -41,7 +41,7 @@ module.exports.verify = (req, res, next) => {
 module.exports.getMoviesFromMongo = (req, res, next) => {
   console.log(req.body);
   next();
-}
+};
 
 
 

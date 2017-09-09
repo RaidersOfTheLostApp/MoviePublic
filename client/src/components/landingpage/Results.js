@@ -17,7 +17,7 @@ class Results extends React.Component {
       favoriteId: [],
       favorites: [],
       movies: this.props.results,
-    }
+    };
   }
 
   getFavoriteIcon(movie) {
@@ -34,40 +34,40 @@ class Results extends React.Component {
     );
   }
   searchToServer(cb) {
-     var searchInput = document.getElementById('text-field').value;
-     console.log(searchInput);
-     $.ajax({
-       url: '/search',
-       method: 'GET',
-       data: {value: searchInput},
-       dataType: 'json',
-       contentType: 'text/plain',
-       success: (results) => {
-         console.log(this.props, '@@@')
-         console.log(results)
-         console.log(this.state.movies,'before')
-         var container = []
-         for(var i = 0; i < results.length; i++){
-           container.push(results[i].item)
-         }
+    var searchInput = document.getElementById('text-field').value;
+    console.log(searchInput);
+    $.ajax({
+      url: '/search',
+      method: 'GET',
+      data: {value: searchInput},
+      dataType: 'json',
+      contentType: 'text/plain',
+      success: (results) => {
+        console.log(this.props, '@@@');
+        console.log(results);
+        console.log(this.state.movies, 'before');
+        var container = [];
+        for (var i = 0; i < results.length; i++) {
+          container.push(results[i].item);
+        }
         // this.setState({movies: this.state.movies.concat(results)});
-         this.setState({
-           movies: container
-         });
+        this.setState({
+          movies: container
+        });
 
-         console.log(this.state.movies)
-       },
-       error: (err) => {
-         console.log('err', err);
-       }
-     });
+        console.log(this.state.movies);
+      },
+      error: (err) => {
+        console.log('err', err);
+      }
+    });
 
-   }
-   handleSearch() {
-     this.searchToServer( () => {
-       this.render()
-     })
-   }
+  }
+  handleSearch() {
+    this.searchToServer( () => {
+      this.render();
+    });
+  }
   // dbSearch(query, callback){
   //   $.ajax({
   //     url: '/search',
@@ -93,9 +93,9 @@ class Results extends React.Component {
   //   console.log(searchInput);
   //   var searchMongo = (data) => {
   //     console.log(data, '@#$@##$#@')
-      // this.setState({
-      //   movies: data
-      // })
+  // this.setState({
+  //   movies: data
+  // })
   //   }
   //   this.dbSearch(searchInput, searchMongo)
   //   this.forceUpdate();
@@ -136,9 +136,9 @@ class Results extends React.Component {
         </div>
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
-            {(this.state.movies).map((movieA, i) => (
-              <ResultsListItem movieP={movieA} i={i} getFavoriteIcon={this.getFavoriteIcon.bind(this)} />
-            ))}
+          {(this.state.movies).map((movieA, i) => (
+            <ResultsListItem movieP={movieA} i={i} getFavoriteIcon={this.getFavoriteIcon.bind(this)} />
+          ))}
         </GridList>
       </div>
     );

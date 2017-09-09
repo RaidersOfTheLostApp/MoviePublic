@@ -1,6 +1,6 @@
 'use strict';
 
-function fuzzysearch (query, list) {
+const fuzzysearch = (query, list) => {
   var listLen = list.length;
   var queryLen = query.length;
   if (queryLen > listLen) {
@@ -19,6 +19,6 @@ function fuzzysearch (query, list) {
     return false;
   }
   return true;
-}
+};
 
 module.exports = fuzzysearch;
