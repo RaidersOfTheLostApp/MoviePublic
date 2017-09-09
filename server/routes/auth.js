@@ -146,11 +146,13 @@ router.route('/logout')
 router.route('/search')
   .get((req, res, next) => {
     var outputarr = [];
-    // console.log(req)
+
     searchDb.getMovies( {}, (err, res1) => {
+
       if (err) {
         alert('search broken try again');
       } else {
+
         tmdbHelp.getMoviesByTitle(req.query.value, (err, data)=> {
           if (err) {
             console.log(err, 'ERRORGETMOVIESERROR');
