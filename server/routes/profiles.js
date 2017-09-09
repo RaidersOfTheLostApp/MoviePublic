@@ -24,6 +24,14 @@ router.route('/vod')
   // .delete(ProfileController.deleteOne)
 ;
 
+router.route('/addfavorites')
+  .post(ProfileController.addFavorites)
+;
+
+// router.route('/getfavorites')
+//   .post(ProfileController.getFavorites)
+// ;
+
 router.route('/follows/movies')
   .post(ProfileController.setUpFollowMovies)
   // .delete(ProfileController.deleteOne)

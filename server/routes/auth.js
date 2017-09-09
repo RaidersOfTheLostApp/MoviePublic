@@ -15,6 +15,7 @@ const MovieController = require('../controllers/movies.js');
 const search = require('./search.js');
 
 app.use(bodyParser.text({ type: 'text/plain' }));
+
 const sortByKey = (array, key) => {
   return array.sort(function(a, b) {
     var x = a[key]; var y = b[key];
@@ -31,7 +32,7 @@ router.route('/')
 
         movies = data;
 
-        var sorted = search.sortByKey(movies, 'year');
+        var sorted = sortByKey(movies, 'year');
 
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
@@ -84,6 +85,9 @@ router.route('/favorites')
     });
   });
 
+router.route('/addfavorites') 
+  .post(searchDb.saveFavorites) 
+  
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
