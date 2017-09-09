@@ -24,7 +24,7 @@ class Navbar extends React.Component {
               <div className='toolBarGroupLast'>
                 <a href="/" ><RaisedButton label="Home" /></a>
                 <a href="/favorites"><RaisedButton label="Favorites" /></a>
-                <RaisedButton label="Following" />
+                <a href="/following"><RaisedButton label="Following" /></a>
                 <a href="/profile"><RaisedButton label="Profile" /></a>
                 <a href="/setup"><RaisedButton label="Setup" /></a>                                                                                            
                 <a href="/logout"><RaisedButton label="Logout" /></a>
@@ -40,5 +40,3 @@ class Navbar extends React.Component {
 }
 
 ReactDOM.render(<Navbar />, document.getElementById('nav'));
-
-

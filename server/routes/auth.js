@@ -75,19 +75,13 @@ router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
-        // console.log('*********** profile ', profile);
-        // console.log('*********** movieFollow result ', profile.attributes.follow_movies);
-        // console.log('*********** genreFollow result ', profile.attributes.follow_genre);
-        // console.log('*********** actorFollow result ', profile.attributes.follow_actor);
-        // console.log('*********** directorFollow result ', profile.attributes.follow_director);
-        // console.log('*********** writerFollow result ', profile.attributes.follow_writers);
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
           res.render('index.ejs', {
             data: {
               user: req.user,
-              movieFollow: profile.attributes.follow_movies, // get these from the database
+              movieFollow: profile.attributes.follow_movies,
               genreFollow: profile.attributes.follow_genre,
               actorFollow: profile.attributes.follow_actor,
               directorFollow: profile.attributes.follow_director,
@@ -99,6 +93,27 @@ router.route('/profile')
       })
       .catch(err => {
         // This code indicates an outside service (the database) did not respond in time
+        res.status(503).send(err);
+      });
+  });
+
+router.route('/following')
+  .get(middleware.auth.verify, (req, res) => {
+    models.Profile.where({ id: req.session.passport.user }).fetch()
+      .then(profile => {
+        res.render('index.ejs', {
+          data: {
+            user: req.user,
+            movieFollow: profile.attributes.follow_movies,
+            genreFollow: profile.attributes.follow_genre,
+            actorFollow: profile.attributes.follow_actor,
+            directorFollow: profile.attributes.follow_director,
+            writerFollow: profile.attributes.follow_writers,
+            vod_subscriptions: profile.attributes.vod_subscriptions
+          }
+        });
+      })
+      .catch(err => {
         res.status(503).send(err);
       });
   });

@@ -8,6 +8,7 @@ import UserProfile from './components/user/UserProfile';
 import UserSetup from './components/user/UserSetup';
 import Results from './components/landingpage/Results';
 import Favorites from './components/landingpage/Favorites';
+import Following from './components/landingpage/Following';
 
 // import data from './fakeData.js';
 
@@ -72,6 +73,16 @@ class App extends React.Component {
           <Route path="/setup" render={() => (
             <MuiThemeProvider>
               <UserSetup user={dataFromServer.user} />
+            </MuiThemeProvider>
+          )}
+          />
+          <Route path="/following" render={() => (
+            <MuiThemeProvider>
+              <Following movieFollow={dataFromServer.movieFollow}
+                genreFollow={dataFromServer.genreFollow}
+                actorFollow={dataFromServer.actorFollow}
+                directorFollow={dataFromServer.directorFollow}
+                writerFollow={dataFromServer.writerFollow}/>
             </MuiThemeProvider>
           )}
           />
