@@ -160,9 +160,7 @@ router.route('/search')
           } else {
             //grab each movie title and send API request to OMDB to get movie data
             searchDb.saveMovies(data, () => {
-
               searchDb.getMovies({}, (err, res2) => {
-
                 var options = {
                   shouldSort: true,
                   tokenize: true,
@@ -180,11 +178,9 @@ router.route('/search')
                     'director',
                     'genre',
                     'year',
-
                   ]
                 };
                 var fuse = new Fuse(res2, options); // "list" is the item array
-
                 var result = fuse.search(req.query.value);
                 var sorted = sortByKey(result, 'score');
 
