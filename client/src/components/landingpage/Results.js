@@ -8,6 +8,7 @@ import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
 import Search from './Search';
 import Filtering from './Filtering';
+import ResultsListItem from './ResultItem.js';
 
 class Results extends React.Component {
   constructor(props) {
@@ -15,8 +16,8 @@ class Results extends React.Component {
     this.state = {
       favoriteId: [],
       favorites: [],
-      movies: this.props.results
-    };
+      movies: this.props.results,
+    }
   }
 
   getFavoriteIcon(movie) {
@@ -32,55 +33,94 @@ class Results extends React.Component {
       </IconButton>
     );
   }
-
-  searchToServer() {
-    var searchInput = document.getElementById('text-field').value;
-    console.log(searchInput);
-    $.ajax({
-      url: '/search',
-      method: 'GET',
-      data: {value: searchInput},
-      dataType: 'json',
-      contentType: 'text/plain',
-      success: (results) => {
-        console.log(this.props, '@@@');
-        console.log(results);
-        console.log(this.state.movies, 'before');
-
+  searchToServer(cb) {
+     var searchInput = document.getElementById('text-field').value;
+     console.log(searchInput);
+     $.ajax({
+       url: '/search',
+       method: 'GET',
+       data: {value: searchInput},
+       dataType: 'json',
+       contentType: 'text/plain',
+       success: (results) => {
+         console.log(this.props, '@@@')
+         console.log(results)
+         console.log(this.state.movies,'before')
+         var container = []
+         for(var i = 0; i < results.length; i++){
+           container.push(results[i].item)
+         }
         // this.setState({movies: this.state.movies.concat(results)});
-        this.setState({
-          movies: results
-        });
+         this.setState({
+           movies: container
+         });
 
-        console.log(this.state.movies, '@#$#@$#@');
-        this.render();
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  }
+         console.log(this.state.movies)
+       },
+       error: (err) => {
+         console.log('err', err);
+       }
+     });
 
-  addFavorites(result) {
-    if (this.state.favoriteId.indexOf(result.id) === -1) {
-      this.state.favoriteId.push(result.id);
-      this.state.favorites.push(result);
-      $.ajax({
-        method: 'POST',
-        url: '/api/favorite/savefavorites',
-        data: {
-          favorites: this.state.favorites,
-        },
-        success: (user) => {
-          user = JSON.parse(user);
-          console.log('********* success favorites updated for user ', user);
-        },
-        error: (error) => {
-          console.log('************* error updating favorites for user', error);
-        }
-      });
-    }
-  }
+   }
+   handleSearch() {
+     this.searchToServer( () => {
+       this.render()
+     })
+   }
+  // dbSearch(query, callback){
+  //   $.ajax({
+  //     url: '/search',
+  //     method: 'GET',
+  //     data: {value: query},
+  //     dataType: 'json',
+  //     contentType: 'text/plain',
+  //     success: (results) => {
+  //       console.log(results, '@@#$$')
+  //       callback(results)
+  //       this.state.rerender = !this.state.rerender;
+  //       // this.setState({movies: this.state.movies.concat(results)});
+  //       // console.log(this.state.movies, '@#$#@$#@')
+  //     },
+  //     error: (err) => {
+  //       console.log('err', err);
+  //     }
+  //   });
+  // }
+  //
+  // searchToServer() {
+  //   var searchInput = document.getElementById('text-field').value;
+  //   console.log(searchInput);
+  //   var searchMongo = (data) => {
+  //     console.log(data, '@#$@##$#@')
+      // this.setState({
+      //   movies: data
+      // })
+  //   }
+  //   this.dbSearch(searchInput, searchMongo)
+  //   this.forceUpdate();
+  // }
+
+  // addFavorites(result) {
+  //   if (this.state.favoriteId.indexOf(result.id) === -1) {
+  //     this.state.favoriteId.push(result.id);
+  //     this.state.favorites.push(result);
+  //     $.ajax({
+  //       method: 'POST',
+  //       url: '/api/favorite/savefavorites',
+  //       data: {
+  //         favorites: this.state.favorites,
+  //       },
+  //       success: (user) => {
+  //         user = JSON.parse(user);
+  //         console.log('********* success favorites updated for user ', user);
+  //       },
+  //       error: (error) => {
+  //         console.log('************* error updating favorites for user', error);
+  //       }
+  //     });
+  //   }
+  // }
 
   render() {
     console.log(this.state.movies, '10000');
@@ -96,18 +136,9 @@ class Results extends React.Component {
         </div>
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
-          {(this.state.movies).map((movie, i) => (
-            <GridTile
-              key={i}
-              subtitle={<span>by <b>{movie.director}</b></span>}
-              title={movie.title}
-              actionIcon = {this.getFavoriteIcon(movie)}
-            >
-              <a href = {movie.website} target = "_blank">
-                <img src = {movie.poster}/>
-              </a>
-            </GridTile>
-          ))}
+            {(this.state.movies).map((movieA, i) => (
+              <ResultsListItem movieP={movieA} i={i} getFavoriteIcon={this.getFavoriteIcon.bind(this)} />
+            ))}
         </GridList>
       </div>
     );
