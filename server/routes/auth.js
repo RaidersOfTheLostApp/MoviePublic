@@ -21,7 +21,7 @@ const sortByKey = (array, key) => {
   });
 };
 router.route('/')
-  .get (middleware.auth.verify, (req, res) => {
+  .get(middleware.auth.verify, (req, res) => {
 
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
@@ -29,7 +29,7 @@ router.route('/')
           res.redirect('/setup');
         } else {
           var movies;
-          searchDb.getMovies( (err, data) => {
+          searchDb.getMovies((err, data) => {
             if (err) {
               console.log(err);
             } else {
@@ -148,20 +148,20 @@ router.route('/search')
   .get((req, res, next) => {
     var outputarr = [];
 
-    searchDb.getMovies( {}, (err, res1) => {
+    searchDb.getMovies({}, (err, res1) => {
 
       if (err) {
         alert('search broken try again');
       } else {
 
-        tmdbHelp.getMoviesByTitle(req.query.value, (err, data)=> {
+        tmdbHelp.getMoviesByTitle(req.query.value, (err, data) => {
           if (err) {
             console.log(err, 'ERRORGETMOVIESERROR');
           } else {
             //grab each movie title and send API request to OMDB to get movie data
             searchDb.saveMovies(data, () => {
 
-              searchDb.getMovies( {}, (err, res2) => {
+              searchDb.getMovies({}, (err, res2) => {
 
                 var options = {
                   shouldSort: true,
@@ -188,8 +188,18 @@ router.route('/search')
                 var result = fuse.search(req.query.value);
                 var sorted = sortByKey(result, 'score');
 
-                outputarr = sorted;
-
+                // console.log(sorted, 'Post Sorted');
+                // console.log(res2, 'Post Sorted - Res2');
+                // MovieController.getAllMovies();
+                MovieController.addMovies(sorted, (err, results) => {
+                  if (err) {
+                    console.log(err, 'Server Response - PG Unable to Add Movies');
+                    // res.status(500).send('Postgres: Error adding movies');
+                  } else {
+                    console.log(results, 'Server Response - PG Added Data');
+                    // res.status(201).send('Server Response - PG Added Data');
+                  }
+                });
                 res.json(sorted);
               });
 
