@@ -133,7 +133,7 @@ var saveMovies = (movies, cb) => {
   cb();
 };
 
-module.exports = searchDb;
+module.exports.searchDb = searchDb;
 module.exports.searchByTitle = searchByTitle;
 module.exports.searchByIds = searchByIds;
 module.exports.saveMovies = saveMovies;

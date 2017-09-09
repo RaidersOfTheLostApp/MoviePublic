@@ -130,6 +130,7 @@ class Results extends React.Component {
   //       url: '/api/favorite/savefavorites',
   //       data: {
   //         favorites: this.state.favorites,
+  //         favorites: this.state.favorites
   //       },
   //       success: (user) => {
   //         user = JSON.parse(user);

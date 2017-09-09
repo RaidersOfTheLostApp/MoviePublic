@@ -12,6 +12,7 @@ const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
 const MovieController = require('../controllers/movies.js');
+const search = require('./search.js');
 
 app.use(bodyParser.text({ type: 'text/plain' }));
 const sortByKey = (array, key) => {
@@ -21,7 +22,16 @@ const sortByKey = (array, key) => {
   });
 };
 router.route('/')
-  .get(middleware.auth.verify, (req, res) => {
+  .get (middleware.auth.verify, (req, res, next) => {
+    var movies;
+    searchDb.getMovies( (err, data) => {
+      if(err) {
+        console.log(err)
+      } else {
+
+        movies = data;
+
+        var sorted = search.sortByKey(movies, 'year');
 
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {

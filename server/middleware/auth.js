@@ -43,8 +43,6 @@ module.exports.getMoviesFromMongo = (req, res, next) => {
   next();
 };
 
-
-
 module.exports.session = session({
   store: newRedis,
   secret: 'more laughter, more love, more life',
