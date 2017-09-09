@@ -31,15 +31,9 @@ class UserProfile extends React.Component {
           />
         </List>
         <Divider inset={true} />
-        <List>
-          <ListItem
-            leftIcon={<ActionGrade />}
-            primaryText="movie list goes here"
-            secondaryText="Favorite Movies"
-          />
-        </List>
-        <Divider insert={true} />
-        <div className='muiThemeProvider outline'>
+        <br />
+        <Divider inset={true} />
+        <div className='muiThemeProvider'>
           <Subheader>Currently Following:</Subheader>
           <Divider />
           <Subheader>MOVIES</Subheader>
