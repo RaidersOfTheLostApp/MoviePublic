@@ -48,6 +48,18 @@ tbody {
   justifyContent: 'space-around';
 }
 
+.followRoot {
+  display: 'flex';
+  flexWrap: 'wrap';
+  justifyContent: 'space-around';
+}
+
+.followList {
+  display: 'flex';
+  flexWrap: 'nowrap';
+  overflowX: 'auto';
+}
+
 .resultsRoot {
   flexGrow: 2;
   flexBasis: '67%';
