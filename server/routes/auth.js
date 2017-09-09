@@ -104,6 +104,7 @@ router.route('/following')
   .get(middleware.auth.verify, (req, res) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
+        console.log(req.body)
         res.render('index.ejs', {
           data: {
             user: req.user,

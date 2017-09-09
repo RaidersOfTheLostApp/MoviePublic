@@ -50,70 +50,81 @@ var searchByTitle = (title, cb) => {
   })
 };
 
+var searchByIds = (idArray, cb) => {
+
+  var movieList = [];
+  idArray.map( value => {
+
+    getMovies({_id: value}, (err, res) => {
+      if(err){
+        cb(err, null)
+      }else{
+        movieList.push(res)
+      }
+    })
+
+  })
+  cb(null, movieList);
+};
+
 var getMovies = (query, cb) => {
   Movie.find (query, (err, res) => {
     if (err) {
       cb(err, null);
     } else {
-      // console.log(res, 'indb')
       cb(null, res);
     }
   });
 };
 
 var saveMovies = (movies, cb) => {
-  // console.log(movies, '@@@@@|')
+
   movies.forEach( (value) => {
-    // console.log(value, '@@@')
-        // console.log(res, '@@@@@@@@@@@@@@@@@@@@@@@@@')
-        var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
-        var id = value.id;
+    var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
+    var id = value.id;
 
-        searchTitle(value.title, (err, data) => {
-          // console.log(err, data.request.response.body, '@#$@#$@#$#@')
-          data = JSON.parse(data.request.response.body);
+    searchTitle(value.title, (err, data) => {
+      data = JSON.parse(data.request.response.body);
 
-          if (err) {
-            console.log('brokeninsaveMovies');
-          }else{
-            Movie.find({title: value.title}, (err, res) => {
-              // console.log(data, '@@@@@@@@@@@')
-              if(res.length === 0){
-                var newMovie = new Movie({
-                  id: id,
-                  title: data.Title,
-                  year: data.Year,
-                  release_date: data.Released,
-                  genre: data.Genre,
-                  runtime: data.Runtime,
-                  directors: data.Director,
-                  writers: data.Writer,
-                  actors: data.Actors,
-                  description: data.Description,
-                  awards: data.Awards,
-                  poster: posterurl,
-                  ratings: data.Ratings,
-                  language: data.Language,
-                  box_office: data.Box_Office,
-                  production: data.Production,
-                  website: data.Website,
-                  theater: data.Theater
-                });
-                // console.log(newMovie, '1234321');
-                newMovie.save( (err, res) => {
-                  if (err) {
-                    console.log('error');
-                  } else {
-                    console.log('success');
-                  }
-                });
-
+      if (err) {
+        console.log('brokeninsaveMovies');
+      }else{
+        Movie.find({title: value.title}, (err, res) => {
+          if(res.length === 0){
+            var newMovie = new Movie({
+              id: id,
+              title: data.Title,
+              year: data.Year,
+              release_date: data.Released,
+              genre: data.Genre,
+              runtime: data.Runtime,
+              directors: data.Director,
+              writers: data.Writer,
+              actors: data.Actors,
+              description: data.Description,
+              awards: data.Awards,
+              poster: posterurl,
+              ratings: data.Ratings,
+              language: data.Language,
+              box_office: data.Box_Office,
+              production: data.Production,
+              website: data.Website,
+              theater: data.Theater
+            });
+            newMovie.save( (err, res) => {
+              if (err) {
+                console.log('error');
+              } else {
+                console.log('success');
               }
-
-            })
-
+            });
 
           }
+
+        })
+
+
+      }
 
 
 
@@ -124,5 +135,6 @@ var saveMovies = (movies, cb) => {
 
 module.exports = searchDb;
 module.exports.searchByTitle = searchByTitle;
+module.exports.searchById = searchById;
 module.exports.saveMovies = saveMovies;
 module.exports.getMovies = getMovies;

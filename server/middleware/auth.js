@@ -2,6 +2,7 @@ const session = require('express-session');
 const config = require('config')['redis'];
 const RedisStore = require('connect-redis')(session);
 const Redis = require('ioredis');
+const searchDb = require('../../mongodb/db.js');
 var Promise = require('bluebird');
 
 if (process.env.NODE_ENV === 'production') {
@@ -36,6 +37,11 @@ module.exports.verify = (req, res, next) => {
       // console.log(res.body)
     });
 };
+
+module.exports.getMoviesFromMongo = (req, res, next) => {
+  console.log(req.body);
+  next();
+}
 
 
 
