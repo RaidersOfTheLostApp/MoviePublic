@@ -16,7 +16,7 @@ class Results extends React.Component {
       favoriteId: [],
       favorites: [],
       movies: this.props.results
-    }
+    };
   }
 
   getFavoriteIcon(movie) {
@@ -43,16 +43,16 @@ class Results extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
-        console.log(this.props, '@@@')
-        console.log(results)
-        console.log(this.state.movies,'before')
+        console.log(this.props, '@@@');
+        console.log(results);
+        console.log(this.state.movies, 'before');
 
         // this.setState({movies: this.state.movies.concat(results)});
         this.setState({
           movies: results
         });
 
-        console.log(this.state.movies, '@#$#@$#@')
+        console.log(this.state.movies, '@#$#@$#@');
         this.render();
       },
       error: (err) => {
@@ -83,11 +83,17 @@ class Results extends React.Component {
   }
 
   render() {
-    console.log(this.state.movies, '10000')
+    console.log(this.state.movies, '10000');
     return (
-      <div className='gridRoot'>
-        <Search searchToServer={this.searchToServer.bind(this)}/>
-        <Filtering />
+      <div className='gridRoot container'>
+        <div className='row'>
+          <div className='col-6'>
+            <Search searchToServer={this.searchToServer.bind(this)}/>
+          </div>
+          <div className='col-6'>
+            <Filtering />
+          </div>
+        </div>
         <GridList cellHeight={200} cols={5} className='gridList'>
           <Subheader>Popular Movies</Subheader>
           {(this.state.movies).map((movie, i) => (

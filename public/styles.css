@@ -16,6 +16,10 @@ tbody {
   border: 1px solid grey;
 }
 
+h4 {
+  color: rgba(0, 0, 0, 0.54);
+}
+
 .loginIcons {
   margin-right:15px;
 }
@@ -30,6 +34,40 @@ tbody {
   flexDirection: 'row';
   width: '100%';
   height: '100%';
+}
+
+.searchRow {
+  display: 'flex';
+  flexDirection: 'row';
+  flexWrap: 'nowrap';
+  justifyContent: 'space-between';
+  alignItems: 'center';
+  paddingBottom: '15px';
+}
+
+.searchCol {
+  display: 'flex';
+  flexDirection: 'column';
+  flexWrap: 'nowrap';
+}
+
+.buttonSearch {
+  display: 'flex';
+  padding-top: 5px;
+}
+
+.sortLabel {
+  display: 'flex';
+  padding-top: 20px;
+  text-align: 'right';
+}
+
+.noPad {
+  padding: 0 0 0 0;
+}
+
+.padLeft {
+  paddingLeft: '30px';
 }
 
 .gridList {

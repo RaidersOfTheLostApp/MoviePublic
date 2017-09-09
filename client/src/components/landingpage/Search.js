@@ -42,34 +42,24 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingBottom: '15px'
-      }}>
-        <div style={{
-          display: 'flex', flexDirection: 'column', flexWrap: 'nowrap',
-        }}>
-          <div style={{
-            paddingLeft: '30px'
-          }}>
-            <TextField
-              hintText="Search movies..."
-              id = "text-field"
-              underlineFocusStyle={{
-                borderColor: 'rgb(40, 130, 150)',
-                borderBottomStyle: 'solid',
-                borderBottomWidth: 2,
-                transform: 'scaleX(0)',
-              }}
-              style={{
-                width: '300px'
-              }}
-            />
-          <button onClick={this.props.searchToServer} type="button" id = "submit">Submit</button>
+      <div className='container'>
+        <div className='searchRow row'>
+          <div className='searchCol col-8'>
+            <div className='padLeft'>
+              <TextField
+                hintText="Search movies..." id = "text-field"
+                underlineFocusStyle={{
+                  borderColor: 'rgb(40, 130, 150)',
+                  borderBottomStyle: 'solid',
+                  borderBottomWidth: 2,
+                  transform: 'scaleX(0)',
+                }}
+                style={{width: '300px'}}
+              />
+            </div>
+          </div>
+          <div className='col-4 buttonSearch'>
+            <RaisedButton label='Submit' primary={true} onClick={this.props.searchToServer} />
           </div>
         </div>
       </div>
