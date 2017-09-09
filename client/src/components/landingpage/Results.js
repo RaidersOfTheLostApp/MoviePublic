@@ -8,7 +8,6 @@ import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
 import Search from './Search';
 import Filtering from './Filtering';
-import $ from 'jquery';
 
 class Results extends React.Component {
   constructor(props) {
@@ -53,13 +52,14 @@ class Results extends React.Component {
           movies: results
         });
 
-        console.log(this.state.movies)
+        console.log(this.state.movies, '@#$#@$#@')
         this.render();
       },
       error: (err) => {
         console.log('err', err);
       }
     });
+  }
 
   addFavorites(result) {
     if (this.state.favoriteId.indexOf(result.id) === -1) {

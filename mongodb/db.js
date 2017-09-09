@@ -40,7 +40,7 @@ var movieSchema = mongoose.Schema({
 var Movie = mongoose.model('Movie', movieSchema, 'movies');
 
 var searchByTitle = (title, cb) => {
-
+  console.log(title, '%%%%@@%%')
   getMovies({title: title}, (err, res) => {
     if(err){
       cb(err, null)
@@ -69,11 +69,13 @@ var saveMovies = (movies, cb) => {
       if(err){
         cb(err);
       }else{
-        // console.log(res, '@@@@@@@@@@@@@@@@@@@@@@@@@')
+        console.log(res, '@@@@@@@@@@@@@@@@@@@@@@@@@')
       }
     })
+
     var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
     var id = value.id;
+
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.body);
 
@@ -118,39 +120,10 @@ var saveMovies = (movies, cb) => {
 
 
       }
-      data = JSON.parse(data.body);
-      var newMovie = new Movie({
-        id: id,
-        title: data.Title,
-        year: data.Year,
-        release_date: data.Release_Date,
-        genre: data.Genre,
-        runtime: data.Runtime,
-        directors: data.Directors,
-        writers: data.Writers,
-        actors: data.Actors,
-        description: data.Description,
-        awards: data.Awards,
-        poster: posterurl,
-        ratings: data.Ratings,
-        language: data.Language,
-        box_office: data.Box_Office,
-        production: data.Production,
-        website: data.Website,
-        theater: data.Theater
-      });
-      console.log(newMovie, '1234321');
-      newMovie.save( (err, res) => {
-        if (err) {
-          console.log('error');
-        } else {
-          console.log('success');
-        }
-      });
-    });
 
+    });
   });
-  cb(); 
+  cb();
 };
 
 module.exports = searchDb;
