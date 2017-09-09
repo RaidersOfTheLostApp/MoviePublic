@@ -41,6 +41,91 @@ module.exports.getOne = (req, res) => {
     });
 };
 
+module.exports.getFollowMovies = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      //TODO call mongo and pass in array
+      res.status(200).send(moviesArr);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
+module.exports.getFollowGenres = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      //TODO call mongo and pass in array
+      res.status(200).send(moviesArr);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
+module.exports.getFollowActors = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      //TODO call mongo and pass in array
+      res.status(200).send(moviesArr);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
+module.exports.getFollowDirectors = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      //TODO call mongo and pass in array
+      res.status(200).send(profile);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
+module.exports.getFollowWriters = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      //TODO call mongo and pass in array
+      res.status(200).send(moviesArr);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
 module.exports.update = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {

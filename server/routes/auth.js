@@ -117,27 +117,17 @@ router.route('/following')
   .get(middleware.auth.verify, (req, res) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
-        //loop through keys to build array of all values to pass
-        var movieArr = [];
-        for (var i = 0; i < profile.attributes.follow_movies.length; i++) {
-          movieArr.push(profile.attributes.follow_movies.id);
-        }
-        return movieArr;
-      })
-      .then(movieArr => {
-        //call to mongo with movie ids
-        searchDb.searchById(movieArr, mongoArr => {
-          res.render('index.ejs', {
-            data: {
-              user: req.user,
-              movieFollow: movieArr,
-              genreFollow: profile.attributes.follow_genre,
-              actorFollow: profile.attributes.follow_actor,
-              directorFollow: profile.attributes.follow_director,
-              writerFollow: profile.attributes.follow_writers,
-              vod_subscriptions: profile.attributes.vod_subscriptions
-            }
-          });
+        //get list of movie
+        res.render('index.ejs', {
+          data: {
+            user: req.user,
+            // movieFollow: profile.attributes.follow_movies,
+            // genreFollow: profile.attributes.follow_genre,
+            // actorFollow: profile.attributes.follow_actor,
+            // directorFollow: profile.attributes.follow_director,
+            // writerFollow: profile.attributes.follow_writers,
+            vod_subscriptions: profile.attributes.vod_subscriptions
+          }
         });
       })
       .catch(err => {
