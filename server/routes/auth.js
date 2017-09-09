@@ -174,11 +174,11 @@ router.route('/search')
                   maxPatternLength: 32,
                   minMatchCharLength: 3,
                   keys: [
-                    "title",
-                    "actors",
-                    "director",
-                    "genre",
-                    "year",
+                    'title',
+                    'actors',
+                    'director',
+                    'genre',
+                    'year',
 
                   ]
                 };
@@ -190,7 +190,7 @@ router.route('/search')
                 outputarr = sorted;
 
                 res.json(sorted);
-              })
+              });
 
             });
           }
