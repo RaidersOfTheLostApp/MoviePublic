@@ -77,25 +77,91 @@ class UserSetup extends React.Component {
   }
 
   finishStepTwo() {
-    $.ajax({
-      method: 'POST',
-      url: '/api/profiles/follows',
-      data: {
-        movieFollow: this.state.movieFollow,
-        genreFollow: this.state.genreFollow,
-        actorFollow: this.state.actorFollow,
-        directorFollow: this.state.directorFollow,
-        writerFollow: this.state.writerFollow
-        //format of values: [{'text': chosenRequest, 'id': null},...]
-      },
-      success: (user) => {
-        user = JSON.parse(user);
-        console.log('********* success user setup follow list ', user);
-      },
-      error: (error) => {
-        console.log('************* update follow list handleNext ERROR:', error);
-      }
-    });
+    if (this.state.movieFollow.length > 0) {
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/follows/movies',
+        data: {
+          movieFollow: this.state.movieFollow
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success user setup follow Movies ', user);
+        },
+        error: (error) => {
+          console.log('************* update Movie follow list handleNext ERROR:', error);
+        }
+      });
+    }
+
+    if (this.state.genreFollow.length > 0) {
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/follows/genres',
+        data: {
+          genreFollow: this.state.genreFollow
+          //format of values: [{'text': chosenRequest, 'id': null},...]
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success user setup follow Genres ', user);
+        },
+        error: (error) => {
+          console.log('************* update Genre follow list handleNext ERROR:', error);
+        }
+      });
+    }
+
+    if (this.state.actorFollow.length > 0) {
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/follows/actors',
+        data: {
+          actorFollow: this.state.actorFollow
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success user setup follow Actors ', user);
+        },
+        error: (error) => {
+          console.log('************* update Actors follow list handleNext ERROR:', error);
+        }
+      });
+    }
+
+    if (this.state.directorFollow.length > 0) {
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/follows/directors',
+        data: {
+          directorFollow: this.state.directorFollow
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success user setup follow Directors ', user);
+        },
+        error: (error) => {
+          console.log('************* update Directors follow list handleNext ERROR:', error);
+        }
+      });
+    }
+
+    if (this.state.writerFollow.length > 0) {
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/follows/writers',
+        data: {
+          writerFollow: this.state.writerFollow
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success user setup follow Writers ', user);
+        },
+        error: (error) => {
+          console.log('************* update Writers follow list handleNext ERROR:', error);
+        }
+      });
+    }
   }
 
   finishStepThree() {

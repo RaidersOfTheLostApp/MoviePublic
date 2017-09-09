@@ -19,10 +19,29 @@ router.route('/vod')
   // .delete(ProfileController.deleteOne)
 ;
 
-router.route('/follows')
-  .post(ProfileController.setUpFollows)
+router.route('/follows/movies')
+  .post(ProfileController.setUpFollowMovies)
   // .delete(ProfileController.deleteOne)
 ;
 
+router.route('/follows/genres')
+  .post(ProfileController.setUpFollowGenres)
+  // .delete(ProfileController.deleteOne)
+;
+
+router.route('/follows/actors')
+  .post(ProfileController.setUpFollowActors)
+  // .delete(ProfileController.deleteOne)
+;
+
+router.route('/follows/directors')
+  .post(ProfileController.setUpFollowDirectors)
+  // .delete(ProfileController.deleteOne)
+;
+
+router.route('/follows/writers')
+  .post(ProfileController.setUpFollowWriters)
+  // .delete(ProfileController.deleteOne)
+;
 
 module.exports = router;

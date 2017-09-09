@@ -89,40 +89,175 @@ module.exports.setUpVOD = (req, res) => {
     });
 };
 
-module.exports.setUpFollows = (req, res) => {
+module.exports.setUpFollowMovies = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       if (!profile) {
         throw profile;
       }
-      //incoming keys: movieFollow, genreFollow, actorFollow, directorFollow, writerFollow
-      //format of each value: [{'text': chosenRequest, 'id': null},...]
-      console.log('********* setUpFollows req body ', req.body);
-      var body = JSON.parse(req.body);
-      console.log('********** parsed req body ', body);
-      // req.body format { 'movieFollow[0][text]': 'Temple of Doom', 'movieFollow[0][id]': '2' }
-      var movies, genre, actor, director, writers = {};
-      //for loop on keys and push to the array of each type
-      // if (req.body['movieFollow[0][text]']) {
-      //   movies = {(req.body.movieFollow[0][text]]), (req.body['movieFollow[0][id]'])};}
-      //   console.log('********** movies in setUpFollows ', movies);
-      return profile.save({follow_movies: JSON.stringify(),
-        follow_genre: JSON.stringify(req.body.genreFollow),
-        follow_actor: JSON.stringify(req.body.actorFollow),
-        follow_director: JSON.stringify(req.body.directorFollow),
-        follow_writers: JSON.stringify(req.body.writerFollow)
-      }, {patch: true});
+      //format of values: { 'movieFollow[0][text]': 'Raiders of the Lost Ark', 'movieFollow[0][id]': '1', 'movieFollow[1][text]': 'Temple of Doom', 'movieFollow[1][id]': '2' }
+      //indexes match Postgres table indexes for the movies table
+      var movieSet = [];
+      var movieText;
+      var save = false;
+      for (var key in req.body) {
+        if (save) {
+          movieSet.push({'text': movieText, 'id': req.body[key]});
+          save = !save;
+        } else {
+          movieText = req.body[key];
+          save = !save;
+        }
+      }
+      console.log('*********** movieSet');
+      return profile.save({follow_movies: JSON.stringify(movieSet)}, {patch: true});
     })
     .then((result) => {
-      console.log('********* in then success update for setUpFollows ');
+      console.log('********* in then success update for setUpFollowMovies ');
       res.sendStatus(201);
     })
     .error(err => {
-      console.log('********* error in setUpFollows ', err);
+      console.log('********* error in setUpFollowMovies ', err);
       res.status(500).send(err);
     })
     .catch((e) => {
-      console.log('********* catch in setUpFollows ', e);
+      console.log('********* catch in setUpFollowMovies ', e);
+      res.sendStatus(404);
+    });
+};
+
+module.exports.setUpFollowGenres = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      var genreSet = [];
+      var genreText;
+      var save = false;
+      for (var key in req.body) {
+        if (save) {
+          genreSet.push({'text': genreText, 'id': req.body[key]});
+          save = !save;
+        } else {
+          genreText = req.body[key];
+          save = !save;
+        }
+      }
+      return profile.save({follow_genre: JSON.stringify(genreSet)}, {patch: true});
+    })
+    .then((result) => {
+      console.log('********* in then success update for setUpFollowGenres ');
+      res.sendStatus(201);
+    })
+    .error(err => {
+      console.log('********* error in setUpFollowGenres ', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in setUpFollowGenres ', e);
+      res.sendStatus(404);
+    });
+};
+
+module.exports.setUpFollowActors = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      var actorSet = [];
+      var actorText;
+      var save = false;
+      for (var key in req.body) {
+        if (save) {
+          actorSet.push({'text': actorText, 'id': req.body[key]});
+          save = !save;
+        } else {
+          actorText = req.body[key];
+          save = !save;
+        }
+      }
+      return profile.save({follow_actor: JSON.stringify(actorSet)}, {patch: true});
+    })
+    .then((result) => {
+      console.log('********* in then success update for setUpFollowActors ');
+      res.sendStatus(201);
+    })
+    .error(err => {
+      console.log('********* error in setUpFollowActors ', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in setUpFollowActors ', e);
+      res.sendStatus(404);
+    });
+};
+
+module.exports.setUpFollowDirectors = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      var directorSet = [];
+      var directorText;
+      var save = false;
+      for (var key in req.body) {
+        if (save) {
+          directorSet.push({'text': directorText, 'id': req.body[key]});
+          save = !save;
+        } else {
+          directorText = req.body[key];
+          save = !save;
+        }
+      }
+      return profile.save({follow_director: JSON.stringify(directorSet)}, {patch: true});
+    })
+    .then((result) => {
+      console.log('********* in then success update for setUpFollowDirectors ');
+      res.sendStatus(201);
+    })
+    .error(err => {
+      console.log('********* error in setUpFollowDirectors ', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in setUpFollowDirectors ', e);
+      res.sendStatus(404);
+    });
+};
+
+module.exports.setUpFollowWriters = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      var writerSet = [];
+      var writerText;
+      var save = false;
+      for (var key in req.body) {
+        if (save) {
+          writerSet.push({'text': writerText, 'id': req.body[key]});
+          save = !save;
+        } else {
+          writerText = req.body[key];
+          save = !save;
+        }
+      }
+      return profile.save({follow_writers: JSON.stringify(writerSet)}, {patch: true});
+    })
+    .then((result) => {
+      console.log('********* in then success update for setUpFollowWriters ');
+      res.sendStatus(201);
+    })
+    .error(err => {
+      console.log('********* error in setUpFollowWriters ', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in setUpFollowWriters ', e);
       res.sendStatus(404);
     });
 };
