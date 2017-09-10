@@ -85,7 +85,7 @@ var saveMovies = (movies, cb) => {
 
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.request.response.body);
-
+      console.log(data, '@#$@#$#@$#@$@#');
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
@@ -101,7 +101,7 @@ var saveMovies = (movies, cb) => {
               directors: data.Director,
               writers: data.Writer,
               actors: data.Actors,
-              description: data.Description,
+              description: data.Plot,
               awards: data.Awards,
               poster: posterurl,
               ratings: data.Ratings,
@@ -135,6 +135,10 @@ var saveMovies = (movies, cb) => {
 
 module.exports = searchDb;
 module.exports.searchByTitle = searchByTitle;
+<<<<<<< HEAD
 // module.exports.searchById = searchById;
+=======
+module.exports.searchByIds = searchByIds;
+>>>>>>> basic popup component render on click
 module.exports.saveMovies = saveMovies;
 module.exports.getMovies = getMovies;
