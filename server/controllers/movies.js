@@ -5,7 +5,7 @@ module.exports.getAllMovies = (req, res) => {
     .then(movies => {
       // console.log(res, 'Controllers res');
       console.log(movies, 'DB Model Movies Fetched');
-      res.status(200).send(movies);
+      // res.status(200).send(movies);
     })
     .error(err => {
       console.log('Server Controller Movies - Error Caught');
@@ -14,19 +14,26 @@ module.exports.getAllMovies = (req, res) => {
 };
 
 module.exports.addMovies = (movie_array, callback) => {
-  // console.log(movie_array, 'Movie Array passed from Server Auth');
-  // if (err) {
-  //   callback(err, null);
-  // } else {
+  console.log(movie_array, 'Movie Array passed from Server Auth');
   movie_array.forEach((movie) => {
-    // console.log(movie.item, movie.item.ratings, 'Movie Info');
+    console.log(movie.item, movie.item._id, 'Movie Info');
+    /**PseudoCode
+     * Genre Table: Check if genre present,
+     * add if not
+     * return id
+     * Crew Table: Check if name is present
+     * add if not, update booleans
+     * return id
+     * Use Below Code for Movie Model.
+     * Replace genre, director, writer, actors with SQL IDs returned
+     */
     new models.Movies({
       // id: id,
-      // mongo_id: movie.item._id,
+      mongo_id: movie.item._id,
       title: movie.item.title,
       year: movie.item.year,
-      release_date: JSON.stringify(movie.item.release_date),
-      genre: JSON.stringify(movie.item.genre),
+      release_date: movie.item.release_date,
+      genres: JSON.stringify(movie.item.genre),
       awards: JSON.stringify(movie.item.awards),
       director: JSON.stringify(movie.item.directors),
       writer: JSON.stringify(movie.item.writers),
@@ -39,7 +46,6 @@ module.exports.addMovies = (movie_array, callback) => {
 
   // console.log('DB Bookshelf: Movies Added');
   callback(null, 'DB Bookshelf: Movies Added');
-  // }
 };
 
 module.exports.updateMovieInfo = (newInfo, callback) => {
