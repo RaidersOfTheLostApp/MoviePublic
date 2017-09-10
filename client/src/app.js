@@ -18,45 +18,8 @@ class App extends React.Component {
     this.state = {
       favorites: [],
       favoriteId: [],
-      resultsRend: false,
-      movieFollowMongoIds: [],
-      genreFollowMongoIds: [],
-      actorFollowMongoIds: [],
-      directorFollowMongoIds: [],
-      writerFollowMongoIds: []
+      resultsRend: false
     };
-  }
-
-  componentDidMount() {
-    this.getFollow('movies', movieArr => {
-      this.setState({movieFollowMongoIds: movieArr});
-    });
-    this.getFollow('genres', movieArr => {
-      this.setState({genreFollowMongoIds: movieArr});
-    });
-    this.getFollow('actors', movieArr => {
-      this.setState({actorFollowMongoIds: movieArr});
-    });
-    this.getFollow('directors', movieArr => {
-      this.setState({directorFollowMongoIds: movieArr});
-    });
-    this.getFollow('writers', movieArr => {
-      this.setState({writerFollowMongoIds: movieArr});
-    });
-  }
-
-  getFollow(type, callback) {
-    $.ajax({
-      method: 'GET',
-      url: '/api/profiles/follows/' + type,
-      success: (movieArr) => {
-        console.log('********* success get follow', movieArr);
-        callback(movieArr);
-      },
-      error: (error) => {
-        console.log('************* get follow handleNext ERROR:', error);
-      }
-    });
   }
 
   getFavoriteIcon(movie) {
@@ -116,11 +79,11 @@ class App extends React.Component {
           />
           <Route path="/following" render={() => (
             <MuiThemeProvider>
-              <Following movieFollow={this.state.movieFollowMongoIds}
-                genreFollow={this.state.genreFollowMongoIds}
-                actorFollow={this.state.actorFollowMongoIds}
-                directorFollow={this.state.directorFollowMongoIds}
-                writerFollow={this.state.writerFollowMongoIds}/>
+              <Following movieFollow={dataFromServer.movieFollow}
+                genreFollow={dataFromServer.genreFollow}
+                actorFollow={dataFromServer.actorFollow}
+                directorFollow={dataFromServer.directorFollow}
+                writerFollow={dataFromServer.writerFollow}/>
             </MuiThemeProvider>
           )}
           />

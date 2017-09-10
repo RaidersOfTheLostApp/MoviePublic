@@ -38,8 +38,8 @@ exports.up = function(knex, Promise) {
     knex.schema.createTableIfNotExists('crew', function(table) {
       table.increments('id').unsigned().primary();
       table.text('name').notNullable();
-      table.jsonb('genre').nullable();
-      table.jsonb('awards').nullable();
+      // table.jsonb('genre').nullable();
+      // table.jsonb('awards').nullable();
       table.boolean('actor').nullable();
       table.boolean('director').nullable();
       table.boolean('writer').nullable();
@@ -48,7 +48,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTableIfNotExists('genres', function(table) {
       table.increments('id').unsigned().primary();
       table.text('name').notNullable();
-      table.jsonb('movies').nullable();
+      // table.jsonb('movies').nullable();
     }),
 
     knex.schema.createTableIfNotExists('movies', function(table) {

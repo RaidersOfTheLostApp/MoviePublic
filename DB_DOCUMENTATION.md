@@ -16,13 +16,13 @@ Additional database documentation to the README.md.
 
 ##Architecture
 
-Our Database Architecture consists of two databases: 
+Our Database Architecture consists of two databases:
 
 >Postgresql
 
 >Mongo
 
-along with the ORMs & SQL querying libraries relevant to each database: 
+along with the ORMs & SQL querying libraries relevant to each database:
 
 >Mongoose
 
@@ -71,11 +71,11 @@ Arthur decided to go with jsonb to store our data, as:
 While jsonb is slower to store inputs due to being in a decomposed binary format, and added conversion overhead, we gain:
 
 > faster processing speed, since we do not need to re-parse
-    
+
 > the ability for indexing, which jsonb supports & json does not
-    
+
 > the removal of duplicate object keys, as json only keeps the last value
-    
+
 In addition, we can accept the loss in added conversion overhead as:
 
 > The major loss in speed will be at the initalization of the application, when the first user/administrator needs to populate the database with all the movies ever in existence.
@@ -88,21 +88,12 @@ Additional Documentation on Postgres Json Data Types:
 
 For using PostgresQL with External MongoDB
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 
 ## Pooling
 
 =======
 ### Notes on Pooling
->>>>>>> 6d70361fd5f28ce71c657739ecf48ef0a4c4bbd4
-=======
 
-## Pooling
-
-
->>>>>>> 34d47067d4c2fa2e9ff2b91baf3223731e36a561
 We also integrated pooling as it is to our users' advantage that we execute commands/transactions at x at a time rather than the whole entire database. We limited the amount of connections open as as user will gravitate towards the first set of movies, say 5, before looking at the next 5, which would optimize user experience. Example: Rendering 20 movies at a time would take some initalization, compared to rendering 5 first, while the application is able to come up with the next 5 while the user is pursuing the first 5 rendered movies.
   sample pool: { min: 0, max: 5 }
 

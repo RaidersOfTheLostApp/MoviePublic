@@ -97,6 +97,7 @@ See DB_DOCUMENTATION.md for more explanation of the DB setup
 
 ### Database User Setup
 
+##Postgres
 1. Open the postgresql command prompt with `psql postgres`
 2. Create a project specific user with this command:
 `create role raiders with login password 'theLostApp' createdb;`
@@ -110,6 +111,14 @@ Other helpful postgres command lines:
 `\c <database>` - connect to a database
 `\dt` - list tables in a connected database
 `\d <table>` - list columns on a table
+
+##MongoDB
+1. run from a command shell to start the db `mongod`
+2. some helpful mongo command lines:
+`mongo` - start the command shell
+`use fetcher` - to switch to our project db
+there is only one collection - movies
+`db.movies.find()` - to see the content of the movies db
 
 ### Database Creation:
 

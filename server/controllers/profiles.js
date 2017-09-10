@@ -1,4 +1,5 @@
 const models = require('../../db/models');
+const searchDb = require('../../mongodb/db.js');
 
 module.exports.getAll = (req, res) => {
   models.Profile.fetchAll()
@@ -47,8 +48,14 @@ module.exports.getFollowMovies = (req, res) => {
       if (!profile) {
         throw profile;
       }
-      //TODO call mongo and pass in array
-      res.status(200).send(moviesArr);
+      var moviesArr = [];
+      for (var i = 0; i < profile.attributes.follow_movies.length; i++) {
+        moviesArr.push(profile.attributes.follow_movies[i].id);
+      }
+      searchDb.searchByIds(moviesArr, (err, mongoMovieArr) => {
+        if (err) { throw err; }
+        res.status(200).send(mongoMovieArr);
+      });
     })
     .error(err => {
       res.status(500).send(err);
@@ -64,8 +71,11 @@ module.exports.getFollowGenres = (req, res) => {
       if (!profile) {
         throw profile;
       }
-      //TODO call mongo and pass in array
-      res.status(200).send(moviesArr);
+      //TODO get movies with this genre id first, then
+      searchDb.searchByIds(moviesArr, (err, mongoMovieArr) => {
+        if (err) { throw err; }
+        res.status(200).send(mongoMovieArr);
+      });
     })
     .error(err => {
       res.status(500).send(err);

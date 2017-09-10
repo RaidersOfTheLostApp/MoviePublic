@@ -121,11 +121,11 @@ router.route('/following')
         res.render('index.ejs', {
           data: {
             user: req.user,
-            // movieFollow: profile.attributes.follow_movies,
-            // genreFollow: profile.attributes.follow_genre,
-            // actorFollow: profile.attributes.follow_actor,
-            // directorFollow: profile.attributes.follow_director,
-            // writerFollow: profile.attributes.follow_writers,
+            movieFollow: profile.attributes.follow_movies,
+            genreFollow: profile.attributes.follow_genre,
+            actorFollow: profile.attributes.follow_actor,
+            directorFollow: profile.attributes.follow_director,
+            writerFollow: profile.attributes.follow_writers,
             vod_subscriptions: profile.attributes.vod_subscriptions
           }
         });

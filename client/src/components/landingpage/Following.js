@@ -7,13 +7,65 @@ import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+var Promise = require('bluebird');
+import $ from 'jquery';
 
 class Following extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      select_value: 0
+      select_value: 0,
+      loading: false,
+      movieFollowMongoIds: [],
+      genreFollowMongoIds: [],
+      actorFollowMongoIds: [],
+      directorFollowMongoIds: [],
+      writerFollowMongoIds: []
     };
+  }
+
+  componentWillMount() {
+    this.setState({loading: true});
+
+    this.getFollow('movies')
+      .then(movieArr => {
+        this.setState({movieFollowMongoIds: movieArr, loading: false});
+      });
+    // this.getFollow('genres', movieArr => {
+    //   console.log('************* movieArr genres results ', movieArr);
+    //   this.setState({genreFollowMongoIds: movieArr});
+    // });
+    // this.getFollow('actors', movieArr => {
+    //   console.log('************* movieArr actors results ', movieArr);
+    //   this.setState({actorFollowMongoIds: movieArr});
+    // });
+    // this.getFollow('directors', movieArr => {
+    //   console.log('************* movieArr directors results ', movieArr);
+    //   this.setState({directorFollowMongoIds: movieArr});
+    // });
+    // this.getFollow('writers', movieArr => {
+    //   console.log('************* movieArr wrtiers results ', movieArr);
+    //   this.setState({writerFollowMongoIds: movieArr});
+    // });
+  }
+
+  getFollow(type) {
+    var promise = new Promise((resolve, reject) => {
+      $.ajax({
+        method: 'GET',
+        url: '/api/profiles/follows/' + type,
+        success: (movieArr) => {
+          movieArr = JSON.parse(movieArr);
+          console.log('********* success get follow', movieArr);
+          resolve(movieArr);
+        },
+        error: (error) => {
+          console.log('************* get follow handleNext ERROR:', error);
+          reject(error);
+        }
+      });
+    });
+    return promise;
   }
 
   handleChange(e, i, value) {
@@ -22,8 +74,11 @@ class Following extends React.Component {
       select_value: value
     });
   }
-
+  //TODO - build menuItems to render dynamically with value and text on mapped props
   render() {
+    if (this.state.loading) {
+      return null;
+    }
     return (
       <div className='muiThemeProvider'>
         <div className='followRoot container'>
@@ -42,7 +97,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='followList'>
-            {this.props.movieFollow.map((movie, i) => (
+            {this.state.movieFollowMongoIds.map((movie, i) => (
               <a href = {movie.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -71,7 +126,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='gridList'>
-            {this.props.genreFollow.map((genre, i) => (
+            {this.state.movieFollowMongoIds.map((genre, i) => (
               <a href = {genre.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -100,7 +155,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='gridList'>
-            {this.props.actorFollow.map((actor, i) => (
+            {this.state.movieFollowMongoIds.map((actor, i) => (
               <a href = {actor.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -129,7 +184,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='gridList'>
-            {this.props.directorFollow.map((director, i) => (
+            {this.state.movieFollowMongoIds.map((director, i) => (
               <a href = {director.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -158,7 +213,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='gridList'>
-            {this.props.writerFollow.map((writer, i) => (
+            {this.state.movieFollowMongoIds.map((writer, i) => (
               <a href = {writer.website} target = "_blank">
                 <GridTile
                   key={i}
