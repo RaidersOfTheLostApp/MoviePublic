@@ -19,13 +19,13 @@ searchDb.once('open', () => {
 var movieSchema = mongoose.Schema({
   id: Number,
   title: String,
-  year: {type: Number, required: true},
-  release_date: {type: String, required: true},
-  genre: {type: Array, required: true},
+  year: { type: Number, required: true },
+  release_date: { type: String, required: true },
+  genre: { type: Array, required: true },
   runtime: String,
-  directors: {type: Array, required: true},
-  writers: {type: Array, required: true},
-  actors: {type: Array, required: true},
+  directors: { type: Array, required: true },
+  writers: { type: Array, required: true },
+  actors: { type: Array, required: true },
   description: String,
   awards: Array,
   poster: String,
@@ -33,7 +33,7 @@ var movieSchema = mongoose.Schema({
   language: Array,
   box_office: Number,
   production: String,
-  website: {type: String, required: true},
+  website: { type: String, required: true },
   theater: Array
 });
 
@@ -41,7 +41,7 @@ var Movie = mongoose.model('Movie', movieSchema, 'movies');
 
 var searchByTitle = (title, cb) => {
 
-  getMovies({title: title}, (err, res) => {
+  getMovies({ title: title }, (err, res) => {
     if (err) {
       cb(err, null);
     } else {
@@ -53,9 +53,9 @@ var searchByTitle = (title, cb) => {
 var searchByIds = (idArray, cb) => {
 
   var movieList = [];
-  idArray.map( value => {
+  idArray.map(value => {
 
-    getMovies({_id: value}, (err, res) => {
+    getMovies({ _id: value }, (err, res) => {
       if (err) {
         cb(err, null);
       } else {
@@ -68,7 +68,7 @@ var searchByIds = (idArray, cb) => {
 };
 
 var getMovies = (query, cb) => {
-  Movie.find (query, (err, res) => {
+  Movie.find(query, (err, res) => {
     if (err) {
       cb(err, null);
     } else {
@@ -79,7 +79,7 @@ var getMovies = (query, cb) => {
 
 var saveMovies = (movies, cb) => {
 
-  movies.forEach( (value) => {
+  movies.forEach((value) => {
     var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
     var id = value.id;
 
@@ -89,7 +89,7 @@ var saveMovies = (movies, cb) => {
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
-        Movie.find({title: value.title}, (err, res) => {
+        Movie.find({ title: value.title }, (err, res) => {
           if (res.length === 0) {
             var newMovie = new Movie({
               id: id,
@@ -111,7 +111,7 @@ var saveMovies = (movies, cb) => {
               website: data.Website,
               theater: data.Theater
             });
-            newMovie.save( (err, res) => {
+            newMovie.save((err, res) => {
               if (err) {
                 console.log('error');
               } else {
@@ -135,6 +135,6 @@ var saveMovies = (movies, cb) => {
 
 module.exports = searchDb;
 module.exports.searchByTitle = searchByTitle;
-module.exports.searchById = searchById;
+// module.exports.searchById = searchById;
 module.exports.saveMovies = saveMovies;
 module.exports.getMovies = getMovies;

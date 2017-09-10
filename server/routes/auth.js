@@ -5,13 +5,13 @@ const fuse = require('fuse.js');
 const Fuse = require('../../node_modules/fuse.js/src/index.js');
 const movieone = require('../fakeData1.js');
 const movietwo = require('../fakeData2.js');
-const searchDb = require('../../mongodb/db.js');
 const router = express.Router();
 const app = express();
 const tmdb = require('../movieAPIHelpers/tmdb.js');
 const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const models = require('../../db/models');
-
+const searchDb = require('../../mongodb/db.js');
+const MovieController = require('../controllers/movies.js');
 
 app.use(bodyParser.text({ type: 'text/plain' }));
 const sortByKey = (array, key) => {

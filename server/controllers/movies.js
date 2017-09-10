@@ -42,6 +42,9 @@ module.exports.addMovies = (movie_array, callback) => {
       production: movie.item.production,
       ratings: JSON.stringify(movie.item.ratings),
     }).save();
+
+    console.log(movie.item.title, ': Server Controller - Movie Added!');
+
   });
 
   // console.log('DB Bookshelf: Movies Added');
