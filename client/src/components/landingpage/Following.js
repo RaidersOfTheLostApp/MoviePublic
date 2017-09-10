@@ -27,14 +27,14 @@ class Following extends React.Component {
   componentWillMount() {
     this.setState({loading: true});
 
-    this.getFollow('movies')
-      .then(movieArr => {
-        this.setState({movieFollowMongoIds: movieArr, loading: false});
-      });
-    // this.getFollow('genres', movieArr => {
-    //   console.log('************* movieArr genres results ', movieArr);
-    //   this.setState({genreFollowMongoIds: movieArr});
-    // });
+    // this.getFollow('movies')
+    //   .then(movieArr => {
+    //     this.setState({movieFollowMongoIds: movieArr, loading: false});
+    //   });
+    this.getFollow('genres', movieArr => {
+      console.log('************* movieArr genres results ', movieArr);
+      this.setState({genreFollowMongoIds: movieArr});
+    });
     // this.getFollow('actors', movieArr => {
     //   console.log('************* movieArr actors results ', movieArr);
     //   this.setState({actorFollowMongoIds: movieArr});
@@ -97,7 +97,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='followList'>
-            {this.state.movieFollowMongoIds.map((movie, i) => (
+            {this.state.genreFollowMongoIds.map((movie, i) => (
               <a href = {movie.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -126,7 +126,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='gridList'>
-            {this.state.movieFollowMongoIds.map((genre, i) => (
+            {this.state.genreFollowMongoIds.map((genre, i) => (
               <a href = {genre.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -155,7 +155,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='gridList'>
-            {this.state.movieFollowMongoIds.map((actor, i) => (
+            {this.state.genreFollowMongoIds.map((actor, i) => (
               <a href = {actor.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -168,67 +168,68 @@ class Following extends React.Component {
             ))}
           </GridList>
         </div>
-        <div className='followRoot container'>
-          <div className='row'>
-            <div className='col-4'>
-              <Subheader>DIRECTORS You Are Following</Subheader>
-            </div>
-            <div className='col-4'>
-              <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Director 1' />
-                <MenuItem value={1} primaryText='Director 2' />
-                <MenuItem value={2} primaryText='Director 3' />
-                <MenuItem value={3} primaryText='Director 4' />
-                <MenuItem value={4} primaryText='Director 5' />
-              </SelectField>
-            </div>
-          </div>
-          <GridList cellHeight={200} cols={5} className='gridList'>
-            {this.state.movieFollowMongoIds.map((director, i) => (
-              <a href = {director.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={director.title}
-                  subtitle={<span>by <b>{director.director}</b></span>}
-                >
-                  <img src = {director.Poster}/>
-                </GridTile>
-              </a>
-            ))}
-          </GridList>
-        </div>
-        <div className='followRoot container'>
-          <div className='row'>
-            <div className='col-4'>
-              <Subheader>SCREENWRITERS You Are Following</Subheader>
-            </div>
-            <div className='col-4'>
-              <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Writer 1' />
-                <MenuItem value={1} primaryText='Writer 2' />
-                <MenuItem value={2} primaryText='Writer 3' />
-                <MenuItem value={3} primaryText='Writer 4' />
-                <MenuItem value={4} primaryText='Writer 5' />
-              </SelectField>
-            </div>
-          </div>
-          <GridList cellHeight={200} cols={5} className='gridList'>
-            {this.state.movieFollowMongoIds.map((writer, i) => (
-              <a href = {writer.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={writer.title}
-                  subtitle={<span>by <b>{writer.director}</b></span>}
-                >
-                  <img src = {writer.Poster}/>
-                </GridTile>
-              </a>
-            ))}
-          </GridList>
-        </div>
       </div>
     );
   }
 }
 
 export default Following;
+
+// <div className='followRoot container'>
+//   <div className='row'>
+//     <div className='col-4'>
+//       <Subheader>DIRECTORS You Are Following</Subheader>
+//     </div>
+//     <div className='col-4'>
+//       <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
+//         <MenuItem value={0} primaryText='Director 1' />
+//         <MenuItem value={1} primaryText='Director 2' />
+//         <MenuItem value={2} primaryText='Director 3' />
+//         <MenuItem value={3} primaryText='Director 4' />
+//         <MenuItem value={4} primaryText='Director 5' />
+//       </SelectField>
+//     </div>
+//   </div>
+//   <GridList cellHeight={200} cols={5} className='gridList'>
+//     {this.state.movieFollowMongoIds.map((director, i) => (
+//       <a href = {director.website} target = "_blank">
+//         <GridTile
+//           key={i}
+//           title={director.title}
+//           subtitle={<span>by <b>{director.director}</b></span>}
+//         >
+//           <img src = {director.Poster}/>
+//         </GridTile>
+//       </a>
+//     ))}
+//   </GridList>
+// </div>
+// <div className='followRoot container'>
+//   <div className='row'>
+//     <div className='col-4'>
+//       <Subheader>SCREENWRITERS You Are Following</Subheader>
+//     </div>
+//     <div className='col-4'>
+//       <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
+//         <MenuItem value={0} primaryText='Writer 1' />
+//         <MenuItem value={1} primaryText='Writer 2' />
+//         <MenuItem value={2} primaryText='Writer 3' />
+//         <MenuItem value={3} primaryText='Writer 4' />
+//         <MenuItem value={4} primaryText='Writer 5' />
+//       </SelectField>
+//     </div>
+//   </div>
+//   <GridList cellHeight={200} cols={5} className='gridList'>
+//     {this.state.movieFollowMongoIds.map((writer, i) => (
+//       <a href = {writer.website} target = "_blank">
+//         <GridTile
+//           key={i}
+//           title={writer.title}
+//           subtitle={<span>by <b>{writer.director}</b></span>}
+//         >
+//           <img src = {writer.Poster}/>
+//         </GridTile>
+//       </a>
+//     ))}
+//   </GridList>
+// </div>

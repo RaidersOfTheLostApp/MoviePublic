@@ -15,7 +15,6 @@ exports.up = function(knex, Promise) {
       table.string('last', 100).nullable();
       table.string('display', 100).nullable();
       table.string('email', 100).nullable();
-      table.string('phone', 100).nullable();
       table.timestamps(true, true);
       table.text('avatar').nullable();
       table.jsonb('favorites').nullable();
@@ -38,8 +37,6 @@ exports.up = function(knex, Promise) {
     knex.schema.createTableIfNotExists('crew', function(table) {
       table.increments('id').unsigned().primary();
       table.text('name').notNullable();
-      // table.jsonb('genre').nullable();
-      // table.jsonb('awards').nullable();
       table.boolean('actor').nullable();
       table.boolean('director').nullable();
       table.boolean('writer').nullable();
@@ -48,20 +45,19 @@ exports.up = function(knex, Promise) {
     knex.schema.createTableIfNotExists('genres', function(table) {
       table.increments('id').unsigned().primary();
       table.text('name').notNullable();
-      // table.jsonb('movies').nullable();
     }),
 
     knex.schema.createTableIfNotExists('movies', function(table) {
       table.increments('id').unsigned().primary();
-      table.text('mongo_id').notNullable();
+      table.integer('mongo_id').notNullable();
       table.text('title').notNullable();
       table.smallint('year').nullable();
       table.text('release_date').nullable();
       table.jsonb('genres').nullable();
-      table.jsonb('awards').nullable();
-      table.jsonb('director').notNullable();
-      table.jsonb('writer').notNullable();
-      table.jsonb('actors').notNullable();
+      table.text('awards').nullable();
+      table.jsonb('director').nullable();
+      table.jsonb('writer').nullable();
+      table.jsonb('actors').nullable();
       table.bigint('box_office').nullable();
       table.text('production').nullable();
       table.jsonb('ratings').nullable();

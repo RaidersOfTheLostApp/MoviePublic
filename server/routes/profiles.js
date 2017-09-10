@@ -54,16 +54,16 @@ router.route('/follows/actors')
   // .delete(ProfileController.deleteOne)
 ;
 
-router.route('/follows/directors')
-  .post(ProfileController.setUpFollowDirectors)
-  .get(ProfileController.getFollowDirectors)
-  // .delete(ProfileController.deleteOne)
-;
-
-router.route('/follows/writers')
-  .post(ProfileController.setUpFollowWriters)
-  .get(ProfileController.getFollowWriters)
-  // .delete(ProfileController.deleteOne)
-;
+// router.route('/follows/directors')
+//   .post(ProfileController.setUpFollowDirectors)
+//   .get(ProfileController.getFollowDirectors)
+//   // .delete(ProfileController.deleteOne)
+// ;
+//
+// router.route('/follows/writers')
+//   .post(ProfileController.setUpFollowWriters)
+//   .get(ProfileController.getFollowWriters)
+//   // .delete(ProfileController.deleteOne)
+// ;
 
 module.exports = router;

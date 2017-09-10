@@ -65,9 +65,7 @@ class App extends React.Component {
               <UserProfile user={dataFromServer.user}
                 movieFollow={dataFromServer.movieFollow}
                 genreFollow={dataFromServer.genreFollow}
-                actorFollow={dataFromServer.actorFollow}
-                directorFollow={dataFromServer.directorFollow}
-                writerFollow={dataFromServer.writerFollow}/>
+                actorFollow={dataFromServer.actorFollow}/>
             </MuiThemeProvider>
           )}
           />
@@ -81,9 +79,7 @@ class App extends React.Component {
             <MuiThemeProvider>
               <Following movieFollow={dataFromServer.movieFollow}
                 genreFollow={dataFromServer.genreFollow}
-                actorFollow={dataFromServer.actorFollow}
-                directorFollow={dataFromServer.directorFollow}
-                writerFollow={dataFromServer.writerFollow}/>
+                actorFollow={dataFromServer.actorFollow}/>
             </MuiThemeProvider>
           )}
           />
@@ -94,3 +90,24 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+// <Route path="/profile" render={() => (
+//   <MuiThemeProvider>
+//     <UserProfile user={dataFromServer.user}
+//       movieFollow={dataFromServer.movieFollow}
+//       genreFollow={dataFromServer.genreFollow}
+//       actorFollow={dataFromServer.actorFollow}
+//       directorFollow={dataFromServer.directorFollow}
+//       writerFollow={dataFromServer.writerFollow}/>
+//   </MuiThemeProvider>
+// )}
+// />
+//
+// <Route path="/following" render={() => (
+//   <MuiThemeProvider>
+//     <Following movieFollow={dataFromServer.movieFollow}
+//       genreFollow={dataFromServer.genreFollow}
+//       actorFollow={dataFromServer.actorFollow}
+//       directorFollow={dataFromServer.directorFollow}
+//       writerFollow={dataFromServer.writerFollow}/>
+//   </MuiThemeProvider>

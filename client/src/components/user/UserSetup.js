@@ -23,16 +23,19 @@ class UserSetup extends React.Component {
       hbo: false,
       hulu: false,
       amazon: false,
-      movieFollow: [],
+      movieFollow: [], //TODO check if the user already has a following?
       genreFollow: [],
       actorFollow: [],
-      directorFollow: [],
-      writerFollow: [],
-      movieList: [{'text': 'Raiders of the Lost Ark', 'id': 1}, {'text': 'Temple of Doom', 'id': 2}],
-      genreList: [{'text': 'Comedy', 'id': 1}, {'text': 'Horror', 'id': 2}, {'text': 'Drama', 'id': 3}],
+      // directorFollow: [],
+      // writerFollow: [],
+      movieList: [{'text': 'Beauty and the Beast', 'id': 1}, {'text': 'Annabelle Movie', 'id': 2}, {'text': 'Despicable Me', 'id': 3}, {'text': 'Spiderman Homecoming', 'id': 4},
+        {'text': 'Minons Movie', 'id': 5}, {'text': 'The Dark Tower', 'id': 6}, {'text': 'The Layover', 'id': 7}, {'text': 'Dunkirk', 'id': 8}],
+      genreList: [{'text': 'Action', 'id': 1}, {'text': 'Adventure', 'id': 3}, {'text': 'Animation', 'id': 11}, {'text': 'Comedy', 'id': 2},
+        {'text': 'Drama', 'id': 8}, {'text': 'Documentary', 'id': 13}, {'text': 'Family', 'id': 12}, {'text': 'Fantasy', 'id': 4},
+        {'text': 'History', 'id': 9}, {'text': 'Horror', 'id': 6}, {'text': 'Mystery', 'id': 10}, {'text': 'Sci-Fi', 'id': 5}, {'text': 'Thriller', 'id': 7}],
       actorList: [{'text': 'Jennifer Aniston', 'id': 1}, {'text': 'Brad Pitt', 'id': 2}],
-      directorList: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other directors', 'id': 2}],
-      writerList: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other writers', 'id': 2}]
+      // directorList: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other directors', 'id': 2}],
+      // writerList: [{'text': 'Quentin Tarantino', 'id': 1}, {'text': 'Other writers', 'id': 2}]
     };
   }
 
@@ -150,39 +153,39 @@ class UserSetup extends React.Component {
       });
     }
 
-    if (this.state.directorFollow.length > 0) {
-      $.ajax({
-        method: 'POST',
-        url: '/api/profiles/follows/directors',
-        data: {
-          directorFollow: this.state.directorFollow
-        },
-        success: (user) => {
-          user = JSON.parse(user);
-          console.log('********* success user setup follow Directors ', user);
-        },
-        error: (error) => {
-          console.log('************* update Directors follow list handleNext ERROR:', error);
-        }
-      });
-    }
-
-    if (this.state.writerFollow.length > 0) {
-      $.ajax({
-        method: 'POST',
-        url: '/api/profiles/follows/writers',
-        data: {
-          writerFollow: this.state.writerFollow
-        },
-        success: (user) => {
-          user = JSON.parse(user);
-          console.log('********* success user setup follow Writers ', user);
-        },
-        error: (error) => {
-          console.log('************* update Writers follow list handleNext ERROR:', error);
-        }
-      });
-    }
+    // if (this.state.directorFollow.length > 0) {
+    //   $.ajax({
+    //     method: 'POST',
+    //     url: '/api/profiles/follows/directors',
+    //     data: {
+    //       directorFollow: this.state.directorFollow
+    //     },
+    //     success: (user) => {
+    //       user = JSON.parse(user);
+    //       console.log('********* success user setup follow Directors ', user);
+    //     },
+    //     error: (error) => {
+    //       console.log('************* update Directors follow list handleNext ERROR:', error);
+    //     }
+    //   });
+    // }
+    //
+    // if (this.state.writerFollow.length > 0) {
+    //   $.ajax({
+    //     method: 'POST',
+    //     url: '/api/profiles/follows/writers',
+    //     data: {
+    //       writerFollow: this.state.writerFollow
+    //     },
+    //     success: (user) => {
+    //       user = JSON.parse(user);
+    //       console.log('********* success user setup follow Writers ', user);
+    //     },
+    //     error: (error) => {
+    //       console.log('************* update Writers follow list handleNext ERROR:', error);
+    //     }
+    //   });
+    // }
   }
 
   finishStepThree() {
@@ -241,7 +244,7 @@ class UserSetup extends React.Component {
               <StepLabel>Welcome to Movie Master!</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Select Movies, Actors, Directors, and Screenwriters to Follow</StepLabel>
+              <StepLabel>Select Movies and Actors to Follow</StepLabel>
             </Step>
             <Step>
               <StepLabel>Select Your VOD Subscriptions</StepLabel>
@@ -249,9 +252,9 @@ class UserSetup extends React.Component {
           </Stepper>
           <div>
             {this.state.finished ? (
-              <p>
+              <h1 className='demoVideo'>
                 <a href="/">Get Started Now!</a>
-              </p>
+              </h1>
             ) : (
               <div>
                 <div className='demoVideo'>
@@ -268,13 +271,9 @@ class UserSetup extends React.Component {
                       movieList={this.state.movieList}
                       genreList={this.state.genreList}
                       actorList={this.state.actorList}
-                      directorList={this.state.directorList}
-                      writerList={this.state.writerList}
                       movieFollow={this.state.movieFollow}
                       genreFollow={this.state.genreFollow}
                       actorFollow={this.state.actorFollow}
-                      directorFollow={this.state.directorFollow}
-                      writerFollow={this.state.writerFollow}
                       updateFollowList={this.updateFollowList.bind(this)}/>
                   ) : (
                     <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>
@@ -290,3 +289,16 @@ class UserSetup extends React.Component {
 }
 
 export default UserSetup;
+
+// <FollowSetup header={this.getStepContent(this.state.stepIndex)}
+//   movieList={this.state.movieList}
+//   genreList={this.state.genreList}
+//   actorList={this.state.actorList}
+//   directorList={this.state.directorList}
+//   writerList={this.state.writerList}
+//   movieFollow={this.state.movieFollow}
+//   genreFollow={this.state.genreFollow}
+//   actorFollow={this.state.actorFollow}
+//   directorFollow={this.state.directorFollow}
+//   writerFollow={this.state.writerFollow}
+//   updateFollowList={this.updateFollowList.bind(this)}/>

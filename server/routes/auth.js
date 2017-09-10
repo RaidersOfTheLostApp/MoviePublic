@@ -86,23 +86,24 @@ router.route('/favorites')
       }
     });
   });
-  
+
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
+        console.log('*********** profile ', profile);
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
           res.render('index.ejs', {
             data: {
               user: req.user,
-              movieFollow: profile.attributes.follow_movies,
-              genreFollow: profile.attributes.follow_genre,
-              actorFollow: profile.attributes.follow_actor,
-              directorFollow: profile.attributes.follow_director,
-              writerFollow: profile.attributes.follow_writers,
-              vod_subscriptions: profile.attributes.vod_subscriptions
+              movieFollow: profile.attributes.follow_movies || [],
+              genreFollow: profile.attributes.follow_genre || [],
+              actorFollow: profile.attributes.follow_actor || [],
+              // directorFollow: profile.attributes.follow_director,
+              // writerFollow: profile.attributes.follow_writers,
+              vod_subscriptions: profile.attributes.vod_subscriptions || []
             }
           });
         }
@@ -117,16 +118,16 @@ router.route('/following')
   .get(middleware.auth.verify, (req, res) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
-        //get list of movie
+        //TODO: get list of mongo movies here or on the client side?
         res.render('index.ejs', {
           data: {
             user: req.user,
-            movieFollow: profile.attributes.follow_movies,
-            genreFollow: profile.attributes.follow_genre,
-            actorFollow: profile.attributes.follow_actor,
-            directorFollow: profile.attributes.follow_director,
-            writerFollow: profile.attributes.follow_writers,
-            vod_subscriptions: profile.attributes.vod_subscriptions
+            movieFollow: profile.attributes.follow_movies || [],
+            genreFollow: profile.attributes.follow_genre || [],
+            actorFollow: profile.attributes.follow_actor || [],
+            // directorFollow: profile.attributes.follow_director,
+            // writerFollow: profile.attributes.follow_writers,
+            vod_subscriptions: profile.attributes.vod_subscriptions || []
           }
         });
       })
