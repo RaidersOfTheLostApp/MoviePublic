@@ -82,8 +82,12 @@ class Favorites extends React.Component {
   render() {
     return (
       <div className='muiThemeProvider'>
-        <div className='gridRoot'>
-          <Search />
+        <div className='gridRoot container'>
+          <div className='row'>
+            <div className='col-6'>
+              <Search />
+            </div>
+          </div>
           <GridList cellHeight={200} cols={5} className='gridList'>
             <Subheader>Favorites</Subheader>
             {this.state.favorites.map((favorite, i) => (
