@@ -22,6 +22,7 @@ const sortByKey = (array, key) => {
     return ((x < y) ? -1 : ((x > y) ? 1 : 0));
   });
 };
+
 router.route('/')
   .get (middleware.auth.verify, (req, res, next) => {
     var movies;
@@ -58,7 +59,8 @@ router.route('/')
           });
         }
       });
-  });
+  }});
+})
 
 
 router.route('/login')
