@@ -31,8 +31,9 @@ class Following extends React.Component {
     //   .then(movieArr => {
     //     this.setState({movieFollowMongoIds: movieArr, loading: false});
     //   });
-    this.getFollow('genres', movieArr => {
-      console.log('************* movieArr genres results ');
+    this.getFollow('genres', (err, movieArr) => {
+      if (err) {console.log('********** error on getFollow ', err);}
+      console.log('************* movieArr genres results ', movieArr);
       this.setState({
         genreFollowMongoIds: movieArr,
         loading: false
@@ -52,22 +53,18 @@ class Following extends React.Component {
     // });
   }
 
-  getFollow(type) {
-    var promise = new Promise((resolve, reject) => {
-      $.ajax({
-        method: 'GET',
-        url: '/api/profiles/follows/' + type,
-        success: (movieArr) => {
-          console.log('********* success get follow ', movieArr);
-          resolve(movieArr);
-        },
-        error: (error) => {
-          console.log('************* get follow handleNext ERROR:', error);
-          reject(error);
-        }
-      });
+  getFollow(type, callback) {
+    $.ajax({
+      method: 'GET',
+      url: '/api/profiles/follows/' + type,
+      success: (movieArr) => {
+        callback(null, movieArr);
+      },
+      error: (error) => {
+        console.log('************* get follow handleNext ERROR:', error);
+        callback(error);
+      }
     });
-    return promise;
   }
 
   handleChange(e, i, value) {
@@ -88,15 +85,6 @@ class Following extends React.Component {
             <div className='col-4'>
               <Subheader>MOVIES You Are Following</Subheader>
             </div>
-            <div className='col-4'>
-              <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Movie 1' />
-                <MenuItem value={1} primaryText='Movie 2' />
-                <MenuItem value={2} primaryText='Movie 3' />
-                <MenuItem value={3} primaryText='Movie 4' />
-                <MenuItem value={4} primaryText='Movie 5' />
-              </SelectField>
-            </div>
           </div>
           <GridList cellHeight={200} cols={5} className='followList'>
             {this.state.genreFollowMongoIds.map((movie, i) => (
@@ -104,9 +92,9 @@ class Following extends React.Component {
                 <GridTile
                   key={i}
                   title={movie.title}
-                  subtitle={<span>by <b>{movie.director}</b></span>}
+                  subtitle={<span>by <b>{movie.directors[0]}</b></span>}
                 >
-                  <img src={movie.Poster}/>
+                  <img src={movie.poster}/>
                 </GridTile>
               </a>
             ))}
@@ -133,9 +121,9 @@ class Following extends React.Component {
                 <GridTile
                   key={i}
                   title={genre.title}
-                  subtitle={<span>by <b>{genre.director}</b></span>}
+                  subtitle={<span>by <b>{genre.directors[0]}</b></span>}
                 >
-                  <img src = {genre.Poster}/>
+                  <img src = {genre.poster}/>
                 </GridTile>
               </a>
             ))}
@@ -162,9 +150,9 @@ class Following extends React.Component {
                 <GridTile
                   key={i}
                   title={actor.title}
-                  subtitle={<span>by <b>{actor.director}</b></span>}
+                  subtitle={<span>by <b>{actor.directors[0]}</b></span>}
                 >
-                  <img src = {actor.Poster}/>
+                  <img src = {actor.poster}/>
                 </GridTile>
               </a>
             ))}
