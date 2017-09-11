@@ -41,7 +41,8 @@ const styles = {
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
-    width: '100%'
+    width: '100%',
+    height: '100%'
   },
   titleStyle: {
     color: 'rgb(0, 188, 212)',
@@ -52,14 +53,44 @@ class ResultsListItem extends React.Component {
   constructor(props) {
     super(props);
     console.log(this.props.movieP);
-    console.log(this.props.i, 'CONSOLELOG');
+    console.log(this.props.key, 'CONSOLELOG');
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      favoriteId: [],
     };
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+  }
+
+  getFavoriteIcon(movie) {
+    var arr = this.state.favoriteId;
+    return (
+      <IconButton onClick={()=>{
+        this.addFavorites(movie);
+      }}>
+        {movie.imdbID in this.state.favoriteId ?
+          <Favorite color="white" /> :
+          <FavoriteBorder color="white" />
+        }
+      </IconButton>
+    );
+  }
+
+  addFavorites(movie) {
+    $.ajax({
+      method: 'POST',
+      url: '/api/profiles/addfavorites',
+      data: movie,
+      success: (user) => {
+        // user = JSON.parse(user);
+        console.log('********* success favorites updated for user ' + user);
+      },
+      error: (error) => {
+        console.log('************* error updating favorites for user', error);
+      }
+    });
   }
 
   openModal() {
@@ -75,7 +106,7 @@ class ResultsListItem extends React.Component {
     this.setState({modalIsOpen: false});
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.render();
   }
 
@@ -94,10 +125,10 @@ class ResultsListItem extends React.Component {
     return (
       <div>
         <GridTile
-          key= {this.props.i}
+          key= {this.props.k}
           subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
           title={this.props.movieP.title}
-          actionIcon = {this.props.getFavoriteIcon(this.props.movieP)}
+          actionIcon = {this.getFavoriteIcon(this.props.movieP)}
           onClick={this.openModal}
         >
           <img src = {this.props.movieP.poster} height="100%" width="100%"/>
@@ -135,16 +166,16 @@ class ResultsListItem extends React.Component {
                 })}
                 <p><strong>Similar Movies</strong></p>
                 <div style={styles.root}>
-                  <p><GridList style={styles.gridList} cols={2.2}>
+                  <GridList style={styles.gridList} cols={2.2}>
                     <GridTile
                       key= {this.props.i}
                       subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
                       title={this.props.movieP.title}
-                      actionIcon = {this.props.getFavoriteIcon(this.props.movieP)}
+                      actionIcon = {this.getFavoriteIcon(this.props.movieP)}
                     >
                       <img src = {this.props.movieP.poster} height="100%" width="100%"/>
                     </GridTile>
-                  </GridList></p>
+                  </GridList>
                 </div>
               </form>
             </div>

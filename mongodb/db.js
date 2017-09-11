@@ -18,7 +18,7 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
-  id: Number,
+  id: {type: Number, unique: true},
   title: String,
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
@@ -29,7 +29,7 @@ var movieSchema = mongoose.Schema({
   actors: { type: Array, required: true },
   description: String,
   awards: Array,
-  poster: String,
+  poster: { type: String, required: true },
   ratings: Array,
   language: Array,
   box_office: Number,
@@ -140,7 +140,7 @@ var saveMovies = (movies, cb) => {
 //   models.Profile.where({ id: req.session.passport.user }).fetch()
 //     .then(profile => {
 //       if (!profile) {
-//         throw profile;
+//         throw profile;a
 //       }
 //       var subs = [];
 //       for (var key in req.body) {
