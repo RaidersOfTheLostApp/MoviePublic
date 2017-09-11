@@ -20,21 +20,7 @@ class Results extends React.Component {
     };
   }
 
-  getFavoriteIcon(movie) {
-    var arr = this.state.favoriteId;
-    return (
-      <IconButton onClick={()=>{
-        this.addFavorites(movie);
-      }}>
-        {movie.imdbID in this.state.favoriteId ?
-          <Favorite color="white" /> :
-          <FavoriteBorder color="white" />
-        }
-      </IconButton>
-    );
-  }
-
-  searchToServer() {
+  searchToServer(cb) {
     var searchInput = document.getElementById('text-field').value;
     console.log(searchInput);
     $.ajax({
@@ -44,13 +30,16 @@ class Results extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
-        // console.log(this.props, '@@@');
-        console.log('*********** results ', results);
-        // console.log(this.state.movies, 'before');
-
+        console.log(this.props, '@@@');
+        console.log(results);
+        console.log(this.state.movies, 'before');
+        var container = [];
+        for (var i = 0; i < results.length; i++) {
+          container.push(results[i].item);
+        }
         // this.setState({movies: this.state.movies.concat(results)});
         this.setState({
-          movies: results
+          movies: container
         });
 
         // console.log(this.state.movies, '@#$#@$#@');
@@ -59,6 +48,13 @@ class Results extends React.Component {
       error: (err) => {
         console.log('err', err);
       }
+    });
+
+  }
+
+  handleSearch() {
+    this.searchToServer( () => {
+      this.render();
     });
   }
 
@@ -95,7 +91,7 @@ class Results extends React.Component {
     // console.log(this.state.movies, '10000')
     return (
       <div className='gridRoot'>
-        <Search searchToServer={this.searchToServer.bind(this)}/>
+        <Search searchToServer={this.handleSearch.bind(this)}/>
         <Filtering />
         <GridList
           cellHeight='auto'
