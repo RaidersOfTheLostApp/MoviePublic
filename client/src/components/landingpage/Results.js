@@ -30,9 +30,6 @@ class Results extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
-        console.log(this.props, '@@@');
-        console.log(results);
-        console.log(this.state.movies, 'before');
         var container = [];
         for (var i = 0; i < results.length; i++) {
           container.push(results[i].item);

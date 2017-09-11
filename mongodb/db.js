@@ -41,7 +41,6 @@ var movieSchema = mongoose.Schema({
 var Movie = mongoose.model('Movie', movieSchema, 'movies');
 
 var searchByTitle = (title, cb) => {
-
   getMovies({ title: title }, (err, res) => {
     if (err) {
       cb(err, null);
@@ -52,7 +51,6 @@ var searchByTitle = (title, cb) => {
 };
 
 var searchByIds = (idArray, cb) => {
-
   var movieList = [];
   var len = idArray.length;
   idArray.forEach((value, i) => {
@@ -87,7 +85,6 @@ var saveMovies = (movies, cb) => {
 
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.request.response.body);
-      // console.log(data, '@#$@#$#@$#@$@#');
       if (err) {
         console.log('brokeninsaveMovies');
       } else {

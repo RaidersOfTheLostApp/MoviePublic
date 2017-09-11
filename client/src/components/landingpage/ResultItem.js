@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 import $ from 'jquery';
-import Modal from 'react-modal';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Favorite from 'material-ui/svg-icons/action/favorite';
@@ -14,6 +13,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Search from './Search';
 import Filtering from './Filtering';
 import Results from './Results';
+import MovieDataModal from './MovieDataModal.js';
 
 const customContentStyle = {
   backgroundColor: '#1a1aff',
@@ -50,10 +50,9 @@ const styles = {
 };
 
 class ResultsListItem extends React.Component {
+  
   constructor(props) {
     super(props);
-    console.log(this.props.movieP);
-    console.log(this.props.key, 'CONSOLELOG');
     this.state = {
       modalIsOpen: false,
       favoriteId: [],
@@ -84,7 +83,6 @@ class ResultsListItem extends React.Component {
       url: '/api/profiles/addfavorites',
       data: movie,
       success: (user) => {
-        // user = JSON.parse(user);
         console.log('********* success favorites updated for user ' + user);
       },
       error: (error) => {
@@ -111,136 +109,20 @@ class ResultsListItem extends React.Component {
   }
 
   render() {
-    const actions = [
-      <FlatButton
-        label="Close"
-        primary={true}
-        onClick={this.closeModal}
-      />,
-      <FlatButton
-        label="Buy Tickets"
-        primary={true}
-      />
-    ];
     return (
       <div>
         <GridTile
-          key= {this.props.k}
-          subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
+          key={this.props.k}
+          subtitle={<span>by <b>{this.props.movieP.directors}</b></span>}
           title={this.props.movieP.title}
-          actionIcon = {this.getFavoriteIcon(this.props.movieP)}
-          onClick={this.openModal}
+          actionIcon={this.getFavoriteIcon(this.props.movieP)}
         >
-          <img src = {this.props.movieP.poster} height="100%" width="100%"/>
+          <img src={this.props.movieP.poster} onClick={this.openModal} height="100%" width="100%"/>
         </GridTile>
-        <Dialog
-          title={this.props.movieP.title}
-          titleStyle={customTitleStyle}
-          modal={true}
-          actions={actions}
-          open={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          contentStyle={customContentStyle}
-          autoScrollBodyContent={true}
-          contentClassName='dialog'
-        >
-          <div className="row">
-            <div className="col">
-              <p></p>
-              <img src={this.props.movieP.poster}/>
-            </div>
-
-            <div className="col">
-              <form>
-                <p></p>
-                <p><strong>Description</strong>: {this.props.movieP.description}</p>
-                <p><strong>Actors/Actresses</strong>: {this.props.movieP.actors}</p>
-                <p><strong>Director/s</strong>: {this.props.movieP.directors}</p>
-                <p><strong>Release Date</strong>: {this.props.movieP.release_date}</p>
-                <p><strong>Genre/s</strong>: {this.props.movieP.genre}</p>
-                <p><strong>Runtime</strong>: {this.props.movieP.runtime}</p>
-                <p><strong>Website</strong>: <a href={this.props.movieP.website}>{this.props.movieP.website}</a></p>
-                <p><strong>Ratings</strong></p>
-                {this.props.movieP.ratings.map( value => {
-                  return (<p>{value.Source}: {value.Value}</p>);
-                })}
-                <p><strong>Similar Movies</strong></p>
-                <div style={styles.root}>
-                  <GridList style={styles.gridList} cols={2.2}>
-                    <GridTile
-                      key= {this.props.i}
-                      subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
-                      title={this.props.movieP.title}
-                      actionIcon = {this.getFavoriteIcon(this.props.movieP)}
-                    >
-                      <img src = {this.props.movieP.poster} height="100%" width="100%"/>
-                    </GridTile>
-                  </GridList>
-                </div>
-              </form>
-            </div>
-          </div>
-        </Dialog>
+        <MovieDataModal closeModal={this.closeModal} openModal={this.openModal} movieP={this.props.movieP} modalIsOpen={this.state.modalIsOpen} />
       </div>
-
     );
   }
-  //
-  // render() {
-  //   console.log(this.state, '10000');
-  //   return (
-  //     <div>
-  //       <button onClick={this.openModal}>
-  //
-  // <GridTile
-  //   key= {this.props.i}
-  //   subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
-  //   title={this.props.movieP.title}
-  //   actionIcon = {this.props.getFavoriteIcon(this.props.movieP)}
-  // >
-  //   <img src = {this.props.movieP.poster}/>
-  //   <h1>Modal Content</h1>
-  //   <p>Etc.</p>
-  // </GridTile>
-  //
-  //         <Modal
-  //           isOpen={this.state.modalIsOpen}
-  //           onAfterOpen={this.afterOpenModal}
-  //           onRequestClose={this.closeModal}
-  //           contentLabel="Example Modal"
-  //         >
-  //           <h2 ref={subtitle => this.subtitle = subtitle}>{this.props.movieP.title}</h2>
-  //           <button onClick={this.closeModal}>close</button>
-  // <div className="row">
-  //   <div className="col">
-  //     <img src={this.props.movieP.poster}/>
-  //   </div>
-  //
-  //   <div className="col">
-  //     <form>
-  //       <input />
-  //       <p><strong>Description</strong>: {this.props.movieP.description}</p>
-  //       <p><strong>Actors/Actresses:</strong>: {this.props.movieP.actors}</p>
-  //       <p><strong>Director</strong>: {this.props.movieP.directors}</p>
-  //       <p><strong>Release Date</strong>: {this.props.movieP.release_date}</p>
-  //       <p><strong>Genre</strong>: {this.props.movieP.genre}</p>
-  //       <p><strong>Runtime</strong>: {this.props.movieP.runtime}</p>
-  //
-  //       <a href={this.props.movieP.website} target="_blank">
-  //         <button>Movie Website</button>
-  //       </a>
-  //       <button>Purchase Ticket</button>
-  //     </form>
-  //   </div>
-  //
-  //           </div>
-  //
-  //
-  //         </Modal>
-  //       </button>
-  //     </div>
-  //   );
-  // }
 }
 
 export default ResultsListItem;
