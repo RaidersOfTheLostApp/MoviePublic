@@ -2,9 +2,9 @@ body {
   font-family: 'Roboto', sans-serif;
   padding-top:80px;
   font-size: 14px;
+  color: rgb(60, 60, 60);
   margin: 0px;
 }
-
 
 .root {
   display: 'flex';
@@ -20,10 +20,6 @@ h4 {
   color: rgba(0, 0, 0, 0.54);
 }
 
-h3 {
-  background: 'grey';
-}
-
 .loginIcons {
   margin-right:15px;
 }
@@ -31,9 +27,6 @@ h3 {
 .iconSize {
   width:29px;
   height:29px;
-  img: {
-    height: 100%
-  }
 }
 
 .muiThemeProvider {
@@ -41,7 +34,6 @@ h3 {
   flexDirection: 'row';
   width: '100%';
   height: '100%';
-  background-color: '#1a1aff';
 }
 
 .searchRow {
@@ -195,19 +187,4 @@ h3 {
 .outline {
   border: 1px solid grey;
   width: 25%
-}
-
-.gridTileButton{
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  outline: none;
-  border: 0;
-  background: transparent;
-  height: 200px;
-  width: 180px
-}
-
-.dialog{
-  background-color: 'grey';
 }

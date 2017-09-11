@@ -93,16 +93,15 @@ class ResultsListItem extends React.Component {
     ];
     return (
       <div>
-        <button className="gridTileButton" onClick={this.openModal}>
-          <GridTile
-            key= {this.props.i}
-            subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
-            title={this.props.movieP.title}
-            actionIcon = {this.props.getFavoriteIcon(this.props.movieP)}
-          >
-            <img src = {this.props.movieP.poster} height="100%" width="100%"/>
-          </GridTile>
-        </button>
+        <GridTile
+          key= {this.props.i}
+          subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
+          title={this.props.movieP.title}
+          actionIcon = {this.props.getFavoriteIcon(this.props.movieP)}
+          onClick={this.openModal}
+        >
+          <img src = {this.props.movieP.poster} height="100%" width="100%"/>
+        </GridTile>
         <Dialog
           title={this.props.movieP.title}
           titleStyle={customTitleStyle}
