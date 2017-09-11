@@ -101,8 +101,8 @@ router.route('/profile')
               movieFollow: profile.attributes.follow_movies || [],
               genreFollow: profile.attributes.follow_genre || [],
               actorFollow: profile.attributes.follow_actor || [],
-              // directorFollow: profile.attributes.follow_director,
-              // writerFollow: profile.attributes.follow_writers,
+              directorFollow: profile.attributes.follow_director || [],
+              writerFollow: profile.attributes.follow_writers || [],
               vod_subscriptions: profile.attributes.vod_subscriptions || []
             }
           });
@@ -125,8 +125,8 @@ router.route('/following')
             movieFollow: profile.attributes.follow_movies || [],
             genreFollow: profile.attributes.follow_genre || [],
             actorFollow: profile.attributes.follow_actor || [],
-            // directorFollow: profile.attributes.follow_director,
-            // writerFollow: profile.attributes.follow_writers,
+            directorFollow: profile.attributes.follow_director || [],
+            writerFollow: profile.attributes.follow_writers || [],
             vod_subscriptions: profile.attributes.vod_subscriptions || []
           }
         });
@@ -138,7 +138,7 @@ router.route('/following')
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {
-    //TODO: fix below call
+    //TODO: also get movies, writers, directors, and screenwriters to pass down
     models.Genres.fetchAll()
       .then(genreList => {
         var finalGenres = [];

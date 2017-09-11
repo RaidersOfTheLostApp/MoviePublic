@@ -23,7 +23,7 @@ class FollowSetup extends React.Component {
   }
 
   getValue(index, callback) {
-    var dropDownList = ['movie', 'genre', 'actor']; //, 'director', 'writer'
+    var dropDownList = ['movie', 'genre', 'actor', 'director', 'writer'];
     callback(dropDownList[index]);
   }
 
@@ -107,6 +107,8 @@ class FollowSetup extends React.Component {
                     <MenuItem value={0} primaryText='Movie' />
                     <MenuItem value={1} primaryText='Genre' />
                     <MenuItem value={2} primaryText='Actor' />
+                    <MenuItem value={3} primaryText='Director' />
+                    <MenuItem value={4} primaryText='Screenwriter' />
                   </SelectField>
                 </div>
                 <div className='col'>
@@ -160,6 +162,24 @@ class FollowSetup extends React.Component {
               />
             )}
           </List>
+          <Subheader>DIRECTORS</Subheader>
+          <List>
+            {this.props.directorFollow.map(director =>
+              <ListItem key={director.id}
+                leftIcon={<ActionGrade />}
+                primaryText={director.text}
+              />
+            )}
+          </List>
+          <Subheader>SCREENWRITERS</Subheader>
+          <List>
+            {this.props.writerFollow.map(writer =>
+              <ListItem key={writer.id}
+                leftIcon={<ActionGrade />}
+                primaryText={writer.text}
+              />
+            )}
+          </List>
         </div>
       </div>
     );
@@ -167,30 +187,3 @@ class FollowSetup extends React.Component {
 }
 
 export default FollowSetup;
-
-// <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-//   <MenuItem value={0} primaryText='Movie' />
-//   <MenuItem value={1} primaryText='Genre' />
-//   <MenuItem value={2} primaryText='Actor' />
-//   <MenuItem value={3} primaryText='Director' />
-//   <MenuItem value={4} primaryText='Screenwriter' />
-// </SelectField>
-
-// <Subheader>DIRECTORS</Subheader>
-// <List>
-//   {this.props.directorFollow.map(director =>
-//     <ListItem key={director.id}
-//       leftIcon={<ActionGrade />}
-//       primaryText={director.text}
-//     />
-//   )}
-// </List>
-// <Subheader>SCREENWRITERS</Subheader>
-// <List>
-//   {this.props.writerFollow.map(writer =>
-//     <ListItem key={writer.id}
-//       leftIcon={<ActionGrade />}
-//       primaryText={writer.text}
-//     />
-//   )}
-// </List>

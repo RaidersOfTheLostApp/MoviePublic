@@ -63,6 +63,24 @@ class UserProfile extends React.Component {
               />
             )}
           </List>
+          <Subheader>DIRECTORS</Subheader>
+          <List>
+            {this.props.directorFollow.map(director =>
+              <ListItem key={director.id}
+                leftIcon={<ActionGrade />}
+                primaryText={director.text}
+              />
+            )}
+          </List>
+          <Subheader>SCREENWRITERS</Subheader>
+          <List>
+            {this.props.writerFollow.map(writer =>
+              <ListItem key={writer.id}
+                leftIcon={<ActionGrade />}
+                primaryText={writer.text}
+              />
+            )}
+          </List>
         </div>
       </div>
     );
@@ -70,22 +88,3 @@ class UserProfile extends React.Component {
 }
 
 export default UserProfile;
-
-// <Subheader>DIRECTORS</Subheader>
-// <List>
-//   {this.props.directorFollow.map(director =>
-//     <ListItem key={director.id}
-//       leftIcon={<ActionGrade />}
-//       primaryText={director.text}
-//     />
-//   )}
-// </List>
-// <Subheader>SCREENWRITERS</Subheader>
-// <List>
-//   {this.props.writerFollow.map(writer =>
-//     <ListItem key={writer.id}
-//       leftIcon={<ActionGrade />}
-//       primaryText={writer.text}
-//     />
-//   )}
-// </List>

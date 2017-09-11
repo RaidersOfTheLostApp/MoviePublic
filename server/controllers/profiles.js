@@ -102,7 +102,7 @@ module.exports.getFollowActors = (req, res) => {
       if (!profile) {
         throw profile;
       }
-      //TODO call mongo and pass in array
+      //TODO call mongo and pass in array, see getFollowGenres
       res.status(200).send(moviesArr);
     })
     .error(err => {
@@ -113,39 +113,39 @@ module.exports.getFollowActors = (req, res) => {
     });
 };
 
-// module.exports.getFollowDirectors = (req, res) => {
-//   models.Profile.where({ id: req.session.passport.user }).fetch()
-//     .then(profile => {
-//       if (!profile) {
-//         throw profile;
-//       }
-//       //TODO call mongo and pass in array
-//       res.status(200).send(profile);
-//     })
-//     .error(err => {
-//       res.status(500).send(err);
-//     })
-//     .catch(() => {
-//       res.sendStatus(404);
-//     });
-// };
-//
-// module.exports.getFollowWriters = (req, res) => {
-//   models.Profile.where({ id: req.session.passport.user }).fetch()
-//     .then(profile => {
-//       if (!profile) {
-//         throw profile;
-//       }
-//       //TODO call mongo and pass in array
-//       res.status(200).send(moviesArr);
-//     })
-//     .error(err => {
-//       res.status(500).send(err);
-//     })
-//     .catch(() => {
-//       res.sendStatus(404);
-//     });
-// };
+module.exports.getFollowDirectors = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      //TODO call mongo and pass in array, see getFollowGenres
+      res.status(200).send(profile);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
+module.exports.getFollowWriters = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      //TODO call mongo and pass in array, see getFollowGenres
+      res.status(200).send(moviesArr);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
 
 module.exports.update = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
@@ -316,71 +316,71 @@ module.exports.setUpFollowActors = (req, res) => {
     });
 };
 
-// module.exports.setUpFollowDirectors = (req, res) => {
-//   models.Profile.where({ id: req.session.passport.user }).fetch()
-//     .then(profile => {
-//       if (!profile) {
-//         throw profile;
-//       }
-//       var directorSet = [];
-//       var directorText;
-//       var save = false;
-//       for (var key in req.body) {
-//         if (save) {
-//           directorSet.push({'text': directorText, 'id': req.body[key]});
-//           save = !save;
-//         } else {
-//           directorText = req.body[key];
-//           save = !save;
-//         }
-//       }
-//       return profile.save({follow_director: JSON.stringify(directorSet)}, {patch: true});
-//     })
-//     .then((result) => {
-//       res.sendStatus(201);
-//     })
-//     .error(err => {
-//       console.log('********* error in setUpFollowDirectors ', err);
-//       res.status(500).send(err);
-//     })
-//     .catch((e) => {
-//       console.log('********* catch in setUpFollowDirectors ', e);
-//       res.sendStatus(404);
-//     });
-// };
-//
-// module.exports.setUpFollowWriters = (req, res) => {
-//   models.Profile.where({ id: req.session.passport.user }).fetch()
-//     .then(profile => {
-//       if (!profile) {
-//         throw profile;
-//       }
-//       var writerSet = [];
-//       var writerText;
-//       var save = false;
-//       for (var key in req.body) {
-//         if (save) {
-//           writerSet.push({'text': writerText, 'id': req.body[key]});
-//           save = !save;
-//         } else {
-//           writerText = req.body[key];
-//           save = !save;
-//         }
-//       }
-//       return profile.save({follow_writers: JSON.stringify(writerSet)}, {patch: true});
-//     })
-//     .then((result) => {
-//       res.sendStatus(201);
-//     })
-//     .error(err => {
-//       console.log('********* error in setUpFollowWriters ', err);
-//       res.status(500).send(err);
-//     })
-//     .catch((e) => {
-//       console.log('********* catch in setUpFollowWriters ', e);
-//       res.sendStatus(404);
-//     });
-// };
+module.exports.setUpFollowDirectors = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      var directorSet = [];
+      var directorText;
+      var save = false;
+      for (var key in req.body) {
+        if (save) {
+          directorSet.push({'text': directorText, 'id': req.body[key]});
+          save = !save;
+        } else {
+          directorText = req.body[key];
+          save = !save;
+        }
+      }
+      return profile.save({follow_director: JSON.stringify(directorSet)}, {patch: true});
+    })
+    .then((result) => {
+      res.sendStatus(201);
+    })
+    .error(err => {
+      console.log('********* error in setUpFollowDirectors ', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in setUpFollowDirectors ', e);
+      res.sendStatus(404);
+    });
+};
+
+module.exports.setUpFollowWriters = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      var writerSet = [];
+      var writerText;
+      var save = false;
+      for (var key in req.body) {
+        if (save) {
+          writerSet.push({'text': writerText, 'id': req.body[key]});
+          save = !save;
+        } else {
+          writerText = req.body[key];
+          save = !save;
+        }
+      }
+      return profile.save({follow_writers: JSON.stringify(writerSet)}, {patch: true});
+    })
+    .then((result) => {
+      res.sendStatus(201);
+    })
+    .error(err => {
+      console.log('********* error in setUpFollowWriters ', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in setUpFollowWriters ', e);
+      res.sendStatus(404);
+    });
+};
 
 module.exports.addFavorites = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
