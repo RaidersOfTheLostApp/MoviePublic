@@ -138,17 +138,25 @@ router.route('/following')
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {
-    // res.render('profile.ejs', {
-    //   user: req.user // get the user out of session and pass to template
-    // });
-    // res.redirect('/account');
-
-    // if statement for new user, go here, else redirect to /
-    res.render('index.ejs', {
-      data: {
-        user: req.user
-      }
-    });
+    //TODO: fix below call
+    models.Genres.fetchAll()
+      .then(genreList => {
+        var finalGenres = [];
+        for (var i = 0; i < genreList.models.length; i++){
+          finalGenres.push(genreList.models[i].attributes);
+        }
+        console.log('*********** genreList ', finalGenres);
+        res.render('index.ejs', {
+          data: {
+            user: req.user,
+            genres: finalGenres
+          }
+        });
+      })
+      .catch(err => {
+        console.log('*********** error ', err);
+        res.status(503).send(err);
+      });
   });
 
 router.route('/logout')

@@ -71,7 +71,7 @@ class App extends React.Component {
           />
           <Route path="/setup" render={() => (
             <MuiThemeProvider>
-              <UserSetup user={dataFromServer.user} />
+              <UserSetup user={dataFromServer.user} genres={dataFromServer.genres}/>
             </MuiThemeProvider>
           )}
           />

@@ -55,7 +55,7 @@ class FollowSetup extends React.Component {
       });
     } else {
       this.setState({
-        latestFollow: {'text': this.state.dataSource[index]['text'], 'id': this.state.dataSource[index]['id']}
+        latestFollow: {'text': this.state.dataSource[index]['name'], 'id': this.state.dataSource[index]['id']}
       });
     }
   }
@@ -92,7 +92,7 @@ class FollowSetup extends React.Component {
 
   render() {
     const dataSourceConfig = {
-      text: 'text',
+      text: 'name',
       value: 'id'
     };
     return (
