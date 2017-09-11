@@ -87,9 +87,15 @@ class Results extends React.Component {
   render() {
     // console.log(this.state.movies, '10000')
     return (
-      <div className='gridRoot'>
-        <Search searchToServer={this.handleSearch.bind(this)}/>
-        <Filtering />
+      <div className='gridRoot container'>
+        <div className='row'>
+          <div className='col-6'>
+            <Search searchToServer={this.handleSearch.bind(this)}/>
+          </div>
+          <div className='col-6'>
+            <Filtering />
+          </div>
+        </div>  
         <GridList
           cellHeight='auto'
           cols={5}
