@@ -32,6 +32,10 @@ router.route('/getfavorites')
   .get(ProfileController.getFavorites)
 ;
 
+router.route('/clearfavorites')
+  .post(ProfileController.clearFavorites)
+;
+
 router.route('/follows/movies')
   .post(ProfileController.setUpFollowMovies)
   // .delete(ProfileController.deleteOne)

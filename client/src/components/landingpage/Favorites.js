@@ -14,15 +14,21 @@ class Favorites extends React.Component {
     this.state = {
       favorites: []
     }
+    this.getFavorites = this.getFavorites.bind(this);
   }
 
-  getFavorites(callback) {
+  getFavorites() {
     $.ajax({
       url: '/api/profiles/getfavorites',
       method: 'GET',
       dataType: 'json',
       success: (results) => {
-        callback(results.favorites);
+        // console.log(results.favorites);
+        this.setState({
+          favorites: results.favorites
+        });
+
+        this.render();
       },
       error: (err) => {
         console.log('err', err);
@@ -30,23 +36,57 @@ class Favorites extends React.Component {
     });
   }
 
+  // clearFavorites() {
+  //   console.log('clear favorites on client side')
+  //   $.ajax({
+  //     method: 'POST',
+  //     url: '/api/profiles/clearfavorites',
+  //     data: [],
+  //     success: (results) => {
+  //       console.log(results);
+  //       this.setState({
+  //         favorites: []
+  //       });
+
+  //       // this.render();
+  //     },
+  //     error: (err) => {
+  //       console.log('err', err);
+  //     }
+  //   });
+  // }
+
+  // addFavorites(movie) {
+  //     $.ajax({
+  //       method: 'POST',
+  //       url: '/api/profiles/addfavorites',                                                               
+  //       data: movie,
+  //       success: (user) => {
+  //         // user = JSON.parse(user);
+  //         console.log('********* success favorites updated for user ' + user);
+  //       },
+  //       error: (error) => {
+  //         console.log('************* error updating favorites for user', error);
+  //       }
+  //     });
+  // }
+
+  // <button type="button" onClick = {this.clearFavorites.bind(this)} > Clear Favorites! </button> 
+
   componentDidMount() {
     this.getFavorites((results) => {
-      console.log(results);
-      this.setState({ favorites: results });
+      this.setState({ favorites: results.favorites });
     });
   }
 
   render() {
-    console.log('the state for this is the following: ' + this.state.favorites);
     return (
       <div className='muiThemeProvider'>
         <div className='gridRoot'>
           <Search />
-          <button onClick={this.getFavorites} type="button" id = "favorites">Get Favorites!</button>
           <GridList cellHeight={200} cols={5} className='gridList'>
             <Subheader>Favorites</Subheader>
-            {this.props.favorites.map((favorite, i) => (
+            {this.state.favorites.map((favorite, i) => (
               <a href = {favorite.website} target = "_blank">
                 <GridTile 
                   key={i} 
@@ -65,6 +105,7 @@ class Favorites extends React.Component {
 }
 
 export default Favorites;
+
 
 
 
