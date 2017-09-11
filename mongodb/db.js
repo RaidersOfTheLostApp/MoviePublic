@@ -29,7 +29,7 @@ var movieSchema = mongoose.Schema({
   description: String,
   awards: Array,
   poster: String,
-  ratings: {type: Array, required: true},
+  ratings: Array,
   language: Array,
   box_office: Number,
   production: String,
@@ -135,10 +135,6 @@ var saveMovies = (movies, cb) => {
 
 module.exports = searchDb;
 module.exports.searchByTitle = searchByTitle;
-<<<<<<< HEAD
-// module.exports.searchById = searchById;
-=======
 module.exports.searchByIds = searchByIds;
->>>>>>> basic popup component render on click
 module.exports.saveMovies = saveMovies;
 module.exports.getMovies = getMovies;
