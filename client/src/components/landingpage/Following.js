@@ -113,10 +113,10 @@ class Following extends React.Component {
             <div className='col-4'>
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select a Genre to Filter' />
-                <MenuItem value={1} primaryText='Actor 1' />
-                <MenuItem value={2} primaryText='Actor 2' />
-                <MenuItem value={3} primaryText='Actor 3' />
-                <MenuItem value={4} primaryText='Actor 4' />
+                <MenuItem value={1} primaryText='Genre 1' />
+                <MenuItem value={2} primaryText='Genre 2' />
+                <MenuItem value={3} primaryText='Genre 3' />
+                <MenuItem value={4} primaryText='Genre 4' />
               </SelectField>
             </div>
           </div>
