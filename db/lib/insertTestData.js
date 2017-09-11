@@ -1,3 +1,5 @@
+//TODO: uncomment the below and run these in your postgres command line. it can all be run as one query string, just copy and paste
+
 // insert into genres (name) values ('Action'), ('Adventure'), ('Adult'), ('Animation'), ('Biography'), ('Comedy'), ('Documentary'), ('Drama'), ('Family'), ('Horror'), ('Musical'), ('Mystery'), ('Romance'), ('Sci-Fi'), ('Short'), ('Thriller');
 // update movies set genres = '["Drama", "Romance"]' where genres = '["Drama, Romance"]';
 // update movies set genres = '["Drama", "Family"]' where genres = '["Drama, Family"]';
@@ -17,9 +19,3 @@
 // update movies set genres = '["Comedy", "Family", "Fantasy"]' where genres = '["Comedy, Family, Fantasy"]';
 // update movies set genres = '["Biography", "Drama", "Romance"]' where genres = '["Biography, Drama, Romance"]';
 // update movies set genres = '["Adventure", "Comedy", "Drama"]' where genres = '["Adventure, Comedy, Drama"]';
-
-// select * from movies where genres::jsonb @> '["Comedy"]';
-//
-// insert into crew (name, actor)  values (
-
-// TODO: need to add indexes to the arrays for lookups
