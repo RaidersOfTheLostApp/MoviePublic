@@ -30,8 +30,17 @@ class Following extends React.Component {
     //   });
     this.getFollow('genres', (err, movieArr) => {
       if (err) {console.log('********** error on getFollow ', err);}
+      var genreArr = movieArr.splice(0, 15);
+      var movieArrNew = movieArr.splice(0, 15);
+      var actorArr = movieArr.splice(0, 15);
+      var directorArr = movieArr.splice(0, 15);
+      var writerArr = movieArr.splice(0);
       this.setState({
-        genreFollowMongoIds: movieArr,
+        genreFollowMongoIds: genreArr,
+        movieFollowMongoIds: movieArrNew,
+        actorFollowMongoIds: actorArr,
+        directorFollowMongoIds: directorArr,
+        writerFollowMongoIds: writerArr,
         loading: false
       });
     });
@@ -83,7 +92,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.genreFollowMongoIds.map((movie, i) => (
+            {this.state.movieFollowMongoIds.map((movie, i) => (
               <a href = {movie.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -141,7 +150,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.genreFollowMongoIds.map((actor, i) => (
+            {this.state.actorFollowMongoIds.map((actor, i) => (
               <a href = {actor.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -170,7 +179,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.genreFollowMongoIds.map((director, i) => (
+            {this.state.directorFollowMongoIds.map((director, i) => (
               <a href = {director.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -199,7 +208,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.genreFollowMongoIds.map((writer, i) => (
+            {this.state.writerFollowMongoIds.map((writer, i) => (
               <a href = {writer.website} target = "_blank">
                 <GridTile
                   key={i}

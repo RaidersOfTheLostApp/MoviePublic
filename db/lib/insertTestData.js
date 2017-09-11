@@ -1,4 +1,4 @@
-//TODO: uncomment the below and run these in your postgres command line. it can all be run as one query string, just copy and paste
+//TODO: uncomment the below and run these in your postgres command line. it can be run about 5 at a time, just copy and paste
 
 // insert into genres (name) values ('Action'), ('Adventure'), ('Adult'), ('Animation'), ('Biography'), ('Comedy'), ('Documentary'), ('Drama'), ('Family'), ('Horror'), ('Musical'), ('Mystery'), ('Romance'), ('Sci-Fi'), ('Short'), ('Thriller');
 // update movies set genres = '["Drama", "Romance"]' where genres = '["Drama, Romance"]';
