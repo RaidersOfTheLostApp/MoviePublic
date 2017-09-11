@@ -29,7 +29,7 @@ class Following extends React.Component {
     //     this.setState({movieFollowMongoIds: movieArr, loading: false});
     //   });
     this.getFollow('genres', (err, movieArr) => {
-      if (err) {console.log('********** error on getFollow ', err);}
+      if (err) { console.log('********** error on getFollow ', err); }
       var genreArr = movieArr.splice(0, 15);
       var movieArrNew = movieArr.splice(0, 15);
       var actorArr = movieArr.splice(0, 15);
