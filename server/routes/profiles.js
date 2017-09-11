@@ -28,9 +28,9 @@ router.route('/addfavorites')
   .post(ProfileController.addFavorites)
 ;
 
-// router.route('/getfavorites')
-//   .post(ProfileController.getFavorites)
-// ;
+router.route('/getfavorites')
+  .get(ProfileController.getFavorites)
+;
 
 router.route('/follows/movies')
   .post(ProfileController.setUpFollowMovies)

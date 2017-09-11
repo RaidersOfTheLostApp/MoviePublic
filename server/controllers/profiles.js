@@ -284,11 +284,13 @@ module.exports.addFavorites = (req, res) => {
       }
       var subs = [];
       for (var key in req.body) {
+        console.log(key);
+        console.log(req.body[key]);
         if (req.body[key]) {
           subs.push(req.body[key]);
         }
       }
-      return profile.save({favorites: JSON.stringify(subs)}, {patch: true});
+      return profile.save({favorites: JSON.stringify(req.body)}, {patch: true});
     })
     .then((profile) => {
       console.log(profile.attributes);
@@ -301,6 +303,29 @@ module.exports.addFavorites = (req, res) => {
     })
     .catch((e) => {
       console.log('********* catch in setFavorites', e);
+      res.sendStatus(404);
+    });
+};
+
+module.exports.getFavorites = (req, res) => {
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (!profile) {
+        throw profile;
+      }
+      return profile
+    })
+    .then((profile) => {
+      console.log('********* favorites have successfully been grabbed from the database');
+      console.log(profile.attributes.favorites);
+      res.status(201).send(profile);
+    })
+    .error(err => {
+      console.log('********* error in getting favorites from database', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in getFavorites', e);
       res.sendStatus(404);
     });
 };

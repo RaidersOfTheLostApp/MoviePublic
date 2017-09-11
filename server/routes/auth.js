@@ -84,9 +84,6 @@ router.route('/favorites')
       }
     });
   });
-
-router.route('/addfavorites') 
-  .post(searchDb.saveFavorites) 
   
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
