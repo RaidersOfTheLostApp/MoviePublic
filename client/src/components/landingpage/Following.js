@@ -32,8 +32,11 @@ class Following extends React.Component {
     //     this.setState({movieFollowMongoIds: movieArr, loading: false});
     //   });
     this.getFollow('genres', movieArr => {
-      console.log('************* movieArr genres results ', movieArr);
-      this.setState({genreFollowMongoIds: movieArr});
+      console.log('************* movieArr genres results ');
+      this.setState({
+        genreFollowMongoIds: movieArr,
+        loading: false
+      });
     });
     // this.getFollow('actors', movieArr => {
     //   console.log('************* movieArr actors results ', movieArr);
@@ -55,8 +58,7 @@ class Following extends React.Component {
         method: 'GET',
         url: '/api/profiles/follows/' + type,
         success: (movieArr) => {
-          movieArr = JSON.parse(movieArr);
-          console.log('********* success get follow', movieArr);
+          console.log('********* success get follow ', movieArr);
           resolve(movieArr);
         },
         error: (error) => {

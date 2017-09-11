@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var searchTitle = require('../server/movieAPIHelpers/omdbHelpers.js').searchTitle;
 var uri = process.env.MONGODB_URI || 'mongodb://localhost/fetcher';
+var ObjectId = require('mongodb').ObjectId;
 
 mongoose.connect(uri, {
   useMongoClient: true
@@ -53,18 +54,19 @@ var searchByTitle = (title, cb) => {
 var searchByIds = (idArray, cb) => {
 
   var movieList = [];
-  idArray.map(value => {
-
-    getMovies({ _id: value }, (err, res) => {
+  var len = idArray.length;
+  idArray.forEach((value, i) => {
+    getMovies({ _id: ObjectId(value) }, (err, res) => {
       if (err) {
         cb(err, null);
       } else {
-        movieList.push(res);
+        movieList.push(res[0]);
+      }
+      if (i === len - 1) {
+        cb(null, movieList);
       }
     });
-
   });
-  cb(null, movieList);
 };
 
 var getMovies = (query, cb) => {

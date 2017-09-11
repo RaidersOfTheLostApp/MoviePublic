@@ -1,5 +1,5 @@
 const models = require('../../db/models');
-const searchDb = require('../../mongodb/db.js');
+const searchDb = require('../../mongodb/db');
 
 module.exports.getAll = (req, res) => {
   models.Profile.fetchAll()
@@ -66,17 +66,27 @@ module.exports.getFollowMovies = (req, res) => {
 };
 
 module.exports.getFollowGenres = (req, res) => {
-  console.log('************* in getFollowGenres');
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       if (!profile) {
         throw profile;
       }
-      //TODO get movies with this genre id first, then
-      searchDb.searchByIds(moviesArr, (err, mongoMovieArr) => {
-        if (err) { throw err; }
-        res.status(200).send(mongoMovieArr);
-      });
+      //TODO get movies for each genre and then concat uniques and return
+      var searchGenres = [];
+      //for (var i = 0; i < profile.attributes.follow_genre.length; i++) {
+      searchGenres.push(profile.attributes.follow_genre[0].text);
+      // }
+      models.Movies.where('genres', '@>', JSON.stringify(searchGenres)).fetchAll()
+        .then(moviesArr => {
+          var searchMovieIds = [];
+          for (var i = 0; i < moviesArr.models.length; i++) {
+            searchMovieIds.push(JSON.parse(moviesArr.models[i].attributes.mongo_id));
+          }
+          searchDb.searchByIds(searchMovieIds, (err, mongoMovieArr) => {
+            if (err) { throw err; }
+            res.status(200).send(mongoMovieArr);
+          });
+        });
     })
     .error(err => {
       res.status(500).send(err);
