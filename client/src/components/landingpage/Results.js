@@ -43,17 +43,17 @@ class Results extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
-        console.log(this.props, '@@@');
-        console.log(results);
-        console.log(this.state.movies, 'before');
+        // console.log(this.props, '@@@');
+        console.log('*********** results ', results);
+        // console.log(this.state.movies, 'before');
 
         // this.setState({movies: this.state.movies.concat(results)});
         this.setState({
           movies: results
         });
 
-        console.log(this.state.movies, '@#$#@$#@');
-        this.render();
+        // console.log(this.state.movies, '@#$#@$#@');
+        // this.render();
       },
       error: (err) => {
         console.log('err', err);

@@ -14,9 +14,9 @@ module.exports.getAllMovies = (req, res) => {
 };
 
 module.exports.addMovies = (movie_array, callback) => {
-  console.log(movie_array, 'Movie Array passed from Server Auth');
+  // console.log(movie_array, 'Movie Array passed from Server Auth');
   movie_array.forEach((movie) => {
-    console.log(movie.item, movie.item._id, 'Movie Info');
+    // console.log(movie.item, movie.item._id, 'Movie Info');
     /**PseudoCode
      * Genre Table: Check if genre present,
      * add if not
@@ -43,7 +43,7 @@ module.exports.addMovies = (movie_array, callback) => {
       ratings: JSON.stringify(movie.item.ratings),
     }).save();
 
-    console.log(movie.item.title, ': Server Controller - Movie Added!');
+    // console.log(movie.item.title, ': Server Controller - Movie Added!');
 
   });
 

@@ -32,9 +32,9 @@ class Following extends React.Component {
       if (err) { console.log('********** error on getFollow ', err); }
       var genreArr = movieArr.splice(0, 15);
       var movieArrNew = movieArr.splice(0, 15);
-      var actorArr = movieArr.splice(0);
-      var directorArr = genreArr;
-      var writerArr = movieArrNew;
+      var actorArr = movieArr.splice(0, 15);
+      var directorArr = movieArr.splice(0, 15);
+      var writerArr = movieArr.splice(0, 15);
       this.setState({
         genreFollowMongoIds: genreArr,
         movieFollowMongoIds: movieArrNew,
