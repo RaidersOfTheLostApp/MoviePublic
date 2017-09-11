@@ -91,7 +91,7 @@ class Following extends React.Component {
               <Subheader>MOVIES You Are Following</Subheader>
             </div>
           </div>
-          <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.movieFollowMongoIds.map((movie, i) => (
               <a href = {movie.website} target = "_blank">
                 <GridTile
@@ -112,15 +112,15 @@ class Following extends React.Component {
             </div>
             <div className='col-4'>
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Genre 1' />
-                <MenuItem value={1} primaryText='Genre 2' />
-                <MenuItem value={2} primaryText='Genre 3' />
-                <MenuItem value={3} primaryText='Genre 4' />
-                <MenuItem value={4} primaryText='Genre 5' />
+                <MenuItem value={0} primaryText='Select a Genre to Filter' />
+                <MenuItem value={1} primaryText='Actor 1' />
+                <MenuItem value={2} primaryText='Actor 2' />
+                <MenuItem value={3} primaryText='Actor 3' />
+                <MenuItem value={4} primaryText='Actor 4' />
               </SelectField>
             </div>
           </div>
-          <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.genreFollowMongoIds.map((genre, i) => (
               <a href = {genre.website} target = "_blank">
                 <GridTile
@@ -141,15 +141,15 @@ class Following extends React.Component {
             </div>
             <div className='col-4'>
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Actor 1' />
-                <MenuItem value={1} primaryText='Actor 2' />
-                <MenuItem value={2} primaryText='Actor 3' />
-                <MenuItem value={3} primaryText='Actor 4' />
-                <MenuItem value={4} primaryText='Actor 5' />
+                <MenuItem value={0} primaryText='Select an Actor/Actress to Filter' />
+                <MenuItem value={1} primaryText='Actor 1' />
+                <MenuItem value={2} primaryText='Actor 2' />
+                <MenuItem value={3} primaryText='Actor 3' />
+                <MenuItem value={4} primaryText='Actor 4' />
               </SelectField>
             </div>
           </div>
-          <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.actorFollowMongoIds.map((actor, i) => (
               <a href = {actor.website} target = "_blank">
                 <GridTile
@@ -170,15 +170,15 @@ class Following extends React.Component {
             </div>
             <div className='col-4'>
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Director 1' />
-                <MenuItem value={1} primaryText='Director 2' />
-                <MenuItem value={2} primaryText='Director 3' />
-                <MenuItem value={3} primaryText='Director 4' />
-                <MenuItem value={4} primaryText='Director 5' />
+                <MenuItem value={0} primaryText='Select a Director to Filter' />
+                <MenuItem value={1} primaryText='Director 1' />
+                <MenuItem value={2} primaryText='Director 2' />
+                <MenuItem value={3} primaryText='Director 3' />
+                <MenuItem value={4} primaryText='Director 4' />
               </SelectField>
             </div>
           </div>
-          <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.directorFollowMongoIds.map((director, i) => (
               <a href = {director.website} target = "_blank">
                 <GridTile
@@ -199,15 +199,15 @@ class Following extends React.Component {
             </div>
             <div className='col-4'>
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Writer 1' />
-                <MenuItem value={1} primaryText='Writer 2' />
-                <MenuItem value={2} primaryText='Writer 3' />
-                <MenuItem value={3} primaryText='Writer 4' />
-                <MenuItem value={4} primaryText='Writer 5' />
+                <MenuItem value={0} primaryText='Select a Writer to Filter' />
+                <MenuItem value={1} primaryText='Writer 1' />
+                <MenuItem value={2} primaryText='Writer 2' />
+                <MenuItem value={3} primaryText='Writer 3' />
+                <MenuItem value={4} primaryText='Writer 4' />
               </SelectField>
             </div>
           </div>
-          <GridList cellHeight={200} cols={5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.writerFollowMongoIds.map((writer, i) => (
               <a href = {writer.website} target = "_blank">
                 <GridTile
