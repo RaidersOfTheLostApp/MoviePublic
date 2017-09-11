@@ -83,6 +83,8 @@ module.exports.getFollowGenres = (req, res) => {
             searchMovieIds.push(JSON.parse(moviesArr.models[i].attributes.mongo_id));
           }
           searchDb.searchByIds(searchMovieIds, (err, mongoMovieArr) => {
+            console.log('************* genre movies search movie ids', mongoMovieArr);
+
             if (err) { throw err; }
             res.status(200).send(mongoMovieArr);
           });
@@ -389,23 +391,21 @@ module.exports.addFavorites = (req, res) => {
       if (!profile) {
         throw profile;
       }
-      return profile
+      return profile;
     })
     .then((profile) => {
       var favorites = profile.attributes.favorites;
       var newarray = [];
       if (favorites === null) {
-          newarray.push(req.body);
-      }
-      
-      else {
+        newarray.push(req.body);
+      } else {
         for (var i = 0; i < favorites.length; i++) {
           newarray.push(favorites[i]);
         }
         newarray.push(req.body);
       }
       return profile.save({favorites: JSON.stringify(newarray)}, {patch: true});
-     })
+    })
     .then((profile) => {
       console.log('********* favorites have successfully been saved to DB for user ' + profile.attributes.display);
       res.status(201).send(profile.attributes.display);
@@ -427,11 +427,11 @@ module.exports.clearFavorites = (req, res) => {
       if (!profile) {
         throw profile;
       }
-      return profile
+      return profile;
     })
     .then((profile) => {
       return profile.save({favorites: []}, {patch: true});
-     })
+    })
     .then((profile) => {
       console.log('********* favorites have been successfully cleared for ' + profile.attributes.display);
       res.status(201).send(JSON.stringify([]));
@@ -483,12 +483,12 @@ module.exports.getFavorites = (req, res) => {
       if (!profile) {
         throw profile;
       }
-      return profile
+      return profile;
     })
     .then((profile) => {
       console.log('********* favorites have successfully been grabbed from the database');
       console.log(profile.attributes.favorites);
-      res.status(201).send(profile.attributes.favorites);
+      res.status(201).send(profile.attributes.favorites || []);
     })
     .error(err => {
       console.log('********* error in getting favorites from database', err);

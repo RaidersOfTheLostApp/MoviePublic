@@ -32,9 +32,9 @@ class Following extends React.Component {
       if (err) { console.log('********** error on getFollow ', err); }
       var genreArr = movieArr.splice(0, 15);
       var movieArrNew = movieArr.splice(0, 15);
-      var actorArr = movieArr.splice(0, 15);
-      var directorArr = movieArr.splice(0, 15);
-      var writerArr = movieArr.splice(0);
+      var actorArr = movieArr.splice(0);
+      var directorArr = genreArr;
+      var writerArr = movieArrNew;
       this.setState({
         genreFollowMongoIds: genreArr,
         movieFollowMongoIds: movieArrNew,
@@ -122,7 +122,7 @@ class Following extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.genreFollowMongoIds.map((genre, i) => (
-              <a href = {genre.website} target = "_blank">
+              <a href = {genre.website === 'N/A' ? '#' : genre.website} target = "_blank">
                 <GridTile
                   key={i}
                   title={genre.title}
@@ -151,7 +151,7 @@ class Following extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.actorFollowMongoIds.map((actor, i) => (
-              <a href = {actor.website} target = "_blank">
+              <a href = {actor.website === 'N/A' ? '#' : actor.website} target = "_blank">
                 <GridTile
                   key={i}
                   title={actor.title}
@@ -180,7 +180,7 @@ class Following extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.directorFollowMongoIds.map((director, i) => (
-              <a href = {director.website} target = "_blank">
+              <a href = {director.website === 'N/A' ? '#' : director.website} target = "_blank">
                 <GridTile
                   key={i}
                   title={director.title}
@@ -209,7 +209,7 @@ class Following extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.writerFollowMongoIds.map((writer, i) => (
-              <a href = {writer.website} target = "_blank">
+              <a href = {writer.website === 'N/A' ? '#' : writer.website} target = "_blank">
                 <GridTile
                   key={i}
                   title={writer.title}

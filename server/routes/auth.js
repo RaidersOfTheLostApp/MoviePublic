@@ -27,40 +27,41 @@ router.route('/')
   .get (middleware.auth.verify, (req, res, next) => {
     var movies;
     searchDb.getMovies( (err, data) => {
-      if(err) {
-        console.log(err)
+      if (err) {
+        console.log(err);
       } else {
 
         movies = data;
 
         var sorted = sortByKey(movies, 'year');
 
-    models.Profile.where({ id: req.session.passport.user }).fetch()
-      .then(profile => {
-        if (profile.new_user) {
-          res.redirect('/setup');
-        } else {
-          var movies;
-          searchDb.getMovies((err, data) => {
-            if (err) {
-              console.log(err);
+        models.Profile.where({ id: req.session.passport.user }).fetch()
+          .then(profile => {
+            if (profile.new_user) {
+              res.redirect('/setup');
             } else {
-              movies = data;
-              var sorted = sortByKey(movies, 'year');
-              res.render('index.ejs', {
-                data: {
-                  movieone: sorted,
-                  movietwo: sorted,
-                  user: req.user
+              var movies;
+              searchDb.getMovies((err, data) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  movies = data;
+                  var sorted = sortByKey(movies, 'year');
+                  res.render('index.ejs', {
+                    data: {
+                      movieone: sorted,
+                      movietwo: sorted,
+                      user: req.user
+                    }
+                    // data: movies // from fakeData file
+                  });
                 }
-                // data: movies // from fakeData file
               });
             }
           });
-        }
-      });
-  }});
-})
+      }
+    });
+  });
 
 
 router.route('/login')
@@ -91,7 +92,6 @@ router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
-        console.log('*********** profile ', profile);
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
@@ -142,10 +142,9 @@ router.route('/setup')
     models.Genres.fetchAll()
       .then(genreList => {
         var finalGenres = [];
-        for (var i = 0; i < genreList.models.length; i++){
+        for (var i = 0; i < genreList.models.length; i++) {
           finalGenres.push(genreList.models[i].attributes);
         }
-        console.log('*********** genreList ', finalGenres);
         res.render('index.ejs', {
           data: {
             user: req.user,

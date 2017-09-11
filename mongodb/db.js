@@ -87,7 +87,7 @@ var saveMovies = (movies, cb) => {
 
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.request.response.body);
-      console.log(data, '@#$@#$#@$#@$@#');
+      // console.log(data, '@#$@#$#@$#@$@#');
       if (err) {
         console.log('brokeninsaveMovies');
       } else {

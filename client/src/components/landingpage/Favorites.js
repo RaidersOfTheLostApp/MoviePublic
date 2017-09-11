@@ -13,7 +13,7 @@ class Favorites extends React.Component {
     super(props);
     this.state = {
       favorites: []
-    }
+    };
     this.getFavorites = this.getFavorites.bind(this);
   }
 
@@ -23,7 +23,7 @@ class Favorites extends React.Component {
       method: 'GET',
       dataType: 'json',
       success: (results) => {
-        // console.log(results.favorites);
+        console.log('************* results ', results.favorites);
         this.setState({
           favorites: results.favorites
         });
@@ -59,7 +59,7 @@ class Favorites extends React.Component {
   // addFavorites(movie) {
   //     $.ajax({
   //       method: 'POST',
-  //       url: '/api/profiles/addfavorites',                                                               
+  //       url: '/api/profiles/addfavorites',
   //       data: movie,
   //       success: (user) => {
   //         // user = JSON.parse(user);
@@ -71,7 +71,7 @@ class Favorites extends React.Component {
   //     });
   // }
 
-  // <button type="button" onClick = {this.clearFavorites.bind(this)} > Clear Favorites! </button> 
+  // <button type="button" onClick = {this.clearFavorites.bind(this)} > Clear Favorites! </button>
 
   componentDidMount() {
     this.getFavorites((results) => {
@@ -88,8 +88,8 @@ class Favorites extends React.Component {
             <Subheader>Favorites</Subheader>
             {this.state.favorites.map((favorite, i) => (
               <a href = {favorite.website} target = "_blank">
-                <GridTile 
-                  key={i} 
+                <GridTile
+                  key={i}
                   title={favorite.title}
                   subtitle={<span>by <b>{favorite.director}</b></span>}
                 >
@@ -105,9 +105,3 @@ class Favorites extends React.Component {
 }
 
 export default Favorites;
-
-
-
-
-
-
