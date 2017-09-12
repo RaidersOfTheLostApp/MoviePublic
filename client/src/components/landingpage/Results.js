@@ -47,44 +47,42 @@ class Results extends React.Component {
         console.log('err', err);
       }
     });
-
   }
 
   componentDidUpdate() {
     this.render();
   }
 
-  addFavorites(movie) {
-    $.ajax({
-      method: 'POST',
-      url: '/api/profiles/addfavorites',
-      data: movie,
-      success: (user) => {
-        // user = JSON.parse(user);
-        console.log('********* success favorites updated for user ' + user);
-      },
-      error: (error) => {
-        console.log('************* error updating favorites for user', error);
-      }
-    });
-  }
-
-  // getFavorites(callback) {
+  // addFavorites(movie) {
   //   $.ajax({
-  //     url: '/api/profiles/getfavorites',
-  //     method: 'GET',
-  //     dataType: 'json',
-  //     success: (results) => {
-  //       callback(results.favorites);
+  //     method: 'POST',
+  //     url: '/api/profiles/addfavorites',
+  //     data: movie,
+  //     success: (user) => {
+  //       // user = JSON.parse(user);
+  //       console.log('********* success favorites updated for user ' + user);
   //     },
-  //     error: (err) => {
-  //       console.log('err', err);
+  //     error: (error) => {
+  //       console.log('************* error updating favorites for user', error);
   //     }
   //   });
   // }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.favorites) { 
+      var newArray = [];
+      for (var i = 0; i < nextProps.favorites.length; i++) {
+        newArray.push(nextProps.favorites[i].id);
+      }
+      this.setState({
+        favorites: nextProps.favorites,
+        favoriteId: newArray
+      });
+    }
+  }
+
   render() {
-    // console.log(this.state.movies, '10000')
     return (
       <div className='gridRoot container'>
         <div className='row'>
