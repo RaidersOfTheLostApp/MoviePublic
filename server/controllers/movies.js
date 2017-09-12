@@ -14,35 +14,75 @@ module.exports.getAllMovies = (req, res) => {
 };
 
 module.exports.addMovies = (movie_array, callback) => {
-  console.log(movie_array, 'Movie Array passed from Server Search');
+  // console.log(movie_array, 'Movie Array passed from Server Search');
   movie_array.forEach((movie) => {
-    console.log(movie, movie.genre, 'Movie Info');
+    // console.log(movie, movie.genre, 'Movie Info');
+    let actor_id = [];
+    let director_id = [];
+    let writer_id = [];
 
-    let genre_id = null;
-    let actor_id = null;
-    let director_id = null;
-    let writer_id = null;
-    let genre = movie.genre[0].split(', ');
-    // console.log(genre, 'Genres: Array');
-    genre.forEach((genre) => {
-      // console.log(genre, 'Solo Genre');
-      new models.Genres({ 'name': genre })
-        .fetch()
-        .then(function(model) {
-          // console.log(model, 'model');
-          if (model) {
-            console.log(model, 'Genre is Already in Database');
-            // console.log(model.get('title'));
-          } else {
-            new models.Genres({
-              name: genre
-            }).save();
-            console.log('Genre Created');
-          }
-        });
+    /**
+     * Genre Add will retreive a movie's genres, create a new data row in Postgres if the genre is not there, and create an array of Postgres IDs
+     * @param {*} movie - One Movie
+     * Returns an array of Postgresql IDs of Genres
+     */
+    var genre_add = (movie, callback) => {
+      let genre_id = [];
+      let genre = movie.genre[0].split(', ');
+      // console.log(genre, 'Genres: Array');
+      genre.forEach((genre) => {
+        // console.log(genre, 'Solo Genre');
+        models.Genres.where({ name: genre })
+          .fetch()
+          .then(function(model) {
+            if (model) {
+              console.log(model.attributes, 'Genre is Already in Database');
+              // console.log('Genre is Already in Database');
+              genre_id.push(model.attributes.id);
+              console.log(genre_id, 'IDs to put into Movie Table - No Add');
+            } else {
+              new models.Genres({
+                name: genre
+              }).save()
+                .then(function() {
+                  models.Genres.where({ name: genre })
+                    .fetch()
+                    .then(function(model) {
+                      console.log(genre, 'Genre Created');
+                      // if (model) {
+                      console.log(model.attributes, 'Genre just added to Database');
+                      genre_id.push(model.attributes.id);
+                      // }
+                    })
+                    .then(() => {
+                      console.log(genre_id, 'IDs to put into Movie Table');
+                      callback(genre_id);
+                    });
+                });
+            }
+          });
+      });
+    };
+
+    genre_add(movie, (genre_id) => {
+      // console.log(genre_id, 'Before Creating Movie');
+      new models.Movies({
+        // id: id,
+        mongo_id: movie.id,
+        title: movie.title,
+        year: movie.year,
+        release_date: movie.release_date,
+        genres: JSON.stringify(genre_id),
+        awards: JSON.stringify(movie.awards),
+        director: JSON.stringify(movie.directors),
+        writer: JSON.stringify(movie.writers),
+        actors: JSON.stringify(movie.actors),
+        // box_office: movie.box_Office,
+        production: movie.production,
+        ratings: JSON.stringify(movie.ratings),
+      }).save();
     });
-
-    // console.log(movie.item, movie.item._id, 'Movie Info');
+    // console.log(movie.title, ': Server Controller - Movie Added!');
 
     /**PseudoCode
      * Crew Table: Check if name is present
@@ -52,24 +92,7 @@ module.exports.addMovies = (movie_array, callback) => {
      * Replace genre, director, writer, actors with SQL IDs returned
      */
     // Check PG Database to see if the movie is already then, skip if there
-    new models.Movies({
-      // id: id,
-      mongo_id: movie.id,
-      title: movie.title,
-      year: movie.year,
-      release_date: movie.release_date,
-      genres: JSON.stringify(movie.genre),
-      awards: JSON.stringify(movie.awards),
-      director: JSON.stringify(movie.directors),
-      writer: JSON.stringify(movie.writers),
-      actors: JSON.stringify(movie.actors),
-      // box_office: movie.box_Office,
-      production: movie.production,
-      ratings: JSON.stringify(movie.ratings),
-    }).save();
-    // console.log(movie.item.title, ': Server Controller - Movie Added!');
   });
-
   // console.log('DB Bookshelf: Movies Added');
   callback(null, 'DB Bookshelf: Movies Added');
 };

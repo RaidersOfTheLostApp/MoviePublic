@@ -47,7 +47,7 @@ exports.up = function(knex, Promise) {
 
     knex.schema.createTableIfNotExists('genres', function(table) {
       table.increments('id').unsigned().primary();
-      table.text('name').notNullable();
+      table.text('name').notNullable().unique();
       // table.jsonb('movies').nullable();
     }),
 
