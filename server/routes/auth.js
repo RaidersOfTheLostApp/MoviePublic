@@ -24,9 +24,9 @@ const sortByKey = (array, key) => {
 };
 
 router.route('/')
-  .get (middleware.auth.verify, (req, res, next) => {
+  .get(middleware.auth.verify, (req, res, next) => {
     var movies;
-    searchDb.getMovies( (err, data) => {
+    searchDb.getMovies((err, data) => {
       if (err) {
         console.log(err);
       } else {

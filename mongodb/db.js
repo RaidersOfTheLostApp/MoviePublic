@@ -18,7 +18,7 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
-  id: {type: Number, unique: true},
+  id: { type: Number, unique: true },
   title: String,
   year: { type: Number, required: true },
   release_date: { type: String, required: true },

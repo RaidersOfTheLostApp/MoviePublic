@@ -14,39 +14,85 @@ module.exports.getAllMovies = (req, res) => {
 };
 
 module.exports.addMovies = (movie_array, callback) => {
-  // console.log(movie_array, 'Movie Array passed from Server Auth');
+  // console.log(movie_array, 'Movie Array passed from Server Search');
   movie_array.forEach((movie) => {
-    // console.log(movie.item, movie.item._id, 'Movie Info');
+    // console.log(movie, movie.genre, 'Movie Info');
+    let actor_id = [];
+    let director_id = [];
+    let writer_id = [];
+
+    /**
+     * Genre Add will retreive a movie's genres, create a new data row in Postgres if the genre is not there, and create an array of Postgres IDs
+     * @param {*} movie - One Movie
+     * Returns an array of Postgresql IDs of Genres
+     */
+    var genre_add = (movie, callback) => {
+      let genre_id = [];
+      let genre = movie.genre[0].split(', ');
+      // console.log(genre, 'Genres: Array');
+      genre.forEach((genre) => {
+        // console.log(genre, 'Solo Genre');
+        models.Genres.where({ name: genre })
+          .fetch()
+          .then(function(model) {
+            if (model) {
+              console.log(model.attributes, 'Genre is Already in Database');
+              // console.log('Genre is Already in Database');
+              genre_id.push(model.attributes.id);
+              console.log(genre_id, 'IDs to put into Movie Table - No Add');
+            } else {
+              new models.Genres({
+                name: genre
+              }).save()
+                .then(function() {
+                  models.Genres.where({ name: genre })
+                    .fetch()
+                    .then(function(model) {
+                      console.log(genre, 'Genre Created');
+                      // if (model) {
+                      console.log(model.attributes, 'Genre just added to Database');
+                      genre_id.push(model.attributes.id);
+                      // }
+                    })
+                    .then(() => {
+                      console.log(genre_id, 'IDs to put into Movie Table');
+                      callback(genre_id);
+                    });
+                });
+            }
+          });
+      });
+    };
+
+    genre_add(movie, (genre_id) => {
+      // console.log(genre_id, 'Before Creating Movie');
+      new models.Movies({
+        // id: id,
+        mongo_id: movie.id,
+        title: movie.title,
+        year: movie.year,
+        release_date: movie.release_date,
+        genres: JSON.stringify(genre_id),
+        awards: JSON.stringify(movie.awards),
+        director: JSON.stringify(movie.directors),
+        writer: JSON.stringify(movie.writers),
+        actors: JSON.stringify(movie.actors),
+        // box_office: movie.box_Office,
+        production: movie.production,
+        ratings: JSON.stringify(movie.ratings),
+      }).save();
+    });
+    // console.log(movie.title, ': Server Controller - Movie Added!');
+
     /**PseudoCode
-     * Genre Table: Check if genre present,
-     * add if not
-     * return id
      * Crew Table: Check if name is present
      * add if not, update booleans
      * return id
      * Use Below Code for Movie Model.
      * Replace genre, director, writer, actors with SQL IDs returned
      */
-    new models.Movies({
-      // id: id,
-      mongo_id: movie.item._id,
-      title: movie.item.title,
-      year: movie.item.year,
-      release_date: movie.item.release_date,
-      genres: JSON.stringify(movie.item.genre),
-      awards: JSON.stringify(movie.item.awards),
-      director: JSON.stringify(movie.item.directors),
-      writer: JSON.stringify(movie.item.writers),
-      actors: JSON.stringify(movie.item.actors),
-      // box_office: movie.box_Office,
-      production: movie.item.production,
-      ratings: JSON.stringify(movie.item.ratings),
-    }).save();
-
-    // console.log(movie.item.title, ': Server Controller - Movie Added!');
-
+    // Check PG Database to see if the movie is already then, skip if there
   });
-
   // console.log('DB Bookshelf: Movies Added');
   callback(null, 'DB Bookshelf: Movies Added');
 };
