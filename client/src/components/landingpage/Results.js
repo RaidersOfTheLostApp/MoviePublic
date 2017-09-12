@@ -68,19 +68,19 @@ class Results extends React.Component {
   //   });
   // }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if (nextProps.favorites) { 
-      var newArray = [];
-      for (var i = 0; i < nextProps.favorites.length; i++) {
-        newArray.push(nextProps.favorites[i].id);
-      }
-      this.setState({
-        favorites: nextProps.favorites,
-        favoriteId: newArray
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps);
+  //   if (nextProps.favorites) { 
+  //     var newArray = [];
+  //     for (var i = 0; i < nextProps.favorites.length; i++) {
+  //       newArray.push(nextProps.favorites[i].id);
+  //     }
+  //     this.setState({
+  //       favorites: nextProps.favorites,
+  //       favoriteId: newArray
+  //     });
+  //   }
+  // }
 
   render() {
     return (
@@ -102,6 +102,7 @@ class Results extends React.Component {
             <ResultsListItem
               key={i}
               movieP={movie}
+              favorites = {this.props.favorites}
             />
           ))}
         </GridList>
