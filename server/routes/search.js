@@ -78,12 +78,12 @@ router.route('/')
                     res.json(movieArr);
                   }
                 }
-                MovieController.addMovies(sorted, (err, results) => {
+                MovieController.addMovies(res2, (err, results) => {
                   if (err) {
                     console.log(err, 'Server Response - PG Unable to Add Movies');
                     // res.status(500).send('Postgres: Error adding movies');
                   } else {
-                    // console.log(results, 'Server Response - PG Added Data');
+                    console.log(results, 'Server Response - PG Added Data');
                     // res.status(201).send('Server Response - PG Added Data');
                   }
                 });
@@ -101,4 +101,4 @@ router.route('/')
   });
 
 module.exports = router;
-  
+
