@@ -165,6 +165,7 @@ router.route('/logout')
     res.redirect('/');
   });
 
+<<<<<<< HEAD
 router.route('/search')
   .get((req, res, next) => {
     var outputarr = [];
@@ -268,6 +269,8 @@ router.route('/search')
 
   });
 
+=======
+>>>>>>> e7569a6be94e6afc309bc37d73505e5be925e119
 router.get('/auth/google', middleware.passport.authenticate('google', {
   scope: ['email', 'profile']
 }));

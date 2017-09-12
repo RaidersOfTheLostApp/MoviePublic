@@ -18,6 +18,7 @@ class Results extends React.Component {
       favorites: [],
       movies: this.props.results
     };
+    this.searchToServer = this.searchToServer.bind(this);
   }
 
   searchToServer(cb) {
@@ -32,7 +33,7 @@ class Results extends React.Component {
       success: (results) => {
         var container = [];
         for (var i = 0; i < results.length; i++) {
-          container.push(results[i].item);
+          container.push(results[i]);
         }
         // this.setState({movies: this.state.movies.concat(results)});
         this.setState({
@@ -49,10 +50,8 @@ class Results extends React.Component {
 
   }
 
-  handleSearch() {
-    this.searchToServer( () => {
-      this.render();
-    });
+  componentDidUpdate() {
+    this.render();
   }
 
   addFavorites(movie) {
@@ -89,13 +88,13 @@ class Results extends React.Component {
     return (
       <div className='gridRoot container'>
         <div className='row'>
-          <div className='col-6'>
-            <Search searchToServer={this.handleSearch.bind(this)}/>
+          <div className='col-md-6'>
+            <Search searchToServer={this.searchToServer}/>
           </div>
-          <div className='col-6'>
+          <div className='col-md-6'>
             <Filtering />
           </div>
-        </div>  
+        </div>
         <GridList
           cellHeight='auto'
           cols={5}
@@ -103,7 +102,7 @@ class Results extends React.Component {
           <Subheader>Popular Movies</Subheader>
           {(this.state.movies).map( (movie, i) => (
             <ResultsListItem
-              k={i}
+              key={i}
               movieP={movie}
             />
           ))}

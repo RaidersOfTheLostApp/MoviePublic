@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Favorite from 'material-ui/svg-icons/action/favorite';
@@ -7,28 +8,45 @@ import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Search from './Search';
 import $ from 'jquery';
+import ResultsListItem from './ResultItem';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 class Favorites extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      favorites: []
+      favorites: [],
+      modalIsOpen: false,
+      favoriteId: [],
+      movieP: this.props.movie,
     };
     this.getFavorites = this.getFavorites.bind(this);
   }
 
+  openModal() {
+    this.setState({modalIsOpen: true});
+  }
+
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = '#f00';
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false});
+  }
+
   getFavorites() {
     $.ajax({
-      url: '/api/profiles/getfavorites',
       method: 'GET',
+      url: '/api/profiles/getfavorites',
       dataType: 'json',
       success: (results) => {
         console.log('************* results ', results.favorites);
         this.setState({
           favorites: results.favorites
         });
-
-        this.render();
       },
       error: (err) => {
         console.log('err', err);
@@ -76,7 +94,11 @@ class Favorites extends React.Component {
   componentDidMount() {
     this.getFavorites((results) => {
       this.setState({ favorites: results.favorites });
-    });
+    })
+  }
+
+  componentDidUpdate() {
+    this.render();
   }
 
   render() {
@@ -90,16 +112,11 @@ class Favorites extends React.Component {
           </div>
           <GridList cellHeight={200} cols={5} className='gridList'>
             <Subheader>Favorites</Subheader>
-            {this.state.favorites.map((favorite, i) => (
-              <a href = {favorite.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={favorite.title}
-                  subtitle={<span>by <b>{favorite.director}</b></span>}
-                >
-                  <img src = {favorite.poster}/>
-                </GridTile>
-              </a>
+            {(this.state.favorites).map((favorite, i) => (
+              <ResultsListItem
+                movieP={favorite}
+                k={i}
+              />
             ))}
           </GridList>
         </div>
