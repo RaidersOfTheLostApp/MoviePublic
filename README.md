@@ -165,21 +165,42 @@ To run tests: `yarn run test`
 
 To run your redis server for the session store `redis-server`
 
-## Deploy to heroku
+## Deploy to Heroku
 
 Your master will auto deploy so if you want to deploy from your branch, follow this command:
 
 `git push heroku <nameofbranch>:master`
 
-Install Heroku Addons for Heroku Postgres, Heroku Redis, and mLab MongoDB
+## Install Heroku Addon for Heroku Postgres, mLab MongoDB
 
 Heroku Postgres - populate the schema by following instructions for `Import`
 https://devcenter.heroku.com/articles/heroku-postgres-import-export
-You can use DropBox to host the saved dump
-Original schema load: https://www.dropbox.com/s/ke8bwdlo9dwzjkj/thesis_devel.dump?dl=0
+step 1: create dump of local db copy: `PGPASSWORD='theLostApp' pg_dump -Fc --no-acl --no-owner -h localhost -U raiders thesis_devel > thesis_devel.dump`
+step 2: You can use DropBox to host the saved dump
+latest schema load: https://www.dropbox.com/s/4e7l2zex29ka0qs/thesis_devel.dump?dl=0
 also saved in `thesis_devel.dump`
+step 3: import to the heroku postgres db: `heroku pg:backups:restore 'https://www.dropbox.com/s/4e7l2zex29ka0qs/thesis_devel.dump?dl=0' DATABASE_URL`
 
+## Install Heroku Addon for Heroku Redis
 Heroku Redis - promote the redis store to the app
-`heroku redis:promote <redisStoreName -a <appName>`
+`heroku redis:promote <redisStoreName> -a <appName>` (redisStoreName found on Heroku add-on page, looks like below)
+`heroku redis:promote redis-rigid-79334 -a raidersofthelostapp-movies`
+
+## Install Heroku Addon for mLab MongoDB
+
+To connect to the instance, from your local command prompt:
+`mongo <mongoDbURL>` (mongoDbURL found on Heroku add-on page, looks like below)
+`mongo ds133814.mlab.com:33814/heroku_t46wfkgc`
+
+Create a user/password under the `Users` section of the Addon Interface
+
+`mongodump --db fetcher` at command prompt to create a backup of the local DB schema
+
+Various options for restoring the db under the `Tools` section of the addon, we used the first one (use the properties for your addon but looks like below):
+`mongorestore -h ds133814.mlab.com:33814 -d heroku_t46wfkgc -u <username> -p <password> dump/fetcher/`
+
+Connect to github account
+
+Build the pipline
 
 Update Heroku Config variables and change all callback urls to match the stage
