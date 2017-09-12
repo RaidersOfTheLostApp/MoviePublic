@@ -82,12 +82,12 @@ class MovieDataModal extends React.Component {
           contentClassName='dialog'
         >
           <div className="row">
-            <div className="col">
+            <div className="col-md-6">
               <p></p>
               <img src={this.props.movieP.poster}/>
             </div>
 
-            <div className="col">
+            <div className="col-md-6">
               <form>
                 <p></p>
                 <p><strong>Description</strong>: {this.props.movieP.description}</p>

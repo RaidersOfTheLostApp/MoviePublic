@@ -1,11 +1,20 @@
 import React from 'react';
+import _ from 'lodash';
+import $ from 'jquery';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
+import Favorite from 'material-ui/svg-icons/action/favorite';
+import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import SelectField from 'material-ui/SelectField';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import Search from './Search';
+import Filtering from './Filtering';
+import Results from './Results';
+import MovieDataModal from './MovieDataModal.js';
 import MenuItem from 'material-ui/MenuItem';
-import $ from 'jquery';
 
 class Following extends React.Component {
   constructor(props) {
@@ -17,8 +26,12 @@ class Following extends React.Component {
       genreFollowMongoIds: [],
       actorFollowMongoIds: [],
       directorFollowMongoIds: [],
-      writerFollowMongoIds: []
+      writerFollowMongoIds: [],
+      modalIsOpen: false,
+      favoriteId: [],
+      movieP: this.props.movie
     };
+
   }
 
   componentWillMount() {
@@ -72,6 +85,23 @@ class Following extends React.Component {
     });
   }
 
+  openModal() {
+    this.setState({modalIsOpen: true});
+  }
+
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = '#f00';
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false});
+  }
+
+  componentDidUpdate() {
+    this.render();
+  }
+
   handleChange(e, i, value) {
     //TODO filter the results on the primaryText value
     this.setState({
@@ -93,15 +123,10 @@ class Following extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.movieFollowMongoIds.map((movie, i) => (
-              <a href = {movie.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={movie.title}
-                  subtitle={<span>by <b>{movie.directors[0]}</b></span>}
-                >
-                  <img src={movie.poster}/>
-                </GridTile>
-              </a>
+              <ResultsListItem
+                k={i}
+                movieP={movie}
+              />
             ))}
           </GridList>
         </div>
