@@ -420,62 +420,39 @@ module.exports.addFavorites = (req, res) => {
     });
 };
 
-module.exports.clearFavorites = (req, res) => {
+module.exports.removeFavorites = (req, res) => {
+  var movieId = req.body.id;
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
-      console.log('we are going to clear favorites!');
+      console.log('we are going to remove favorites!');
       if (!profile) {
         throw profile;
       }
       return profile;
     })
     .then((profile) => {
-      return profile.save({favorites: []}, {patch: true});
+      var favorites = profile.attributes.favorites;
+      for (var i = 0; i < favorites.length; i++) {
+        console.log(favorites[i].id === movieId);
+        if (favorites[i].id === movieId) {
+          favorites.splice(i, 1);
+        }
+      }
+      return profile.save({favorites: JSON.stringify(favorites)}, {patch: true});
     })
     .then((profile) => {
-      console.log('********* favorites have been successfully cleared for ' + profile.attributes.display);
-      res.status(201).send(JSON.stringify([]));
+      console.log('********* favorites have been successfully removed for ' + profile.attributes.display);
+      res.status(201).send(profile);
     })
     .error(err => {
-      console.log('********* error in saving favorites to DB', err);
+      console.log('********* error in removing favorites from DB', err);
       res.status(500).send(err);
     })
     .catch((e) => {
-      console.log('********* catch in setFavorites', e);
+      console.log('********* catch in removeFavorites', e);
       res.sendStatus(404);
     });
 };
-
-// var subs = [];
-//       for (var key in req.body) {
-//         if (req.body[key]) {
-//           subs.push(req.body[key]);
-//         }
-//       }
-//       return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
-
-// module.exports.addFavorites = (req, res) => {
-//   models.Profile.where({ id: req.session.passport.user }).fetch()
-//     .then(profile => {
-//       if (!profile) {
-//         throw profile;
-//       }
-//       return profile
-//     })
-//     .then((profile) => {
-//       var favorites = profile.attributes.favorites;
-//       var newarray = favorites;
-//       res.status(201).send(favorites);
-//     })
-//     .error(err => {
-//       console.log('********* error in saving favorites to DB', err);
-//       res.status(500).send(err);
-//     })
-//     .catch((e) => {
-//       console.log('********* catch in setFavorites', e);
-//       res.sendStatus(404);
-//     });
-// };
 
 module.exports.getFavorites = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
@@ -500,21 +477,3 @@ module.exports.getFavorites = (req, res) => {
     });
 };
 
-// module.exports.deleteOne = (req, res) => {
-//   models.Profile.where({ id: req.session.passport.user }).fetch()
-//     .then(profile => {
-//       if (!profile) {
-//         throw profile;
-//       }
-//       return profile.destroy();
-//     })
-//     .then(() => {
-//       res.sendStatus(200);
-//     })
-//     .error(err => {
-//       res.status(503).send(err);
-//     })
-//     .catch(() => {
-//       res.sendStatus(404);
-//     });
-// };

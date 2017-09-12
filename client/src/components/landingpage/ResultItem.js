@@ -74,6 +74,12 @@ class ResultsListItem extends React.Component {
    else {
     console.log('this favorite is already in the list');
 
+    var favId = this.state.favoriteId;
+    var favorites = this.state.favorites;
+    for (var i = 0; i < favorites.length; i++) {
+
+    }
+
    $.ajax({
       method: 'POST',
       url: '/api/profiles/removefavorites',
@@ -84,9 +90,9 @@ class ResultsListItem extends React.Component {
       error: (error) => {
         console.log('************* error removing favorite for user ', error);
       }
-
-   }
+    })
   }
+}
 
   openModal() {
     this.setState({modalIsOpen: true});
