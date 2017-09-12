@@ -25,18 +25,19 @@ module.exports.addMovies = (movie_array, callback) => {
     let genre = movie.item.genre[0].split(', ');
     // console.log(genre, 'Genres: Array');
     genre.forEach((genre) => {
-      console.log(genre, 'sdfsd');
-      new models.Genres({ name: genre })
+      // console.log(genre, 'Solo Genre');
+      new models.Genres({ 'name': genre })
         .fetch()
         .then(function(model) {
           console.log(model, 'model');
+          // Issue: the fetch query isn't working
           if (model) {
-            console.log(model, 'genre model');
-            console.log(model.get('title'));
+            console.log(model, 'Genre is Already in Database');
+            // console.log(model.get('title'));
           } else {
-            // new models.Genres({
-            //   name: movie.item.title
-            // });
+            new models.Genres({
+              name: genre
+            }).save();
             console.log('Genre Created');
           }
         });
@@ -45,9 +46,6 @@ module.exports.addMovies = (movie_array, callback) => {
     // console.log(movie.item, movie.item._id, 'Movie Info');
 
     /**PseudoCode
-     * Genre Table: Check if genre present,
-     * add if not
-     * return id
      * Crew Table: Check if name is present
      * add if not, update booleans
      * return id
@@ -57,7 +55,7 @@ module.exports.addMovies = (movie_array, callback) => {
     // Check PG Database to see if the movie is already then, skip if there
     new models.Movies({
       // id: id,
-      mongo_id: movie.item._id,
+      mongo_id: movie.item.id,
       title: movie.item.title,
       year: movie.item.year,
       release_date: movie.item.release_date,
