@@ -14,23 +14,22 @@ module.exports.getAllMovies = (req, res) => {
 };
 
 module.exports.addMovies = (movie_array, callback) => {
-  // console.log(movie_array, 'Movie Array passed from Server Auth');
+  console.log(movie_array, 'Movie Array passed from Server Search');
   movie_array.forEach((movie) => {
-    // console.log(movie.item, movie.item.genre, 'Movie Info');
+    console.log(movie, movie.genre, 'Movie Info');
 
     let genre_id = null;
     let actor_id = null;
     let director_id = null;
     let writer_id = null;
-    let genre = movie.item.genre[0].split(', ');
+    let genre = movie.genre[0].split(', ');
     // console.log(genre, 'Genres: Array');
     genre.forEach((genre) => {
       // console.log(genre, 'Solo Genre');
       new models.Genres({ 'name': genre })
         .fetch()
         .then(function(model) {
-          console.log(model, 'model');
-          // Issue: the fetch query isn't working
+          // console.log(model, 'model');
           if (model) {
             console.log(model, 'Genre is Already in Database');
             // console.log(model.get('title'));
@@ -55,18 +54,18 @@ module.exports.addMovies = (movie_array, callback) => {
     // Check PG Database to see if the movie is already then, skip if there
     new models.Movies({
       // id: id,
-      mongo_id: movie.item.id,
-      title: movie.item.title,
-      year: movie.item.year,
-      release_date: movie.item.release_date,
-      genres: JSON.stringify(movie.item.genre),
-      awards: JSON.stringify(movie.item.awards),
-      director: JSON.stringify(movie.item.directors),
-      writer: JSON.stringify(movie.item.writers),
-      actors: JSON.stringify(movie.item.actors),
+      mongo_id: movie.id,
+      title: movie.title,
+      year: movie.year,
+      release_date: movie.release_date,
+      genres: JSON.stringify(movie.genre),
+      awards: JSON.stringify(movie.awards),
+      director: JSON.stringify(movie.directors),
+      writer: JSON.stringify(movie.writers),
+      actors: JSON.stringify(movie.actors),
       // box_office: movie.box_Office,
-      production: movie.item.production,
-      ratings: JSON.stringify(movie.item.ratings),
+      production: movie.production,
+      ratings: JSON.stringify(movie.ratings),
     }).save();
     // console.log(movie.item.title, ': Server Controller - Movie Added!');
   });

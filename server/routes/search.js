@@ -69,7 +69,7 @@ router.route('/')
                 var sorted = sortByKey(result, 'score');
                 // console.log('*************** sorted[0] ', sorted[0]);
                 // console.log('************** sorted', sorted);
-                // console.log(res2, 'Post Sorted - Res2');
+                console.log(res2, 'Post Sorted - Res2');
                 // MovieController.getAllMovies();
                 var movieArr = [];
                 for (var i = 0; i < sorted.length; i++) {
