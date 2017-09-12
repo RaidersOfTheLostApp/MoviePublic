@@ -1,85 +1,104 @@
-// const express = require('express');
-// const middleware = require('../middleware');
-// const bodyParser = require('body-parser');
-// const fuse = require('fuse.js');
-// const Fuse = require('../../node_modules/fuse.js/src/index.js')
-// const movieone = require('../fakeData1.js');
-// const movietwo = require('../fakeData2.js');
-// const searchDb = require('../../mongodb/db.js');
-// const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
-// const router = express.Router();
-// const app = express();
+'use strict';
+const express = require('express');
+const middleware = require('../middleware');
+const bodyParser = require('body-parser');
+const fuse = require('fuse.js');
+const Fuse = require('../../node_modules/fuse.js/src/index.js');
+const router = express.Router();
+const app = express();
+const tmdb = require('../movieAPIHelpers/tmdb.js');
+const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
+const models = require('../../db/models');
+const searchDb = require('../../mongodb/db.js');
+const MovieController = require('../controllers/movies.js');
+const search = require('./search.js');
 
-// const sortByKey = (array, key) => {
-//   return array.sort(function(a, b) {
-//       var x = a[key]; var y = b[key];
-//       return ((x > y) ? -1 : ((x < y) ? 1 : 0));
-//   });
-// }
+const sortByKey = (array, key) => {
+  return array.sort(function(a, b) {
+    var x = a[key]; var y = b[key];
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  });
+};
 
-// router.route('/search')
-//   .get((req, res, next) => {
-//     var outputarr = [];
-//     // console.log(req)
-//     searchDb.getMovies( {}, (err, res1) => {
-//       if (err) {
-//         alert('search broken try again');
-//       } else {
-//         // console.log(res, '@@@@')
-//         if (res1.length < 100) {
-//           tmdbHelp.getMoviesByTitle(req.query.value, (err, data)=> {
-//             if (err) {
-//               console.log(err, 'ERRORGETMOVIESERROR');
-//             } else {
-//               console.log(data, '@@@@@@@')
-//               //grab each movie title and send API request to OMDB to get movie data
-//               searchDb.saveMovies(data, () => {
+router.route('/')
+  .get(middleware.auth.verify, (req, res, next) => {
 
-//                   // console.log(req,' @@@')
-//                 searchDb.getMovies( {}, (err, res2) => {
-//                   // console.log(err, res2, 'erres')
-//                   var options = {
-//                     shouldSort: true,
-//                     tokenize: true,
-//                     findAllMatches: true,
-//                     includeScore: true,
-//                     includeMatches: true,
-//                     threshold: 0.6,
-//                     location: 0,
-//                     distance: 100,
-//                     maxPatternLength: 32,
-//                     minMatchCharLength: 3,
-//                     keys: [
-//                       "title",
-//                       "actors",
-//                       "director",
-//                       "genre",
-//                       "year",
+    module.exports.sortByKey = (array, key) => {
+      return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+      });
+    };
 
-//                     ]
-//                   };
-//                   var fuse = new Fuse(res2, options); // "list" is the item array
-//                   var result = fuse.search(req.query.value);
-//                   var sorted = sortByKey(result, 'year');
-//                   outputarr = sorted;
-//                   // res.redirect('/');
-//                   res.send(outputarr);
-//                   console.log('sorted')
-//                   // res.send(200);
-//                 })
+    var outputarr = [];
 
-//               });
-//               // console.log(data, '22222')
-//             }
-//           });
-//         }else{
-//           res.send(res1);
-//         }
-//       }
-//     });
+    searchDb.getMovies({}, (err, res1) => {
 
-//   });
+      if (err) {
+        alert('search broken try again');
+      } else {
 
-// module.exports = router;
-// module.exports.sortByKey = sortByKey;
+        tmdbHelp.getMoviesByTitle(req.query.value, (err, data) => {
+          if (err) {
+            console.log(err, 'ERRORGETMOVIESERROR');
+          } else {
+            //grab each movie title and send API request to OMDB to get movie data
+            searchDb.saveMovies(data, () => {
+              searchDb.getMovies({}, (err, res2) => {
+                var options = {
+                  shouldSort: true,
+                  tokenize: true,
+                  findAllMatches: true,
+                  includeScore: true,
+                  includeMatches: true,
+                  threshold: 0.6,
+                  location: 0,
+                  distance: 100,
+                  maxPatternLength: 32,
+                  minMatchCharLength: 3,
+                  keys: [
+                    'title',
+                    'actors',
+                    'director',
+                    'genre',
+                    'year',
+                  ]
+                };
+                var fuse = new Fuse(res2, options); // "list" is the item array
+                var result = fuse.search(req.query.value);
+                var sorted = sortByKey(result, 'score');
+                // console.log('*************** sorted[0] ', sorted[0]);
+                // console.log('************** sorted', sorted);
+                // console.log(res2, 'Post Sorted - Res2');
+                // MovieController.getAllMovies();
+                var movieArr = [];
+                for (var i = 0; i < sorted.length; i++) {
+                  movieArr.push(sorted[i].item);
+                  if (i === sorted.length - 1) {
+                    res.json(movieArr);
+                  }
+                }
+                MovieController.addMovies(sorted, (err, results) => {
+                  if (err) {
+                    console.log(err, 'Server Response - PG Unable to Add Movies');
+                    // res.status(500).send('Postgres: Error adding movies');
+                  } else {
+                    // console.log(results, 'Server Response - PG Added Data');
+                    // res.status(201).send('Server Response - PG Added Data');
+                  }
+                });
 
+              });
+
+            });
+
+          }
+        });
+
+      }
+    });
+
+  });
+
+module.exports = router;
+  
