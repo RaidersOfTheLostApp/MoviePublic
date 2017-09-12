@@ -32,8 +32,8 @@ router.route('/getfavorites')
   .get(ProfileController.getFavorites)
 ;
 
-router.route('/clearfavorites')
-  .post(ProfileController.clearFavorites)
+router.route('/removefavorites')
+  .post(ProfileController.removeFavorites)
 ;
 
 router.route('/follows/movies')
