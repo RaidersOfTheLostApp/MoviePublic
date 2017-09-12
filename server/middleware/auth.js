@@ -1,28 +1,24 @@
 const session = require('express-session');
 const config = require('config')['redis'];
 const RedisStore = require('connect-redis')(session);
-const Redis = require('ioredis');
 const searchDb = require('../../mongodb/db.js');
 var Promise = require('bluebird');
 
 if (process.env.NODE_ENV === 'production') {
-  const redisClient = require('redis').createClient(config.REDIS_URL);
-  var newRedis = new Redis(config.REDIS_URL);
+  const redisClient = require('redis').createClient(process.env.REDIS_URL);
   var redisStoreClient = {
-    url: config.REDIS_URL
+    url: process.env.REDIS_URL
   };
+  var newRedis = new RedisStore(redisStoreClient);
 } else {
   const redisClient = require('redis').createClient();
-  var newRedis = new RedisStore(redisStoreClient);
   var redisStoreClient = {
     client: redisClient,
     host: 'localhost',
     port: 6379
   };
+  var newRedis = new RedisStore(redisStoreClient);
 }
-
-// console.log('************ env ', process.env.NODE_ENV);
-// console.log('************* newRedis ', newRedis);
 
 module.exports.verify = (req, res, next) => {
 

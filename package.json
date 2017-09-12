@@ -8,13 +8,18 @@
     "build": "webpack --watch",
     "knex": "knex migrate:rollback",
     "knex2": "knex seed:run",
-    "redis": "redis-server"
+    "redis": "redis-server",
+    "heroku-postbuild": "yarn run webpack -p"
   },
   "author": "Hack Reactor",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
     "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.0",
@@ -34,7 +39,6 @@
     "grunt-http": "^2.2.0",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
     "hawk": "^6.0.2",
-    "ioredis": "^3.1.4",
     "jquery": "^3.2.1",
     "knex": "^0.13.0",
     "material-design-icons": "^3.0.1",
@@ -58,13 +62,10 @@
     "redis": "^2.8.0",
     "redis-server": "^1.1.0",
     "tmdb": "^0.0.1",
+    "webpack": "^3.5.6",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
-    "babel-preset-latest": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",
     "grunt": "^1.0.1",
     "grunt-eslint": "^20.1.0",
@@ -72,7 +73,6 @@
     "mocha": "^3.5.3",
     "node-mocks-http": "^1.6.4",
     "supertest": "^3.0.0",
-    "webpack": "^3.5.6",
     "webpack-dev-server": "^2.7.1"
   },
   "babel": {

@@ -25,7 +25,5 @@
     "Google": {},
     "Facebook": {},
     "Twitter": {}
-  },
-
-  "redis": {}
+  }
 }

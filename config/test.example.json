@@ -1,21 +1,25 @@
 {
   "knex": {
-    "connection": {
-      "database": "thesis_test"
+    "client": "postgresql",
+    "connection": "DATABASE_URL",
+    "debug": false,
+    "pool": {
+      "min": 2,
+      "max": 10
     }
   },
 
   "passport": {
     "Google": {
-      "clientID": "FILL_ME_IN",
-      "clientSecret": "FILL_ME_IN",
-      "callbackURL": "http://FILL_ME_IN/auth/google/callback"
+      "clientID": "GOOGLE_CLIENT_ID",
+      "clientSecret": "GOOGLE_CLIENT_SECRET",
+      "callbackURL": "GOOGLE_CALLBACK_URL"
     },
 
     "Facebook": {
-      "clientID": "FILL_ME_IN",
-      "clientSecret": "FILL_ME_IN",
-      "callbackURL": "http://FILL_ME_IN/auth/facebook/callback"
+      "clientID": "FACEBOOK_CLIENT_ID",
+      "clientSecret": "FACEBOOK_CLIENT_SECRET",
+      "callbackURL": "FACEBOOK_CALLBACK_URL"
     },
 
     "Twitter": {
@@ -23,9 +27,5 @@
       "consumerSecret": "FILL_ME_IN",
       "callbackURL": "http://FILL_ME_IN/auth/twitter/callback"
     }
-  },
-
-  "redis": {
-    "setup": ""
   }
 }
