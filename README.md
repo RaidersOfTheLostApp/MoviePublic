@@ -167,11 +167,9 @@ To run your redis server for the session store `redis-server`
 
 ## Deploy to Heroku
 
-Your master will auto deploy so if you want to deploy from your branch, follow this command:
+Create a new app on Heroku
 
-`git push heroku <nameofbranch>:master`
-
-## Install Heroku Addon for Heroku Postgres, mLab MongoDB
+## Install Heroku Addon for Heroku Postgres
 
 Heroku Postgres - populate the schema by following instructions for `Import`
 https://devcenter.heroku.com/articles/heroku-postgres-import-export
@@ -199,8 +197,19 @@ Create a user/password under the `Users` section of the Addon Interface
 Various options for restoring the db under the `Tools` section of the addon, we used the first one (use the properties for your addon but looks like below):
 `mongorestore -h ds133814.mlab.com:33814 -d heroku_t46wfkgc -u <username> -p <password> dump/fetcher/`
 
+## Update configs
+
+Update Heroku Config variables
+
+## Deploy the app from the local instance
+
+Then deploy -
+Your master will auto deploy so if you want to deploy from your branch, follow this command:
+
+`git push heroku <nameofbranch>:master`
+
+## Build the pipeline for GitHub
+
 Connect to github account
 
-Build the pipline
-
-Update Heroku Config variables and change all callback urls to match the stage
+Build the pipline for staging and update configs to match that environment for callback urls
