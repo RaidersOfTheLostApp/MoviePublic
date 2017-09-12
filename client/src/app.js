@@ -9,6 +9,7 @@ import UserSetup from './components/user/UserSetup';
 import Results from './components/landingpage/Results';
 import Favorites from './components/landingpage/Favorites';
 import Following from './components/landingpage/Following';
+import $ from 'jquery';
 
 // import data from './fakeData.js';
 
@@ -22,26 +23,26 @@ class App extends React.Component {
     };
   }
 
-  getFavoriteIcon(movie) {
-    var arr = this.favoriteId;
-    return (
-      <IconButton onClick={()=>{
-        if (arr.indexOf(movie.imdbID) === -1) {
-          this.addFavorites(movie);
-        }
-      }}>
-        {movie.imdbID in this.favoriteId ?
-          <Favorite color="white" /> :
-          <FavoriteBorder color="white" />
-        }
-      </IconButton>
-    );
+  getFavorites() {
+    $.ajax({
+      url: '/api/profiles/getfavorites',
+      method: 'GET',
+      dataType: 'json',
+      success: (results) => {
+        this.setState({
+          favorites: results.favorites
+        });
+      },
+      error: (err) => {
+        console.log('err', err);
+      }
+    });
   }
 
-  addFavorites(movie) {
-    this.state.favoriteId.push(movie.imdbID);
-    this.state.favorites.push(movie);
-    console.log(this.state.favoriteId);
+  componentDidMount() {
+    this.getFavorites((results) => {
+      this.setState({ favorites: results.favorites });
+    });
   }
 
   render() {
@@ -50,7 +51,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" render={() => (
             <MuiThemeProvider>
-              <Results results = {dataFromServer.movieone} rerender ={this.state.resultsRend} addFavorites = {this.addFavorites.bind(this)} />
+              <Results results = {dataFromServer.movieone} rerender ={this.state.resultsRend} favorites = {this.state.favorites} />
             </MuiThemeProvider>
           )}
           />
