@@ -112,9 +112,9 @@ var saveMovies = (movies, cb) => {
             });
             newMovie.save((err, res) => {
               if (err) {
-                console.log('MongoDB - Add Movie Error');
+                console.log('error');
               } else {
-                console.log('MongoDB - Add Movie Success');
+                console.log('success');
               }
             });
 
