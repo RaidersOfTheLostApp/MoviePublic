@@ -21,8 +21,9 @@ class ResultsListItem extends React.Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      favoriteId: [],
       movieP: this.props.movie
+      favorites: [],
+      favoriteId: []
     };
 
     this.openModal = this.openModal.bind(this);
@@ -45,6 +46,19 @@ class ResultsListItem extends React.Component {
   }
 
   addFavorites(movie) {
+    var movieId = (movie.id).toString()
+    console.log(movieId);
+    if (this.state.favoriteId.indexOf(movieId) === -1) {
+      var favId = this.state.favoriteId;
+      var favorites = this.state.favorites;
+      favId.push(movieId);
+      favorites.push(movie);
+      
+    this.setState({
+      favorites: favorites,
+      favoriteId: favId 
+    });
+
     $.ajax({
       method: 'POST',
       url: '/api/profiles/addfavorites',
@@ -56,6 +70,22 @@ class ResultsListItem extends React.Component {
         console.log('************* error updating favorites for user', error);
       }
     });
+   }
+   else {
+    console.log('this favorite is already in the list');
+
+   $.ajax({
+      method: 'POST',
+      url: '/api/profiles/removefavorites',
+      data: movie,
+      success: (user) => {
+        console.log('********* favorite removed for user ' + user);
+      },
+      error: (error) => {
+        console.log('************* error removing favorite for user ', error);
+      }
+
+   }
   }
 
   openModal() {
@@ -73,6 +103,19 @@ class ResultsListItem extends React.Component {
 
   componentDidUpdate() {
     this.render();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.favorites) { 
+      var newArray = [];
+      for (var i = 0; i < nextProps.favorites.length; i++) {
+        newArray.push(nextProps.favorites[i].id);
+      }
+      this.setState({
+        favorites: nextProps.favorites,
+        favoriteId: newArray
+      });
+    }
   }
 
   render() {
