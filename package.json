@@ -9,7 +9,7 @@
     "knex": "knex migrate:rollback",
     "knex2": "knex seed:run",
     "redis": "redis-server",
-    "heroku-prebuild": "yarn run webpack -p"
+    "heroku-postbuild": "yarn run webpack -p"
   },
   "author": "Hack Reactor",
   "license": "MIT",
