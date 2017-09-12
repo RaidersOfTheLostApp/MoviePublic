@@ -18,7 +18,7 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
-  id: {type: Number, unique: true},
+  id: { type: Number, unique: true },
   title: String,
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
@@ -112,9 +112,9 @@ var saveMovies = (movies, cb) => {
             });
             newMovie.save((err, res) => {
               if (err) {
-                console.log('error');
+                console.log('MongoDB - Add Movie Error');
               } else {
-                console.log('success');
+                console.log('MongoDB - Add Movie Success');
               }
             });
 

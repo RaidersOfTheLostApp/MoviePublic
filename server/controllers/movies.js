@@ -16,7 +16,34 @@ module.exports.getAllMovies = (req, res) => {
 module.exports.addMovies = (movie_array, callback) => {
   // console.log(movie_array, 'Movie Array passed from Server Auth');
   movie_array.forEach((movie) => {
+    // console.log(movie.item, movie.item.genre, 'Movie Info');
+
+    let genre_id = null;
+    let actor_id = null;
+    let director_id = null;
+    let writer_id = null;
+    let genre = movie.item.genre[0].split(', ');
+    // console.log(genre, 'Genres: Array');
+    genre.forEach((genre) => {
+      console.log(genre, 'sdfsd');
+      new models.Genres({ name: genre })
+        .fetch()
+        .then(function(model) {
+          console.log(model, 'model');
+          if (model) {
+            console.log(model, 'genre model');
+            console.log(model.get('title'));
+          } else {
+            // new models.Genres({
+            //   name: movie.item.title
+            // });
+            console.log('Genre Created');
+          }
+        });
+    });
+
     // console.log(movie.item, movie.item._id, 'Movie Info');
+
     /**PseudoCode
      * Genre Table: Check if genre present,
      * add if not
@@ -27,6 +54,7 @@ module.exports.addMovies = (movie_array, callback) => {
      * Use Below Code for Movie Model.
      * Replace genre, director, writer, actors with SQL IDs returned
      */
+    // Check PG Database to see if the movie is already then, skip if there
     new models.Movies({
       // id: id,
       mongo_id: movie.item._id,
@@ -42,9 +70,7 @@ module.exports.addMovies = (movie_array, callback) => {
       production: movie.item.production,
       ratings: JSON.stringify(movie.item.ratings),
     }).save();
-
     // console.log(movie.item.title, ': Server Controller - Movie Added!');
-
   });
 
   // console.log('DB Bookshelf: Movies Added');

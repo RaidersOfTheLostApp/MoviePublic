@@ -24,9 +24,9 @@ const sortByKey = (array, key) => {
 };
 
 router.route('/')
-  .get (middleware.auth.verify, (req, res, next) => {
+  .get(middleware.auth.verify, (req, res, next) => {
     var movies;
-    searchDb.getMovies( (err, data) => {
+    searchDb.getMovies((err, data) => {
       if (err) {
         console.log(err);
       } else {
@@ -217,7 +217,7 @@ router.route('/search')
                     console.log(err, 'Server Response - PG Unable to Add Movies');
                     // res.status(500).send('Postgres: Error adding movies');
                   } else {
-                    // console.log(results, 'Server Response - PG Added Data');
+                    console.log(results, 'Server Response - PG Added Data');
                     // res.status(201).send('Server Response - PG Added Data');
                   }
                 });
