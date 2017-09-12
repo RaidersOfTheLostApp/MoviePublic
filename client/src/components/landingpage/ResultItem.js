@@ -49,15 +49,6 @@ class ResultsListItem extends React.Component {
     var movieId = (movie.id).toString()
     console.log(movieId);
     if (this.state.favoriteId.indexOf(movieId) === -1) {
-      var favId = this.state.favoriteId;
-      var favorites = this.state.favorites;
-      favId.push(movieId);
-      favorites.push(movie);
-      
-    this.setState({
-      favorites: favorites,
-      favoriteId: favId 
-    });
 
     $.ajax({
       method: 'POST',
@@ -65,6 +56,15 @@ class ResultsListItem extends React.Component {
       data: movie,
       success: (user) => {
         console.log('********* success favorites updated for user ' + user);
+        var favId = this.state.favoriteId;
+        var favorites = this.state.favorites;
+        favId.push(movieId);
+        favorites.push(movie);
+      
+        this.setState({
+          favorites: favorites,
+          favoriteId: favId 
+        });
       },
       error: (error) => {
         console.log('************* error updating favorites for user', error);
@@ -74,18 +74,29 @@ class ResultsListItem extends React.Component {
    else {
     console.log('this favorite is already in the list');
 
-    var favId = this.state.favoriteId;
-    var favorites = this.state.favorites;
-    for (var i = 0; i < favorites.length; i++) {
-
-    }
-
    $.ajax({
       method: 'POST',
       url: '/api/profiles/removefavorites',
       data: movie,
       success: (user) => {
         console.log('********* favorite removed for user ' + user);
+
+        var favId = this.state.favoriteId;
+        var favorites = this.state.favorites;
+        var favIndex = favId.indexOf(movieId);
+        console.log(favIndex);
+        favId.splice(favIndex, 1);
+        for (var i = 0; i < favorites.length; i++) {
+          if (favorites[i].id === movieId) {
+            favorites.splice(i, 1);
+          }
+        }
+
+        this.setState({
+          favorites: favorites,
+          favoriteId: favId 
+        });
+
       },
       error: (error) => {
         console.log('************* error removing favorite for user ', error);
