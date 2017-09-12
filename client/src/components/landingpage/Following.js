@@ -10,11 +10,13 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import SelectField from 'material-ui/SelectField';
 import Search from './Search';
 import Filtering from './Filtering';
 import Results from './Results';
-import MovieDataModal from './MovieDataModal.js';
 import MenuItem from 'material-ui/MenuItem';
+import ResultsListItem from './ResultItem';
 
 class Following extends React.Component {
   constructor(props) {
