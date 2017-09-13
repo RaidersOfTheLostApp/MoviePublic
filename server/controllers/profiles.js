@@ -433,7 +433,6 @@ module.exports.removeFavorites = (req, res) => {
     .then((profile) => {
       var favorites = profile.attributes.favorites;
       for (var i = 0; i < favorites.length; i++) {
-        console.log(favorites[i].id === movieId);
         if (favorites[i].id === movieId) {
           favorites.splice(i, 1);
         }

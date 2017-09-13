@@ -23,7 +23,8 @@ class ResultsListItem extends React.Component {
       modalIsOpen: false,
       movieP: this.props.movie
       favorites: [],
-      favoriteId: []
+      favoriteId: [],
+      isFavorite: true
     };
 
     this.openModal = this.openModal.bind(this);
@@ -37,10 +38,10 @@ class ResultsListItem extends React.Component {
       <IconButton onClick={()=>{
         this.addFavorites(movie);
       }}>
-        {movie.imdbID in this.state.favoriteId ?
-          <Favorite color="white" /> :
-          <FavoriteBorder color="white" />
-        }
+      {(arr.indexOf(movie.id.toString()) !== -1) ?
+        <Favorite color="white" /> :
+        <FavoriteBorder color="white" />
+      }
       </IconButton>
     );
   }
@@ -84,7 +85,6 @@ class ResultsListItem extends React.Component {
         var favId = this.state.favoriteId;
         var favorites = this.state.favorites;
         var favIndex = favId.indexOf(movieId);
-        console.log(favIndex);
         favId.splice(favIndex, 1);
         for (var i = 0; i < favorites.length; i++) {
           if (favorites[i].id === movieId) {
@@ -133,6 +133,7 @@ class ResultsListItem extends React.Component {
         favoriteId: newArray
       });
     }
+    this.render();
   }
 
   render() {
