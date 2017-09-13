@@ -1,11 +1,7 @@
 {
   "knex": {
-    "client": "postgresql",
-    "connection": "DATABASE_URL",
-    "debug": false,
-    "pool": {
-      "min": 2,
-      "max": 10
+    "connection": {
+      "database": "thesis_test"
     }
   },
 
