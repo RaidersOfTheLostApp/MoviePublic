@@ -205,7 +205,7 @@ Various options for restoring the db under the `Tools` section of the addon, we 
 
 ## Update configs
 
-Update Heroku Config variables
+Update Heroku Config variables for Facebook, Google, TMDB, and OMDB
 
 ## Deploy the app from the local instance
 
@@ -218,4 +218,4 @@ Your master will auto deploy so if you want to deploy from your branch, follow t
 
 Connect to github account
 
-Build the pipline for staging and update configs to match that environment for callback urls
+Build the pipline for staging and update configs to match that environment for callback urls. Need to update Facebook to have multiple developer apps for each environment. Need to add new domains to the Google developers page.
