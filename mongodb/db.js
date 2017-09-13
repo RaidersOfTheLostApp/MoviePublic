@@ -55,6 +55,8 @@ var searchByTitle = (title, cb) => {
 };
 
 var searchByIds = (idArray, cb) => {
+  console.log('*** the id array is');
+  console.log(idArray);
   var movieList = [];
   var len = idArray.length;
   idArray.forEach((value, i) => {
