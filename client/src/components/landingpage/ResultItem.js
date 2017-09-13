@@ -21,10 +21,8 @@ class ResultsListItem extends React.Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      movieP: this.props.movie
       favorites: [],
-      favoriteId: [],
-      isFavorite: true
+      favoriteId: []
     };
 
     this.openModal = this.openModal.bind(this);
