@@ -37,7 +37,7 @@ class Results extends React.Component {
       success: (results) => {
         var container = [];
         for (var i = 0; i < results.length; i++) {
-          container.push(results[i].item);
+          container.push(results[i]);
         }
         // this.setState({movies: this.state.movies.concat(results)});
         this.setState({
@@ -72,21 +72,6 @@ class Results extends React.Component {
   //   });
   // }
 
-<<<<<<< HEAD
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps);
-  //   if (nextProps.favorites) { 
-  //     var newArray = [];
-  //     for (var i = 0; i < nextProps.favorites.length; i++) {
-  //       newArray.push(nextProps.favorites[i].id);
-  //     }
-  //     this.setState({
-  //       favorites: nextProps.favorites,
-  //       favoriteId: newArray
-  //     });
-  //   }
-  // }
-=======
   filterByRating(array) {
     var output = [];
     var end = [];
@@ -126,7 +111,6 @@ class Results extends React.Component {
       });
     });
   }
->>>>>>> filter sort by rating
 
   render() {
     return (
