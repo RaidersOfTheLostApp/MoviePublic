@@ -17,7 +17,8 @@ class Filtering extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.minRating
+      value: this.props.minRating,
+      genre: this.props.genre
     };
   }
 

@@ -30,7 +30,7 @@ var movieSchema = mongoose.Schema({
   description: String,
   awards: Array,
   poster: { type: String, required: true },
-  ratings: Array,
+  ratings: { type: Array, required: true },
   language: Array,
   box_office: Number,
   production: String,

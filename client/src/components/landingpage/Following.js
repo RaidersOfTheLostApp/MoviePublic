@@ -31,7 +31,6 @@ class Following extends React.Component {
       writerFollowMongoIds: [],
       modalIsOpen: false,
       favoriteId: [],
-      movieP: this.props.movie
     };
 
   }

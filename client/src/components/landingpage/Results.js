@@ -37,7 +37,7 @@ class Results extends React.Component {
       success: (results) => {
         var container = [];
         for (var i = 0; i < results.length; i++) {
-          container.push(results[i]);
+          container.push(results[i].item);
         }
         // this.setState({movies: this.state.movies.concat(results)});
         this.setState({
