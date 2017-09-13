@@ -125,10 +125,15 @@ class Following extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.movieFollowMongoIds.map((movie, i) => (
-              <ResultsListItem
-                k={i}
-                movieP={movie}
-              />
+              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
+                <GridTile
+                  key={i}
+                  title={movie.title}
+                  subtitle={<span>by <b>{movie.directors[0]}</b></span>}
+                >
+                  <img src = {movie.poster}/>
+                </GridTile>
+              </a>
             ))}
           </GridList>
         </div>
