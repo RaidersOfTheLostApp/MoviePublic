@@ -136,7 +136,7 @@ Production environment: `NODE_ENV=production grunt pgcreatedb:default`
 In terminal, from the root directory:
 
 To migrate to the latest version, run:
-sh
+
 `knex migrate:latest --env NODE_ENV`
 
 To rollback a version, run:
