@@ -15,16 +15,22 @@ module.exports.addMovies = (movie_array, callback) => {
   if (movie_array) {
     movie_array.forEach((movie) => {
       // console.log(movie, movie.genre, 'Movie Info');
+      let genre_id = [];
       let actor_id = [];
       let director_id = [];
       let writer_id = [];
+      let crew_object = {
+        actors: [],
+        directors: [],
+        writers: []
+      };
       /**
        * Genre Add will retreive a movie's genres, create a new data row in Postgres if the genre is not there, and create an array of Postgres IDs
        * @param {*} movie - One Movie
        * Returns an array of Postgresql IDs of Genres
        */
+
       var genre_add = (movie, callback) => {
-        let genre_id = [];
         // console.log(movie.genre, 'genres');
         let genre = movie.genre[0].split(', ');
         // console.log(genre, 'Genres: Array');
@@ -46,21 +52,94 @@ module.exports.addMovies = (movie_array, callback) => {
                     models.Genres.where({ name: genre })
                       .fetch()
                       .then(function(model) {
-                        console.log(genre, 'Genre Created');
-                        // if (model) {
+                        // console.log(genre, 'Genre Created');
                         // console.log(model.attributes, 'Genre just added to Database');
                         genre_id.push(model.attributes.id);
-                        // }
                       });
                   });
               }
             })
             .then(() => {
-              console.log(genre_id, 'IDs to put into Movie Table');
+              // console.log(genre_id, 'IDs to put into Movie Table');
               callback(genre_id);
             });
         });
       };
+
+      // var crew_add = (movie, callback) => {
+      //   let actors = movie.actors[0].split(', ');
+      //   let directors = movie.directors[0].split(', ');
+      //   let writers = movie.writers[0].split(', ');
+      //   //Removing Parenthesis
+      //   writers.forEach((writer) => {
+      //     let p = writer.indexOf('(');
+      //     writer.slice(0, p - 1);
+      //   });
+      //   let crew = [actors, directors, writers];
+      //   console.log(writers, 'Crew: Array');
+      //   crew.forEach((type, index) => {
+      //     // console.log(type, index, 'type & index');
+      //     type.forEach((crew_member) => {
+      //       // console.log(crew_member, 'Solo Genre');
+      //       let tempCrew = [];
+
+      //       models.Crew.where({ name: crew_member })
+      //         .fetch()
+      //         .then(function(model) {
+      //           if (model) {
+      //             // console.log(model.attributes, 'Genre is Already in Database');
+      //             console.log(model.attributes.name, 'Crew Member is Already in Database');
+      //             // Change Boolean for actor/writer to True
+      //             tempCrew.push(model.attributes.id);
+      //             // console.log(genre_id, 'IDs to put into Movie Table - No Add');
+      //           } else {
+      //             let isActor = false;
+      //             let isDirector = false;
+      //             let isWriter = false;
+      //             if (index === 0) {
+      //               isActor = true;
+      //             } else if (index === 1) {
+      //               isDirector = true;
+      //             } else if (index === 2) {
+      //               isWriter = true;
+      //             }
+      //             new models.Crew({
+      //               name: crew_member,
+      //               actor: isActor,
+      //               director: isDirector,
+      //               writer: isWriter
+      //             }).save()
+      //               .then(function() {
+      //                 models.Crew.where({ name: crew_member })
+      //                   .fetch()
+      //                   .then(function(model) {
+      //                     console.log(crew_member, 'Crew Member Created');
+      //                     tempCrew.push(model.attributes.id);
+      //                   });
+      //               });
+      //           }
+      //         })
+      //         .then(() => {
+      //           if (tempCrew.length === 0) {
+      //             return null;
+      //           }
+      //           if (index === 0) {
+      //             crew_object.actors = tempCrew;
+      //           } else if (index === 1) {
+      //             crew_object.directors = tempCrew;
+      //           } else if (index === 2) {
+      //             crew_object.writers = tempCrew;
+      //           }
+      //           console.log(crew_object, index, 'Crew IDs to put into Movie Table');
+      //           // callback(crew_object);
+      //         });
+      //     });
+      //   });
+      // };
+
+      // crew_add(movie, () => {
+      //   console.log('invoked');
+      // });
 
       genre_add(movie, (genre_id) => {
         // console.log(movie, genre_id, 'Before Creating Movie');
@@ -69,7 +148,8 @@ module.exports.addMovies = (movie_array, callback) => {
           .fetch()
           .then(function(model) {
             if (model) {
-              console.log(model.attributes, 'Movie is Already in Database');
+              // console.log(model.attributes, 'Movie is Already in Database');
+              console.log(model.attributes.title, 'Movie is Already in Database');
             } else {
               new models.Movies({
                 // id: id,
@@ -86,20 +166,11 @@ module.exports.addMovies = (movie_array, callback) => {
                 production: movie.production,
                 ratings: JSON.stringify(movie.ratings),
               }).save();
-              console.log(movie, movie.title, 'Movie Added');
+              // console.log(movie, movie.title, 'Movie Added');
             }
           });
       });
       // console.log(movie.title, ': Server Controller - Movie Added!');
-
-      /**PseudoCode
-       * Crew Table: Check if name is present
-       * add if not, update booleans
-       * return id
-       * Use Below Code for Movie Model.
-       * Replace genre, director, writer, actors with SQL IDs returned
-       */
-      // Check PG Database to see if the movie is already then, skip if there
     });
     // console.log('DB Bookshelf: Movies Added');
     callback(null, 'DB Bookshelf: Movies Added');
