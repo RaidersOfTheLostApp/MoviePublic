@@ -17,12 +17,10 @@ var MovieList = {
   },
 
   getTrailersById: (id, cb) => {
-    tmdb.call('/search/movie', {
+    tmdb.call('/movie/' + id + '/videos', {
       'language': 'en-US',
-      'query': query,
-      'video': true,
-      'page': 1
     }, (e) => {
+      console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
 
     }, (e)=>{
