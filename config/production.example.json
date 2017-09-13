@@ -1,20 +1,4 @@
 {
-  "knex": {
-    "client": "postgresql",
-    "connection": {
-      "database": "FILL_ME_IN_FROM_HEROKU",
-      "host": "FILL_ME_IN_FROM_HEROKU",
-      "port": 1234,
-      "user": "FILL_ME_IN_FROM_HEROKU",
-      "password": "FILL_ME_IN_FROM_HEROKU"
-    },
-    "debug": false,
-    "pool": {
-      "min": 2,
-      "max": 10
-    }
-  },
-
   "passport": {
     "Google": {
       "clientID": "GOOGLE_CLIENT_ID",
