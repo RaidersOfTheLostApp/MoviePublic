@@ -178,6 +178,10 @@ step 2: You can use DropBox to host the saved dump
 latest schema load: https://www.dropbox.com/s/4e7l2zex29ka0qs/thesis_devel.dump?dl=0
 also saved in `thesis_devel.dump`
 step 3: import to the heroku postgres db: `heroku pg:backups:restore 'https://www.dropbox.com/s/4e7l2zex29ka0qs/thesis_devel.dump?dl=0' DATABASE_URL`
+step 4: to force the required SSL connection
+`heroku config:set PGSSLMODE=require --app <app_name>`
+step 5: to connect to query from you local command prompt:
+`heroku pg:psql --app <app_name>`
 
 ## Install Heroku Addon for Heroku Redis
 Heroku Redis - promote the redis store to the app
@@ -186,9 +190,11 @@ Heroku Redis - promote the redis store to the app
 
 ## Install Heroku Addon for mLab MongoDB
 
-To connect to the instance, from your local command prompt:
+To connect to query from your local command prompt:
 `mongo <mongoDbURL>` (mongoDbURL found on Heroku add-on page, looks like below)
-`mongo ds133814.mlab.com:33814/heroku_t46wfkgc`
+`mongo ds133814.mlab.com:33814/heroku_kbc22vfb -u <username> -p <password>`
+
+`exit`
 
 Create a user/password under the `Users` section of the Addon Interface
 
