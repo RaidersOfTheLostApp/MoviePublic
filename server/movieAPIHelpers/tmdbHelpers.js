@@ -16,7 +16,7 @@ var MovieList = {
     });
   },
 
-  getTrailersById: (query, cb) => {
+  getTrailersById: (id, cb) => {
     tmdb.call('/search/movie', {
       'language': 'en-US',
       'query': query,
