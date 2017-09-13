@@ -1,7 +1,13 @@
 {
   "knex": {
     "client": "postgresql",
-    "connection": "DATABASE_URL",
+    "connection": {
+      "database": "da77qt197pelke",
+      "host": "ec2-54-163-249-237.compute-1.amazonaws.com",
+      "port": 5432,
+      "user": "ocyysqkjmksjhw",
+      "password": "9af5e0f3c8c3d7ea5cdc55f0263ba9ac10e9dd63b7971962a53960766d5d43f5"
+    },
     "debug": false,
     "pool": {
       "min": 2,

@@ -7,6 +7,8 @@ var Promise = require('bluebird');
 if (process.env.NODE_ENV === 'production') {
   const redisClient = require('redis').createClient(process.env.REDIS_URL);
   var redisStoreClient = {
+    // var redisURL = url.parse(process.env.REDIS_URL.hostname);
+    //used as host
     url: process.env.REDIS_URL
   };
   var newRedis = new RedisStore(redisStoreClient);
