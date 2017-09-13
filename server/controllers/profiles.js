@@ -385,6 +385,8 @@ module.exports.setUpFollowWriters = (req, res) => {
 };
 
 module.exports.addFavorites = (req, res) => {
+  var movieId = Object.keys(req.body);
+  var newArray = [];
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       console.log('we are going to add favorites!');
@@ -394,18 +396,19 @@ module.exports.addFavorites = (req, res) => {
       return profile;
     })
     .then((profile) => {
-      var favorites = profile.attributes.favorites;
-      var newarray = [];
-      if (favorites === null) {
-        newarray.push(req.body);
-      } else {
-        for (var i = 0; i < favorites.length; i++) {
-          newarray.push(favorites[i]);
+        var favorites = profile.attributes.favorites;
+        console.log(favorites);
+        if (favorites === null) {
+          newArray = newArray.concat(result);
         }
-        newarray.push(req.body);
-      }
-      return profile.save({favorites: JSON.stringify(newarray)}, {patch: true});
-    })
+        else {
+          for (var i = 0; i < favorites.length; i++) {
+            newArray.push(favorites[i]);
+          }
+          newArray = newArray.concat(movieId);
+        }
+        return profile.save({favorites: JSON.stringify(newArray)}, {patch: true});
+      })
     .then((profile) => {
       console.log('********* favorites have successfully been saved to DB for user ' + profile.attributes.display);
       res.status(201).send(profile.attributes.display);
@@ -475,3 +478,4 @@ module.exports.getFavorites = (req, res) => {
       res.sendStatus(404);
     });
 };
+
