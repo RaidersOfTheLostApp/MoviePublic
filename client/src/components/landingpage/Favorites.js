@@ -94,7 +94,7 @@ class Favorites extends React.Component {
   componentDidMount() {
     this.getFavorites((results) => {
       this.setState({ favorites: results.favorites });
-    })
+    });
   }
 
   componentDidUpdate() {
