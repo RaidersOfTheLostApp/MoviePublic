@@ -47,7 +47,7 @@ class Favorites extends React.Component {
         console.log('************* results ', results.favorites);
         var output = [];
         for (var i = 0; i < results.favorites.length; i++) {
-          var newval = results.favorites[i];
+          var newval = results.favorites[i].item;
           output.push(newval);
         }
         // results.forEach( value => {

@@ -77,7 +77,7 @@ class Following extends React.Component {
   }
 
   getMoviesWithIds(ids) {
-    console.log(id);
+    console.log(ids);
     $.ajax({
       method: 'GET',
       url: '/search/id',

@@ -28,6 +28,20 @@ var MovieList = {
     });
   },
 
+  getSimilarMovies: (movie, cb) => {
+    console.log(movie, 'MOVIEJFSLKDFJKL')
+    tmdb.call('/movie/'+ movie +'/similar', {
+      'language': 'en-US',
+    }, (e) => {
+      console.log(e.results, 'asdfsdfsf');
+      cb(null, e.results);
+
+    }, (e)=>{
+      console.log(err, 'BROKE IN TMDBHELP')
+      cb(e, null);
+    });
+  },
+
   // getPopularMovies: (cb) => {
   //   tmdb.call('/movie/popular', (e) => {
   //     // console.log(e, 'EEEEEEEEEEE');

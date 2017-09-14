@@ -24,6 +24,7 @@ const customContentStyle = {
 
 const customTitleStyle = {
   // backgroundColor:'#50B6C2',
+  textAlign:'center',
   backgroundImage: '-webkit-gradient(linear, left top, left bottom, from(#3D8DB5),to(#5583B5))',
   backgroundImage: '-webkit-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
   backgroundImage: '-o-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
@@ -42,7 +43,7 @@ const styles = {
     height: '100%'
   },
   titleStyle: {
-    color: 'rgb(0, 188, 212)',
+    color: 'rgb(0, 188, 212)'
   },
 };
 
@@ -53,6 +54,12 @@ class MovieDataModal extends React.Component {
 
   render() {
     const actions = [
+      <FlatButton
+        label="Movie Trailers"
+        primary={true}
+        style={{float:'left'}}
+        onClick={this.props.switchToVideoModal}
+      />,
       <FlatButton
         label="Close"
         primary={true}
@@ -77,11 +84,16 @@ class MovieDataModal extends React.Component {
           autoScrollBodyContent={true}
           contentClassName='dialog'
         >
-          <div className="container">
+          <div className="container"></div>
             <div className="row">
               <div className="col-md-6">
                 <p></p>
-                <img className="img-responsive" src={this.props.movieP.poster}/>
+                <img
+                  className="img-responsive"
+                  src={this.props.movieP.poster}
+                  style={{
+                    width: '100%',
+                }}/>
               </div>
 
               <div className="col-md-6">
@@ -109,13 +121,12 @@ class MovieDataModal extends React.Component {
                         <img src = {this.props.movieP.poster} height="100%" width="100%"/>
                       </GridTile>
                     </GridList>
-                    <ReactPlayer url='https://www.youtube.com/watch?v=ZUG9qYTJMsI'/>
                   </div>
                 </form>
               </div>
             </div>
 
-          </div>
+
         </Dialog>
       </div>
     );
