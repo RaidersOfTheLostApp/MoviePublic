@@ -26,6 +26,14 @@
 1. Fix any issues raised by your code reviwer, and push your fixes as a single new commit.
 1. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
 
+## For the reviewer
+1. First review the code and Rebase/Merge on GitHub
+2. Then visit Heroku and build the review app on staging
+3. Review the app to make sure all functionality is working
+4. If not, notify the contributor and consider rolling back the merged code unless it can be quickly fixed
+5. If it's working, push to Production via the Heroku Pipeline
+
+
 ## Detailed Workflow
 
 ### Fork the repo

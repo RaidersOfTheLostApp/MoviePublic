@@ -2,7 +2,7 @@
 var URL = require('url-parse');
 var client;
 
-if (process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production') {
   var url = new URL(process.env.DATABASE_URL);
   // DATABASE_URL format: user:password#host:port/database
   client = {
