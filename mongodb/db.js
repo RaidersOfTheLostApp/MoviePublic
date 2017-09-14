@@ -82,15 +82,20 @@ var getMovies = (query, cb) => {
 var saveMovies = (movies, cb) => {
 
   movies.forEach((value) => {
+
     var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
     var id = value.id;
     var trailers = [];
+
     searchTitle(value.title, (err, data) => {
+
       data = JSON.parse(data.request.response.body);
+      console.log(data);
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
-        Movie.find({ title: value.title }, (err, res) => {
+        Movie.find({ id: value.imdbID }, (err, res) => {
+          console.log(res, 'WERERE');
           if (res.length === 0) {
 
             getTrailers(id, (err, res) => {

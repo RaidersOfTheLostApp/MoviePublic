@@ -20,7 +20,7 @@ var MovieList = {
     tmdb.call('/movie/' + id + '/videos', {
       'language': 'en-US',
     }, (e) => {
-      console.log(e.results, 'asdfsdfsf');
+      // console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
 
     }, (e)=>{
