@@ -75,7 +75,7 @@ router.route('/')
                   movieArr.push(sorted[i].item);
                   if (i === sorted.length - 1) {
                     res.json(movieArr);
-                  }
+                  } c;
                 }
                 // MovieController.getAllMovies();
                 MovieController.addMovies(res2, (err, results) => {
