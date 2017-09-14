@@ -14,7 +14,37 @@ import Search from './Search';
 import Filtering from './Filtering';
 import Results from './Results';
 import MovieDataModal from './MovieDataModal.js';
+import VideoModal from './videoModal.js';
+const customContentStyle = {
+  backgroundColor: '#1a1aff',
+  width: '60%',
+  maxWidth: 'none',
+  fontFamily: 'Roboto, sans-serif',
+};
 
+const customTitleStyle = {
+  // backgroundColor:'#50B6C2',
+  backgroundImage: '-webkit-gradient(linear, left top, left bottom, from(#3D8DB5),to(#5583B5))',
+  backgroundImage: '-webkit-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
+  backgroundImage: '-o-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
+  backgroundImage: 'linear-gradient(to bottom, #3D8DB5 0%,#5583B5 100%)',
+
+};
+
+const styles = {
+  root: {
+    justifyContent: 'space-around',
+  },
+  gridList: {
+    display: 'flex',
+    overflowX: 'auto',
+    width: '100%',
+    height: '100%'
+  },
+  titleStyle: {
+    color: 'rgb(0, 188, 212)',
+  },
+};
 class ResultsListItem extends React.Component {
 
   constructor(props) {
@@ -22,12 +52,16 @@ class ResultsListItem extends React.Component {
     this.state = {
       modalIsOpen: false,
       favorites: [],
-      favoriteId: []
+      favoriteId: [],
+      videoIsOpen: false
     };
 
+    this.switchToVideoModal = this.switchToVideoModal.bind(this);
+    this.switchToDataModal = this.switchToDataModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.closeVideoModal = this.closeVideoModal.bind(this);
   }
 
   getFavoriteIcon(movie) {
@@ -59,10 +93,10 @@ class ResultsListItem extends React.Component {
           var favorites = this.state.favorites;
           favId.push(movieId);
           favorites.push(movie);
-      
+
           this.setState({
             favorites: favorites,
-            favoriteId: favId 
+            favoriteId: favId
           });
         },
         error: (error) => {
@@ -91,7 +125,7 @@ class ResultsListItem extends React.Component {
 
           this.setState({
             favorites: favorites,
-            favoriteId: favId 
+            favoriteId: favId
           });
 
         },
@@ -103,7 +137,16 @@ class ResultsListItem extends React.Component {
   }
 
   openModal() {
-    this.setState({modalIsOpen: true});
+    if(this.state.videoIsOpen){
+      this.setState({
+        modalIsOpen: true,
+        videoIsOpen: false
+      });
+    }else{
+      this.setState({
+        modalIsOpen: true
+      })
+    }
   }
 
   afterOpenModal() {
@@ -111,8 +154,34 @@ class ResultsListItem extends React.Component {
     this.subtitle.style.color = '#f00';
   }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
+  closeModal(cb) {
+    this.setState({
+      modalIsOpen: false,
+    });
+    if(cb){cb();}
+  }
+
+  closeVideoModal(cb) {
+    this.setState({
+      videoIsOpen: false,
+    });
+    if(cb){cb();}
+  }
+
+  switchToVideoModal() {
+    this.closeModal( () => {
+      this.setState({
+        videoIsOpen: true
+      })
+    })
+  }
+
+  switchToDataModal(){
+    this.closeVideoModal( () => {
+      this.setState({
+        modalIsOpen: true,
+      })
+    })
   }
 
   componentDidUpdate() {
@@ -120,7 +189,7 @@ class ResultsListItem extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.favorites) { 
+    if (nextProps.favorites) {
       var newArray = [];
       for (var i = 0; i < nextProps.favorites.length; i++) {
         newArray.push(nextProps.favorites[i].id);
@@ -144,7 +213,20 @@ class ResultsListItem extends React.Component {
         >
           <img src={this.props.movieP.poster} onClick={this.openModal} height="100%" width="100%"/>
         </GridTile>
-        <MovieDataModal closeModal={this.closeModal} openModal={this.openModal} movieP={this.props.movieP} modalIsOpen={this.state.modalIsOpen} />
+        <MovieDataModal
+          closeModal={this.closeModal}
+          openModal={this.openModal}
+          movieP={this.props.movieP}
+          modalIsOpen={this.state.modalIsOpen}
+          switchToVideoModal={this.switchToVideoModal}
+        />
+        <VideoModal
+          closeModal={this.closeVideoModal}
+          openModal={this.switchToVideoModal}
+          movieP={this.props.movieP}
+          modalIsOpen={this.state.videoIsOpen}
+          switchToDataModal={this.switchToDataModal}
+        />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var searchTitle = require('../server/movieAPIHelpers/omdbHelpers.js').searchTitle;
 var getTrailers = require('../server/movieAPIHelpers/tmdbHelpers.js').getTrailersById;
+var getSimilarMovies = require('../server/movieAPIHelpers/tmdbHelpers.js').getSimilarMovies
 var uri = process.env.MONGODB_URI || 'mongodb://localhost/fetcher';
 var ObjectId = require('mongodb').ObjectId;
 
@@ -20,16 +21,16 @@ searchDb.once('open', () => {
 
 var movieSchema = mongoose.Schema({
   id: {type: String, unique: true},
-  title: String,
+  title: {type: String, unique: true},
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
   genre: { type: Array, required: true },
-  runtime: String,
+  runtime: {type: String, unique: true},
   directors: { type: Array, required: true },
   writers: { type: Array, required: true },
   actors: { type: Array, required: true },
-  description: String,
-  awards: Array,
+  description: {type: String, unique: true},
+  awards: { type: Array, required: true },
   poster: { type: String, required: true },
   ratings: { type: Array, required: true },
   language: Array,
@@ -37,7 +38,8 @@ var movieSchema = mongoose.Schema({
   production: String,
   website: { type: String, required: true },
   theater: Array,
-  trailers: Array,
+  trailers: { type: Array, required: true },
+  similar: Array
 });
 
 var Movie = mongoose.model('Movie', movieSchema, 'movies');
@@ -88,48 +90,57 @@ var saveMovies = (movies, cb) => {
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
+        var searchid = data.id;
         var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
         var id = data.imdbID;
-
+        var similar;
         var trailers = [];
         Movie.find({ id: data.imdbID}, (err, res) => {
           if (res.length === 0) {
-
-            getTrailers(id, (err, res) => {
-              if (err) {
-                console.log('notrailers');
-              } else {
-                trailers = res;
-                var newMovie = new Movie({
-                  id: id,
-                  title: data.Title,
-                  year: data.Year,
-                  release_date: data.Released,
-                  genre: data.Genre,
-                  runtime: data.Runtime,
-                  directors: data.Director,
-                  writers: data.Writer,
-                  actors: data.Actors,
-                  description: data.Plot,
-                  awards: data.Awards,
-                  poster: data.Poster,
-                  ratings: data.Ratings,
-                  language: data.Language,
-                  box_office: data.Box_Office,
-                  production: data.Production,
-                  website: data.Website,
-                  theater: data.Theater,
-                  trailers: trailers
-                });
-                newMovie.save((err, res) => {
+            getSimilarMovies(data.id, (err, similarmovies) => {
+              if(err){
+                console.log('nosimilar')
+              }else{
+                similar = similarmovies;
+                getTrailers(id, (err, res) => {
                   if (err) {
-                    console.log(err, 'error');
+                    console.log('notrailers');
                   } else {
-                    console.log('success');
+                    trailers = res;
+                    var newMovie = new Movie({
+                      id: id,
+                      title: data.Title,
+                      year: data.Year,
+                      release_date: data.Released,
+                      genre: data.Genre,
+                      runtime: data.Runtime,
+                      directors: data.Director,
+                      writers: data.Writer,
+                      actors: data.Actors,
+                      description: data.Plot,
+                      awards: data.Awards,
+                      poster: data.Poster,
+                      ratings: data.Ratings,
+                      language: data.Language,
+                      box_office: data.Box_Office,
+                      production: data.Production,
+                      website: data.Website,
+                      theater: data.Theater,
+                      trailers: trailers,
+                      similar: similarmovies
+                    });
+                    newMovie.save((err, res) => {
+                      if (err) {
+                        console.log(err, 'error');
+                      } else {
+                        console.log('success');
+                      }
+                    });
                   }
                 });
+
               }
-            });
+            })
 
 
           }
