@@ -183,6 +183,9 @@ step 4: to force the required SSL connection
 step 5: to connect to query from you local command prompt:
 `heroku pg:psql --app <app_name>`
 
+Additional Example - to update a jsonb field 
+`update profiles set follow_movies='["59b65fed39aea70343a063df","59b663c23931a704b088b5d0", "59b6561f4843acff45ed1663"]'::jsonb where id=1;`
+
 ## Install Heroku Addon for Heroku Redis
 Heroku Redis - promote the redis store to the app
 `heroku redis:promote <redisStoreName> -a <appName>` (redisStoreName found on Heroku add-on page, looks like below)

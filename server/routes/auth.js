@@ -95,19 +95,29 @@ router.route('/profile')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
-          console.log('************ favorites ', profile.attributes.favorites);
-          res.render('index.ejs', {
-            data: {
-              user: req.user,
-              favorites: profile.attributes.favorites || [],
-              movieFollow: profile.attributes.follow_movies || [],
-              genreFollow: profile.attributes.follow_genre || [],
-              actorFollow: profile.attributes.follow_actor || [],
-              directorFollow: profile.attributes.follow_director || [],
-              writerFollow: profile.attributes.follow_writers || [],
-              vod_subscriptions: profile.attributes.vod_subscriptions || []
+          //TODO: add mongoId search to return arrays
+          var followMovies;
+          console.log('********** start searchbyids with ', profile.attributes.follow_movies);
+          searchDb.searchByIds(profile.attributes.follow_movies, (err, movies) => {
+            if (err) {
+              console.log(err);
+            } else {
+              followMovies = movies;
+              console.log('************** followMovies ', followMovies);
+              res.render('index.ejs', {
+                data: {
+                  user: req.user,
+                  favorites: profile.attributes.favorites || [],
+                  movieFollow: followMovies || [],
+                  genreFollow: profile.attributes.follow_genre || [],
+                  actorFollow: profile.attributes.follow_actor || [],
+                  directorFollow: profile.attributes.follow_director || [],
+                  writerFollow: profile.attributes.follow_writers || [],
+                  vod_subscriptions: profile.attributes.vod_subscriptions || []
+                }
+              });
             }
-          });
+          })
         }
       })
       .catch(err => {
@@ -136,7 +146,7 @@ router.route('/following')
       .catch(err => {
         res.status(503).send(err);
       });
-  });
+    });
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {

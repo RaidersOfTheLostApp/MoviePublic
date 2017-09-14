@@ -60,47 +60,87 @@ class UserProfile extends React.Component {
             </a>
           ))}
         </GridList>
+        <Divider />
+        <br />
+        <Divider />
+          <div className='row'>
+            <div className='col-4'>
+              <Subheader>EDIT YOUR FOLLOWINGS</Subheader>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col-4'>
+              <Subheader>GENRES</Subheader>
+            </div>
+          </div>
+          <GridList cellHeight={50} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+            {this.props.genreFollow.map((genre, i) => (
+                <GridTile
+                  key={i}
+                  title={genre.text}
+                >
+                  <img src = ""/>
+                </GridTile>
+            ))}
+          </GridList>
+          <br />
+          <Divider />
+          <div className='row'>
+            <div className='col-4'>
+              <Subheader>MOVIES</Subheader>
+            </div>
+          </div>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+            {this.props.movieFollow.map((movie, i) => (
+              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
+                <GridTile
+                  key={i}
+                  title={movie.title}
+                >
+                  <img src = {movie.poster}/>
+                </GridTile>
+              </a>
+            ))}
+          </GridList>
+          <br />
+          <Divider />
+          <div className='row'>
+            <div className='col-4'>
+              <Subheader>ACTOR/ACTRESSES</Subheader>
+            </div>
+          </div>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+            {this.props.actorFollow.map((movie, i) => (
+              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
+                <GridTile
+                  key={i}
+                  title={movie.title}
+                >
+                  <img src = {movie.poster}/>
+                </GridTile>
+              </a>
+            ))}
+          </GridList>
+          <Divider />
+          <div className='row'>
+            <div className='col-4'>
+              <Subheader>DIRECTORS</Subheader>
+            </div>
+          </div>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+            {this.props.directorFollow.map((movie, i) => (
+              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
+                <GridTile
+                  key={i}
+                  title={movie.title}
+                >
+                  <img src = {movie.poster}/>
+                </GridTile>
+              </a>
+            ))}
+          </GridList>
+        </div>
       </div>
-      <Divider inset={true} />
-      <Subheader>EDIT YOUR FOLLOWING</Subheader>
-      <Divider />
-      <Subheader>MOVIES</Subheader>
-      <List>
-        {this.props.movieFollow.map(movie =>
-          <ListItem key={movie.id}
-            leftIcon={<ActionGrade />}
-            primaryText={movie.text}
-          />
-        )}
-      </List>
-      <Subheader>GENRES</Subheader>
-      <List>
-        {this.props.genreFollow.map(genre =>
-          <ListItem key={genre.id}
-            leftIcon={<ActionGrade />}
-            primaryText={genre.text}
-          />
-        )}
-      </List>
-      <Subheader>ACTOR/ACTRESSES</Subheader>
-      <List>
-        {this.props.actorFollow.map(actor =>
-          <ListItem key={actor.id}
-            leftIcon={<ActionGrade />}
-            primaryText={actor.text}
-          />
-        )}
-      </List>
-      <Subheader>DIRECTORS</Subheader>
-      <List>
-        {this.props.directorFollow.map(director =>
-          <ListItem key={director.id}
-            leftIcon={<ActionGrade />}
-            primaryText={director.text}
-          />
-        )}
-      </List>
-    </div>
     );
   }
 }
