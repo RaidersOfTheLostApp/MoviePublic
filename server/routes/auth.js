@@ -47,21 +47,30 @@ router.route('/')
                 } else {
                   movies = data;
                   var sorted = sortByKey(movies, 'year');
-                  res.render('index.ejs', {
-                    data: {
-                      movieone: sorted,
-                      favorites: profile.favorites,
-                      user: req.user
-                    }
-                    // data: movies // from fakeData file
-                  });
+                  // console.log('the favorites are + ***');
+                  // console.log(profile.attributes.favorites);
+                    searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+                       if (err) {
+                         console.log(err);
+                       } else {
+                            console.log('the results length is ', results.length);
+                            }
+                            res.render('index.ejs', {
+                              data: {
+                                movieone: sorted,
+                                favorites: results,
+                                favoriteId: profile.attributes.favorites,
+                                user: req.user
+                              }
+                            })
+                  })
                 }
-              });
-            }
-          });
-      }
+              })
+            };
+          })
+        }
+      });
     });
-  });
 
 
 router.route('/login')
@@ -76,17 +85,62 @@ router.route('/login')
   }));
 
 router.route('/favorites')
-  .get(middleware.auth.verify, (req, res) => {
-    // res.render('profile.ejs', {
-    //   user: req.user // get the user out of session and pass to template
-    // });
-    // res.redirect('/account');
-    res.render('index.ejs', {
-      data: {
-        user: req.user
-      }
+  .get (middleware.auth.verify, (req, res, next) => {
+    var movies;
+    searchDb.getMovies( (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+
+        movies = data;
+
+        var sorted = sortByKey(movies, 'year');
+
+        models.Profile.where({ id: req.session.passport.user }).fetch()
+          .then(profile => {
+            if (profile.new_user) {
+              res.redirect('/setup');
+            } else {
+              var movies;
+              searchDb.getMovies((err, data) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  movies = data;
+                  var sorted = sortByKey(movies, 'year');
+                  // console.log('the favorites are + ***');
+                  // console.log(profile.attributes.favorites);
+                    searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+                       if (err) {
+                         console.log(err);
+                       } else {
+                            console.log('the results length is ', results.length);
+                            }
+                            res.render('index.ejs', {
+                              data: {
+                                movieone: sorted,
+                                favorites: results,
+                                favoriteId: profile.attributes.favorites,
+                                user: req.user
+                              }
+                            })
+                  })
+                }
+              })
+            };
+          })
+        }
+      });
     });
-  });
+
+
+
+
+
+
+
+
+
 
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
@@ -95,28 +149,17 @@ router.route('/profile')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
-          //TODO: finish to grab actors and directors once table ready
-          var followMovies;
-          console.log('********** start searchbyids with ', profile.attributes.follow_movies);
-          searchDb.searchByIds(profile.attributes.follow_movies, (err, movies) => {
-            if (err) {
-              console.log(err);
-            } else {
-              followMovies = movies;
-              res.render('index.ejs', {
-                data: {
-                  user: req.user,
-                  favorites: profile.attributes.favorites || [],
-                  movieFollow: followMovies || [],
-                  genreFollow: profile.attributes.follow_genre || [],
-                  actorFollow: profile.attributes.follow_actor || [],
-                  directorFollow: profile.attributes.follow_director || [],
-                  writerFollow: profile.attributes.follow_writers || [],
-                  vod_subscriptions: profile.attributes.vod_subscriptions || []
-                }
-              });
+          res.render('index.ejs', {
+            data: {
+              user: req.user,
+              movieFollow: profile.attributes.follow_movies || [],
+              genreFollow: profile.attributes.follow_genre || [],
+              actorFollow: profile.attributes.follow_actor || [],
+              directorFollow: profile.attributes.follow_director || [],
+              writerFollow: profile.attributes.follow_writers || [],
+              vod_subscriptions: profile.attributes.vod_subscriptions || []
             }
-          })
+          });
         }
       })
       .catch(err => {
@@ -145,7 +188,7 @@ router.route('/following')
       .catch(err => {
         res.status(503).send(err);
       });
-    });
+  });
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {

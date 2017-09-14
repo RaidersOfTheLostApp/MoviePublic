@@ -424,7 +424,7 @@ module.exports.addFavorites = (req, res) => {
 };
 
 module.exports.removeFavorites = (req, res) => {
-  var movieId = req.body.id;
+  var movieId = Object.keys(req.body).toString();
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       console.log('we are going to remove favorites!');
@@ -435,8 +435,10 @@ module.exports.removeFavorites = (req, res) => {
     })
     .then((profile) => {
       var favorites = profile.attributes.favorites;
+      console.log(favorites);
       for (var i = 0; i < favorites.length; i++) {
-        if (favorites[i].id === movieId) {
+        console.log(favorites[i] === movieId);
+        if (favorites[i] === movieId) {
           favorites.splice(i, 1);
         }
       }
@@ -457,25 +459,10 @@ module.exports.removeFavorites = (req, res) => {
 };
 
 module.exports.getFavorites = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      return profile;
-    })
-    .then((profile) => {
-      console.log('********* favorites have successfully been grabbed from the database');
-      console.log(profile.attributes.favorites);
-      res.status(201).send(profile.attributes.favorites || []);
-    })
-    .error(err => {
-      console.log('********* error in getting favorites from database', err);
-      res.status(500).send(err);
-    })
-    .catch((e) => {
-      console.log('********* catch in getFavorites', e);
-      res.sendStatus(404);
-    });
+  console.log('we made it hereeeeee!');
+  res.status(201).send('kelly wants a grilled cheese!');
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> Favorites are now being set on the server-side
