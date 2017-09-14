@@ -64,6 +64,7 @@ class App extends React.Component {
           <Route path="/profile" render={() => (
             <MuiThemeProvider>
               <UserProfile user={dataFromServer.user}
+                favorites={dataFromServer.favorites}
                 movieFollow={dataFromServer.movieFollow}
                 genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}

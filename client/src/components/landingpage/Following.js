@@ -151,7 +151,7 @@ class Following extends React.Component {
               <Subheader>MOVIES You Are Following</Subheader>
             </div>
           </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={0} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.movieFollowMongoIds.map((movie, i) => (
               <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
                 <GridTile
@@ -180,7 +180,7 @@ class Following extends React.Component {
               </SelectField>
             </div>
           </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.genreFollowMongoIds.map((genre, i) => (
               <a href = {genre.website === 'N/A' ? '#' : genre.website} target = "_blank">
                 <GridTile
@@ -209,7 +209,7 @@ class Following extends React.Component {
               </SelectField>
             </div>
           </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={2} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.actorFollowMongoIds.map((actor, i) => (
               <a href = {actor.website === 'N/A' ? '#' : actor.website} target = "_blank">
                 <GridTile
@@ -238,7 +238,7 @@ class Following extends React.Component {
               </SelectField>
             </div>
           </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={3} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.directorFollowMongoIds.map((director, i) => (
               <a href = {director.website === 'N/A' ? '#' : director.website} target = "_blank">
                 <GridTile
@@ -267,7 +267,7 @@ class Following extends React.Component {
               </SelectField>
             </div>
           </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={4} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.writerFollowMongoIds.map((writer, i) => (
               <a href = {writer.website === 'N/A' ? '#' : writer.website} target = "_blank">
                 <GridTile

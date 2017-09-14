@@ -83,7 +83,7 @@ module.exports.getFollowGenres = (req, res) => {
             searchMovieIds.push(JSON.parse(moviesArr.models[i].attributes.mongo_id));
           }
           searchDb.searchByIds(searchMovieIds, (err, mongoMovieArr) => {
-            console.log('************* genre movies search movie ids', mongoMovieArr);
+            // console.log('************* genre movies search movie ids', mongoMovieArr);
 
             if (err) { throw err; }
             res.status(200).send(mongoMovieArr);
@@ -475,4 +475,3 @@ module.exports.getFavorites = (req, res) => {
       res.sendStatus(404);
     });
 };
-

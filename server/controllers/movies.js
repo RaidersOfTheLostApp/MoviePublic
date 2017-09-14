@@ -3,7 +3,7 @@ const models = require('../../db/models');
 module.exports.getAllMovies = (req, res) => {
   models.Movies.fetchAll()
     .then(movies => {
-      console.log(movies, 'DB Model Movies Fetched');
+      // console.log(movies, 'DB Model Movies Fetched');
     })
     .error(err => {
       console.log('Server Controller Movies - Error Caught');
