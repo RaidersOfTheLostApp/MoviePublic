@@ -74,10 +74,9 @@ module.exports.addMovies = (movie_array, callback) => {
       //   writers.forEach((writer) => {
       //     let p = writer.indexOf('(');
       //     writer.slice(0, p - 1);
-      //     console.log(writer, 'writer');
       //   });
       //   let crew = [actors, directors, writers];
-      //   // console.log(writers, 'Crew: Array');
+      //   console.log(writers, 'Crew: Array');
       //   crew.forEach((type, index) => {
       //     // console.log(type, index, 'type & index');
       //     type.forEach((crew_member) => {
@@ -89,7 +88,7 @@ module.exports.addMovies = (movie_array, callback) => {
       //         .then(function(model) {
       //           if (model) {
       //             // console.log(model.attributes, 'Genre is Already in Database');
-      //             // console.log(model.attributes.name, 'Crew Member is Already in Database');
+      //             console.log(model.attributes.name, 'Crew Member is Already in Database');
       //             // Change Boolean for actor/writer to True
       //             tempCrew.push(model.attributes.id);
       //             // console.log(genre_id, 'IDs to put into Movie Table - No Add');
@@ -114,12 +113,9 @@ module.exports.addMovies = (movie_array, callback) => {
       //                 models.Crew.where({ name: crew_member })
       //                   .fetch()
       //                   .then(function(model) {
-      //                     // console.log(crew_member, 'Crew Member Created');
+      //                     console.log(crew_member, 'Crew Member Created');
       //                     tempCrew.push(model.attributes.id);
       //                   });
-      //               })
-      //               .catch(function(err) {
-      //                 console.log('Movie Add Err: ', err);
       //               });
       //           }
       //         })
@@ -147,13 +143,13 @@ module.exports.addMovies = (movie_array, callback) => {
 
       genre_add(movie, (genre_id) => {
         // console.log(movie, genre_id, 'Before Creating Movie');
-        models.Movies.where({ mongo_id: movie.id, title: movie.title })
+        models.Movies.where({ mongo_id: movie.id })
           // models.Movies.where({ title: movie.title })
           .fetch()
           .then(function(model) {
             if (model) {
               // console.log(model.attributes, 'Movie is Already in Database');
-              // console.log(model.attributes.title, 'Movie is Already in Database');
+              console.log(model.attributes.title, 'Movie is Already in Database');
             } else {
               new models.Movies({
                 // id: id,
@@ -171,7 +167,10 @@ module.exports.addMovies = (movie_array, callback) => {
                 ratings: JSON.stringify(movie.ratings),
               }).save();
               // console.log(movie, movie.title, 'Movie Added');
+<<<<<<< HEAD
               console.log(movie.title, 'Movie Added');
+=======
+>>>>>>> 30d655d73286c4cdb856911a3bfe0e4a07ac8f32
             }
           });
       });

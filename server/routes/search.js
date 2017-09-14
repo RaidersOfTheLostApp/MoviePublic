@@ -77,7 +77,6 @@ router.route('/')
                     res.json(movieArr);
                   } c;
                 }
-                // MovieController.getAllMovies();
                 MovieController.addMovies(res2, (err, results) => {
                   if (err) {
                     console.log(err, 'Server Response - PG Unable to Add Movies');
@@ -113,3 +112,7 @@ router.route('/id')
   });
 
 module.exports = router;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 30d655d73286c4cdb856911a3bfe0e4a07ac8f32
