@@ -23,30 +23,6 @@ class App extends React.Component {
     };
   }
 
-  // getFavorites() {
-  //   $.ajax({
-  //     url: '/api/profiles/getfavorites',
-  //     method: 'GET',
-  //     dataType: 'json',
-  //     success: (results) => {
-  //       console.log('the results are *** ' + results);
-  //       // console.log(results);
-  //       this.setState({
-  //         favorites: results.favorites
-  //       });
-  //     },
-  //     error: (err) => {
-  //       console.log('err', err);
-  //     }
-  //   });
-  // }
-
-  // componentDidMount() {
-  //   this.getFavorites((results) => {
-  //     this.setState({ favorites: results.favorites });
-  //   });
-  // }
-
   render() {
     console.log(dataFromServer.favorites);
     return (
