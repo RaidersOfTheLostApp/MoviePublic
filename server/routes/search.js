@@ -112,7 +112,3 @@ router.route('/id')
   });
 
 module.exports = router;
-<<<<<<< HEAD
-=======
-
->>>>>>> 30d655d73286c4cdb856911a3bfe0e4a07ac8f32
