@@ -27,13 +27,11 @@ class UserSetup extends React.Component {
       genreFollow: [],
       actorFollow: [],
       directorFollow: [],
-      writerFollow: [],
       movieList: [{'name': 'Beauty and the Beast', 'id': 1}, {'name': 'Annabelle Movie', 'id': 2}, {'name': 'Despicable Me', 'id': 3}, {'name': 'Spiderman Homecoming', 'id': 4},
         {'name': 'Minons Movie', 'id': 5}, {'name': 'The Dark Tower', 'id': 6}, {'name': 'The Layover', 'id': 7}, {'name': 'Dunkirk', 'id': 8}],
       genreList: props.genres,
       actorList: [{'name': 'Jennifer Aniston', 'id': 1}, {'name': 'Brad Pitt', 'id': 2}],
-      directorList: [{'name': 'Quentin Tarantino', 'id': 1}, {'name': 'Other directors', 'id': 2}],
-      writerList: [{'name': 'Quentin Tarantino', 'id': 1}, {'name': 'Other writers', 'id': 2}]
+      directorList: [{'name': 'Quentin Tarantino', 'id': 1}, {'name': 'Other directors', 'id': 2}]
     };
   }
 
@@ -156,23 +154,6 @@ class UserSetup extends React.Component {
         }
       });
     }
-
-    if (this.state.writerFollow.length > 0) {
-      $.ajax({
-        method: 'POST',
-        url: '/api/profiles/follows/writers',
-        data: {
-          writerFollow: this.state.writerFollow
-        },
-        success: (user) => {
-          user = JSON.parse(user);
-          console.log('********* success user setup follow Writers ', user);
-        },
-        error: (error) => {
-          console.log('************* update Writers follow list handleNext ERROR:', error);
-        }
-      });
-    }
   }
 
   finishStepThree() {
@@ -259,12 +240,10 @@ class UserSetup extends React.Component {
                       genreList={this.state.genreList}
                       actorList={this.state.actorList}
                       directorList={this.state.directorList}
-                      writerList={this.state.writerList}
                       movieFollow={this.state.movieFollow}
                       genreFollow={this.state.genreFollow}
                       actorFollow={this.state.actorFollow}
                       directorFollow={this.state.directorFollow}
-                      writerFollow={this.state.writerFollow}
                       updateFollowList={this.updateFollowList.bind(this)}/>
                   ) : (
                     <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>

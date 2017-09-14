@@ -39,9 +39,9 @@ class UserProfile extends React.Component {
           </List>
         </div>
       </div>
-      <Divider inset={true} />
+      <Divider />
       <br />
-      <Divider inset={true} />
+      <Divider />
       <div className='followRoot container'>
         <div className='row'>
           <div className='col-4'>
@@ -97,15 +97,6 @@ class UserProfile extends React.Component {
           <ListItem key={director.id}
             leftIcon={<ActionGrade />}
             primaryText={director.text}
-          />
-        )}
-      </List>
-      <Subheader>SCREENWRITERS</Subheader>
-      <List>
-        {this.props.writerFollow.map(writer =>
-          <ListItem key={writer.id}
-            leftIcon={<ActionGrade />}
-            primaryText={writer.text}
           />
         )}
       </List>
