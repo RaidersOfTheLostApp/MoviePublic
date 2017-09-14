@@ -50,7 +50,7 @@ router.route('/')
                   res.render('index.ejs', {
                     data: {
                       movieone: sorted,
-                      movietwo: sorted,
+                      favorites: profile.favorites,
                       user: req.user
                     }
                     // data: movies // from fakeData file
@@ -95,9 +95,11 @@ router.route('/profile')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
+          console.log('************ favorites ', profile.attributes.favorites);
           res.render('index.ejs', {
             data: {
               user: req.user,
+              favorites: profile.attributes.favorites || [],
               movieFollow: profile.attributes.follow_movies || [],
               genreFollow: profile.attributes.follow_genre || [],
               actorFollow: profile.attributes.follow_actor || [],
