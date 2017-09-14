@@ -4,8 +4,7 @@ const RedisStore = require('connect-redis')(session);
 const searchDb = require('../../mongodb/db.js');
 var Promise = require('bluebird');
 
-if (process.env.NODE_ENV !== 'development') {
-  //process.env.NODE_ENV = 'development';
+if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production') {
   const redisClient = require('redis').createClient(process.env.REDIS_URL);
   var redisStoreClient = {
     url: process.env.REDIS_URL
