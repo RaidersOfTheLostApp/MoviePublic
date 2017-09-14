@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== 'development') {
 module.exports.verify = (req, res, next) => {
 
   Promise.resolve(req.isAuthenticated())
-    .then( () => {
+    .then(() => {
       if (req.isAuthenticated()) {
         // console.log(req.body);
         next();
