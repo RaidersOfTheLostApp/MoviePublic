@@ -17,35 +17,38 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      favorites: [],
+      favorites: dataFromServer.favorites,
       favoriteId: [],
       resultsRend: false
     };
   }
 
-  getFavorites() {
-    $.ajax({
-      url: '/api/profiles/getfavorites',
-      method: 'GET',
-      dataType: 'json',
-      success: (results) => {
-        this.setState({
-          favorites: results.favorites
-        });
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  }
+  // getFavorites() {
+  //   $.ajax({
+  //     url: '/api/profiles/getfavorites',
+  //     method: 'GET',
+  //     dataType: 'json',
+  //     success: (results) => {
+  //       console.log('the results are *** ' + results);
+  //       // console.log(results);
+  //       this.setState({
+  //         favorites: results.favorites
+  //       });
+  //     },
+  //     error: (err) => {
+  //       console.log('err', err);
+  //     }
+  //   });
+  // }
 
-  componentDidMount() {
-    this.getFavorites((results) => {
-      this.setState({ favorites: results.favorites });
-    });
-  }
+  // componentDidMount() {
+  //   this.getFavorites((results) => {
+  //     this.setState({ favorites: results.favorites });
+  //   });
+  // }
 
   render() {
+    console.log(dataFromServer.favorites);
     return (
       <BrowserRouter>
         <Switch>
