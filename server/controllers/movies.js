@@ -60,8 +60,8 @@ module.exports.addMovies = (movie_array, callback) => {
               }
             })
             .then(() => {
-              console.log(genre_id, movie.title, 'IDs to put into Movie Table');
-              // callback(genre_id);
+              // console.log(genre_id, movie.title, 'IDs to put into Movie Table');
+              callback(genre_id);
             });
         });
       };
@@ -171,7 +171,7 @@ module.exports.addMovies = (movie_array, callback) => {
                 ratings: JSON.stringify(movie.ratings),
               }).save();
               // console.log(movie, movie.title, 'Movie Added');
-              console.log(movie.title, 'Movie Added');
+              // console.log(movie.title, 'Movie Added');
             }
           });
       });
