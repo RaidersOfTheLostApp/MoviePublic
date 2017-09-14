@@ -102,7 +102,7 @@ router.route('/')
 
 router.route('/id')
   .get(middleware.auth.verify, (req, res, next) => {
-    console.log(req, '@@@@@@2');
+    // console.log(req, '@@@@@@2');
     searchDb.searchByIds(req.body, (err, data) => {
       if (err) {
         throw err;

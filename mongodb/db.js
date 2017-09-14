@@ -19,7 +19,7 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
-  id: {type: Number, unique: true},
+  id: {type: String, unique: true},
   title: String,
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
@@ -83,19 +83,16 @@ var saveMovies = (movies, cb) => {
 
   movies.forEach((value) => {
 
-    var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
-    var id = value.id;
-    var trailers = [];
-
     searchTitle(value.title, (err, data) => {
-
       data = JSON.parse(data.request.response.body);
-      console.log(data);
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
-        Movie.find({ id: value.imdbID }, (err, res) => {
-          console.log(res, 'WERERE');
+        var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
+        var id = data.imdbID;
+
+        var trailers = [];
+        Movie.find({ id: data.imdbID}, (err, res) => {
           if (res.length === 0) {
 
             getTrailers(id, (err, res) => {
@@ -115,7 +112,7 @@ var saveMovies = (movies, cb) => {
                   actors: data.Actors,
                   description: data.Plot,
                   awards: data.Awards,
-                  poster: posterurl,
+                  poster: data.Poster,
                   ratings: data.Ratings,
                   language: data.Language,
                   box_office: data.Box_Office,
@@ -126,7 +123,7 @@ var saveMovies = (movies, cb) => {
                 });
                 newMovie.save((err, res) => {
                   if (err) {
-                    console.log('error');
+                    console.log(err, 'error');
                   } else {
                     console.log('success');
                   }

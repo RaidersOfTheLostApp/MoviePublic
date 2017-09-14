@@ -31,7 +31,11 @@ const tmdb = {
           }
         } else {
           if (typeof error == 'function') {
-            error(JSON.parse(this.response));
+            if (this.response !== undefined) {
+              error(JSON.parse(this.response));
+            } else {
+              error(this.response);
+            }
           } else {
             throw ('No error callback');
           }
