@@ -171,13 +171,13 @@ module.exports.update = (req, res) => {
 
 module.exports.newUser = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
+    .then((profile) => {
       if (!profile) {
         throw profile;
       }
       return profile.save({new_user: false}, {patch: true});
     })
-    .then(() => {
+    .then((profile) => {
       res.sendStatus(201);
     })
     .error(err => {
@@ -204,7 +204,7 @@ module.exports.setUpVOD = (req, res) => {
       }
       return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
     })
-    .then(() => {
+    .then((profile) => {
       res.sendStatus(201);
     })
     .error(err => {
