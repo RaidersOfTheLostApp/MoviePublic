@@ -19,7 +19,7 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
-  id: {type: Number, unique: true},
+  id: { type: Number, unique: true },
   title: String,
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
@@ -90,12 +90,12 @@ var saveMovies = (movies, cb) => {
     searchTitle(value.title, (err, data) => {
 
       data = JSON.parse(data.request.response.body);
-      console.log(data);
+      // console.log(data);
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
         Movie.find({ id: value.imdbID }, (err, res) => {
-          console.log(res, 'WERERE');
+          // console.log(res, 'WERERE');
           if (res.length === 0) {
 
             getTrailers(id, (err, res) => {
