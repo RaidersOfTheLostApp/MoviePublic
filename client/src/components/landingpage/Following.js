@@ -28,7 +28,6 @@ class Following extends React.Component {
       genreFollowMongoIds: [],
       actorFollowMongoIds: [],
       directorFollowMongoIds: [],
-      writerFollowMongoIds: [],
       modalIsOpen: false,
       favoriteId: [],
       followMovies: []
@@ -49,13 +48,11 @@ class Following extends React.Component {
       var movieArrNew = movieArr.splice(0, 15);
       var actorArr = movieArr.splice(0, 15);
       var directorArr = movieArr.splice(0, 15);
-      var writerArr = movieArr.splice(0, 15);
       this.setState({
         genreFollowMongoIds: genreArr,
         movieFollowMongoIds: movieArrNew,
         actorFollowMongoIds: actorArr,
         directorFollowMongoIds: directorArr,
-        writerFollowMongoIds: writerArr,
         loading: false
       }, () => {
         console.log(this.state.movieFollowMongoIds);
@@ -69,10 +66,6 @@ class Following extends React.Component {
     // this.getFollow('directors', movieArr => {
     //   console.log('************* movieArr directors results ', movieArr);
     //   this.setState({directorFollowMongoIds: movieArr});
-    // });
-    // this.getFollow('writers', movieArr => {
-    //   console.log('************* movieArr wrtiers results ', movieArr);
-    //   this.setState({writerFollowMongoIds: movieArr});
     // });
   }
 
@@ -247,35 +240,6 @@ class Following extends React.Component {
                   subtitle={<span>by <b>{director.directors[0]}</b></span>}
                 >
                   <img src = {director.poster}/>
-                </GridTile>
-              </a>
-            ))}
-          </GridList>
-        </div>
-        <div className='followRoot container'>
-          <div className='row'>
-            <div className='col-4'>
-              <Subheader>SCREENWRITERS You Are Following</Subheader>
-            </div>
-            <div className='col-4'>
-              <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Select a Writer to Filter' />
-                <MenuItem value={1} primaryText='Writer 1' />
-                <MenuItem value={2} primaryText='Writer 2' />
-                <MenuItem value={3} primaryText='Writer 3' />
-                <MenuItem value={4} primaryText='Writer 4' />
-              </SelectField>
-            </div>
-          </div>
-          <GridList key={4} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.writerFollowMongoIds.map((writer, i) => (
-              <a href = {writer.website === 'N/A' ? '#' : writer.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={writer.title}
-                  subtitle={<span>by <b>{writer.directors[0]}</b></span>}
-                >
-                  <img src = {writer.poster}/>
                 </GridTile>
               </a>
             ))}

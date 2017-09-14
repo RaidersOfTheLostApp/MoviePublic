@@ -68,8 +68,7 @@ class App extends React.Component {
                 movieFollow={dataFromServer.movieFollow}
                 genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}
-                directorFollow={dataFromServer.directorFollow}
-                writerFollow={dataFromServer.writerFollow}/>
+                directorFollow={dataFromServer.directorFollow}/>
             </MuiThemeProvider>
           )}
           />
@@ -84,8 +83,7 @@ class App extends React.Component {
               <Following movieFollow={dataFromServer.movieFollow}
                 genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}
-                directorFollow={dataFromServer.directorFollow}
-                writerFollow={dataFromServer.writerFollow}/>
+                directorFollow={dataFromServer.directorFollow}/>
             </MuiThemeProvider>
           )}
           />
