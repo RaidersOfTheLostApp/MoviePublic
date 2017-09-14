@@ -19,7 +19,7 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
-  id: {type: String, unique: true},
+  id: { type: Number, unique: true },
   title: String,
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
@@ -85,6 +85,8 @@ var saveMovies = (movies, cb) => {
 
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.request.response.body);
+<<<<<<< HEAD
+<<<<<<< HEAD
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
@@ -92,91 +94,104 @@ var saveMovies = (movies, cb) => {
         var id = data.imdbID;
 
         var trailers = [];
-        Movie.find({ id: data.imdbID}, (err, res) => {
-          if (res.length === 0) {
+        Movie.find({ id: data.imdbID }, (err, res) => {
+=======
+=======
+>>>>>>> 0e21cb192bb589fd84fb6745da712cf45482624c
+          // console.log(data);
+          if (err) {
+            console.log('brokeninsaveMovies');
+          } else {
+            Movie.find({ id: value.imdbID }, (err, res) => {
+              // console.log(res, 'WERERE');
+<<<<<<< HEAD
+>>>>>>> DB: New Migration - removing Writers
+=======
+>>>>>>> 0e21cb192bb589fd84fb6745da712cf45482624c
+              if (res.length === 0) {
 
-            getTrailers(id, (err, res) => {
-              if (err) {
-                console.log('notrailers');
-              } else {
-                trailers = res;
-                var newMovie = new Movie({
-                  id: id,
-                  title: data.Title,
-                  year: data.Year,
-                  release_date: data.Released,
-                  genre: data.Genre,
-                  runtime: data.Runtime,
-                  directors: data.Director,
-                  writers: data.Writer,
-                  actors: data.Actors,
-                  description: data.Plot,
-                  awards: data.Awards,
-                  poster: data.Poster,
-                  ratings: data.Ratings,
-                  language: data.Language,
-                  box_office: data.Box_Office,
-                  production: data.Production,
-                  website: data.Website,
-                  theater: data.Theater,
-                  trailers: trailers
-                });
-                newMovie.save((err, res) => {
+                getTrailers(id, (err, res) => {
                   if (err) {
-                    console.log(err, 'error');
+                    console.log('notrailers');
                   } else {
-                    console.log('success');
+                    trailers = res;
+                    var newMovie = new Movie({
+                      id: id,
+                      title: data.Title,
+                      year: data.Year,
+                      release_date: data.Released,
+                      genre: data.Genre,
+                      runtime: data.Runtime,
+                      directors: data.Director,
+                      writers: data.Writer,
+                      actors: data.Actors,
+                      description: data.Plot,
+                      awards: data.Awards,
+                      poster: data.Poster,
+                      ratings: data.Ratings,
+                      language: data.Language,
+                      box_office: data.Box_Office,
+                      production: data.Production,
+                      website: data.Website,
+                      theater: data.Theater,
+                      trailers: trailers
+                    });
+                    newMovie.save((err, res) => {
+                      if (err) {
+                        console.log(err, 'error');
+                      } else {
+                        console.log('success');
+                      }
+                    });
                   }
                 });
+
+
               }
+
             });
 
 
           }
 
+
+
         });
+      });
+    cb();
+  };
 
+  // var saveFavorites = (req, res) => {
+  //   console.log('we made it to save favorites!');
+  //   models.Profile.where({ id: req.session.passport.user }).fetch()
+  //     .then(profile => {
+  //       if (!profile) {
+  //         throw profile;a
+  //       }
+  //       var subs = [];
+  //       for (var key in req.body) {
+  //         if (req.body[key]) {
+  //           subs.push(req.body[key]);
+  //         }
+  //       }
+  //       return profile.save({favorites: JSON.stringify(subs)}, {patch: true});
+  //     })
+  //     .then(() => {
+  //       console.log('********* favorites have successfully been saved to DB');
+  //       res.sendStatus(201);
+  //     })
+  //     .error(err => {
+  //       console.log('********* error in saving favorites to DB', err);
+  //       res.status(500).send(err);
+  //     })
+  //     .catch((e) => {
+  //       console.log('********* catch in setFavorites', e);
+  //       res.sendStatus(404);
+  //     });
+  // };
 
-      }
-
-
-
-    });
-  });
-  cb();
-};
-
-// var saveFavorites = (req, res) => {
-//   console.log('we made it to save favorites!');
-//   models.Profile.where({ id: req.session.passport.user }).fetch()
-//     .then(profile => {
-//       if (!profile) {
-//         throw profile;a
-//       }
-//       var subs = [];
-//       for (var key in req.body) {
-//         if (req.body[key]) {
-//           subs.push(req.body[key]);
-//         }
-//       }
-//       return profile.save({favorites: JSON.stringify(subs)}, {patch: true});
-//     })
-//     .then(() => {
-//       console.log('********* favorites have successfully been saved to DB');
-//       res.sendStatus(201);
-//     })
-//     .error(err => {
-//       console.log('********* error in saving favorites to DB', err);
-//       res.status(500).send(err);
-//     })
-//     .catch((e) => {
-//       console.log('********* catch in setFavorites', e);
-//       res.sendStatus(404);
-//     });
-// };
-
-module.exports.searchDb = searchDb;
-module.exports.searchByTitle = searchByTitle;
-module.exports.searchByIds = searchByIds;
-module.exports.saveMovies = saveMovies;
-module.exports.getMovies = getMovies;
+  module.exports.searchDb = searchDb;
+  module.exports.searchByTitle = searchByTitle;
+  module.exports.searchByIds = searchByIds;
+  module.exports.saveMovies = saveMovies;
+  module.exports.getMovies = getMovies;

@@ -70,7 +70,6 @@ router.route('/')
                 // console.log('*************** sorted[0] ', sorted[0]);
                 // console.log('************** sorted', sorted);
                 // console.log(res2, 'Post Sorted - Res2');
-                // MovieController.getAllMovies();
                 var movieArr = [];
                 for (var i = 0; i < sorted.length; i++) {
                   movieArr.push(sorted[i].item);
@@ -78,12 +77,13 @@ router.route('/')
                     res.json(movieArr);
                   }
                 }
+                // MovieController.getAllMovies();
                 MovieController.addMovies(res2, (err, results) => {
                   if (err) {
                     console.log(err, 'Server Response - PG Unable to Add Movies');
                     // res.status(500).send('Postgres: Error adding movies');
                   } else {
-                    console.log(results, 'Server Response - PG Added Data');
+                    // console.log(results, 'Server Response - PG Added Data');
                     // res.status(201).send('Server Response - PG Added Data');
                   }
                 });

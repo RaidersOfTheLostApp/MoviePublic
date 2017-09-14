@@ -3,7 +3,6 @@ const config = require('config')['redis'];
 const RedisStore = require('connect-redis')(session);
 const searchDb = require('../../mongodb/db.js');
 var Promise = require('bluebird');
-
 if (process.env.NODE_ENV !== 'development') {
   // process.env.NODE_ENV = 'development';
   const redisClient = require('redis').createClient(process.env.REDIS_URL);
@@ -24,7 +23,7 @@ if (process.env.NODE_ENV !== 'development') {
 module.exports.verify = (req, res, next) => {
 
   Promise.resolve(req.isAuthenticated())
-    .then( () => {
+    .then(() => {
       if (req.isAuthenticated()) {
         // console.log(req.body);
         next();
