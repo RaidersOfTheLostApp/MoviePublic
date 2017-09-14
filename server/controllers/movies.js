@@ -60,8 +60,8 @@ module.exports.addMovies = (movie_array, callback) => {
               }
             })
             .then(() => {
-              // console.log(genre_id, 'IDs to put into Movie Table');
-              callback(genre_id);
+              console.log(genre_id, movie.title, 'IDs to put into Movie Table');
+              // callback(genre_id);
             });
         });
       };

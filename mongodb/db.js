@@ -19,7 +19,11 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
+<<<<<<< HEAD
   id: {type: String, unique: true},
+=======
+  id: { type: Number, unique: true },
+>>>>>>> DB: New Migration - removing Writers
   title: String,
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
@@ -85,6 +89,7 @@ var saveMovies = (movies, cb) => {
 
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.request.response.body);
+<<<<<<< HEAD
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
@@ -93,6 +98,14 @@ var saveMovies = (movies, cb) => {
 
         var trailers = [];
         Movie.find({ id: data.imdbID}, (err, res) => {
+=======
+      // console.log(data);
+      if (err) {
+        console.log('brokeninsaveMovies');
+      } else {
+        Movie.find({ id: value.imdbID }, (err, res) => {
+          // console.log(res, 'WERERE');
+>>>>>>> DB: New Migration - removing Writers
           if (res.length === 0) {
 
             getTrailers(id, (err, res) => {
