@@ -21,6 +21,7 @@ class Favorites extends React.Component {
       favoriteId: [],
       movieP: this.props.movie,
     };
+
     this.getFavorites = this.getFavorites.bind(this);
   }
 
@@ -44,8 +45,18 @@ class Favorites extends React.Component {
       dataType: 'json',
       success: (results) => {
         console.log('************* results ', results.favorites);
+        var output = [];
+        for (var i = 0; i < results.favorites.length; i++) {
+          var newval = results.favorites[i];
+          output.push(newval);
+        }
+        // results.forEach( value => {
+        //   var newval = to_json(value)
+        //   output.push(newval);
+        // })
+
         this.setState({
-          favorites: results.favorites
+          favorites: output
         });
       },
       error: (err) => {
@@ -92,9 +103,7 @@ class Favorites extends React.Component {
   // <button type="button" onClick = {this.clearFavorites.bind(this)} > Clear Favorites! </button>
 
   componentDidMount() {
-    this.getFavorites((results) => {
-      this.setState({ favorites: results.favorites });
-    })
+    this.getFavorites();
   }
 
   componentDidUpdate() {
@@ -102,6 +111,7 @@ class Favorites extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div className='muiThemeProvider'>
         <div className='gridRoot container'>

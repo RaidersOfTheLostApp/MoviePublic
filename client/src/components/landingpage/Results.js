@@ -11,13 +11,17 @@ import Filtering from './Filtering';
 import ResultsListItem from './ResultItem';
 
 class Results extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       favoriteId: [],
       favorites: [],
-      movies: this.props.results
+      movies: this.props.results,
+      minRating: 0
     };
+
+    this.sortByRating = this.sortByRating.bind(this);
     this.searchToServer = this.searchToServer.bind(this);
   }
 
@@ -68,19 +72,45 @@ class Results extends React.Component {
   //   });
   // }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps);
-  //   if (nextProps.favorites) { 
-  //     var newArray = [];
-  //     for (var i = 0; i < nextProps.favorites.length; i++) {
-  //       newArray.push(nextProps.favorites[i].id);
-  //     }
-  //     this.setState({
-  //       favorites: nextProps.favorites,
-  //       favoriteId: newArray
-  //     });
-  //   }
-  // }
+  filterByRating(array) {
+    var output = [];
+    var end = [];
+    array.map( value => {
+      if (value.ratings[0]) {
+        var score = value.ratings[0].Value.split('/')[0];
+        var num = parseFloat(score);
+        console.log(this.state.minRating, 'rating');
+        if (num >= this.state.minRating) {
+          output.push(value);
+        } else {
+          end.push(value);
+        }
+      }
+    });
+    return output.concat(end);
+  }
+
+  sortByRating(rating) {
+    this.setState({
+      minRating: rating
+    }, () => {
+      var filtered = this.filterByRating(this.state.movies);
+      console.log(filtered);
+      var sorted = filtered.sort( (a, b) =>{
+        if (a.ratings[0] && b.ratings[0]) {
+          if (a.ratings[0].Value > b.ratings[0].Value) {
+            return -1;
+          } else if ( a.ratings[0].Value < b.ratings[0].Value) {
+            return 1;
+          }
+          return 0;
+        }
+      });
+      this.setState({
+        movies: sorted
+      });
+    });
+  }
 
   render() {
     return (
@@ -90,7 +120,7 @@ class Results extends React.Component {
             <Search searchToServer={this.searchToServer}/>
           </div>
           <div className='col-md-6'>
-            <Filtering />
+            <Filtering sortByRating={this.sortByRating} rating={this.state.minRating}/>
           </div>
         </div>
         <GridList

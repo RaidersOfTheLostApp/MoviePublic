@@ -31,7 +31,7 @@ class Following extends React.Component {
       writerFollowMongoIds: [],
       modalIsOpen: false,
       favoriteId: [],
-      movieP: this.props.movie
+      followMovies: []
     };
 
   }
@@ -57,6 +57,9 @@ class Following extends React.Component {
         directorFollowMongoIds: directorArr,
         writerFollowMongoIds: writerArr,
         loading: false
+      }, () => {
+        console.log(this.state.movieFollowMongoIds);
+        this.getMoviesWithIds(this.state.movieFollowMongoIds);
       });
     });
     // this.getFollow('actors', movieArr => {
@@ -71,6 +74,24 @@ class Following extends React.Component {
     //   console.log('************* movieArr wrtiers results ', movieArr);
     //   this.setState({writerFollowMongoIds: movieArr});
     // });
+  }
+
+  getMoviesWithIds(ids) {
+    console.log(id);
+    $.ajax({
+      method: 'GET',
+      url: '/search/id',
+      query: ids,
+      success: (data) => {
+        console.log(data);
+        this.setState({
+          followMovies: data
+        });
+      },
+      error: (err) => {
+        console.log('error, err', err);
+      }
+    });
   }
 
   getFollow(type, callback) {
@@ -100,7 +121,13 @@ class Following extends React.Component {
     this.setState({modalIsOpen: false});
   }
 
+  componentDidMount() {
+    console.log(this.state.movieFollowMongoIds);
+
+    this.getMoviesWithIds(this.state.movieFollowMongoIds);
+  }
   componentDidUpdate() {
+    console.log(this.state.followMovies);
     this.render();
   }
 
@@ -112,6 +139,7 @@ class Following extends React.Component {
   }
   //TODO - build menuItems to render dynamically with value and text on mapped props
   render() {
+    console.log(this.state, '23423423');
     if (this.state.loading) {
       return null;
     }

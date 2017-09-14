@@ -33,13 +33,10 @@ const customTitleStyle = {
 
 const styles = {
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
   gridList: {
     display: 'flex',
-    flexWrap: 'nowrap',
     overflowX: 'auto',
     width: '100%',
     height: '100%'
@@ -55,7 +52,6 @@ class MovieDataModal extends React.Component {
   }
 
   render() {
-
     const actions = [
       <FlatButton
         label="Close"
@@ -81,41 +77,44 @@ class MovieDataModal extends React.Component {
           autoScrollBodyContent={true}
           contentClassName='dialog'
         >
-          <div className="row">
-            <div className="col-md-6">
-              <p></p>
-              <img src={this.props.movieP.poster}/>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6">
+                <p></p>
+                <img className="img-responsive" src={this.props.movieP.poster}/>
+              </div>
+
+              <div className="col-md-6">
+                <form>
+                  <p></p>
+                  <p><strong>Description</strong>: {this.props.movieP.description}</p>
+                  <p><strong>Actors/Actresses</strong>: {this.props.movieP.actors}</p>
+                  <p><strong>Director/s</strong>: {this.props.movieP.directors}</p>
+                  <p><strong>Release Date</strong>: {this.props.movieP.release_date}</p>
+                  <p><strong>Genre/s</strong>: {this.props.movieP.genre}</p>
+                  <p><strong>Runtime</strong>: {this.props.movieP.runtime}</p>
+                  <p><strong>Website</strong>: <a href={this.props.movieP.website}>{this.props.movieP.website}</a></p>
+                  <p><strong>Ratings</strong></p>
+                  {(this.props.movieP.ratings).map( value => {
+                    return (<p>{value['Source']}: {value['Value']}</p>);
+                  })}
+                  <p><strong>Similar Movies</strong></p>
+                  <div style={styles.root}>
+                    <GridList style={styles.gridList} cols={2.2}>
+                      <GridTile
+                        key= {this.props.i}
+                        subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
+                        title={this.props.movieP.title}
+                      >
+                        <img src = {this.props.movieP.poster} height="100%" width="100%"/>
+                      </GridTile>
+                    </GridList>
+                    <ReactPlayer url='https://www.youtube.com/watch?v=ZUG9qYTJMsI'/>
+                  </div>
+                </form>
+              </div>
             </div>
 
-            <div className="col-md-6">
-              <form>
-                <p></p>
-                <p><strong>Description</strong>: {this.props.movieP.description}</p>
-                <p><strong>Actors/Actresses</strong>: {this.props.movieP.actors}</p>
-                <p><strong>Director/s</strong>: {this.props.movieP.directors}</p>
-                <p><strong>Release Date</strong>: {this.props.movieP.release_date}</p>
-                <p><strong>Genre/s</strong>: {this.props.movieP.genre}</p>
-                <p><strong>Runtime</strong>: {this.props.movieP.runtime}</p>
-                <p><strong>Website</strong>: <a href={this.props.movieP.website}>{this.props.movieP.website}</a></p>
-                <p><strong>Ratings</strong></p>
-                {this.props.movieP.ratings.map( value => {
-                  return (<p>{value.Source}: {value.Value}</p>);
-                })}
-                <p><strong>Similar Movies</strong></p>
-                <div style={styles.root}>
-                  <GridList style={styles.gridList} cols={2.2}>
-                    <GridTile
-                      key= {this.props.i}
-                      subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
-                      title={this.props.movieP.title}
-                    >
-                      <img src = {this.props.movieP.poster} height="100%" width="100%"/>
-                    </GridTile>
-                  </GridList>
-                  <ReactPlayer url='https://www.youtube.com/watch?v=ZUG9qYTJMsI' playing />
-                </div>
-              </form>
-            </div>
           </div>
         </Dialog>
       </div>

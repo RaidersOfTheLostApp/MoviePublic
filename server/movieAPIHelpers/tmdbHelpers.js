@@ -16,6 +16,18 @@ var MovieList = {
     });
   },
 
+  getTrailersById: (id, cb) => {
+    tmdb.call('/movie/' + id + '/videos', {
+      'language': 'en-US',
+    }, (e) => {
+      console.log(e.results, 'asdfsdfsf');
+      cb(null, e.results);
+
+    }, (e)=>{
+      cb(e, null);
+    });
+  },
+
   // getPopularMovies: (cb) => {
   //   tmdb.call('/movie/popular', (e) => {
   //     // console.log(e, 'EEEEEEEEEEE');

@@ -100,5 +100,16 @@ router.route('/')
 
   });
 
-module.exports = router;
+router.route('/id')
+  .get(middleware.auth.verify, (req, res, next) => {
+    console.log(req, '@@@@@@2');
+    searchDb.searchByIds(req.body, (err, data) => {
+      if (err) {
+        throw err;
+      } else {
+        res.json(data);
+      }
+    });
+  });
 
+module.exports = router;
