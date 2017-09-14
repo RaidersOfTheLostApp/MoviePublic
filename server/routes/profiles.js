@@ -28,10 +28,6 @@ router.route('/addfavorites')
   .post(ProfileController.addFavorites)
 ;
 
-router.route('/getfavorites')
-  .get(ProfileController.getFavorites)
-;
-
 router.route('/removefavorites')
   .post(ProfileController.removeFavorites)
 ;

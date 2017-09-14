@@ -457,12 +457,3 @@ module.exports.removeFavorites = (req, res) => {
       res.sendStatus(404);
     });
 };
-
-module.exports.getFavorites = (req, res) => {
-  console.log('we made it hereeeeee!');
-  res.status(201).send('kelly wants a grilled cheese!');
-};
-<<<<<<< HEAD
-
-=======
->>>>>>> Favorites are now being set on the server-side
