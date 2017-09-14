@@ -59,7 +59,10 @@ router.route('/')
                               data: {
                                 movieone: sorted,
                                 favorites: results,
+<<<<<<< HEAD
                                 favoriteId: profile.attributes.favorites,
+=======
+>>>>>>> SearchByIDs is now working as intended
                                 user: req.user
                               }
                             })
