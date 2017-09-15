@@ -35,9 +35,8 @@ var MovieList = {
     }, (e) => {
       console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
-
-    }, (e) => {
-      console.log(e, 'BROKE IN TMDBHELP');
+    }, (e)=>{
+      // console.log(err, 'BROKE IN TMDBHELP')
       cb(e, null);
     });
   },

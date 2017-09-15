@@ -16,13 +16,11 @@ class Favorites extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      favorites: [],
+      favorites: this.props.favorites,
+      favoriteId: this.props.favoriteId,
       modalIsOpen: false,
-      favoriteId: [],
-      movieP: this.props.movie,
+      movieP: this.props.movie
     };
-
-    this.getFavorites = this.getFavorites.bind(this);
   }
 
   openModal() {
@@ -38,80 +36,11 @@ class Favorites extends React.Component {
     this.setState({modalIsOpen: false});
   }
 
-  getFavorites() {
-    $.ajax({
-      method: 'GET',
-      url: '/api/profiles/getfavorites',
-      dataType: 'json',
-      success: (results) => {
-        console.log('************* results ', results.favorites);
-        var output = [];
-        for (var i = 0; i < results.favorites.length; i++) {
-          var newval = results.favorites[i].item;
-          output.push(newval);
-        }
-        // results.forEach( value => {
-        //   var newval = to_json(value)
-        //   output.push(newval);
-        // })
-
-        this.setState({
-          favorites: output
-        });
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  }
-
-  // clearFavorites() {
-  //   console.log('clear favorites on client side')
-  //   $.ajax({
-  //     method: 'POST',
-  //     url: '/api/profiles/clearfavorites',
-  //     data: [],
-  //     success: (results) => {
-  //       console.log(results);
-  //       this.setState({
-  //         favorites: []
-  //       });
-
-  //       // this.render();
-  //     },
-  //     error: (err) => {
-  //       console.log('err', err);
-  //     }
-  //   });
-  // }
-
-  // addFavorites(movie) {
-  //     $.ajax({
-  //       method: 'POST',
-  //       url: '/api/profiles/addfavorites',
-  //       data: movie,
-  //       success: (user) => {
-  //         // user = JSON.parse(user);
-  //         console.log('********* success favorites updated for user ' + user);
-  //       },
-  //       error: (error) => {
-  //         console.log('************* error updating favorites for user', error);
-  //       }
-  //     });
-  // }
-
-  // <button type="button" onClick = {this.clearFavorites.bind(this)} > Clear Favorites! </button>
-
-  componentDidMount() {
-    this.getFavorites();
-  }
-
   componentDidUpdate() {
     this.render();
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className='muiThemeProvider'>
         <div className='gridRoot container'>
@@ -126,6 +55,8 @@ class Favorites extends React.Component {
               <ResultsListItem
                 movieP={favorite}
                 k={i}
+                favoriteId={this.state.favoriteId}
+                favorites={this.state.favorites}
               />
             ))}
           </GridList>

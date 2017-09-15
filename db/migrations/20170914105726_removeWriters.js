@@ -83,7 +83,6 @@ exports.up = function(knex, Promise) {
       table.integer('price').notNullable();
       table.integer('movie').references('movies.id').onDelete('CASCADE');
     }),
-
   ]);
 };
 

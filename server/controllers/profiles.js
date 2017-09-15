@@ -385,6 +385,8 @@ module.exports.setUpFollowWriters = (req, res) => {
 };
 
 module.exports.addFavorites = (req, res) => {
+  var movieId = Object.keys(req.body);
+  var newArray = [];
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       console.log('we are going to add favorites!');
@@ -395,16 +397,16 @@ module.exports.addFavorites = (req, res) => {
     })
     .then((profile) => {
       var favorites = profile.attributes.favorites;
-      var newarray = [];
+      console.log(favorites);
       if (favorites === null) {
-        newarray.push(req.body);
+        newArray = newArray.concat(movieId);
       } else {
         for (var i = 0; i < favorites.length; i++) {
-          newarray.push(favorites[i]);
+          newArray.push(favorites[i]);
         }
-        newarray.push(req.body);
+        newArray = newArray.concat(movieId);
       }
-      return profile.save({favorites: JSON.stringify(newarray)}, {patch: true});
+      return profile.save({favorites: JSON.stringify(newArray)}, {patch: true});
     })
     .then((profile) => {
       console.log('********* favorites have successfully been saved to DB for user ' + profile.attributes.display);
@@ -421,7 +423,7 @@ module.exports.addFavorites = (req, res) => {
 };
 
 module.exports.removeFavorites = (req, res) => {
-  var movieId = req.body.id;
+  var movieId = Object.keys(req.body).toString();
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       console.log('we are going to remove favorites!');
@@ -432,8 +434,10 @@ module.exports.removeFavorites = (req, res) => {
     })
     .then((profile) => {
       var favorites = profile.attributes.favorites;
+      console.log(favorites);
       for (var i = 0; i < favorites.length; i++) {
-        if (favorites[i].id === movieId) {
+        console.log(favorites[i] === movieId);
+        if (favorites[i] === movieId) {
           favorites.splice(i, 1);
         }
       }
@@ -449,29 +453,6 @@ module.exports.removeFavorites = (req, res) => {
     })
     .catch((e) => {
       console.log('********* catch in removeFavorites', e);
-      res.sendStatus(404);
-    });
-};
-
-module.exports.getFavorites = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      return profile;
-    })
-    .then((profile) => {
-      console.log('********* favorites have successfully been grabbed from the database');
-      console.log(profile.attributes.favorites);
-      res.status(201).send(profile.attributes.favorites || []);
-    })
-    .error(err => {
-      console.log('********* error in getting favorites from database', err);
-      res.status(500).send(err);
-    })
-    .catch((e) => {
-      console.log('********* catch in getFavorites', e);
       res.sendStatus(404);
     });
 };

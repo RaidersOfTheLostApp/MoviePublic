@@ -17,47 +17,26 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      favorites: [],
-      favoriteId: [],
+      favorites: dataFromServer.favorites,
+      favoriteId: dataFromServer.favoriteId,
       resultsRend: false
     };
   }
 
-  getFavorites() {
-    $.ajax({
-      url: '/api/profiles/getfavorites',
-      method: 'GET',
-      dataType: 'json',
-      success: (results) => {
-        this.setState({
-          favorites: results.favorites
-        });
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  }
-
-  componentDidMount() {
-    this.getFavorites((results) => {
-      this.setState({ favorites: results.favorites });
-    });
-  }
-
   render() {
+    console.log(dataFromServer.favorites);
     return (
       <BrowserRouter>
         <Switch>
           <Route exact path="/" render={() => (
             <MuiThemeProvider>
-              <Results results = {dataFromServer.movieone} rerender ={this.state.resultsRend} favorites = {this.state.favorites} />
+              <Results results = {dataFromServer.movieone} rerender ={this.state.resultsRend} favoriteId = {this.state.favoriteId} favorites = {this.state.favorites} />
             </MuiThemeProvider>
           )}
           />
           <Route path="/favorites" render={() => (
             <MuiThemeProvider>
-              <Favorites favorites = {this.state.favorites} />
+              <Favorites favorites = {dataFromServer.favorites} favoriteId = {dataFromServer.favoriteId} />
             </MuiThemeProvider>
           )}
           />

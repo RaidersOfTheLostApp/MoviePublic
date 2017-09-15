@@ -50,22 +50,22 @@ const styles = {
 class VideoModal extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props, '@@@@')
+    console.log(this.props, '@@@@');
     this.state = {
       videos: this.props.movieP.trailers,
       video: null
-    }
+    };
   }
 
   componentDidUpdate() {
     this.render();
   }
 
-  componentDidMount(){
-    if(this.state.videos.length>0){
+  componentDidMount() {
+    if (this.state.videos.length > 0) {
       this.setState({
         video: this.state.videos[0].key
-      })
+      });
     }
   }
 
@@ -74,9 +74,9 @@ class VideoModal extends React.Component {
       <FlatButton
         label="Movie Data"
         primary={true}
-        style={{float:'left'}}
+        style={{float: 'left'}}
         onClick={this.props.switchToDataModal}
-        />,
+      />,
       <FlatButton
         label="Close"
         primary={true}
@@ -98,9 +98,9 @@ class VideoModal extends React.Component {
           contentClassName='dialog'
         >
           <ReactPlayer style={{ width: '100%',
-                                height:'100%',
-                                margin: 'auto',
-                              }} url={'https://www.youtube.com/watch?v='+this.state.video}/>
+            height: '100%',
+            margin: 'auto',
+          }} url={'https://www.youtube.com/watch?v=' + this.state.video}/>
         </Dialog>
       </div>
     );

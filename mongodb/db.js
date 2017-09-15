@@ -55,20 +55,24 @@ var searchByTitle = (title, cb) => {
 };
 
 var searchByIds = (idArray, cb) => {
-  var movieList = [];
-  var len = idArray.length;
-  idArray.forEach((value, i) => {
-    getMovies({ _id: ObjectId(value) }, (err, res) => {
-      if (err) {
-        cb(err, null);
-      } else {
-        movieList.push(res[0]);
-      }
-      if (movieList.length === len) {
-        cb(null, movieList);
-      }
+  if (idArray === null || idArray.length === 0) {
+    cb(null, []);
+  } else {
+    var movieList = [];
+    var len = idArray.length || 0;
+    idArray.forEach((value, i) => {
+      getMovies({ _id: ObjectId(value) }, (err, res) => {
+        if (err) {
+          cb(err, null);
+        } else {
+          movieList.push(res[0]);
+        }
+        if (movieList.length === len) {
+          cb(null, movieList);
+        }
+      });
     });
-  });
+  }
 };
 
 var getMovies = (query, cb) => {
@@ -84,7 +88,7 @@ var getMovies = (query, cb) => {
 var saveMovies = (movies, cb) => {
 
   movies.forEach((value) => {
-
+    console.log('the title is ', value.title);
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.request.response.body);
       if (err) {
