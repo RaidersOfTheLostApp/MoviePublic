@@ -22,31 +22,6 @@ const sortByKey = (array, key) => {
 
 router.route('/')
   .get(middleware.auth.verify, (req, res, next) => {
-    $.ajax({
-      url: '/search',
-      method: 'GET',
-      data: {value: searchInput},
-      dataType: 'json',
-      contentType: 'text/plain',
-      success: (results) => {
-        var container = [];
-        for (var i = 0; i < results.length; i++) {
-          container.push(results[i]);
-        }
-        // this.setState({movies: this.state.movies.concat(results)});
-        this.setState({
-          movies: container
-        });
-
-        // console.log(this.state.movies, '@#$#@$#@');
-        // this.render();
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  })
-  .get(middleware.auth.verify, (req, res, next) => {
 
     module.exports.sortByKey = (array, key) => {
       return array.sort(function(a, b) {

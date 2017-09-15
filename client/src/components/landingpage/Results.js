@@ -18,7 +18,8 @@ class Results extends React.Component {
       favoriteId: [],
       favorites: [],
       movies: this.props.results,
-      minRating: 0
+      minRating: 0,
+      display: this.props.results
     };
 
     this.sortByRating = this.sortByRating.bind(this);
@@ -41,7 +42,8 @@ class Results extends React.Component {
         }
         // this.setState({movies: this.state.movies.concat(results)});
         this.setState({
-          movies: container
+          movies: container,
+          display: container
         });
 
         // console.log(this.state.movies, '@#$#@$#@');
@@ -79,15 +81,13 @@ class Results extends React.Component {
       if (value.ratings[0]) {
         var score = value.ratings[0].Value.split('/')[0];
         var num = parseFloat(score);
-        console.log(this.state.minRating, 'rating');
+        console.log(this.state.minRating, num, 'rating');
         if (num >= this.state.minRating) {
           output.push(value);
-        } else {
-          end.push(value);
         }
       }
     });
-    return output.concat(end);
+    return output;
   }
 
   sortByRating(rating) {
@@ -107,12 +107,13 @@ class Results extends React.Component {
         }
       });
       this.setState({
-        movies: sorted
+        display: sorted,
       });
     });
   }
 
   render() {
+    console.log(this.state, '@###@');
     return (
       <div className='gridRoot container'>
         <div className='row'>
@@ -128,7 +129,7 @@ class Results extends React.Component {
           cols={5}
           className='gridList'>
           <Subheader>Popular Movies</Subheader>
-          {(this.state.movies).map( (movie, i) => (
+          {(this.state.display).map( (movie, i) => (
             <ResultsListItem
               key={i}
               movieP={movie}

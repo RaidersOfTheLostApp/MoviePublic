@@ -90,7 +90,7 @@ var saveMovies = (movies, cb) => {
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
-        console.log(data)
+        console.log(data);
         var searchid = data.Id;
         var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
         var id = data.imdbID;
@@ -139,18 +139,23 @@ var saveMovies = (movies, cb) => {
                     });
                   }
                 });
-
               }
-            });
 
+            });
           }
+
 
         });
 
       }
 
+
     });
+
+
+
   });
+
   cb();
 };
 
