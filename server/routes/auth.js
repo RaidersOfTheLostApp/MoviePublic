@@ -95,7 +95,7 @@ router.route('/profile')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
-          //TODO: add mongoId search to return arrays
+          //TODO: finish to grab actors and directors once table ready
           var followMovies;
           console.log('********** start searchbyids with ', profile.attributes.follow_movies);
           searchDb.searchByIds(profile.attributes.follow_movies, (err, movies) => {
@@ -103,7 +103,6 @@ router.route('/profile')
               console.log(err);
             } else {
               followMovies = movies;
-              console.log('************** followMovies ', followMovies);
               res.render('index.ejs', {
                 data: {
                   user: req.user,

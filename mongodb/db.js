@@ -64,7 +64,7 @@ var searchByIds = (idArray, cb) => {
       } else {
         movieList.push(res[0]);
       }
-      if (i === len - 1) {
+      if (movieList.length === len) {
         cb(null, movieList);
       }
     });
