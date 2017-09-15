@@ -18,7 +18,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       favorites: dataFromServer.favorites,
-      favoriteId: [],
+      favoriteId: dataFromServer.favoriteId,
       resultsRend: false
     };
   }
@@ -30,13 +30,13 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" render={() => (
             <MuiThemeProvider>
-              <Results results = {dataFromServer.movieone} rerender ={this.state.resultsRend} favorites = {this.state.favorites} />
+              <Results results = {dataFromServer.movieone} rerender ={this.state.resultsRend} favoriteId = {this.state.favoriteId} favorites = {this.state.favorites} />
             </MuiThemeProvider>
           )}
           />
           <Route path="/favorites" render={() => (
             <MuiThemeProvider>
-              <Favorites favorites = {this.state.favorites} />
+              <Favorites favorites = {dataFromServer.favorites} favoriteId = {dataFromServer.favoriteId} />
             </MuiThemeProvider>
           )}
           />
