@@ -128,15 +128,6 @@ router.route('/favorites')
     });
   });
 
-
-
-
-
-
-
-
-
-
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
@@ -147,7 +138,6 @@ router.route('/profile')
           res.render('index.ejs', {
             data: {
               user: req.user,
-              movieFollow: profile.attributes.follow_movies || [],
               genreFollow: profile.attributes.follow_genre || [],
               actorFollow: profile.attributes.follow_actor || [],
               directorFollow: profile.attributes.follow_director || [],
@@ -171,7 +161,6 @@ router.route('/following')
         res.render('index.ejs', {
           data: {
             user: req.user,
-            movieFollow: profile.attributes.follow_movies || [],
             genreFollow: profile.attributes.follow_genre || [],
             actorFollow: profile.attributes.follow_actor || [],
             directorFollow: profile.attributes.follow_director || [],

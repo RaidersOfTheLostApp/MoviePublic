@@ -24,7 +24,6 @@ class Following extends React.Component {
     this.state = {
       select_value: 0,
       loading: false,
-      movieFollowMongoIds: [],
       genreFollowMongoIds: [],
       actorFollowMongoIds: [],
       directorFollowMongoIds: [],
@@ -45,18 +44,17 @@ class Following extends React.Component {
     this.getFollow('genres', (err, movieArr) => {
       if (err) { console.log('********** error on getFollow ', err); }
       var genreArr = movieArr.splice(0, 15);
-      var movieArrNew = movieArr.splice(0, 15);
       var actorArr = movieArr.splice(0, 15);
       var directorArr = movieArr.splice(0, 15);
       this.setState({
         genreFollowMongoIds: genreArr,
-        movieFollowMongoIds: movieArrNew,
         actorFollowMongoIds: actorArr,
         directorFollowMongoIds: directorArr,
         loading: false
       }, () => {
-        console.log(this.state.movieFollowMongoIds);
-        this.getMoviesWithIds(this.state.movieFollowMongoIds);
+        console.log(this.state.actorFollowMongoIds);
+        this.getMoviesWithIds(this.state.actorFollowMongoIds);
+        //TODO: for director movies too
       });
     });
     // this.getFollow('actors', movieArr => {
@@ -138,26 +136,6 @@ class Following extends React.Component {
     }
     return (
       <div className='muiThemeProvider'>
-        <div className='followRoot container'>
-          <div className='row'>
-            <div className='col-4'>
-              <Subheader>MOVIES You Are Following</Subheader>
-            </div>
-          </div>
-          <GridList key={0} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.movieFollowMongoIds.map((movie, i) => (
-              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={movie.title}
-                  subtitle={<span>by <b>{movie.directors[0]}</b></span>}
-                >
-                  <img src = {movie.poster}/>
-                </GridTile>
-              </a>
-            ))}
-          </GridList>
-        </div>
         <div className='followRoot container'>
           <div className='row'>
             <div className='col-4'>

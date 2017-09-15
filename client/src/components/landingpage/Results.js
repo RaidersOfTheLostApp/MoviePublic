@@ -21,7 +21,7 @@ class Results extends React.Component {
       minRating: 0,
       display: this.props.results
     };
-
+    console.log('*********** # of movies ', movies.)
     this.sortByRating = this.sortByRating.bind(this);
     this.searchToServer = this.searchToServer.bind(this);
   }
@@ -38,12 +38,15 @@ class Results extends React.Component {
         var container = [];
         for (var i = 0; i < results.length; i++) {
           container.push(results[i]);
+          if (container.length === results.length) {
+            this.setState({
+              movies: container,
+              display: container
+            });
+          }
         }
         // this.setState({movies: this.state.movies.concat(results)});
-        this.setState({
-          movies: container,
-          display: container
-        });
+
 
         // console.log(this.state.movies, '@#$#@$#@');
         // this.render();

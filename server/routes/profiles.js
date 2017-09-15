@@ -32,12 +32,6 @@ router.route('/removefavorites')
   .post(ProfileController.removeFavorites)
 ;
 
-router.route('/follows/movies')
-  .post(ProfileController.setUpFollowMovies)
-  .get(ProfileController.getFollowMovies)
-  // .delete(ProfileController.deleteOne)
-;
-
 router.route('/follows/genres')
   .post(ProfileController.setUpFollowGenres)
   .get(ProfileController.getFollowGenres)
@@ -53,12 +47,6 @@ router.route('/follows/actors')
 router.route('/follows/directors')
   .post(ProfileController.setUpFollowDirectors)
   .get(ProfileController.getFollowDirectors)
-  // .delete(ProfileController.deleteOne)
-;
-
-router.route('/follows/writers')
-  .post(ProfileController.setUpFollowWriters)
-  .get(ProfileController.getFollowWriters)
   // .delete(ProfileController.deleteOne)
 ;
 

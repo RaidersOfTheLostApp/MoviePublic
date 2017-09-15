@@ -42,29 +42,6 @@ module.exports.getOne = (req, res) => {
     });
 };
 
-module.exports.getFollowMovies = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      var moviesArr = [];
-      for (var i = 0; i < profile.attributes.follow_movies.length; i++) {
-        moviesArr.push(profile.attributes.follow_movies[i].id);
-      }
-      searchDb.searchByIds(moviesArr, (err, mongoMovieArr) => {
-        if (err) { throw err; }
-        res.status(200).send(mongoMovieArr);
-      });
-    })
-    .error(err => {
-      res.status(500).send(err);
-    })
-    .catch(() => {
-      res.sendStatus(404);
-    });
-};
-
 module.exports.getFollowGenres = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
@@ -123,23 +100,6 @@ module.exports.getFollowDirectors = (req, res) => {
       }
       //TODO call mongo and pass in array, see getFollowGenres
       res.status(200).send(profile);
-    })
-    .error(err => {
-      res.status(500).send(err);
-    })
-    .catch(() => {
-      res.sendStatus(404);
-    });
-};
-
-module.exports.getFollowWriters = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      //TODO call mongo and pass in array, see getFollowGenres
-      res.status(200).send(moviesArr);
     })
     .error(err => {
       res.status(500).send(err);
@@ -213,41 +173,6 @@ module.exports.setUpVOD = (req, res) => {
     })
     .catch((e) => {
       console.log('********* catch in setUpVOD ', e);
-      res.sendStatus(404);
-    });
-};
-
-module.exports.setUpFollowMovies = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      //format of values: { 'movieFollow[0][text]': 'Raiders of the Lost Ark', 'movieFollow[0][id]': '1', 'movieFollow[1][text]': 'Temple of Doom', 'movieFollow[1][id]': '2' }
-      //indexes match Postgres table indexes for the movies table
-      var movieSet = [];
-      var movieText;
-      var save = false;
-      for (var key in req.body) {
-        if (save) {
-          movieSet.push({'text': movieText, 'id': req.body[key]});
-          save = !save;
-        } else {
-          movieText = req.body[key];
-          save = !save;
-        }
-      }
-      return profile.save({follow_movies: JSON.stringify(movieSet)}, {patch: true});
-    })
-    .then((result) => {
-      res.sendStatus(201);
-    })
-    .error(err => {
-      console.log('********* error in setUpFollowMovies ', err);
-      res.status(500).send(err);
-    })
-    .catch((e) => {
-      console.log('********* catch in setUpFollowMovies ', e);
       res.sendStatus(404);
     });
 };
@@ -347,39 +272,6 @@ module.exports.setUpFollowDirectors = (req, res) => {
     })
     .catch((e) => {
       console.log('********* catch in setUpFollowDirectors ', e);
-      res.sendStatus(404);
-    });
-};
-
-module.exports.setUpFollowWriters = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      var writerSet = [];
-      var writerText;
-      var save = false;
-      for (var key in req.body) {
-        if (save) {
-          writerSet.push({'text': writerText, 'id': req.body[key]});
-          save = !save;
-        } else {
-          writerText = req.body[key];
-          save = !save;
-        }
-      }
-      return profile.save({follow_writers: JSON.stringify(writerSet)}, {patch: true});
-    })
-    .then((result) => {
-      res.sendStatus(201);
-    })
-    .error(err => {
-      console.log('********* error in setUpFollowWriters ', err);
-      res.status(500).send(err);
-    })
-    .catch((e) => {
-      console.log('********* catch in setUpFollowWriters ', e);
       res.sendStatus(404);
     });
 };

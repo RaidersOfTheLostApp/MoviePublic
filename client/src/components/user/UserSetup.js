@@ -23,15 +23,12 @@ class UserSetup extends React.Component {
       hbo: false,
       hulu: false,
       amazon: false,
-      movieFollow: [], //TODO check if the user already has a following?
-      genreFollow: [],
+      genreFollow: [], //TODO check if the user already has a following?
       actorFollow: [],
       directorFollow: [],
-      movieList: [{'name': 'Beauty and the Beast', 'id': 1}, {'name': 'Annabelle Movie', 'id': 2}, {'name': 'Despicable Me', 'id': 3}, {'name': 'Spiderman Homecoming', 'id': 4},
-        {'name': 'Minons Movie', 'id': 5}, {'name': 'The Dark Tower', 'id': 6}, {'name': 'The Layover', 'id': 7}, {'name': 'Dunkirk', 'id': 8}],
       genreList: props.genres,
-      actorList: [{'name': 'Jennifer Aniston', 'id': 1}, {'name': 'Brad Pitt', 'id': 2}],
-      directorList: [{'name': 'Quentin Tarantino', 'id': 1}, {'name': 'Other directors', 'id': 2}]
+      actorList: [], //format: {'name': 'Brad Pitt', 'id': 2}
+      directorList: [] //format: {'name': 'Quentin Tarantino', 'id': 1}
     };
   }
 
@@ -86,23 +83,6 @@ class UserSetup extends React.Component {
   }
 
   finishStepTwo() {
-    if (this.state.movieFollow.length > 0) {
-      $.ajax({
-        method: 'POST',
-        url: '/api/profiles/follows/movies',
-        data: {
-          movieFollow: this.state.movieFollow
-        },
-        success: (user) => {
-          user = JSON.parse(user);
-          console.log('********* success user setup follow Movies ', user);
-        },
-        error: (error) => {
-          console.log('************* update Movie follow list handleNext ERROR:', error);
-        }
-      });
-    }
-
     if (this.state.genreFollow.length > 0) {
       $.ajax({
         method: 'POST',
@@ -212,7 +192,7 @@ class UserSetup extends React.Component {
               <StepLabel>Welcome to Movie Master!</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Select Movies and Actors to Follow</StepLabel>
+              <StepLabel>Select Genres, Actors and Directors to Follow</StepLabel>
             </Step>
             <Step>
               <StepLabel>Select Your VOD Subscriptions</StepLabel>
@@ -236,11 +216,9 @@ class UserSetup extends React.Component {
                 ) : (
                   this.state.stepIndex === 1 ? (
                     <FollowSetup header={this.getStepContent(this.state.stepIndex)}
-                      movieList={this.state.movieList}
                       genreList={this.state.genreList}
                       actorList={this.state.actorList}
                       directorList={this.state.directorList}
-                      movieFollow={this.state.movieFollow}
                       genreFollow={this.state.genreFollow}
                       actorFollow={this.state.actorFollow}
                       directorFollow={this.state.directorFollow}
