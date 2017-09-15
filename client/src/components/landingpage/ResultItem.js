@@ -162,7 +162,9 @@ class ResultsListItem extends React.Component {
     this.setState({
       videoIsOpen: false,
     });
-    if (cb) { cb(); }
+    if (cb) { 
+      cb(); 
+    }
   }
 
   switchToVideoModal() {
@@ -179,10 +181,6 @@ class ResultsListItem extends React.Component {
         modalIsOpen: true,
       });
     });
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
   }
 
   componentDidUpdate() {

@@ -14,7 +14,6 @@ import Search from './Search';
 import Filtering from './Filtering';
 import Results from './Results';
 import ReactPlayer from 'react-player';
-
 const customContentStyle = {
   backgroundColor: '#1a1aff',
   width: '50%',
@@ -22,16 +21,13 @@ const customContentStyle = {
   maxWidth: 'none',
   fontFamily: 'Roboto, sans-serif',
 };
-
 const customTitleStyle = {
   // backgroundColor:'#50B6C2',
   backgroundImage: '-webkit-gradient(linear, left top, left bottom, from(#3D8DB5),to(#5583B5))',
   backgroundImage: '-webkit-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
   backgroundImage: '-o-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
   backgroundImage: 'linear-gradient(to bottom, #3D8DB5 0%,#5583B5 100%)',
-
 };
-
 const styles = {
   root: {
     justifyContent: 'space-around',
@@ -46,7 +42,6 @@ const styles = {
     color: 'rgb(0, 188, 212)',
   },
 };
-
 class VideoModal extends React.Component {
   constructor(props) {
     super(props);
@@ -56,11 +51,9 @@ class VideoModal extends React.Component {
       video: null
     };
   }
-
   componentDidUpdate() {
     this.render();
   }
-
   componentDidMount() {
     if (this.state.videos.length > 0) {
       this.setState({
@@ -68,7 +61,6 @@ class VideoModal extends React.Component {
       });
     }
   }
-
   render() {
     const actions = [
       <FlatButton
@@ -83,7 +75,6 @@ class VideoModal extends React.Component {
         onClick={this.props.closeModal}
       />
     ];
-
     return (
       <div>
         <Dialog
@@ -106,5 +97,4 @@ class VideoModal extends React.Component {
     );
   }
 }
-
 export default VideoModal;
