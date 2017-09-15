@@ -37,13 +37,8 @@ var MovieList = {
       console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
 
-<<<<<<< HEAD
     }, (e) => {
       console.log(e, 'BROKE IN TMDBHELP');
-=======
-    }, (e)=>{
-      // console.log(err, 'BROKE IN TMDBHELP')
->>>>>>> Adjusted the code so that it still runs even if favorites are null
       cb(e, null);
     });
   },
