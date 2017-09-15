@@ -49,28 +49,28 @@ router.route('/')
                   var sorted = sortByKey(movies, 'year');
                   // console.log('the favorites are + ***');
                   // console.log(profile.attributes.favorites);
-                    searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
-                       if (err) {
-                         console.log(err);
-                       } else {
-                            console.log('the results length is ', results.length);
-                            }
-                            res.render('index.ejs', {
-                              data: {
-                                movieone: sorted,
-                                favorites: results,
-                                favoriteId: profile.attributes.favorites,
-                                user: req.user
-                              }
-                            })
-                  })
+                  searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log('the results length is ', results.length);
+                    }
+                    res.render('index.ejs', {
+                      data: {
+                        movieone: sorted,
+                        favorites: results,
+                        favoriteId: profile.attributes.favorites || [],
+                        user: req.user
+                      }
+                    });
+                  });
                 }
-              })
-            };
-          })
-        }
-      });
+              });
+            }
+          });
+      }
     });
+  });
 
 
 router.route('/login')
@@ -110,28 +110,28 @@ router.route('/favorites')
                   var sorted = sortByKey(movies, 'year');
                   // console.log('the favorites are + ***');
                   // console.log(profile.attributes.favorites);
-                    searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
-                       if (err) {
-                         console.log(err);
-                       } else {
-                            console.log('the results length is ', results.length);
-                            }
-                            res.render('index.ejs', {
-                              data: {
-                                movieone: sorted,
-                                favorites: results,
-                                favoriteId: profile.attributes.favorites,
-                                user: req.user
-                              }
-                            })
-                  })
+                  searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log('the results length is ', results.length);
+                    }
+                    res.render('index.ejs', {
+                      data: {
+                        movieone: sorted,
+                        favorites: results,
+                        favoriteId: profile.attributes.favorites,
+                        user: req.user
+                      }
+                    });
+                  });
                 }
-              })
-            };
-          })
-        }
-      });
+              });
+            }
+          });
+      }
     });
+  });
 
 
 
