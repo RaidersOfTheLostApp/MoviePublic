@@ -47,14 +47,14 @@ class Favorites extends React.Component {
         console.log('************* results ', results.favorites);
         var output = [];
         for (var i = 0; i < results.favorites.length; i++) {
-          var newval = results.favorites[i].item;
+          var newval = results.favorites[i];
           output.push(newval);
         }
         // results.forEach( value => {
         //   var newval = to_json(value)
         //   output.push(newval);
         // })
-
+        console.log(output, 'OUTPUT@@');
         this.setState({
           favorites: output
         });
