@@ -15,7 +15,6 @@ class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      minRating: 0,
       favoriteId: this.props.favoriteId,
       favorites: this.props.favorites,
       movies: this.props.results,
