@@ -26,43 +26,43 @@ class UserProfile extends React.Component {
                 primaryText={this.props.user.display}
                 secondaryText="Name"
               />
-          </List>
-        </div>
-        <div className='col-6'>
-          <List>
-            <ListItem
-              insetChildren={true}
-              leftIcon={<CommunicationEmail />}
-              primaryText={this.props.user.email}
-              secondaryText="Email"
-            />
-          </List>
-        </div>
-      </div>
-      <Divider />
-      <br />
-      <Divider />
-      <div className='followRoot container'>
-        <div className='row'>
-          <div className='col-4'>
-            <Subheader>EDIT YOUR FAVORITES</Subheader>
+            </List>
+          </div>
+          <div className='col-6'>
+            <List>
+              <ListItem
+                insetChildren={true}
+                leftIcon={<CommunicationEmail />}
+                primaryText={this.props.user.email}
+                secondaryText="Email"
+              />
+            </List>
           </div>
         </div>
-        <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-          {this.props.favorites.map((movie, i) => (
-            <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
-              <GridTile
-                key={i}
-                title={movie.title}
-              >
-                <img src = {movie.poster}/>
-              </GridTile>
-            </a>
-          ))}
-        </GridList>
         <Divider />
         <br />
         <Divider />
+        <div className='followRoot container'>
+          <div className='row'>
+            <div className='col-4'>
+              <Subheader>EDIT YOUR FAVORITES</Subheader>
+            </div>
+          </div>
+          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+            {this.props.favorites.map((movie, i) => (
+              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
+                <GridTile
+                  key={i}
+                  title={movie.title}
+                >
+                  <img src = {movie.poster}/>
+                </GridTile>
+              </a>
+            ))}
+          </GridList>
+          <Divider />
+          <br />
+          <Divider />
           <div className='row'>
             <div className='col-4'>
               <Subheader>EDIT YOUR FOLLOWINGS</Subheader>
@@ -75,12 +75,12 @@ class UserProfile extends React.Component {
           </div>
           <GridList cellHeight={50} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.genreFollow.map((genre, i) => (
-                <GridTile
-                  key={i}
-                  title={genre.text}
-                >
-                  <img src = ""/>
-                </GridTile>
+              <GridTile
+                key={i}
+                title={genre.text}
+              >
+                <img src = ""/>
+              </GridTile>
             ))}
           </GridList>
           <br />
