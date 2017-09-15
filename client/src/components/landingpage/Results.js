@@ -15,9 +15,10 @@ class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      favoriteId: [],
-      favorites: [],
-      movies: this.props.results,
+      minRating: 0,
+      favoriteId: this.props.favoriteId,
+      favorites: this.props.favorites,
+      movies: this.props.results
       minRating: 0,
       display: this.props.results
     };
@@ -28,7 +29,6 @@ class Results extends React.Component {
 
   searchToServer(cb) {
     var searchInput = document.getElementById('text-field').value;
-    console.log(searchInput);
     $.ajax({
       url: '/search',
       method: 'GET',
@@ -133,7 +133,8 @@ class Results extends React.Component {
             <ResultsListItem
               key={i}
               movieP={movie}
-              favorites = {this.props.favorites}
+              favoriteId = {this.state.favoriteId}
+              favorites = {this.state.favorites}
             />
           ))}
         </GridList>
