@@ -54,7 +54,7 @@ class MovieDataModal extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.props.movieP.ratings, '@#$$$$$$');
     const actions = [
       <FlatButton
         label="Movie Trailers"
