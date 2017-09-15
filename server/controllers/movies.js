@@ -172,9 +172,57 @@ module.exports.addMovies = (movie_array, callback) => {
       //   });
       // };
 
-      // crew_add(movie, () => {
-      //   console.log('invoked');
-      // });
+      //   crew.forEach((type, index) => {
+      //     // console.log(type, index, 'type & index');
+      //     type.forEach((crew_member) => {
+      //       // console.log(crew_member, 'Solo Genre');
+      //       models.Crew.where({ name: crew_member })
+      //         .fetch()
+      //         .then(function(model) {
+      //           if (model) {
+      //             console.log(model.attributes.name, 'Crew Member is Already in Database');
+      //             // Change Boolean for actor/writer to True
+      //             tempCrew.push(model.attributes.id);
+      //           } else {
+      //             let isActor = false;
+      //             let isDirector = false;
+      //             if (index === 0) {
+      //               isActor = true;
+      //             } else if (index === 1) {
+      //               isDirector = true;
+      //             }
+      //             new models.Crew({
+      //               name: crew_member,
+      //               actor: isActor,
+      //               director: isDirector,
+      //             }).save()
+      //               .then(function() {
+      //                 models.Crew.where({ name: crew_member })
+      //                   .fetch()
+      //                   .then(function(model) {
+      //                     console.log(crew_member, 'Crew Member Created');
+      //                     tempCrew.push(model.attributes.id);
+      //                   });
+      //               });
+      //           }
+      //         })
+      //         .then(() => {
+      //           if (tempCrew.length === 0) {
+      //             return null;
+      //           }
+      //           if (index === 0) {
+      //             crew_object.actors = tempCrew;
+      //           } else if (index === 1) {
+      //             crew_object.directors = tempCrew;
+      //           } else if (index === 2) {
+      //             crew_object.writers = tempCrew;
+      //           }
+      //           console.log(crew_object, index, 'Crew IDs to put into Movie Table');
+      //           callback(crew_object);
+      //         });
+      //     });
+      //   });
+      // };
 
       // genre_add(movie, (genre_id) => {
       //   // console.log(movie, genre_id, 'Before Creating Movie');
