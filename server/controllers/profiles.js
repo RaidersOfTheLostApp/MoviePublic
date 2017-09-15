@@ -396,19 +396,18 @@ module.exports.addFavorites = (req, res) => {
       return profile;
     })
     .then((profile) => {
-        var favorites = profile.attributes.favorites;
-        console.log(favorites);
-        if (favorites === null) {
-          newArray = newArray.concat(result);
+      var favorites = profile.attributes.favorites;
+      console.log(favorites);
+      if (favorites === null) {
+        newArray = newArray.concat(movieId);
+      } else {
+        for (var i = 0; i < favorites.length; i++) {
+          newArray.push(favorites[i]);
         }
-        else {
-          for (var i = 0; i < favorites.length; i++) {
-            newArray.push(favorites[i]);
-          }
-          newArray = newArray.concat(movieId);
-        }
-        return profile.save({favorites: JSON.stringify(newArray)}, {patch: true});
-      })
+        newArray = newArray.concat(movieId);
+      }
+      return profile.save({favorites: JSON.stringify(newArray)}, {patch: true});
+    })
     .then((profile) => {
       console.log('********* favorites have successfully been saved to DB for user ' + profile.attributes.display);
       res.status(201).send(profile.attributes.display);
