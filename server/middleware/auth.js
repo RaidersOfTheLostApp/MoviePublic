@@ -4,7 +4,12 @@ const RedisStore = require('connect-redis')(session);
 const searchDb = require('../../mongodb/db.js');
 var Promise = require('bluebird');
 
+<<<<<<< HEAD
 if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production') {
+=======
+if (process.env.NODE_ENV !== 'development') {
+  process.env.NODE_ENV = 'development';
+>>>>>>> Update before Rebase
   const redisClient = require('redis').createClient(process.env.REDIS_URL);
   var redisStoreClient = {
     url: process.env.REDIS_URL
@@ -23,7 +28,7 @@ if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production')
 module.exports.verify = (req, res, next) => {
 
   Promise.resolve(req.isAuthenticated())
-    .then( () => {
+    .then(() => {
       if (req.isAuthenticated()) {
         // console.log(req.body);
         next();

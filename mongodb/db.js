@@ -20,16 +20,21 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
-  id: {type: String, unique: true},
-  title: {type: String, unique: true},
+<<<<<<< HEAD
+  id: { type: String, unique: true },
+  title: { type: String, unique: true },
+=======
+  id: { type: String, unique: true },
+  title: String,
+>>>>>>> Update before Rebase
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
   genre: { type: Array, required: true },
-  runtime: {type: String, unique: true},
+  runtime: { type: String, unique: true },
   directors: { type: Array, required: true },
   writers: { type: Array, required: true },
   actors: { type: Array, required: true },
-  description: {type: String, unique: true},
+  description: { type: String, unique: true },
   awards: { type: Array, required: true },
   poster: { type: String, required: true },
   ratings: { type: Array, required: true },
@@ -95,16 +100,16 @@ var saveMovies = (movies, cb) => {
         var id = data.imdbID;
         var similar;
         var trailers = [];
-        Movie.find({ id: data.imdbID}, (err, res) => {
+        Movie.find({ id: data.imdbID }, (err, res) => {
           if (res.length === 0) {
             getSimilarMovies(data.id, (err, similarmovies) => {
-              if(err){
+              if (err) {
                 console.log('nosimilar')
-              }else{
+              } else {
                 similar = similarmovies;
                 getTrailers(id, (err, res) => {
                   if (err) {
-                    console.log('notrailers');
+                    console.log('error');
                   } else {
                     trailers = res;
                     var newMovie = new Movie({
