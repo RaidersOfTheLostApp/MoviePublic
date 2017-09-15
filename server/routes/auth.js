@@ -59,14 +59,7 @@ router.route('/')
                               data: {
                                 movieone: sorted,
                                 favorites: results,
-<<<<<<< HEAD
-<<<<<<< HEAD
                                 favoriteId: profile.attributes.favorites,
-=======
->>>>>>> SearchByIDs is now working as intended
-=======
-                                favoriteId: profile.attributes.favorites,
->>>>>>> Favorites are now working again with Mongo objects
                                 user: req.user
                               }
                             })
@@ -125,10 +118,7 @@ router.route('/favorites')
                             }
                             res.render('index.ejs', {
                               data: {
-<<<<<<< HEAD
                                 movieone: sorted,
-=======
->>>>>>> Favorites are now working again with Mongo objects
                                 favorites: results,
                                 favoriteId: profile.attributes.favorites,
                                 user: req.user
