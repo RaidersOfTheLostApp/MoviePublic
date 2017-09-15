@@ -18,7 +18,7 @@ class Results extends React.Component {
       minRating: 0,
       favoriteId: this.props.favoriteId,
       favorites: this.props.favorites,
-      movies: this.props.results
+      movies: this.props.results,
       minRating: 0,
       display: this.props.results
     };
