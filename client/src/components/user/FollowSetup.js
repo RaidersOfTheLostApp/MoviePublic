@@ -14,8 +14,8 @@ class FollowSetup extends React.Component {
     super(props);
     this.state = {
       select_value: 0,
-      hintText: ['Enter a Movie to Follow', 'Enter a Movie Genre to Follow', 'Enter an Actor/Actress to Follow'], //'Enter a Director to Follow', 'Enter a Screenwriter to Follow'
-      dataSource: props.movieList,
+      hintText: ['Enter a Movie Genre to Follow', 'Enter an Actor/Actress to Follow'], //'Enter a Director to Follow', 'Enter a Screenwriter to Follow'
+      dataSource: props.genreList,
       latestFollow: '',
       addToDB: false,
       nonKey: 0
@@ -23,7 +23,7 @@ class FollowSetup extends React.Component {
   }
 
   getValue(index, callback) {
-    var dropDownList = ['movie', 'genre', 'actor', 'director'];
+    var dropDownList = ['genre', 'actor', 'director'];
     callback(dropDownList[index]);
   }
 
@@ -104,10 +104,9 @@ class FollowSetup extends React.Component {
               <div className='row'>
                 <div className='col'>
                   <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                    <MenuItem value={0} primaryText='Movie' />
-                    <MenuItem value={1} primaryText='Genre' />
-                    <MenuItem value={2} primaryText='Actor' />
-                    <MenuItem value={3} primaryText='Director' />
+                    <MenuItem value={0} primaryText='Genre' />
+                    <MenuItem value={1} primaryText='Actor' />
+                    <MenuItem value={2} primaryText='Director' />
                   </SelectField>
                 </div>
                 <div className='col'>
@@ -132,17 +131,6 @@ class FollowSetup extends React.Component {
           </div>
         </div>
         <div className='muiThemeProvider outline'>
-          <Subheader>Your Current Following:</Subheader>
-          <Divider />
-          <Subheader>MOVIES</Subheader>
-          <List>
-            {this.props.movieFollow.map(movie =>
-              <ListItem key={movie.id}
-                leftIcon={<ActionGrade />}
-                primaryText={movie.text}
-              />
-            )}
-          </List>
           <Subheader>GENRES</Subheader>
           <List>
             {this.props.genreFollow.map(genre =>

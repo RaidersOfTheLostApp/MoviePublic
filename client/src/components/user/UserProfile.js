@@ -87,25 +87,6 @@ class UserProfile extends React.Component {
           <Divider />
           <div className='row'>
             <div className='col-4'>
-              <Subheader>MOVIES</Subheader>
-            </div>
-          </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.props.movieFollow.map((movie, i) => (
-              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={movie.title}
-                >
-                  <img src = {movie.poster}/>
-                </GridTile>
-              </a>
-            ))}
-          </GridList>
-          <br />
-          <Divider />
-          <div className='row'>
-            <div className='col-4'>
               <Subheader>ACTOR/ACTRESSES</Subheader>
             </div>
           </div>

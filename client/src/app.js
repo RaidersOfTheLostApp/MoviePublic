@@ -44,7 +44,6 @@ class App extends React.Component {
             <MuiThemeProvider>
               <UserProfile user={dataFromServer.user}
                 favorites={dataFromServer.favorites}
-                movieFollow={dataFromServer.movieFollow}
                 genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}
                 directorFollow={dataFromServer.directorFollow}/>
@@ -59,8 +58,7 @@ class App extends React.Component {
           />
           <Route path="/following" render={() => (
             <MuiThemeProvider>
-              <Following movieFollow={dataFromServer.movieFollow}
-                genreFollow={dataFromServer.genreFollow}
+              <Following genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}
                 directorFollow={dataFromServer.directorFollow}/>
             </MuiThemeProvider>
