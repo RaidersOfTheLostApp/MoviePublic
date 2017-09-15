@@ -131,7 +131,8 @@ var saveMovies = (movies, cb) => {
                     });
                     newMovie.save((err, res) => {
                       if (err) {
-                        console.log(err, 'error');
+                        console.log('error');
+                        // console.log(err, 'error');
                       } else {
                         console.log('success');
                       }
