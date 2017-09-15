@@ -55,6 +55,7 @@ var searchByTitle = (title, cb) => {
 };
 
 var searchByIds = (idArray, cb) => {
+  console.log(idArray);
   if (idArray === null || idArray.length === 0) {
     cb(null, []);
   } else {
