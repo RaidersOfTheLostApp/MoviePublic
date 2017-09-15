@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var searchTitle = require('../server/movieAPIHelpers/omdbHelpers.js').searchTitle;
 var getTrailers = require('../server/movieAPIHelpers/tmdbHelpers.js').getTrailersById;
-var getSimilarMovies = require('../server/movieAPIHelpers/tmdbHelpers.js').getSimilarMovies
+var getSimilarMovies = require('../server/movieAPIHelpers/tmdbHelpers.js').getSimilarMovies;
 var uri = process.env.MONGODB_URI || 'mongodb://localhost/fetcher';
 var ObjectId = require('mongodb').ObjectId;
 
@@ -20,13 +20,8 @@ searchDb.once('open', () => {
 });
 
 var movieSchema = mongoose.Schema({
-<<<<<<< HEAD
-  id: { type: String, unique: true },
-  title: { type: String, unique: true },
-=======
   id: { type: String, unique: true },
   title: String,
->>>>>>> Update before Rebase
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
   genre: { type: Array, required: true },
@@ -104,7 +99,7 @@ var saveMovies = (movies, cb) => {
           if (res.length === 0) {
             getSimilarMovies(data.id, (err, similarmovies) => {
               if (err) {
-                console.log('nosimilar')
+                console.log('nosimilar');
               } else {
                 similar = similarmovies;
                 getTrailers(id, (err, res) => {
@@ -145,7 +140,7 @@ var saveMovies = (movies, cb) => {
                 });
 
               }
-            })
+            });
 
 
           }
