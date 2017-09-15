@@ -12,7 +12,7 @@ var MovieList = {
     }, (e) => {
       cb(null, e.results);
 
-    }, (e) => {
+    }, (e)=>{
       cb(e, null);
     });
   },
@@ -24,7 +24,7 @@ var MovieList = {
       // console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
 
-    }, (e) => {
+    }, (e)=>{
       cb(e, null);
     });
   },
@@ -37,7 +37,7 @@ var MovieList = {
       console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
 
-    }, (e) => {
+    }, (e)=>{
       console.log(e, 'BROKE IN TMDBHELP');
       cb(e, null);
     });

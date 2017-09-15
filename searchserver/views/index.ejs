@@ -1,0 +1,10 @@
+<% include ./partials/head.ejs%>
+<% include ./partials/navBar.ejs%>
+
+  <div id='root'></div>
+
+    <script type='text/javascript'>
+      var dataFromServer =<%-JSON.stringify(data)%>
+    </script>
+
+<% include ./partials/footReact.ejs%>

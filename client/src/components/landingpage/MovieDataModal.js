@@ -24,7 +24,7 @@ const customContentStyle = {
 
 const customTitleStyle = {
   // backgroundColor:'#50B6C2',
-  textAlign:'center',
+  textAlign: 'center',
   backgroundImage: '-webkit-gradient(linear, left top, left bottom, from(#3D8DB5),to(#5583B5))',
   backgroundImage: '-webkit-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
   backgroundImage: '-o-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
@@ -50,14 +50,16 @@ const styles = {
 class MovieDataModal extends React.Component {
   constructor(props) {
     super(props);
+    // console.log(this.props)
   }
 
   render() {
+    console.log(this.props);
     const actions = [
       <FlatButton
         label="Movie Trailers"
         primary={true}
-        style={{float:'left'}}
+        style={{float: 'left'}}
         onClick={this.props.switchToVideoModal}
       />,
       <FlatButton
@@ -84,7 +86,7 @@ class MovieDataModal extends React.Component {
           autoScrollBodyContent={true}
           contentClassName='dialog'
         >
-          <div className="container"></div>
+          <div className="container">
             <div className="row">
               <div className="col-md-6">
                 <p></p>
@@ -93,7 +95,7 @@ class MovieDataModal extends React.Component {
                   src={this.props.movieP.poster}
                   style={{
                     width: '100%',
-                }}/>
+                  }}/>
               </div>
 
               <div className="col-md-6">
@@ -113,18 +115,15 @@ class MovieDataModal extends React.Component {
                   <p><strong>Similar Movies</strong></p>
                   <div style={styles.root}>
                     <GridList style={styles.gridList} cols={2.2}>
-                      <GridTile
-                        key= {this.props.i}
-                        subtitle= {<span>by <b>{this.props.movieP.directors}</b></span>}
-                        title={this.props.movieP.title}
-                      >
-                        <img src = {this.props.movieP.poster} height="100%" width="100%"/>
-                      </GridTile>
+                      {
+
+                      }
                     </GridList>
                   </div>
                 </form>
               </div>
             </div>
+          </div>
 
 
         </Dialog>

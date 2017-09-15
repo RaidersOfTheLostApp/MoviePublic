@@ -137,15 +137,15 @@ class ResultsListItem extends React.Component {
   }
 
   openModal() {
-    if(this.state.videoIsOpen){
+    if (this.state.videoIsOpen) {
       this.setState({
         modalIsOpen: true,
         videoIsOpen: false
       });
-    }else{
+    } else {
       this.setState({
         modalIsOpen: true
-      })
+      });
     }
   }
 
@@ -158,30 +158,30 @@ class ResultsListItem extends React.Component {
     this.setState({
       modalIsOpen: false,
     });
-    if(cb){cb();}
+    if (cb) { cb(); }
   }
 
   closeVideoModal(cb) {
     this.setState({
       videoIsOpen: false,
     });
-    if(cb){cb();}
+    if (cb) { cb(); }
   }
 
   switchToVideoModal() {
     this.closeModal( () => {
       this.setState({
         videoIsOpen: true
-      })
-    })
+      });
+    });
   }
 
-  switchToDataModal(){
+  switchToDataModal() {
     this.closeVideoModal( () => {
       this.setState({
         modalIsOpen: true,
-      })
-    })
+      });
+    });
   }
 
   componentDidUpdate() {
