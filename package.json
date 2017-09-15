@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server/index.js",
+    "startm": "nodemon searchserver/index.js",
     "server-dev": "nodemon server",
     "test": "NODE_ENV=test grunt test",
     "build": "webpack --watch",

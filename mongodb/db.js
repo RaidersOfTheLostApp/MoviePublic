@@ -90,7 +90,8 @@ var saveMovies = (movies, cb) => {
       if (err) {
         console.log('brokeninsaveMovies');
       } else {
-        var searchid = data.id;
+        console.log(data)
+        var searchid = data.Id;
         var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
         var id = data.imdbID;
         var similar;
@@ -131,7 +132,6 @@ var saveMovies = (movies, cb) => {
                     });
                     newMovie.save((err, res) => {
                       if (err) {
-                        // console.log(err, 'error');
                         console.log('error');
                       } else {
                         console.log('success');
