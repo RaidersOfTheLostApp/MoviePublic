@@ -14,14 +14,12 @@ import Search from './Search';
 import Filtering from './Filtering';
 import Results from './Results';
 import ReactPlayer from 'react-player';
-
 const customContentStyle = {
   backgroundColor: '#1a1aff',
   width: '60%',
   maxWidth: 'none',
   fontFamily: 'Roboto, sans-serif',
 };
-
 const customTitleStyle = {
   // backgroundColor:'#50B6C2',
   textAlign: 'center',
@@ -29,9 +27,7 @@ const customTitleStyle = {
   backgroundImage: '-webkit-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
   backgroundImage: '-o-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
   backgroundImage: 'linear-gradient(to bottom, #3D8DB5 0%,#5583B5 100%)',
-
 };
-
 const styles = {
   root: {
     justifyContent: 'space-around',
@@ -46,13 +42,11 @@ const styles = {
     color: 'rgb(0, 188, 212)'
   },
 };
-
 class MovieDataModal extends React.Component {
   constructor(props) {
     super(props);
     // console.log(this.props)
   }
-
   render() {
     console.log(this.props.movieP.ratings, '@#$$$$$$');
     const actions = [
@@ -72,7 +66,6 @@ class MovieDataModal extends React.Component {
         primary={true}
       />
     ];
-
     return (
       <div>
         <Dialog
@@ -97,7 +90,6 @@ class MovieDataModal extends React.Component {
                     width: '100%',
                   }}/>
               </div>
-
               <div className="col-md-6">
                 <form>
                   <p></p>
@@ -116,7 +108,6 @@ class MovieDataModal extends React.Component {
                   <div style={styles.root}>
                     <GridList style={styles.gridList} cols={2.2}>
                       {
-
                       }
                     </GridList>
                   </div>
@@ -124,12 +115,9 @@ class MovieDataModal extends React.Component {
               </div>
             </div>
           </div>
-
-
         </Dialog>
       </div>
     );
   }
 }
-
 export default MovieDataModal;
