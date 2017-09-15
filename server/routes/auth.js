@@ -25,20 +25,15 @@ const sortByKey = (array, key) => {
 
 router.route('/')
   .get (middleware.auth.verify, (req, res, next) => {
-    var movies;
-    searchDb.getMovies( (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-
-        movies = data;
-
-        var sorted = sortByKey(movies, 'year');
-
-        models.Profile.where({ id: req.session.passport.user }).fetch()
-          .then(profile => {
-            if (profile.new_user) {
-              res.redirect('/setup');
+    models.Profile.where({ id: req.session.passport.user }).fetch()
+      .then(profile => {
+        if (profile.new_user) {
+          res.redirect('/setup');
+        } else {
+          var movies;
+          searchDb.getMovies((err, data) => {
+            if (err) {
+              console.log(err);
             } else {
               var movies;
               searchDb.getMovies((err, data) => {
@@ -68,8 +63,8 @@ router.route('/')
               });
             }
           });
-      }
-    });
+        }
+      });
   });
 
 

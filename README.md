@@ -175,15 +175,16 @@ Heroku Postgres - populate the schema by following instructions for `Import`
 https://devcenter.heroku.com/articles/heroku-postgres-import-export
 step 1: create dump of local db copy: `PGPASSWORD='theLostApp' pg_dump -Fc --no-acl --no-owner -h localhost -U raiders thesis_devel > thesis_devel.dump`
 step 2: You can use DropBox to host the saved dump
-latest schema load: https://www.dropbox.com/s/4e7l2zex29ka0qs/thesis_devel.dump?dl=0
+latest schema load:
+ https://www.dropbox.com/s/4e7l2zex29ka0qs/thesis_devel.dump?dl=0
 also saved in `thesis_devel.dump`
-step 3: import to the heroku postgres db: `heroku pg:backups:restore 'https://www.dropbox.com/s/4e7l2zex29ka0qs/thesis_devel.dump?dl=0' DATABASE_URL`
+step 3: import to the heroku postgres db: `heroku pg:backups:restore 'https://www.dropbox.com/s/4e7l2zex29ka0qs/thesis_devel.dump?dl=0' DATABASE_URL --app <app name prod/staging>`
 step 4: to force the required SSL connection
 `heroku config:set PGSSLMODE=require --app <app_name>`
 step 5: to connect to query from you local command prompt:
 `heroku pg:psql --app <app_name>`
 
-Additional Example - to update a jsonb field 
+Additional Example - to update a jsonb field
 `update profiles set follow_movies='["59b65fed39aea70343a063df","59b663c23931a704b088b5d0", "59b6561f4843acff45ed1663"]'::jsonb where id=1;`
 
 ## Install Heroku Addon for Heroku Redis
@@ -193,15 +194,15 @@ Heroku Redis - promote the redis store to the app
 
 ## Install Heroku Addon for mLab MongoDB
 
+Create a user/password under the `Users` section of the Addon Interface
+
 To connect to query from your local command prompt:
 `mongo <mongoDbURL>` (mongoDbURL found on Heroku add-on page, looks like below)
 `mongo ds133814.mlab.com:33814/heroku_kbc22vfb -u <username> -p <password>`
 
 `exit`
 
-Create a user/password under the `Users` section of the Addon Interface
-
-`mongodump --db fetcher` at command prompt to create a backup of the local DB schema
+`mongodump --db fetcher` at regular (not mongo) command prompt to create a backup of the local DB schema
 
 Various options for restoring the db under the `Tools` section of the addon, we used the first one (use the properties for your addon but looks like below):
 `mongorestore -h ds133814.mlab.com:33814 -d heroku_t46wfkgc -u <username> -p <password> dump/fetcher/`
