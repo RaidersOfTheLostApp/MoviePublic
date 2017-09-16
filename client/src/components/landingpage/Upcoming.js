@@ -51,14 +51,14 @@ class Upcoming extends React.Component {
     this.setState({
       minDate: date,
     });
-    console.log(this.state.minDate);
+    console.log('the new start date is ', this.state.minDate);
   };
 
   handleChangeMaxDate(event, date) {
     this.setState({
       maxDate: date,
     });
-    console.log(this.state.maxDate);
+    console.log('the new end date is ', this.state.maxDate);
   };
 
   handleToggle(event, toggled) {
@@ -136,6 +136,8 @@ class Upcoming extends React.Component {
   }
 
   render() {
+    console.log('the starting date is ', this.state.minDate);
+    console.log('the ending date is ', this.state.maxDate);
     return (
       <div className='gridRoot container'>
         <div className='row'>
