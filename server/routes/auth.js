@@ -161,7 +161,11 @@ router.route('/following')
           });
         })
         .then(genreArr => {
-          genreList = genreArr;
+          genreList = genreArr.sort((a, b) => {
+            if (a.name < b.name) {return -1;}
+            if (a.name > b.name) {return 1;}
+            if (a.name = b.name) {return 0;}
+          });
           models.Crew.where({actor: true}).fetchAll()
           .then(actors => {
             return actors.models.map(actor => {
@@ -169,7 +173,11 @@ router.route('/following')
             });
           })
           .then(actorArr => {
-            actorList = actorArr;
+            actorList = actorArr.sort((a, b) => {
+              if (a.name < b.name) {return -1;}
+              if (a.name > b.name) {return 1;}
+              if (a.name = b.name) {return 0;}
+            });
             models.Crew.where({director: true}).fetchAll()
             .then(directors => {
               return directors.models.map(director => {
@@ -177,7 +185,11 @@ router.route('/following')
               });
             })
             .then(directorArr => {
-              directorList = directorArr;
+              directorList = directorArr.sort((a, b) => {
+                if (a.name < b.name) {return -1;}
+                if (a.name > b.name) {return 1;}
+                if (a.name = b.name) {return 0;}
+              });
               // select * from movies where director @> any (array ['70', '45']::jsonb[]);
               // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
               // .then(directorMovies => {
@@ -189,7 +201,6 @@ router.route('/following')
                 //     } else {
                 //       directorMovies = movies;
                 //       //then repeat for actors and genres
-
                 res.render('index.ejs', {
                   data: {
                     user: req.user,

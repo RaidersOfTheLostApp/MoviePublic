@@ -61,7 +61,7 @@ class App extends React.Component {
               <Following genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}
                 directorFollow={dataFromServer.directorFollow}
-                genreList={dataFromServer.genre}
+                genreList={dataFromServer.genres}
                 actorList={dataFromServer.actors}
                 directorList={dataFromServer.directors}
                 vod={dataFromServer.vod_subscriptions}/>
