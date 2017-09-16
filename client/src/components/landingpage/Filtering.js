@@ -17,12 +17,15 @@ class Filtering extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.minRating,
-      genre: this.props.genre
+      ratings: props.rating
+      // genre: props.genre
     };
   }
 
   handleChange(event, index, value) {
+    this.setState({
+      ratings: value
+    });
     this.props.sortByRating(value);
   }
 
@@ -35,7 +38,7 @@ class Filtering extends React.Component {
             <h4 className='sortLabel'>Sort by Rating</h4>
           </div>
           <div className='col noPad'>
-            <DropDownMenu value={this.state.ratings} onChange={this.handleChange.bind(this)} autoWidth={true}>
+            <SelectField value={this.state.ratings} onChange={this.handleChange.bind(this)} autoWidth={true}>
               <MenuItem value={10} primaryText="10 stars" />
               <MenuItem value={9} primaryText="9 stars" />
               <MenuItem value={8} primaryText="8 stars" />
@@ -46,7 +49,7 @@ class Filtering extends React.Component {
               <MenuItem value={3} primaryText="3 stars" />
               <MenuItem value={2} primaryText="2 stars" />
               <MenuItem value={1} primaryText="1 star" />
-            </DropDownMenu>
+            </SelectField>
           </div>
         </div>
       </div>

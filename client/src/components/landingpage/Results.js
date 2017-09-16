@@ -109,6 +109,7 @@ class Results extends React.Component {
       });
       this.setState({
         display: sorted,
+        minRating: rating
       });
     });
   }
