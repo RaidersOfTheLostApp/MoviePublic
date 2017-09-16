@@ -55,18 +55,18 @@ var searchByTitle = (title, cb) => {
 };
 
 var searchByIds = (idArray, cb) => {
-  console.log(idArray);
   if (idArray === null || idArray.length === 0) {
     cb(null, []);
   } else {
     var movieList = [];
-    var len = idArray.length || 0;
+    var len = idArray.length;
     idArray.forEach((value, i) => {
       getMovies({ _id: ObjectId(value) }, (err, res) => {
         if (err) {
           cb(err, null);
         } else {
           movieList.push(res[0]);
+          console.log('********** movie list at location '+ i + ' '+ movieList);
         }
         if (movieList.length === len) {
           cb(null, movieList);

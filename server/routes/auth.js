@@ -13,8 +13,6 @@ const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
 const MovieController = require('../controllers/movies.js');
 const search = require('./search.js');
-var Promise = require('bluebird');
-var join = Promise.join;
 
 app.use(bodyParser.text({ type: 'text/plain' }));
 
@@ -116,15 +114,27 @@ router.route('/profile')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
-          res.render('index.ejs', {
-            data: {
-              user: req.user,
-              genreFollow: profile.attributes.follow_genre || [],
-              actorFollow: profile.attributes.follow_actor || [],
-              directorFollow: profile.attributes.follow_director || [],
-              vod_subscriptions: profile.attributes.vod_subscriptions || []
+          //TODO: finish to grab actors and directors once table ready
+          var favorites;
+          searchDb.searchByIds(profile.attributes.favorites, (err, movies) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log('********** mongo ids ', movies);
+              favorites = movies;
+              res.render('index.ejs', {
+                data: {
+                  user: req.user,
+                  favorites: favorites || [],
+                  genreFollow: profile.attributes.follow_genre || [],
+                  actorFollow: profile.attributes.follow_actor || [],
+                  directorFollow: profile.attributes.follow_director || [],
+                  writerFollow: profile.attributes.follow_writers || [],
+                  vod_subscriptions: profile.attributes.vod_subscriptions || []
+                }
+              });
             }
-          });
+          })
         }
       })
       .catch(err => {
