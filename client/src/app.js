@@ -9,7 +9,10 @@ import UserSetup from './components/user/UserSetup';
 import Results from './components/landingpage/Results';
 import Favorites from './components/landingpage/Favorites';
 import Following from './components/landingpage/Following';
+import Upcoming from './components/landingpage/Upcoming';
 import $ from 'jquery';
+import DatePicker from 'material-ui/DatePicker';
+import Toggle from 'material-ui/Toggle';
 
 // import data from './fakeData.js';
 
@@ -72,6 +75,12 @@ class App extends React.Component {
                 actorList={dataFromServer.actors}
                 directorList={dataFromServer.directors}
                 vod={dataFromServer.vod_subscriptions}/>
+            </MuiThemeProvider>
+          )}
+          />
+          <Route path="/upcoming" render={() => (
+            <MuiThemeProvider>
+              <Upcoming results = {dataFromServer.movieone} rerender ={this.state.resultsRend} favoriteId = {this.state.favoriteId} favorites = {this.state.favorites} />
             </MuiThemeProvider>
           )}
           />
