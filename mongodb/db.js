@@ -66,7 +66,6 @@ var searchByIds = (idArray, cb) => {
           cb(err, null);
         } else {
           movieList.push(res[0]);
-          console.log('********** movie list at location '+ i + ' '+ movieList);
         }
         if (movieList.length === len) {
           cb(null, movieList);
