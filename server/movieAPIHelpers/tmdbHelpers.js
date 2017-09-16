@@ -50,6 +50,20 @@ var MovieList = {
     });
   },
 
+  getUpcomingMovies: (query, cb) => {
+    tmdb.call('/discover/movie', {
+      'language': 'en-US',
+      'query': query,
+      'video': true,
+      'page': 1
+    }, (e) => {
+      cb(null, e.results);
+
+    }, (e) => {
+      cb(e, null);
+    });
+  },
+
   getTrailersById: (id, cb) => {
     tmdb.call('/movie/' + id + '/videos', {
       'language': 'en-US',
