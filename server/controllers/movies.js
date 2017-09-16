@@ -85,8 +85,11 @@ module.exports.addMovies = (movie_array, callback) => {
                 .then(function(model) {
                   if (model) {
                     console.log(model.attributes.name, 'Actor is Already in Database');
-                    console.log(user.get('name'), 'nomai');
-                    model.save({ actor: true }, { method: 'update' });
+                    model.save({
+                      name: actor,
+                      actor: true || model.get('actor'),
+                      director: false || model.get('director')
+                    });
                     metadataObj.actors.push(model.attributes.id);
                     resolve(model.attributes.id);
                   } else {
@@ -124,7 +127,11 @@ module.exports.addMovies = (movie_array, callback) => {
                   if (model) {
                     console.log(model.attributes.name, 'Director is Already in Database');
                     // Change Boolean to Actor/Writer to True
-                    model.save({ director: true }, { method: 'update' });
+                    model.save({
+                      name: director,
+                      actor: false || model.get('actor'),
+                      director: true || model.get('director')
+                    });
                     metadataObj.directors.push(model.attributes.id);
                     resolve(model.attributes.id);
                   } else {
