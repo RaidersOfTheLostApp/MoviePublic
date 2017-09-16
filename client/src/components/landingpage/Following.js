@@ -146,7 +146,7 @@ class Following extends React.Component {
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select a Genre to Filter' />
                 {this.state.genreList.map(genre => (
-                  <MenuItem value={genre.id} primaryText={genre.name} />
+                  <MenuItem value={genre.id} primaryText={genre.text} />
                 ))}
               </SelectField>
             </div>
@@ -174,7 +174,7 @@ class Following extends React.Component {
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select an Actor/Actress to Filter' />
                   {this.state.actorList.map(actor => (
-                    <MenuItem value={actor.id} primaryText={actor.name} />
+                    <MenuItem value={actor.id} primaryText={actor.text} />
                   ))}
               </SelectField>
             </div>
@@ -202,7 +202,7 @@ class Following extends React.Component {
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select a Director to Filter' />
                   {this.state.directorList.map(director => (
-                    <MenuItem value={director.id} primaryText={director.name} />
+                    <MenuItem value={director.id} primaryText={director.text} />
                   ))}
               </SelectField>
             </div>
