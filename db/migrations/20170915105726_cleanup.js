@@ -56,7 +56,7 @@ exports.up = function(knex, Promise) {
       table.jsonb('awards').nullable();
       table.jsonb('director').notNullable();
       table.jsonb('actors').notNullable();
-      table.bigint('box_office').nullable();
+      table.text('box_office').nullable();
       table.text('production').nullable();
       table.jsonb('ratings').nullable();
     }),

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var searchTitle = require('../server/movieAPIHelpers/omdbHelpers.js').searchTitle;
 var getTrailers = require('../server/movieAPIHelpers/tmdbHelpers.js').getTrailersById;
 var getSimilarMovies = require('../server/movieAPIHelpers/tmdbHelpers.js').getSimilarMovies;
+var pgAddMovie = require('../server/controllers/movies.js').addMovie;
 var uri = process.env.MONGODB_URI || 'mongodb://localhost/fetcher';
 var ObjectId = require('mongodb').ObjectId;
 
@@ -34,7 +35,7 @@ var movieSchema = mongoose.Schema({
   poster: { type: String, required: true },
   ratings: { type: Array, required: true },
   language: Array,
-  box_office: Number,
+  box_office: String,
   production: String,
   website: { type: String, required: true },
   theater: Array,
@@ -62,29 +63,17 @@ var searchByIds = (idArray, cb) => {
     var movieList = [];
     var len = idArray.length;
     idArray.forEach((value, i) => {
-      if (value.length > 20) {
-        getMovies({ _id: ObjectId(value) }, (err, res) => {
-          if (err) {
-            cb(err, null);
-          } else {
-            movieList.push(res[0]);
-          }
-          if (movieList.length === len) {
-            cb(null, movieList);
-          }
-        });
-      } else {
-        getMovies({ id: value }, (err, res) => {
-          if (err) {
-            cb(err, null);
-          } else {
-            movieList.push(res[0]);
-          }
-          if (movieList.length === len) {
-            cb(null, movieList);
-          }
-        });
-      }
+      getMovies({ _id: ObjectId(value) }, (err, res) => {
+        if (err) {
+          cb(err, null);
+        } else {
+          movieList.push(res[0]);
+          console.log('********** movie list at location ' + i + ' ' + movieList);
+        }
+        if (movieList.length === len) {
+          cb(null, movieList);
+        }
+      });
     });
   }
 };
@@ -100,76 +89,86 @@ var getMovies = (query, cb) => {
 };
 
 var saveMovies = (movies, cb) => {
-  movies.forEach((value) => {
-    // console.log('the title is ', value.title);
-    searchTitle(value.title, (err, data) => {
-      data = JSON.parse(data.request.response.body);
-      if (err) {
-        console.log('brokeninsaveMovies');
-      } else {
-        // console.log(data);
-        var searchid = data.Id;
-        var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
-        var id = data.imdbID;
-        var similar;
-        var trailers = [];
-        Movie.find({ id: data.imdbID }, (err, res) => {
-          if (res.length === 0) {
-            getSimilarMovies(data.id, (err, similarmovies) => {
-              if (err) {
-                console.log('nosimilar');
-              } else {
-                similar = similarmovies;
-                getTrailers(id, (err, res) => {
-                  if (err) {
-                    console.log('error');
-                  } else {
-                    trailers = res;
-                    var newMovie = new Movie({
-                      id: id,
-                      title: data.Title,
-                      year: data.Year,
-                      release_date: data.Released,
-                      genre: data.Genre,
-                      runtime: data.Runtime,
-                      directors: data.Director,
-                      writers: data.Writer,
-                      actors: data.Actors,
-                      description: data.Plot,
-                      awards: data.Awards,
-                      poster: data.Poster,
-                      ratings: data.Ratings,
-                      language: data.Language,
-                      box_office: data.Box_Office,
-                      production: data.Production,
-                      website: data.Website,
-                      theater: data.Theater,
-                      trailers: trailers,
-                      similar: similarmovies
-                    });
-                    newMovie.save((err, res) => {
-                      if (err) {
-                        console.log('error');
-                      } else {
-                        console.log('success');
-                      }
-                    });
-                  }
-                });
-              }
+  if (movies) {
+    movies.forEach((value) => {
+      // console.log('the title is ', value.title);
+      searchTitle(value.title, (err, data) => {
+        data = JSON.parse(data.request.response.body);
+        if (err) {
+          console.log('brokeninsaveMovies');
+        } else {
+          // console.log(data, 'MongoDB - Data Variable');
+          var searchid = data.Id;
+          var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
+          var id = data.imdbID;
+          var similar;
+          var trailers = [];
+          Movie.find({ id: data.imdbID }, (err, res) => {
+            if (res.length === 0) {
+              getSimilarMovies(data.id, (err, similarMovies) => {
+                if (err) {
+                  console.log('Error: No Similar Movies');
+                } else {
+                  similar = similarMovies;
+                  getTrailers(id, (err, res) => {
+                    if (err) {
+                      console.log('Error: getTrailers Search');
+                    } else {
+                      trailers = res;
+                      var newMovie = new Movie({
+                        id: id,
+                        title: data.Title,
+                        year: data.Year,
+                        release_date: data.Released,
+                        genre: data.Genre,
+                        runtime: data.Runtime,
+                        directors: data.Director,
+                        writers: data.Writer,
+                        actors: data.Actors,
+                        description: data.Plot,
+                        awards: data.Awards,
+                        poster: data.Poster,
+                        ratings: data.Ratings,
+                        language: data.Language,
+                        box_office: data.BoxOffice,
+                        production: data.Production,
+                        website: data.Website,
+                        theater: data.Theater,
+                        trailers: trailers,
+                        similar: similarMovies
+                      });
+                      newMovie.save((err, res) => {
+                        if (err) {
+                          // console.log(err, 'MongoDB - Movie Add Error');
+                          console.log(err.name, 'MongoDB - Movie Add Error');
+                        } else {
+                          console.log(res, 'MongoDB - Movie Add Success');
+                          // console.log('MongoDB - Movie Add Success');
 
-            });
-          }
-
-        });
-
-      }
-
-    });
-
-  });
-
-  cb();
+                          pgAddMovie(res, (err, results) => {
+                            if (err) {
+                              console.log(err, 'Server Response - PG Unable to Add Movies');
+                              // res.status(500).send('Postgres: Error adding movies');
+                            } else {
+                              console.log(results, 'Server Response - PG Added Data');
+                              // res.status(201).send('Server Response - PG Added Data');
+                            }
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          }); //End Movie.find
+        } //End Else Statement
+      }); //Close search Title
+    }); //End forEach
+    cb();
+  } else {
+    console.log(movies, 'MongoDB: No Movies Given');
+  }
 };
 
 // var saveFavorites = (req, res) => {

@@ -10,7 +10,6 @@ const tmdb = require('../movieAPIHelpers/tmdb.js');
 const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
-const MovieController = require('../controllers/movies.js');
 const search = require('./search.js');
 
 const sortByKey = (array, key) => {
@@ -40,7 +39,7 @@ router.route('/')
 
         tmdbHelp.getMoviesByTitle(req.query.value, (err, data) => {
           if (err) {
-            console.log(err, 'ERRORGETMOVIESERROR');
+            console.log(err, 'TMBD Search Error');
           } else {
             //grab each movie title and send API request to OMDB to get movie data
             searchDb.saveMovies(data, () => {
@@ -69,7 +68,6 @@ router.route('/')
                 var sorted = sortByKey(result, 'score');
                 // console.log('*************** sorted[0] ', sorted[0]);
                 // console.log('************** sorted', sorted);
-                // console.log(res2, 'Post Sorted - Res2');
                 // MovieController.getAllMovies();
                 var movieArr = [];
                 for (var i = 0; i < sorted.length; i++) {
@@ -78,16 +76,6 @@ router.route('/')
                     res.json(movieArr);
                   }
                 }
-                MovieController.addMovies(res2, (err, results) => {
-                  if (err) {
-                    console.log(err, 'Server Response - PG Unable to Add Movies');
-                    // res.status(500).send('Postgres: Error adding movies');
-                  } else {
-                    console.log(results, 'Server Response - PG Added Data');
-                    // res.status(201).send('Server Response - PG Added Data');
-                  }
-                });
-
               });
 
             });
