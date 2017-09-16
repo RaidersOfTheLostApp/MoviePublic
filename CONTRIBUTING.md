@@ -16,6 +16,10 @@
 1. go to github and create pull request from your fork:repo to team repo:master
 1. ask someone to check your work and merge the PR
 
+## dealing with commit rollbacks
+`git reflog`
+`git reset --hard 'HEAD@{X}'`
+
 ## General Workflow
 
 1. Fork the repo
