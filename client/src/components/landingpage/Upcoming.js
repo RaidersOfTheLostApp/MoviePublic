@@ -137,7 +137,7 @@ class Upcoming extends React.Component {
 
   getMovieData(minDate, maxDate) {
     $.ajax({
-      url: 'search/upcoming',
+      url: 'search/newmovies',
       method: 'GET',
       data: {minDate: minDate, maxDate: maxDate},
       dataType: 'json',
