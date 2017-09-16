@@ -122,7 +122,6 @@ router.route('/profile')
               genreFollow: profile.attributes.follow_genre || [],
               actorFollow: profile.attributes.follow_actor || [],
               directorFollow: profile.attributes.follow_director || [],
-              writerFollow: profile.attributes.follow_writers || [],
               vod_subscriptions: profile.attributes.vod_subscriptions || []
             }
           });
@@ -145,7 +144,6 @@ router.route('/following')
             genreFollow: profile.attributes.follow_genre || [],
             actorFollow: profile.attributes.follow_actor || [],
             directorFollow: profile.attributes.follow_director || [],
-            writerFollow: profile.attributes.follow_writers || [],
             vod_subscriptions: profile.attributes.vod_subscriptions || []
           }
         });
@@ -157,60 +155,55 @@ router.route('/following')
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {
-    var genreList = getGenres();
-    var actorList = getActors();
-    var directorList = getDirectors();
-    Promise.join(genreList, actorList, directorList, (genreList, actorList, directorList) => {
-      console.log('******** genreList ', genreList);
-      console.log('******** actorList ', actorList);
-      console.log('******** directorList ', directorList);
-      res.render('index.ejs', {
-        data: {
-          user: req.user,
-          genres: genreList,
-          actors: actorList,
-          directors: directorList
-        }
-      });
-    })
-    .catch(err => {
-      console.log('*********** /setup error ', err);
-      res.status(503).send(err);
-    });
-  });
-
-var getGenres = function() {
-  models.Genres.fetchAll()
-  .then(genres => {
     var genreList = [];
-    genres.models.forEach(genre => {
-      genreList.push(genre.attributes);
-    })
-    return genreList;
-  });
-}
-
-var getActors = function() {
-  models.Crew.where({actor: true}).fetchAll()
-  .then(actors => {
     var actorList = [];
-    actors.models.forEach(actor => {
-      actorList.push(actor.attributes);
-    })
-    return actorList;
-  });
-}
-
-var getDirectors = function() {
-  models.Crew.where({director: true}).fetchAll()
-  .then(directors => {
     var directorList = [];
-    directors.models.forEach(director => {
-      directorList.push(director.attributes);
-    })
-    return directorList;
-  });
-}
+    var profileList;
+    models.Profile.where({ id: req.session.passport.user }).fetch()
+      .then(profile => {
+        profileList = profile;
+        models.Genres.fetchAll()
+        .then(genres => {
+          return genres.models.map(genre => {
+            return genre.attributes;
+          });
+        })
+        .then(genreArr => {
+          genreList = genreArr;
+          models.Crew.where({actor: true}).fetchAll()
+          .then(actors => {
+            return actors.models.map(actor => {
+              return actor.attributes;
+            });
+          })
+          .then(actorArr => {
+            actorList = actorArr;
+            models.Crew.where({director: true}).fetchAll()
+            .then(directors => {
+              return directors.models.map(director => {
+                return director.attributes;
+              });
+            })
+            .then(directorArr => {
+              directorList = directorArr;
+              res.render('index.ejs', {
+                data: {
+                  user: req.user,
+                  genres: genreList,
+                  actors: actorList,
+                  directors: directorList,
+                  vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                }
+              });
+            })
+          })
+        })
+      })
+      .catch(err => {
+        console.log('*********** /setup error ', err);
+        res.status(503).send(err);
+      });
+    });
 
 router.route('/logout')
   .get((req, res) => {
