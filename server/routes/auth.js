@@ -167,6 +167,23 @@ router.route('/following')
               callback(null, file.text);
             }, function(err, results) {
               directorList = results;
+              async.map(genreList, function(file, callback_1) {
+                //find all movies with each genre
+                console.log('******** file id ', file.id);
+                models.Movies.where('genres', '@>', JSON.stringify([5])).fetchAll({columns: ['mongo_id']})
+                // models.Movies.query('where', 'genres', '@>', JSON.stringify([file.id]))
+                .then(genreMovies => {
+                  console.log('********** genreMovies in async map ', genreMovies.models);
+                  async.map(genreMovies.models, function(file, callback_2) {
+                    callback_2(null, file.attributes.mongo_id);
+                  }, function(err, results) {
+                    callback_1(null, results);
+                  });
+                })
+              }, function(err, results) {
+                console.log('*********** final results of async ', [].concat.apply([], results));
+              })
+
               res.render('index.ejs', {
                 data: {
                   user: req.user,
