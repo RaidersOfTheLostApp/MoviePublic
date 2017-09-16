@@ -60,7 +60,11 @@ class App extends React.Component {
             <MuiThemeProvider>
               <Following genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}
-                directorFollow={dataFromServer.directorFollow}/>
+                directorFollow={dataFromServer.directorFollow}
+                genreList={dataFromServer.genre}
+                actorList={dataFromServer.actors}
+                directorList={dataFromServer.directors}
+                vod={dataFromServer.vod_subscriptions}/>
             </MuiThemeProvider>
           )}
           />

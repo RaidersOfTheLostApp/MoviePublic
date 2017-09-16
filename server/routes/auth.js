@@ -178,40 +178,39 @@ router.route('/following')
             })
             .then(directorArr => {
               directorList = directorArr;
-              //models.Movies.where({director: true}).fetchAll()
-              // models.Movies.where('director', '@>', JSON.stringify(profileList.attributes.follow_director)).fetchAll()
+              // select * from movies where director @> any (array ['70', '45']::jsonb[]);
+              // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
               // .then(directorMovies => {
-              //   //first get mongo_ids by crew id
-              //   searchDb.searchByIds(directorList, (err, movies) => {
-              //     if (err) {
-              //       console.log(err);
-              //     } else {
-              //       directorMovies = movies;
-              //       //then repeat for actors and genres
+                //   console.log('*********** directorMovies in following ', directorMovies);
+                //   //first get mongo_ids by crew id
+                //   searchDb.searchByIds(directorList, (err, movies) => {
+                //     if (err) {
+                //       console.log(err);
+                //     } else {
+                //       directorMovies = movies;
+                //       //then repeat for actors and genres
 
-                    res.render('index.ejs', {
-                      data: {
-                        user: req.user,
-                        genres: genreList || [], //TODO: use to add edits to add new genres, etc.
-                        actors: actorList || [],
-                        directors: directorList || [],
-                        genreFollow: genreMovies || [],
-                        actorFollow: actorMovies || [],
-                        directorFollow: directorMovies || [],
-                        vod_subscriptions: profileList.attributes.vod_subscriptions || []
-                      }
-                    });
-                //   }
-                // });
-              })
-            })
-          })
+                res.render('index.ejs', {
+                  data: {
+                    user: req.user,
+                    genres: genreList || [], //TODO: use to add edits to add new genres, etc.
+                    actors: actorList || [],
+                    directors: directorList || [],
+                    genreFollow: genreMovies || [],
+                    actorFollow: actorMovies || [],
+                    directorFollow: directorMovies || [],
+                    vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                  }
+                });
+              });
+            });
+          });
         })
-      .catch(err => {
-        console.log('*********** /setup error ', err);
-        res.status(503).send(err);
+        .catch(err => {
+          console.log('*********** /setup error ', err);
+          res.status(503).send(err);
+        });
       });
-  });
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {
