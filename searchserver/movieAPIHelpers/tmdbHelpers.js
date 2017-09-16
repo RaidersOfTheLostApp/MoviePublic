@@ -12,7 +12,7 @@ var MovieList = {
     }, (e) => {
       cb(null, e.results);
 
-    }, (e)=>{
+    }, (e) => {
       cb(e, null);
     });
   },
@@ -24,20 +24,20 @@ var MovieList = {
       // console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
 
-    }, (e)=>{
+    }, (e) => {
       cb(e, null);
     });
   },
 
   getSimilarMovies: (movie, cb) => {
-    console.log(movie, 'MOVIEJFSLKDFJKL');
+    // console.log(movie, 'MOVIEJFSLKDFJKL');
     tmdb.call('/movie/' + movie + '/similar', {
       'language': 'en-US',
     }, (e) => {
       console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
 
-    }, (e)=>{
+    }, (e) => {
       console.log(e, 'BROKE IN TMDBHELP');
       cb(e, null);
     });

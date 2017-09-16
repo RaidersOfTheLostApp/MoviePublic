@@ -30,7 +30,7 @@ var MovieList = {
   },
 
   getSimilarMovies: (movie, cb) => {
-    console.log(movie, 'MOVIEJFSLKDFJKL');
+    // console.log(movie, 'MOVIEJFSLKDFJKL');
     tmdb.call('/movie/' + movie + '/similar', {
       'language': 'en-US',
     }, (e) => {
