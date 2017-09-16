@@ -6,15 +6,33 @@ import IconButton from 'material-ui/IconButton';
 import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
-import Search from './Search';
 import Filtering from './Filtering';
 import ResultsListItem from './ResultItem';
+import DatePicker from 'material-ui/DatePicker';
+import Toggle from 'material-ui/Toggle';
 
-class Results extends React.Component {
+const optionsStyle = {
+  maxWidth: 255,
+  marginRight: 'auto',
+};
+
+class Upcoming extends React.Component {
 
   constructor(props) {
     super(props);
+
+    const minDate = new Date();
+    const maxDate = new Date();
+    minDate.setFullYear(minDate.getFullYear() - 1);
+    minDate.setHours(0, 0, 0, 0);
+    maxDate.setFullYear(maxDate.getFullYear() + 1);
+    maxDate.setHours(0, 0, 0, 0);
+
     this.state = {
+      minDate: minDate,
+      maxDate: maxDate,
+      autoOk: false,
+      disableYearSelection: false,
       minRating: 0,
       favoriteId: this.props.favoriteId,
       favorites: this.props.favorites,
@@ -25,7 +43,29 @@ class Results extends React.Component {
 
     this.sortByRating = this.sortByRating.bind(this);
     this.searchToServer = this.searchToServer.bind(this);
+    this.handleChangeMinDate = this.handleChangeMinDate.bind(this);
+    this.handleChangeMaxDate = this.handleChangeMaxDate.bind(this);
   }
+
+  handleChangeMinDate(event, date) {
+    this.setState({
+      minDate: date,
+    });
+    console.log(this.state.minDate);
+  };
+
+  handleChangeMaxDate(event, date) {
+    this.setState({
+      maxDate: date,
+    });
+    console.log(this.state.maxDate);
+  };
+
+  handleToggle(event, toggled) {
+    this.setState({
+      [event.target.name]: toggled,
+    });
+  };
 
   searchToServer(cb) {
     var searchInput = document.getElementById('text-field').value;
@@ -59,21 +99,6 @@ class Results extends React.Component {
     this.render();
   }
 
-  // addFavorites(movie) {
-  //   $.ajax({
-  //     method: 'POST',
-  //     url: '/api/profiles/addfavorites',
-  //     data: movie,
-  //     success: (user) => {
-  //       // user = JSON.parse(user);
-  //       console.log('********* success favorites updated for user ' + user);
-  //     },
-  //     error: (error) => {
-  //       console.log('************* error updating favorites for user', error);
-  //     }
-  //   });
-  // }
-
   filterByRating(array) {
     var output = [];
     var end = [];
@@ -81,7 +106,6 @@ class Results extends React.Component {
       if (value.ratings[0]) {
         var score = value.ratings[0].Value.split('/')[0];
         var num = parseFloat(score);
-        console.log(this.state.minRating, num, 'rating');
         if (num >= this.state.minRating) {
           output.push(value);
         }
@@ -95,7 +119,6 @@ class Results extends React.Component {
       minRating: rating
     }, () => {
       var filtered = this.filterByRating(this.state.movies);
-      console.log(filtered);
       var sorted = filtered.sort( (a, b) =>{
         if (a.ratings[0] && b.ratings[0]) {
           if (a.ratings[0].Value > b.ratings[0].Value) {
@@ -113,12 +136,28 @@ class Results extends React.Component {
   }
 
   render() {
-    console.log(this.state, '@###@');
     return (
       <div className='gridRoot container'>
         <div className='row'>
           <div className='col-md-6'>
-            <Search searchToServer={this.searchToServer}/>
+          <div>
+        <div style={optionsStyle}>
+          <DatePicker
+            onChange={this.handleChangeMinDate}
+            autoOk={this.state.autoOk}
+            floatingLabelText="Min Date"
+            defaultDate={this.state.minDate}
+            disableYearSelection={this.state.disableYearSelection}
+          />
+          <DatePicker
+            onChange={this.handleChangeMaxDate}
+            autoOk={this.state.autoOk}
+            floatingLabelText="Max Date"
+            defaultDate={this.state.maxDate}
+            disableYearSelection={this.state.disableYearSelection}
+          />
+          </div>
+        </div>
           </div>
           <div className='col-md-6'>
             <Filtering sortByRating={this.sortByRating} rating={this.state.minRating}/>
@@ -143,4 +182,4 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+export default Upcoming;
