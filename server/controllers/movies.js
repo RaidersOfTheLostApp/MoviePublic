@@ -47,9 +47,7 @@ module.exports.addMovies = (movie_array, callback) => {
                 .fetch()
                 .then(function(model) {
                   if (model) {
-                    console.log(model.attributes, 'Genre is Already in Database');
-                    // console.log('Genre is Already in Database');
-                    // console.log(genre_id, 'IDs to put into Movie Table - No Add');
+                    // console.log(model.attributes, 'Genre is Already in Database');
                     metadataObj.genres.push(model.attributes.id);
                     resolve(model.attributes.id);
                   } else {
@@ -84,19 +82,28 @@ module.exports.addMovies = (movie_array, callback) => {
                 .fetch()
                 .then(function(model) {
                   if (model) {
-                    console.log(model.attributes.name, 'Actor is Already in Database');
+                    // console.log(model.attributes.name, 'Actor is Already in Database');
                     model.save({
                       name: actor,
-                      actor: true || model.get('actor'),
+                      actor: true,
                       director: false || model.get('director')
                     });
                     metadataObj.actors.push(model.attributes.id);
                     resolve(model.attributes.id);
                   } else {
+
+                    let other = false;
+                    for (var i = 0; i < directors.length; i++) {
+                      if (actor === directors[i]) {
+                        // console.log(actor, 'Actor is Also Director');
+                        other = true;
+                      }
+                    }
+
                     new models.Crew({
                       name: actor,
                       actor: true,
-                      director: false,
+                      director: other,
                     }).save()
                       .then(function() {
                         models.Crew.where({ name: actor })
@@ -125,19 +132,28 @@ module.exports.addMovies = (movie_array, callback) => {
                 .fetch()
                 .then(function(model) {
                   if (model) {
-                    console.log(model.attributes.name, 'Director is Already in Database');
+                    // console.log(model.attributes.name, 'Director is Already in Database');
                     // Change Boolean to Actor/Writer to True
                     model.save({
                       name: director,
                       actor: false || model.get('actor'),
-                      director: true || model.get('director')
+                      director: true
                     });
                     metadataObj.directors.push(model.attributes.id);
                     resolve(model.attributes.id);
                   } else {
+
+                    let other = false;
+                    for (var i = 0; i < actors.length; i++) {
+                      if (director === actors[i]) {
+                        // console.log(director, 'Director is Also Actor');
+                        other = true;
+                      }
+                    }
+
                     new models.Crew({
                       name: director,
-                      actor: false,
+                      actor: other,
                       director: true,
                     }).save()
                       .then(function() {
