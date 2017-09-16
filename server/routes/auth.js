@@ -109,6 +109,22 @@ router.route('/favorites')
       });
   });
 
+router.route('/upcoming')
+  .get(middleware.auth.verify, (req, res) => {
+    models.Profile.where({ id: req.session.passport.user }).fetch()
+      .then(profile => {
+        //TODO: get list of mongo movies here or on the client side?
+        res.render('index.ejs', {
+          data: {
+            user: req.user,
+          }
+        });
+      })
+      .catch(err => {
+        res.status(503).send(err);
+      });
+  });
+
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
     var actorImages, directorImages;
