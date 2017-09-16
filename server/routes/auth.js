@@ -13,6 +13,8 @@ const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
 const MovieController = require('../controllers/movies.js');
 const search = require('./search.js');
+var Promise = require('bluebird');
+var join = Promise.join;
 
 app.use(bodyParser.text({ type: 'text/plain' }));
 
@@ -35,29 +37,20 @@ router.route('/')
             if (err) {
               console.log(err);
             } else {
-              var movies;
-              searchDb.getMovies((err, data) => {
+              movies = data;
+              var sorted = sortByKey(movies, 'year');
+              searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
                 if (err) {
                   console.log(err);
                 } else {
-                  movies = data;
-                  var sorted = sortByKey(movies, 'year');
-                  // console.log('the favorites are + ***');
-                  // console.log(profile.attributes.favorites);
-                  searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log('the results length is ', results.length);
+                  //console.log('the results length is ', results.length);
+                  res.render('index.ejs', {
+                    data: {
+                      movieone: sorted,
+                      favorites: results,
+                      favoriteId: profile.attributes.favorites || [],
+                      user: req.user
                     }
-                    res.render('index.ejs', {
-                      data: {
-                        movieone: sorted,
-                        favorites: results,
-                        favoriteId: profile.attributes.favorites || [],
-                        user: req.user
-                      }
-                    });
                   });
                 }
               });
@@ -81,49 +74,37 @@ router.route('/login')
 
 router.route('/favorites')
   .get (middleware.auth.verify, (req, res, next) => {
-    var movies;
-    searchDb.getMovies( (err, data) => {
-      if (err) {
-        console.log(err);
+    models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      if (profile.new_user) {
+        res.redirect('/setup');
       } else {
-
-        movies = data;
-
-        var sorted = sortByKey(movies, 'year');
-
-        models.Profile.where({ id: req.session.passport.user }).fetch()
-          .then(profile => {
-            if (profile.new_user) {
-              res.redirect('/setup');
-            } else {
-              var movies;
-              searchDb.getMovies((err, data) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  movies = data;
-                  var sorted = sortByKey(movies, 'year');
-                  // console.log('the favorites are + ***');
-                  // console.log(profile.attributes.favorites);
-                  searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log('the results length is ', results.length);
-                    }
-                    res.render('index.ejs', {
-                      data: {
-                        movieone: sorted,
-                        favorites: results,
-                        favoriteId: profile.attributes.favorites,
-                        user: req.user
-                      }
-                    });
-                  });
+        var movies;
+        searchDb.getMovies((err, data) => {
+          if (err) {
+            console.log(err);
+          } else {
+            movies = data;
+            var sorted = sortByKey(movies, 'year');
+            // console.log('the favorites are + ***');
+            // console.log(profile.attributes.favorites);
+            searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log('the results length is ', results.length);
+              }
+              res.render('index.ejs', {
+                data: {
+                  movieone: sorted,
+                  favorites: results,
+                  favoriteId: profile.attributes.favorites,
+                  user: req.user
                 }
               });
-            }
-          });
+            });
+          }
+        });
       }
     });
   });
@@ -176,29 +157,63 @@ router.route('/following')
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {
-    //TODO: also get movies, writers, directors, and screenwriters to pass down
-    models.Genres.fetchAll()
-      .then(genreList => {
-        var finalGenres = [];
-        for (var i = 0; i < genreList.models.length; i++) {
-          finalGenres.push(genreList.models[i].attributes);
+    var genreList = getGenres();
+    var actorList = getActors();
+    var directorList = getDirectors();
+    Promise.join(genreList, actorList, directorList, (genreList, actorList, directorList) => {
+      console.log('******** genreList ', genreList);
+      console.log('******** actorList ', actorList);
+      console.log('******** directorList ', directorList);
+      res.render('index.ejs', {
+        data: {
+          user: req.user,
+          genres: genreList,
+          actors: actorList,
+          directors: directorList
         }
-        res.render('index.ejs', {
-          data: {
-            user: req.user,
-            genres: finalGenres
-          }
-        });
-      })
-      .catch(err => {
-        console.log('*********** error ', err);
-        res.status(503).send(err);
       });
+    })
+    .catch(err => {
+      console.log('*********** /setup error ', err);
+      res.status(503).send(err);
+    });
   });
+
+var getGenres = function() {
+  models.Genres.fetchAll()
+  .then(genres => {
+    var genreList = [];
+    genres.models.forEach(genre => {
+      genreList.push(genre.attributes);
+    })
+    return genreList;
+  });
+}
+
+var getActors = function() {
+  models.Crew.where({actor: true}).fetchAll()
+  .then(actors => {
+    var actorList = [];
+    actors.models.forEach(actor => {
+      actorList.push(actor.attributes);
+    })
+    return actorList;
+  });
+}
+
+var getDirectors = function() {
+  models.Crew.where({director: true}).fetchAll()
+  .then(directors => {
+    var directorList = [];
+    directors.models.forEach(director => {
+      directorList.push(director.attributes);
+    })
+    return directorList;
+  });
+}
 
 router.route('/logout')
   .get((req, res) => {
-    console.log('******** logout call');
     req.logout();
     res.redirect('/');
   });
