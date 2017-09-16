@@ -135,9 +135,34 @@ class Upcoming extends React.Component {
     });
   }
 
+  getMovieData(minDate, maxDate) {
+    $.ajax({
+      url: 'search/upcoming',
+      method: 'GET',
+      data: {minDate: minDate, maxDate: maxDate},
+      dataType: 'json',
+      contentType: 'text/plain',
+      success: (results) => {
+        console.log(results);
+        // var container = [];
+        // for (var i = 0; i < results.length; i++) {
+        //   container.push(results[i]);
+      },
+        // this.setState({movies: this.state.movies.concat(results)});
+        // this.setState({
+        //   movies: container,
+        //   display: container
+        // });
+
+        // console.log(this.state.movies, '@#$#@$#@');
+        // this.render();
+      error: (err) => {
+        console.log('err', err);
+      }
+    });
+  }
+
   render() {
-    console.log('the starting date is ', this.state.minDate);
-    console.log('the ending date is ', this.state.maxDate);
     return (
       <div className='gridRoot container'>
         <div className='row'>
@@ -165,6 +190,8 @@ class Upcoming extends React.Component {
             <Filtering sortByRating={this.sortByRating} rating={this.state.minRating}/>
           </div>
         </div>
+        <br/>
+        <button type="button" onClick = {() => this.getMovieData(this.state.minDate, this.state.maxDate)}>Click to Get Upcoming Movies!</button>
         <GridList
           cellHeight='auto'
           cols={5}
