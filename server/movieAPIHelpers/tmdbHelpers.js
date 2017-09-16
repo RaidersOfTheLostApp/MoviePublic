@@ -11,7 +11,6 @@ var MovieList = {
       'page': 1
     }, (e) => {
       cb(null, e.results);
-
     }, (e) => {
       cb(e, null);
     });
@@ -23,24 +22,27 @@ var MovieList = {
     }, (e) => {
       // console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
-
     }, (e) => {
       cb(e, null);
     });
   },
 
   getSimilarMovies: (movie, cb) => {
-    // console.log(movie, 'MOVIEJFSLKDFJKL');
-    tmdb.call('/movie/' + movie + '/similar', {
-      'language': 'en-US',
-    }, (e) => {
-      console.log(e.results, 'asdfsdfsf');
-      cb(null, e.results);
-
-    }, (e) => {
-      console.log(e, 'BROKE IN TMDBHELP');
-      cb(e, null);
-    });
+    // console.log(movie, 'getSimilarMovies Helper');
+    if (!movie) {
+      // console.log('Similar Movie: no Movie');
+      cb(null, null);
+    } else {
+      tmdb.call('/movie/' + movie + '/similar', {
+        'language': 'en-US',
+      }, (e) => {
+        console.log(e.results, 'asdfsdfsf');
+        cb(null, e.results);
+      }, (err) => {
+        console.log(err, 'BROKE IN TMDBHELP');
+        cb(err, null);
+      });
+    }
   },
 
   // getPopularMovies: (cb) => {

@@ -11,7 +11,7 @@ module.exports.getAllMovies = (req, res) => {
 };
 
 module.exports.addMovies = (movie_array, callback) => {
-  // console.log(movie_array, 'Movie Array passed from Server Search');
+  console.log(movie_array, 'Movie Array passed from MongoDB Sync');
   if (movie_array) {
     movie_array.forEach((movie) => {
       // console.log(movie, movie.genre, 'Movie Info');
@@ -59,10 +59,13 @@ module.exports.addMovies = (movie_array, callback) => {
                           .fetch()
                           .then(function(model) {
                             // console.log(model.attributes, 'Genre just added to Database');
-                            console.log(genre, 'Genre Created');
+                            console.log(genre, ': Genre Created');
                             metadataObj.genres.push(model.attributes.id);
                             resolve(model.attributes.id);
                           });
+                      })
+                      .catch(function(err) {
+                        console.error(err, 'Genre: Create Error');
                       });
                   }
                 });
@@ -72,9 +75,9 @@ module.exports.addMovies = (movie_array, callback) => {
           });
         };
         /**
-         * Promise: Helper function to create Actor
-         * @param {Genre} genre
-         */
+        * Promise: Helper function to create Actor
+        * @param {Genre} genre
+        */
         var createActor = function createActor(actor) {
           return new Promise((resolve, reject) => {
             if (resolve) {
@@ -109,10 +112,13 @@ module.exports.addMovies = (movie_array, callback) => {
                         models.Crew.where({ name: actor })
                           .fetch()
                           .then(function(model) {
-                            console.log(actor, 'Actor Created');
+                            console.log(actor, ': Actor Created');
                             metadataObj.actors.push(model.attributes.id);
                             resolve(model.attributes.id);
                           });
+                      })
+                      .catch(function(err) {
+                        console.error(err, 'Actor: Create Error');
                       });
                   }
                 });
@@ -160,10 +166,13 @@ module.exports.addMovies = (movie_array, callback) => {
                         models.Crew.where({ name: director })
                           .fetch()
                           .then(function(model) {
-                            console.log(director, 'Director Created');
+                            console.log(director, ': Director Created');
                             metadataObj.directors.push(model.attributes.id);
                             resolve(model.attributes.id);
                           });
+                      })
+                      .catch(function(err) {
+                        console.error(err, 'Director: Create Error');
                       });
                   }
                 });

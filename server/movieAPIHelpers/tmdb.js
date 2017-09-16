@@ -48,4 +48,3 @@ const tmdb = {
 };
 
 module.exports = tmdb;
-// })()
