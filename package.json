@@ -42,6 +42,7 @@
     "grunt-http": "^2.2.0",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
     "hawk": "^6.0.2",
+    "hulu-api-client": "^1.0.1",
     "jquery": "^3.2.1",
     "knex": "^0.13.0",
     "material-design-icons": "^3.0.1",
