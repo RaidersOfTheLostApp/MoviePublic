@@ -87,9 +87,8 @@ var getMovies = (query, cb) => {
 };
 
 var saveMovies = (movies, cb) => {
-
   movies.forEach((value) => {
-    console.log('the title is ', value.title);
+    // console.log('the title is ', value.title);
     searchTitle(value.title, (err, data) => {
       data = JSON.parse(data.request.response.body);
       if (err) {
@@ -149,15 +148,11 @@ var saveMovies = (movies, cb) => {
             });
           }
 
-
         });
 
       }
 
-
     });
-
-
 
   });
 
