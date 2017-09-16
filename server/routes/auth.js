@@ -120,7 +120,6 @@ router.route('/profile')
             if (err) {
               console.log(err);
             } else {
-              console.log('********** mongo ids ', movies);
               favorites = movies;
               res.render('index.ejs', {
                 data: {
@@ -145,20 +144,68 @@ router.route('/profile')
 
 router.route('/following')
   .get(middleware.auth.verify, (req, res) => {
+    var genreList = [];
+    var actorList = [];
+    var directorList = [];
+    var genreMovies =[];
+    var actorMovies = [];
+    var directorMovies = [];
+    var profileList;
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
-        //TODO: get list of mongo movies here or on the client side?
-        res.render('index.ejs', {
-          data: {
-            user: req.user,
-            genreFollow: profile.attributes.follow_genre || [],
-            actorFollow: profile.attributes.follow_actor || [],
-            directorFollow: profile.attributes.follow_director || [],
-            vod_subscriptions: profile.attributes.vod_subscriptions || []
-          }
-        });
+        profileList = profile;
+        models.Genres.fetchAll()
+        .then(genres => {
+          return genres.models.map(genre => {
+            return genre.attributes;
+          });
+        })
+        .then(genreArr => {
+          genreList = genreArr;
+          models.Crew.where({actor: true}).fetchAll()
+          .then(actors => {
+            return actors.models.map(actor => {
+              return actor.attributes;
+            });
+          })
+          .then(actorArr => {
+            actorList = actorArr;
+            models.Crew.where({director: true}).fetchAll()
+            .then(directors => {
+              return directors.models.map(director => {
+                return director.attributes;
+              });
+            })
+            .then(directorArr => {
+              directorList = directorArr;
+              //first get mongo_ids by crew id
+              searchDb.searchByIds(directorList, (err, movies) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  directorMovies = movies;
+                  //then repeat for actors and genres
+
+                  res.render('index.ejs', {
+                    data: {
+                      user: req.user,
+                      genres: genreList || [], //TODO: use to add edits to add new genres, etc.
+                      actors: actorList || [],
+                      directors: directorList || [],
+                      genreFollow: genreMovies || [],
+                      actorFollow: actorMovies || [],
+                      directorFollow: directorMovies || [],
+                      vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                    }
+                  });
+                }
+              });
+            })
+          })
+        })
       })
       .catch(err => {
+        console.log('*********** /setup error ', err);
         res.status(503).send(err);
       });
   });
