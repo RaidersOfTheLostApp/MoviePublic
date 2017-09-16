@@ -34,7 +34,6 @@ class Following extends React.Component {
       actorList: props.actorList,
       directorList: props.directorList
     };
-
   }
 
   // componentWillMount() {
@@ -57,7 +56,7 @@ class Following extends React.Component {
   //     }, () => {
   //       console.log(this.state.actorFollowMongoIds);
   //       this.getMoviesWithIds(this.state.actorFollowMongoIds);
-  //       //TODO: for director movies too
+  //       //do for director movies too
   //     });
   //   });
   //   // this.getFollow('actors', movieArr => {
@@ -146,10 +145,9 @@ class Following extends React.Component {
             <div className='col-4'>
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select a Genre to Filter' />
-                <MenuItem value={1} primaryText='Genre 1' />
-                <MenuItem value={2} primaryText='Genre 2' />
-                <MenuItem value={3} primaryText='Genre 3' />
-                <MenuItem value={4} primaryText='Genre 4' />
+                {this.state.genreList.map(genre => (
+                  <MenuItem value={genre.id} primaryText={genre.name} />
+                ))}
               </SelectField>
             </div>
           </div>
@@ -175,10 +173,9 @@ class Following extends React.Component {
             <div className='col-4'>
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select an Actor/Actress to Filter' />
-                <MenuItem value={1} primaryText='Actor 1' />
-                <MenuItem value={2} primaryText='Actor 2' />
-                <MenuItem value={3} primaryText='Actor 3' />
-                <MenuItem value={4} primaryText='Actor 4' />
+                  {this.state.actorList.map(actor => (
+                    <MenuItem value={actor.id} primaryText={actor.name} />
+                  ))}
               </SelectField>
             </div>
           </div>
@@ -204,10 +201,9 @@ class Following extends React.Component {
             <div className='col-4'>
               <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select a Director to Filter' />
-                <MenuItem value={1} primaryText='Director 1' />
-                <MenuItem value={2} primaryText='Director 2' />
-                <MenuItem value={3} primaryText='Director 3' />
-                <MenuItem value={4} primaryText='Director 4' />
+                  {this.state.directorList.map(director => (
+                    <MenuItem value={director.id} primaryText={director.name} />
+                  ))}
               </SelectField>
             </div>
           </div>
