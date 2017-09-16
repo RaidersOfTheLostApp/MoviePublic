@@ -27,8 +27,8 @@ class UserSetup extends React.Component {
       actorFollow: [],
       directorFollow: [],
       genreList: props.genres,
-      actorList: [], //format: {'name': 'Brad Pitt', 'id': 2}
-      directorList: [] //format: {'name': 'Quentin Tarantino', 'id': 1}
+      actorList: props.actors,
+      directorList: props.directors
     };
   }
 

@@ -21,7 +21,6 @@ class Results extends React.Component {
       minRating: 0,
       display: this.props.results
     };
-    console.log('*********** # of movies ', movies.)
     this.sortByRating = this.sortByRating.bind(this);
     this.searchToServer = this.searchToServer.bind(this);
   }
