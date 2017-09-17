@@ -55,13 +55,15 @@ var searchByTitle = (title, cb) => {
 };
 
 var searchByIds = (idArray, cb) => {
+  // console.log('*********** in searchByIds ', idArray);
   if (idArray === null || idArray.length === 0) {
     cb(null, []);
   } else {
     var movieList = [];
     var len = idArray.length;
     idArray.forEach((value, i) => {
-      getMovies({ _id: ObjectId(value) }, (err, res) => {
+      // getMovies({ _id: ObjectId(value) }, (err, res) => {
+      getMovies({ id: value }, (err, res) => {
         if (err) {
           cb(err, null);
         } else {

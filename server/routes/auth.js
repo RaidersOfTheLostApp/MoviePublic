@@ -162,6 +162,8 @@ router.route('/following')
             async.sortBy(profileList.attributes.follow_director, function(file, callback) {callback(null, file.text);}, function(err, results) {
               directorList = results;
               async.map(genreList, function(file, callback_1) {
+                // select * from movies where director @> any (array ['70', '45']::jsonb[]);
+                // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
                 models.Movies.where('genres', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
                 .then(genreMovieObjs => {
                   async.map(genreMovieObjs.models, function(file, callback_2) {
@@ -171,20 +173,24 @@ router.route('/following')
                   });
                 })
               }, function(err, results) {
-                console.log('*********** final results of async ', [].concat.apply([], results));
-                genreMovies = [].concat.apply([], results);
-                //do same for actors and directors
-
-                res.render('index.ejs', {
-                  data: {
-                    user: req.user,
-                    genres: genreList || [], //TODO: use to add edits to add new genres, etc.
-                    actors: actorList || [],
-                    directors: directorList || [],
-                    genreFollow: genreMovies || [],
-                    actorFollow: actorMovies || [],
-                    directorFollow: directorMovies || [],
-                    vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                // console.log('*********** final results of async ', [].concat.apply([], results));
+                searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    genreMovies = movies;
+                    res.render('index.ejs', {
+                      data: {
+                        user: req.user,
+                        genres: genreList || [], //TODO: use to add edits to add new genres, etc.
+                        actors: actorList || [],
+                        directors: directorList || [],
+                        genreFollow: genreMovies || [],
+                        actorFollow: actorMovies || [],
+                        directorFollow: directorMovies || [],
+                        vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                      }
+                    });
                   }
                 });
               }); //end of the map function
@@ -197,55 +203,6 @@ router.route('/following')
         res.status(503).send(err);
       });
     });
-//cut from above - don't delete yet
-      // models.Genres.fetchAll()
-      // .then(genres => {
-      //   return genres.models.map(genre => {
-      //     return genre.attributes;
-      //   });
-      // })
-      // .then(genreArr => {
-      //   genreList = genreArr.sort((a, b) => {
-      //     if (a.name < b.name) {return -1;}
-      //     if (a.name > b.name) {return 1;}
-      //     if (a.name = b.name) {return 0;}
-      //   });
-      //   models.Crew.where({actor: true}).fetchAll()
-      //   .then(actors => {
-      //     return actors.models.map(actor => {
-      //       return actor.attributes;
-      //     });
-      //   })
-      //   .then(actorArr => {
-      //     actorList = actorArr.sort((a, b) => {
-      //       if (a.name < b.name) {return -1;}
-      //       if (a.name > b.name) {return 1;}
-      //       if (a.name = b.name) {return 0;}
-      //     });
-      //     models.Crew.where({director: true}).fetchAll()
-      //     .then(directors => {
-      //       return directors.models.map(director => {
-      //         return director.attributes;
-      //       });
-      //     })
-      //     .then(directorArr => {
-      //       directorList = directorArr.sort((a, b) => {
-      //         if (a.name < b.name) {return -1;}
-      //         if (a.name > b.name) {return 1;}
-      //         if (a.name = b.name) {return 0;}
-      //       });
-      // ----------------
-            // select * from movies where director @> any (array ['70', '45']::jsonb[]);
-            // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
-            // .then(directorMovies => {
-              //   console.log('*********** directorMovies in following ', directorMovies);
-              //   //first get mongo_ids by crew id
-              //   searchDb.searchByIds(directorList, (err, movies) => {
-              //     if (err) {
-              //       console.log(err);
-              //     } else {
-              //       directorMovies = movies;
-              //       //then repeat for actors and genres
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {
