@@ -134,7 +134,7 @@ class Following extends React.Component {
   //   this.render();
   // }
 
-  sortMovies(movies, target, callback1) {
+  sortMoviesGenre(movies, target, callback1) {
     var sortedArr = [];
     async.each(movies, function(movie, callback2) {
       var genres = movie.genre[0].split(', ');
@@ -160,7 +160,7 @@ class Following extends React.Component {
     var context = this;
     for (var i = 0; i < this.state.genreList.length; i++) {
       if (this.state.genreList[i].id === value) {
-        this.sortMovies(this.state.genreFollowMongoIds, this.state.genreList[i].text, function(result) {
+        this.sortMoviesGenre(this.state.genreFollowMongoIds, this.state.genreList[i].text, function(result) {
           context.setState({
             select_value_genre: value,
             genreMongoIdsFiltered: result
@@ -171,20 +171,80 @@ class Following extends React.Component {
     }
   }
 
+//TODO: refactor to remove duplicate code for all 3 filter types
+  sortMoviesActor(movies, target, callback1) {
+    var sortedArr = [];
+    async.each(movies, function(movie, callback2) {
+      var actors = movie.actors[0].split(', ');
+      for (var i = 0; i < actors.length; i++) {
+        if (actors[i] === target) {
+          sortedArr.push(movie);
+        }
+      }
+      callback2();
+    }, function(err) {
+      callback1(sortedArr);
+    });
+  }
+
   handleChangeActor(e, i, value) {
-    //TODO filter the results on the primaryText value
-    //how do i know which selectfield was choosen?
-    this.setState({
-      select_value_actor: value
+    if (value === 0) {
+      this.setState({
+        select_value_actor: 0,
+        actorMongoIdsFiltered: this.state.actorFollowMongoIds
+      });
+      return;
+    }
+    var context = this;
+    for (var i = 0; i < this.state.actorList.length; i++) {
+      if (this.state.actorList[i].id === value) {
+        this.sortMoviesActor(this.state.actorFollowMongoIds, this.state.actorList[i].text, function(result) {
+          context.setState({
+            select_value_actor: value,
+            actorMongoIdsFiltered: result
+          });
+        });
+        break;
+      }
+    }
+  }
+
+  //TODO: refactor to remove duplicate code for all 3 filter types
+  sortMoviesDirector(movies, target, callback1) {
+    var sortedArr = [];
+    async.each(movies, function(movie, callback2) {
+      var directors = movie.directors[0].split(', ');
+      for (var i = 0; i < directors.length; i++) {
+        if (directors[i] === target) {
+          sortedArr.push(movie);
+        }
+      }
+      callback2();
+    }, function(err) {
+      callback1(sortedArr);
     });
   }
 
   handleChangeDirector(e, i, value) {
-    //TODO filter the results on the primaryText value
-    //how do i know which selectfield was choosen?
-    this.setState({
-      select_value_director: value
-    });
+    if (value === 0) {
+      this.setState({
+        select_value_director: 0,
+        directorMongoIdsFiltered: this.state.directorFollowMongoIds
+      });
+      return;
+    }
+    var context = this;
+    for (var i = 0; i < this.state.directorList.length; i++) {
+      if (this.state.directorList[i].id === value) {
+        this.sortMoviesDirector(this.state.directorFollowMongoIds, this.state.directorList[i].text, function(result) {
+          context.setState({
+            select_value_director: value,
+            directorMongoIdsFiltered: result
+          });
+        });
+        break;
+      }
+    }
   }
 
   render() {
@@ -236,7 +296,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList key={2} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.actorFollowMongoIds.map((actor, i) => (
+            {this.state.actorMongoIdsFiltered.map((actor, i) => (
               <a href = {actor.website === 'N/A' ? '#' : actor.website} target = "_blank">
                 <GridTile
                   key={i}
@@ -264,7 +324,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList key={3} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.directorFollowMongoIds.map((director, i) => (
+            {this.state.directorMongoIdsFiltered.map((director, i) => (
               <a href = {director.website === 'N/A' ? '#' : director.website} target = "_blank">
                 <GridTile
                   key={i}
