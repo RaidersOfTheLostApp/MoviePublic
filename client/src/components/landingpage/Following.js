@@ -17,6 +17,7 @@ import Filtering from './Filtering';
 import Results from './Results';
 import MenuItem from 'material-ui/MenuItem';
 import ResultsListItem from './ResultItem';
+const async = require('async');
 
 class Following extends React.Component {
   constructor(props) {
@@ -25,10 +26,17 @@ class Following extends React.Component {
       select_value_genre: 0,
       select_value_actor: 0,
       select_value_director: 0,
+
       loading: false,
+
       genreFollowMongoIds: props.genreFollow || [],
       actorFollowMongoIds: props.actorFollow || [],
       directorFollowMongoIds: props.directorFollow || [],
+
+      genreMongoIdsFiltered: props.genreFollow || [],
+      actorMongoIdsFiltered: props.actorFollow || [],
+      directorMongoIdsFiltered: props.directorFollow || [],
+
       modalIsOpen: false,
       // favoriteId: [],
       // followMovies: []
@@ -126,13 +134,41 @@ class Following extends React.Component {
   //   this.render();
   // }
 
-  handleChangeGenre(e, i, value) {
-    //TODO filter the results on the primaryText value
-    //how do i know which selectfield was choosen?
-    console.log('*********** value id ', value);
-    this.setState({
-      select_value_genre: value
+  sortMovies(movies, target, callback1) {
+    var sortedArr = [];
+    async.each(movies, function(movie, callback2) {
+      var genres = movie.genre[0].split(', ');
+      for (var i = 0; i < genres.length; i++) {
+        if (genres[i] === target) {
+          sortedArr.push(movie);
+        }
+      }
+      callback2();
+    }, function(err) {
+      callback1(sortedArr);
     });
+  }
+
+  handleChangeGenre(e, i, value) {
+    if (value === 0) {
+      this.setState({
+        select_value_genre: 0,
+        genreMongoIdsFiltered: this.state.genreFollowMongoIds
+      });
+      return;
+    }
+    var context = this;
+    for (var i = 0; i < this.state.genreList.length; i++) {
+      if (this.state.genreList[i].id === value) {
+        this.sortMovies(this.state.genreFollowMongoIds, this.state.genreList[i].text, function(result) {
+          context.setState({
+            select_value_genre: value,
+            genreMongoIdsFiltered: result
+          });
+        });
+        break;
+      }
+    }
   }
 
   handleChangeActor(e, i, value) {
@@ -172,7 +208,7 @@ class Following extends React.Component {
             </div>
           </div>
           <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.state.genreFollowMongoIds.map((genre, i) => (
+            {this.state.genreMongoIdsFiltered.map((genre, i) => (
               <a href = {genre.website === 'N/A' ? '#' : genre.website} target = "_blank">
                 <GridTile
                   key={i}
