@@ -157,45 +157,64 @@ router.route('/following')
         profileList = profile;
         async.sortBy(profileList.attributes.follow_genre, function(file, callback) {callback(null, file.text);}, function(err, results) {
           genreList = results;
-          async.sortBy(profileList.attributes.follow_actor, function(file, callback) {callback(null, file.text);}, function(err, results) {
-            actorList = results;
-            async.sortBy(profileList.attributes.follow_director, function(file, callback) {callback(null, file.text);}, function(err, results) {
-              directorList = results;
-              async.map(genreList, function(file, callback_1) {
-                // select * from movies where director @> any (array ['70', '45']::jsonb[]);
-                // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
-                models.Movies.where('genres', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
-                .then(genreMovieObjs => {
-                  async.map(genreMovieObjs.models, function(file, callback_2) {
-                    callback_2(null, file.attributes.mongo_id);
-                  }, function(err, results) {
-                    callback_1(null, results);
-                  });
-                })
+          async.map(genreList, function(file, callback_1) {
+            // select * from movies where director @> any (array ['70', '45']::jsonb[]);
+            // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
+            models.Movies.where('genres', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
+            .then(genreMovieObjs => {
+              async.map(genreMovieObjs.models, function(file, callback_2) {
+                callback_2(null, file.attributes.mongo_id);
               }, function(err, results) {
-                // console.log('*********** final results of async ', [].concat.apply([], results));
-                searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    genreMovies = movies;
-                    res.render('index.ejs', {
-                      data: {
-                        user: req.user,
-                        genres: genreList || [], //TODO: use to add edits to add new genres, etc.
-                        actors: actorList || [],
-                        directors: directorList || [],
-                        genreFollow: genreMovies || [],
-                        actorFollow: actorMovies || [],
-                        directorFollow: directorMovies || [],
-                        vod_subscriptions: profileList.attributes.vod_subscriptions || []
-                      }
-                    });
-                  }
-                });
-              }); //end of the map function
-            }); // end of sortBy directors
-          }); //end of sortBy actors
+                callback_1(null, results);
+              });
+            })
+          }, function(err, results) {
+            // console.log('*********** final results of async ', [].concat.apply([], results));
+            searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
+              if (err) {
+                console.log(err);
+              } else {
+                genreMovies = movies;
+                async.sortBy(profileList.attributes.follow_actor, function(file, callback) {callback(null, file.text);}, function(err, results) {
+                  actorList = results;
+                  async.sortBy(profileList.attributes.follow_director, function(file, callback) {callback(null, file.text);}, function(err, results) {
+                    directorList = results;
+                    async.map(directorList, function(file, callback_1) {
+                      models.Movies.where('director', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
+                      .then(directorMovieObjs => {
+                        async.map(directorMovieObjs.models, function(file, callback_2) {
+                          callback_2(null, file.attributes.mongo_id);
+                        }, function(err, results) {
+                          callback_1(null, results);
+                        });
+                      })
+                    }, function(err, results) {
+                      // console.log('*********** final results of async ', [].concat.apply([], results));
+                      searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
+                        if (err) {
+                          console.log(err);
+                        } else {
+                          directorMovies = movies;
+                          res.render('index.ejs', {
+                            data: {
+                              user: req.user,
+                              genres: genreList || [], //TODO: use to add edits to add new genres, etc.
+                              actors: actorList || [],
+                              directors: directorList || [],
+                              genreFollow: genreMovies || [],
+                              actorFollow: actorMovies || [],
+                              directorFollow: directorMovies || [],
+                              vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                            }
+                          });
+                        }
+                      });
+                    }); //end of the map function
+                  }); // end of sortBy directors
+                }); //end of sortBy actors
+              }
+            });
+          }); //end of the genre map function
         }); // end of sortBy genres
       }) //end of then
       .catch(err => {
