@@ -22,7 +22,9 @@ class Following extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      select_value: 0,
+      select_value_genre: 0,
+      select_value_actor: 0,
+      select_value_director: 0,
       loading: false,
       genreFollowMongoIds: props.genreFollow || [],
       actorFollowMongoIds: props.actorFollow || [],
@@ -124,13 +126,31 @@ class Following extends React.Component {
   //   this.render();
   // }
 
-  handleChange(e, i, value) {
+  handleChangeGenre(e, i, value) {
     //TODO filter the results on the primaryText value
+    //how do i know which selectfield was choosen?
+    console.log('*********** value id ', value);
     this.setState({
-      select_value: value
+      select_value_genre: value
     });
   }
-  //TODO - build menuItems to render dynamically with value and text on mapped props
+
+  handleChangeActor(e, i, value) {
+    //TODO filter the results on the primaryText value
+    //how do i know which selectfield was choosen?
+    this.setState({
+      select_value_actor: value
+    });
+  }
+
+  handleChangeDirector(e, i, value) {
+    //TODO filter the results on the primaryText value
+    //how do i know which selectfield was choosen?
+    this.setState({
+      select_value_director: value
+    });
+  }
+
   render() {
     if (this.state.loading) {
       return null;
@@ -143,7 +163,7 @@ class Following extends React.Component {
               <Subheader>GENRES You Are Following</Subheader>
             </div>
             <div className='col-4'>
-              <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
+              <SelectField value={this.state.select_value_genre} onChange={this.handleChangeGenre.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select a Genre to Filter' />
                 {this.state.genreList.map(genre => (
                   <MenuItem value={genre.id} primaryText={genre.text} />
@@ -171,7 +191,7 @@ class Following extends React.Component {
               <Subheader>ACTORS / ACRESSES You Are Following</Subheader>
             </div>
             <div className='col-4'>
-              <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
+              <SelectField value={this.state.select_value_actor} onChange={this.handleChangeActor.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select an Actor/Actress to Filter' />
                   {this.state.actorList.map(actor => (
                     <MenuItem value={actor.id} primaryText={actor.text} />
@@ -199,7 +219,7 @@ class Following extends React.Component {
               <Subheader>DIRECTORS You Are Following</Subheader>
             </div>
             <div className='col-4'>
-              <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
+              <SelectField value={this.state.select_value_director} onChange={this.handleChangeDirector.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select a Director to Filter' />
                   {this.state.directorList.map(director => (
                     <MenuItem value={director.id} primaryText={director.text} />
