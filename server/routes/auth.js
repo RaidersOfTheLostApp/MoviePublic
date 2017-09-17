@@ -155,26 +155,16 @@ router.route('/following')
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
         profileList = profile;
-        async.sortBy(profileList.attributes.follow_genre, function(file, callback) {
-          callback(null, file.text);
-        }, function(err, results) {
+        async.sortBy(profileList.attributes.follow_genre, function(file, callback) {callback(null, file.text);}, function(err, results) {
           genreList = results;
-          async.sortBy(profileList.attributes.follow_actor, function(file, callback) {
-            callback(null, file.text);
-          }, function(err, results) {
+          async.sortBy(profileList.attributes.follow_actor, function(file, callback) {callback(null, file.text);}, function(err, results) {
             actorList = results;
-            async.sortBy(profileList.attributes.follow_director, function(file, callback) {
-              callback(null, file.text);
-            }, function(err, results) {
+            async.sortBy(profileList.attributes.follow_director, function(file, callback) {callback(null, file.text);}, function(err, results) {
               directorList = results;
               async.map(genreList, function(file, callback_1) {
-                //find all movies with each genre
-                console.log('******** file id ', file.id);
-                models.Movies.where('genres', '@>', JSON.stringify([5])).fetchAll({columns: ['mongo_id']})
-                // models.Movies.query('where', 'genres', '@>', JSON.stringify([file.id]))
-                .then(genreMovies => {
-                  console.log('********** genreMovies in async map ', genreMovies.models);
-                  async.map(genreMovies.models, function(file, callback_2) {
+                models.Movies.where('genres', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
+                .then(genreMovieObjs => {
+                  async.map(genreMovieObjs.models, function(file, callback_2) {
                     callback_2(null, file.attributes.mongo_id);
                   }, function(err, results) {
                     callback_1(null, results);
@@ -182,28 +172,26 @@ router.route('/following')
                 })
               }, function(err, results) {
                 console.log('*********** final results of async ', [].concat.apply([], results));
-              })
+                genreMovies = [].concat.apply([], results);
+                //do same for actors and directors
 
-              res.render('index.ejs', {
-                data: {
-                  user: req.user,
-                  genres: genreList || [], //TODO: use to add edits to add new genres, etc.
-                  actors: actorList || [],
-                  directors: directorList || [],
-                  genreFollow: genreMovies || [],
-                  actorFollow: actorMovies || [],
-                  directorFollow: directorMovies || [],
-                  vod_subscriptions: profileList.attributes.vod_subscriptions || []
-                }
-              });
-            });
-          });
-        });
-      })
-              // })
-        //     });
-        //   });
-        // })
+                res.render('index.ejs', {
+                  data: {
+                    user: req.user,
+                    genres: genreList || [], //TODO: use to add edits to add new genres, etc.
+                    actors: actorList || [],
+                    directors: directorList || [],
+                    genreFollow: genreMovies || [],
+                    actorFollow: actorMovies || [],
+                    directorFollow: directorMovies || [],
+                    vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                  }
+                });
+              }); //end of the map function
+            }); // end of sortBy directors
+          }); //end of sortBy actors
+        }); // end of sortBy genres
+      }) //end of then
       .catch(err => {
         console.log('*********** /setup error ', err);
         res.status(503).send(err);
