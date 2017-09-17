@@ -141,130 +141,46 @@ router.route('/newmovies')
         };
     })
   })
-        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   tmdbHelp.getUpcomingMovies(newMinDate, newMaxDate, (err, data) => {
-//           if (err) {
-//             console.log(err, 'UPCOMINGMOVIEERROR!');
-//           } else {
-//             res.status(201).send(data);
-//             }
-//             //grab each movie title and send API request to OMDB to get movie data
-//             // searchDb.saveMovies(data, () => {
-//             //   searchDb.getMovies({}, (err, res2) => {
-//             //     var options = {
-//             //       shouldSort: true,
-//             //       tokenize: true,
-//             //       findAllMatches: true,
-//             //       includeScore: true,
-//             //       includeMatches: true,
-//             //       threshold: 0.6,
-//             //       location: 0,
-//             //       distance: 100,
-//             //       maxPatternLength: 32,
-//             //       minMatchCharLength: 3,
-//             //       keys: [
-//             //         'title',
-//             //         'actors',
-//             //         'director',
-//             //         'genre',
-//             //         'year',
-//             //       ]
-//             //     };
-//             //     var fuse = new Fuse(res2, options); // "list" is the item array
-//             //     var result = fuse.search(req.query.value);
-//             //     var sorted = sortByKey(result, 'score');
-//             //     // console.log('*************** sorted[0] ', sorted[0]);
-//             //     // console.log('************** sorted', sorted);
-//             //     // console.log(res2, 'Post Sorted - Res2');
-//             //     // MovieController.getAllMovies();
-//             //     var movieArr = [];
-//             //     for (var i = 0; i < sorted.length; i++) {
-//             //       movieArr.push(sorted[i].item);
-//             //       if (i === sorted.length - 1) {
-//             //         res.json(movieArr);
-//             //       }
-//             //     }
-//             //     MovieController.addMovies(res2, (err, results) => {
-//             //       if (err) {
-//             //         console.log(err, 'Server Response - PG Unable to Add Movies');
-//             //         // res.status(500).send('Postgres: Error adding movies');
-//             //       } else {
-//             //         console.log(results, 'Server Response - PG Added Data');
-//             //         // res.status(201).send('Server Response - PG Added Data');
-//                   })
-//                // });
-//             // });
-//          // });
-//       }
-//    });
-// })
-    
-   
-
+router.route('/gettheaters')
+.get(middleware.auth.verify, (req, res, next) => {
+  var playingArray = req.query.playingDate.split(' ');
+  var monthArray = {
+  'Jan': '01',
+  'Feb': '02',
+  'Mar': '03',
+  'Apr': '04',
+  'May': '05',
+  'Jun': '06',
+  'Jul': '07',
+  'Aug': '08',
+  'Sep': '09',
+  'Oct': '10',
+  'Nov': '11',
+  'Dec': '12'
+  }
+
+  var newPlayingData = playingArray[3] + '-' + monthArray[playingArray[1]] + '-' + playingArray[2];
+
+  console.log('the playing data is', newPlayingData);
+  console.log('the radius is', req.query.radius);
+  console.log('the date range is', req.query.dateRange);
+
+  // searchDb.getMovies({}, (err, res1) => {
+  //     if (err) {
+  //       alert('search broken try again');
+  //     } else {
+  //         console.log('the response is', res1);
+  //         tmdbHelp.getUpcomingMovies(newMinDate, newMaxDate, (err, data) => {
+  //          if (err) {
+  //             console.log(err, 'UPCOMINGMOVIEERROR!');
+  //           } else {
+  //             res.send(data);
+  //             };
+  //         });
+  //       };
+  //   })
+  res.send('this works!');
+  })
+            
 module.exports = router;
