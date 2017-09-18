@@ -22,7 +22,6 @@ exports.up = function(knex, Promise) {
       table.jsonb('follow_genre').nullable();
       table.jsonb('follow_actor').nullable();
       table.jsonb('follow_director').nullable();
-      table.jsonb('follow_movies').nullable();
       table.jsonb('vod_subscriptions').nullable();
       table.boolean('new_user').defaultTo('True');
     }),
@@ -39,6 +38,7 @@ exports.up = function(knex, Promise) {
       table.text('name').notNullable().unique();
       table.boolean('actor').nullable();
       table.boolean('director').nullable();
+      table.text('image_url').nullable();
     }),
 
     knex.schema.createTableIfNotExists('genres', function(table) {
