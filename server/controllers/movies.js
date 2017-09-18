@@ -209,7 +209,7 @@ module.exports.addMovie = (movie, callback) => {
               } else {
                 new models.Movies({
                   // id: id,
-                  mongo_id: movie.id,
+                  mongo_id: movie._id,
                   title: movie.title,
                   year: movie.year,
                   release_date: movie.release_date,
