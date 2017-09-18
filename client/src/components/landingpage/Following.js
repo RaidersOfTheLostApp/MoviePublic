@@ -171,7 +171,7 @@ class Following extends React.Component {
     }
   }
 
-//TODO: refactor to remove duplicate code for all 3 filter types
+  //TODO: refactor to remove duplicate code for all 3 filter types
   sortMoviesActor(movies, target, callback1) {
     var sortedArr = [];
     async.each(movies, function(movie, callback2) {
@@ -289,9 +289,9 @@ class Following extends React.Component {
             <div className='col-4'>
               <SelectField value={this.state.select_value_actor} onChange={this.handleChangeActor.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select an Actor/Actress to Filter' />
-                  {this.state.actorList.map(actor => (
-                    <MenuItem value={actor.id} primaryText={actor.text} />
-                  ))}
+                {this.state.actorList.map(actor => (
+                  <MenuItem value={actor.id} primaryText={actor.text} />
+                ))}
               </SelectField>
             </div>
           </div>
@@ -317,9 +317,9 @@ class Following extends React.Component {
             <div className='col-4'>
               <SelectField value={this.state.select_value_director} onChange={this.handleChangeDirector.bind(this)} autoWidth={true}>
                 <MenuItem value={0} primaryText='Select a Director to Filter' />
-                  {this.state.directorList.map(director => (
-                    <MenuItem value={director.id} primaryText={director.text} />
-                  ))}
+                {this.state.directorList.map(director => (
+                  <MenuItem value={director.id} primaryText={director.text} />
+                ))}
               </SelectField>
             </div>
           </div>

@@ -68,10 +68,10 @@ class ResultsListItem extends React.Component {
       <IconButton onClick={()=>{
         this.addFavorites(movie);
       }}>
-      {(arr.indexOf(movie._id.toString()) !== -1) ?
-        <Favorite color="white" /> :
-        <FavoriteBorder color="white" />
-      }
+        {(arr.indexOf(movie._id.toString()) !== -1) ?
+          <Favorite color="white" /> :
+          <FavoriteBorder color="white" />
+        }
       </IconButton>
     );
   }
@@ -79,59 +79,58 @@ class ResultsListItem extends React.Component {
   addFavorites(movie) {
     var movieId = (movie._id);
     if (this.state.favoriteId.indexOf(movieId) === -1) {
-    $.ajax({
-      method: 'POST',
-      url: '/api/profiles/addfavorites',
-      data: movie._id,
-      success: (user) => {
-        console.log('********* success favorites updated for user ' + user);
-        var favId = this.state.favoriteId;
-        var favorites = this.state.favorites;
-        favId.push(movieId);
-        favorites.push(movie);
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/addfavorites',
+        data: movie._id,
+        success: (user) => {
+          console.log('********* success favorites updated for user ' + user);
+          var favId = this.state.favoriteId;
+          var favorites = this.state.favorites;
+          favId.push(movieId);
+          favorites.push(movie);
       
-        this.setState({
-          favorites: favorites,
-          favoriteId: favId 
-        });
-      },
-      error: (error) => {
-        console.log('************* error updating favorites for user', error);
-      }
-    });
-   }
-   else {
-    console.log('this favorite is already in the list');
-
-   $.ajax({
-      method: 'POST',
-      url: '/api/profiles/removefavorites',
-      data: movie._id,
-      success: (user) => {
-        console.log('********* favorite removed for user ' + user);
-
-        var favId = this.state.favoriteId;
-        var favorites = this.state.favorites;
-        var favIndex = favId.indexOf(movieId);
-        favId.splice(favIndex, 1);
-        for (var i = 0; i < favorites.length; i++) {
-          if (favorites[i]._id === movieId) {
-            favorites.splice(i, 1);
-          }
+          this.setState({
+            favorites: favorites,
+            favoriteId: favId 
+          });
+        },
+        error: (error) => {
+          console.log('************* error updating favorites for user', error);
         }
+      });
+    } else {
+      console.log('this favorite is already in the list');
 
-        this.setState({
-          favorites: favorites,
-          favoriteId: favId 
-        });
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/removefavorites',
+        data: movie._id,
+        success: (user) => {
+          console.log('********* favorite removed for user ' + user);
 
-      },
-      error: (error) => {
-        console.log('************* error removing favorite for user ', error);
-      }
-    })
+          var favId = this.state.favoriteId;
+          var favorites = this.state.favorites;
+          var favIndex = favId.indexOf(movieId);
+          favId.splice(favIndex, 1);
+          for (var i = 0; i < favorites.length; i++) {
+            if (favorites[i]._id === movieId) {
+              favorites.splice(i, 1);
+            }
+          }
+
+          this.setState({
+            favorites: favorites,
+            favoriteId: favId 
+          });
+
+        },
+        error: (error) => {
+          console.log('************* error removing favorite for user ', error);
+        }
+      });
+    }
   }
-}
 
   openModal() {
     if (this.state.videoIsOpen) {
