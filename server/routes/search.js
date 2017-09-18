@@ -11,6 +11,7 @@ const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
 const search = require('./search.js');
+const gracenote = require('../movieAPIHelpers/gracenote.js');
 
 const sortByKey = (array, key) => {
   return array.sort(function(a, b) {
@@ -144,7 +145,7 @@ router.route('/newmovies')
 
 router.route('/gettheaters')
 .get(middleware.auth.verify, (req, res, next) => {
-  var playingArray = req.query.playingDate.split(' ');
+  var playingArray = req.query.startDate.split(' ');
   var monthArray = {
   'Jan': '01',
   'Feb': '02',
@@ -162,25 +163,18 @@ router.route('/gettheaters')
 
   var newPlayingData = playingArray[3] + '-' + monthArray[playingArray[1]] + '-' + playingArray[2];
 
-  console.log('the playing data is', newPlayingData);
-  console.log('the radius is', req.query.radius);
-  console.log('the date range is', req.query.dateRange);
+  var params = {
+    startDate: newPlayingData, 
+    numDays: req.query.numDays,
+    zip: req.query.zip,
+    radius: req.query.radius
+  }
 
-  // searchDb.getMovies({}, (err, res1) => {
-  //     if (err) {
-  //       alert('search broken try again');
-  //     } else {
-  //         console.log('the response is', res1);
-  //         tmdbHelp.getUpcomingMovies(newMinDate, newMaxDate, (err, data) => {
-  //          if (err) {
-  //             console.log(err, 'UPCOMINGMOVIEERROR!');
-  //           } else {
-  //             res.send(data);
-  //             };
-  //         });
-  //       };
-  //   })
-  res.send('this works!');
-  })
+  gracenote.call(params, (data) => {
+      res.send(data);  
+    }, (data) => {
+      res.send(null);
+  });
+})
             
 module.exports = router;
