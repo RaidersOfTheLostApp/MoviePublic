@@ -42,47 +42,52 @@ module.exports.addMovie = (movie, callback) => {
        * Promise: Helper function to create genre
        * @param {Genre} genre
        */
-      var createGenre = function createGenre(genre) {
+      var createGenre = function(genre) {
         return new Promise((resolve, reject) => {
-          if (resolve) {
-            models.Genres.where({ name: genre })
-              .fetch()
-              .then(function(model) {
-                if (model) {
-                  // console.log(model.attributes, 'Genre is Already in Database');
-                  metadataObj.genres.push(model.attributes.id);
-                  resolve(model.attributes.id);
-                } else {
-                  new models.Genres({
-                    name: genre
-                  }).save()
-                    .then(function() {
-                      models.Genres.where({ name: genre })
-                        .fetch()
-                        .then(function(model) {
-                          // console.log(model.attributes, 'Genre just added to Database');
-                          console.log(genre, ': Genre Created');
-                          metadataObj.genres.push(model.attributes.id);
-                          resolve(model.attributes.id);
-                        });
-                    })
-                    .catch(function(err) {
-                      console.error(err, 'Genre: Create Error');
-                    });
+          // if (resolve) {
+          models.Genres.where({ name: genre })
+            .fetch()
+            .then(function(model) {
+              if (model) {
+                // console.log(model.attributes, 'Genre is Already in Database');
+                metadataObj.genres.push(model.attributes.id);
+                resolve(model.attributes.id);
+              } else {
+                new models.Genres({
+                  name: genre
+                }).save()
+                  .then(function(genre_record) {
+                    console.log('************* genre record created ', genre_record);
+                    // models.Genres.where({ name: genre })
+                    //   .fetch()
+                    //   .then(function(model) {
+                        // console.log(model.attributes, 'Genre just added to Database');
+                    console.log(genre_record.attributes.name, ': Genre Created');
+                    metadataObj.genres.push(genre_record.attributes.id);
+                    resolve(genre_record.attributes.id);
+                  })
+                  .catch(function(err) {
+                    console.error(err, 'Genre: Create Error');
+                    reject(Error('Genre Not Created'));
+                  });
                 }
+              })
+              .catch(function(err) {
+                console.error(err, 'Genre: Create Error');
+                reject(Error('Genre Not Created'));
               });
-          } else {
-            reject(Error('Genre Not Created'));
-          }
+          // } else {
+          //   reject(Error('Genre Not Created'));
+          // }
         });
       };
       /**
       * Promise: Helper function to create Actor
       * @param {Genre} genre
       */
-      var createActor = function createActor(actor) {
+      var createActor = function(actor) {
         return new Promise((resolve, reject) => {
-          if (resolve) {
+          // if (resolve) {
             models.Crew.where({ name: actor })
               .fetch()
               .then(function(model) {
@@ -116,26 +121,22 @@ module.exports.addMovie = (movie, callback) => {
                         .then(function(model) {
                           console.log(actor, ': Actor Created');
                           metadataObj.actors.push(model.attributes.id);
-                          //do an update to the crew field on model.attributes.id
-                          //get actor and director images in postgres db
-                          //later? add to mongo too
+                          //later? add to mongo db too
                           tmdbHelper.getCrewByName(model.attributes.name, (err, crew_id) => {
                             if (err) {
-                              console.log('********* getCrewByName error ', err);
+                              console.log('********* getCrewByName actor error ', err);
                             } else {
                               tmdbHelper.getCrewImageById(crew_id, (err, crewObj) => {
                                 if (err) {
-                                  console.log('********** getCrewImageById error ', err);
+                                  console.log('********** getCrewImageById actor error ', err);
                                 } else if (crewObj === undefined || crewObj === null) {
-                                  console.log('************ crewObj is undefined or null ', crewObj);
+                                  console.log('************ actor crewObj is undefined or null ', crewObj);
                                 } else {
-                                  console.log('************** crewObj ', crewObj);
                                   if (crewObj.profiles.length > 0) {
                                     var crew_url = tmdb.images_uri + crewObj.profiles[0].width + crewObj.profiles[0].file_path;
                                     models.Crew.where({id: model.attributes.id})
                                       .save({image_url: crew_url}, {patch: true})
                                       .then(result => {
-                                        console.log('******** result from crew image save ', result);
                                         resolve(model.attributes.id);
                                       });
                                   }
@@ -150,16 +151,16 @@ module.exports.addMovie = (movie, callback) => {
                     });
                 }
               });
-          } else {
-            reject(Error('Crew Not Added'));
-          }
+          // } else {
+          //   reject(Error('Crew Not Added'));
+          // }
         });
       };
       /**
        * Promise: Helper function to create Director
        * @param {Director} Director
        */
-      var createDirector = function createDirector(director) {
+      var createDirector = function(director) {
         return new Promise((resolve, reject) => {
           if (resolve) {
             models.Crew.where({ name: director })
@@ -196,7 +197,30 @@ module.exports.addMovie = (movie, callback) => {
                         .then(function(model) {
                           console.log(director, ': Director Created');
                           metadataObj.directors.push(model.attributes.id);
-                          resolve(model.attributes.id);
+                          tmdbHelper.getCrewByName(model.attributes.name, (err, crew_id) => {
+                            if (err) {
+                              console.log('********* director getCrewByName error ', err);
+                            } else {
+                              tmdbHelper.getCrewImageById(crew_id, (err, crewObj) => {
+                                if (err) {
+                                  console.log('********** director getCrewImageById error ', err);
+                                } else if (crewObj === undefined || crewObj === null) {
+                                  console.log('************ director crewObj is undefined or null ', crewObj);
+                                } else {
+                                  console.log('************** director crewObj ', crewObj);
+                                  if (crewObj.profiles.length > 0) {
+                                    var crew_url = tmdb.images_uri + crewObj.profiles[0].width + crewObj.profiles[0].file_path;
+                                    models.Crew.where({id: model.attributes.id})
+                                      .save({image_url: crew_url}, {patch: true})
+                                      .then(result => {
+                                        console.log('******** result from director crew image save ', result);
+                                        resolve(model.attributes.id);
+                                      });
+                                  }
+                                }
+                              });
+                            }
+                          });
                         });
                     })
                     .catch(function(err) {
@@ -235,6 +259,7 @@ module.exports.addMovie = (movie, callback) => {
               if (model) {
                 console.log(model.attributes.title, ' - Movie is Already in Database');
               } else {
+                console.log('********** save new Movie ', movie.id);
                 new models.Movies({
                   // id: id,
                   mongo_id: movie._id,
