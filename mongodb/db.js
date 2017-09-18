@@ -63,17 +63,29 @@ var searchByIds = (idArray, cb) => {
     var movieList = [];
     var len = idArray.length;
     idArray.forEach((value, i) => {
-      getMovies({ _id: ObjectId(value) }, (err, res) => {
-        if (err) {
-          cb(err, null);
-        } else {
-          movieList.push(res[0]);
-          console.log('********** movie list at location ' + i + ' ' + movieList);
-        }
-        if (movieList.length === len) {
-          cb(null, movieList);
-        }
-      });
+       if (value.length > 20) {
+         getMovies({ _id: ObjectId(value) }, (err, res) => {
+           if (err) {
+             cb(err, null);
+           } else {
+             movieList.push(res[0]);
+           }
+           if (movieList.length === len) {
+             cb(null, movieList);
+           }
+         });
+       } else {
+         getMovies({ id: value }, (err, res) => {
+           if (err) {
+             cb(err, null);
+           } else {
+             movieList.push(res[0]);
+           }
+           if (movieList.length === len) {
+             cb(null, movieList);
+           }
+         });
+       }
     });
   }
 };
