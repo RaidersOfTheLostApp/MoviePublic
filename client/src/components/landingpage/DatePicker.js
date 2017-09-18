@@ -16,9 +16,9 @@ export default class DatePickerExampleToggle extends React.Component {
 
     const minDate = new Date();
     const maxDate = new Date();
-    minDate.setFullYear(minDate.getFullYear() - 1);
+    minDate.setFullYear(minDate.getFullYear() - 4);
     minDate.setHours(0, 0, 0, 0);
-    maxDate.setFullYear(maxDate.getFullYear() + 1);
+    maxDate.setFullYear(maxDate.getFullYear() + 4);
     maxDate.setHours(0, 0, 0, 0);
 
     this.state = {

@@ -23,9 +23,9 @@ class Upcoming extends React.Component {
 
     const minDate = new Date();
     const maxDate = new Date();
-    minDate.setFullYear(minDate.getFullYear() - 1);
+    minDate.setFullYear(minDate.getFullYear());
     minDate.setHours(0, 0, 0, 0);
-    maxDate.setFullYear(maxDate.getFullYear() + 1);
+    maxDate.setFullYear(maxDate.getFullYear());
     maxDate.setHours(0, 0, 0, 0);
 
     this.state = {
@@ -53,14 +53,12 @@ class Upcoming extends React.Component {
     this.setState({
       minDate: date,
     });
-    console.log('the new start date is ', this.state.minDate);
   };
 
   handleChangeMaxDate(event, date) {
     this.setState({
       maxDate: date,
     });
-    console.log('the new end date is ', this.state.maxDate);
   };
 
   handleToggle(event, toggled) {
@@ -68,6 +66,36 @@ class Upcoming extends React.Component {
       [event.target.name]: toggled,
     });
   };
+
+  dateConvert(d) { 
+    return (
+        d.constructor === Date ? d :
+        d.constructor === Array ? new Date(d[0],d[1],d[2]) :
+        d.constructor === Number ? new Date(d) :
+        d.constructor === String ? new Date(d) :
+        typeof d === "object" ? new Date(d.year,d.month,d.date) :
+        NaN
+    );
+  }
+  
+  dateCompare(a,b) {      
+    return (
+        isFinite(a=this.dateConvert(a).valueOf()) &&
+        isFinite(b=this.dateConvert(b).valueOf()) ?
+        (a>b)-(a<b) :
+        NaN
+    );
+  }
+  
+  dateInRange(d,start,end) {
+   return (
+        isFinite(d=this.dateConvert(d).valueOf()) &&
+        isFinite(start=this.dateConvert(start).valueOf()) &&
+        isFinite(end=this.dateConvert(end).valueOf()) ?
+        start <= d && d <= end :
+        NaN
+    );
+  }
 
   searchToServer(cb) {
     var searchInput = document.getElementById('text-field').value;
@@ -145,35 +173,34 @@ class Upcoming extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
-        console.log(results);
-        // var container = [];
-        // for (var i = 0; i < results.length; i++) {
-        //   container.push(results[i]);
-      },
-        // this.setState({movies: this.state.movies.concat(results)});
-        // this.setState({
-        //   movies: container,
-        //   display: container
-        // });
+      // console.log(results);
+      for (var i = 0; i < results.length; i++) {
+        var releaseDate = results[i].release_date; 
+        releaseDate = this.dateConvert(releaseDate);
 
-        // console.log(this.state.movies, '@#$#@$#@');
-        // this.render();
+        if (this.dateInRange(releaseDate, minDate, maxDate)) {
+          console.log(results[i].title, releaseDate)
+        }
+       }
+      },
       error: (err) => {
         console.log('err', err);
       }
-    });
+    })
   }
 
   getTheaterData(playingDate) {
     var radius = document.getElementById('radius').value;
     var dateRange = document.getElementById('dateRange').value;
+    var zipCode = document.getElementById('zipcode').value;
     $.ajax({
       url: 'search/gettheaters',
       method: 'GET',
       data: {
-        playingDate: playingDate,
+        startDate: playingDate,
         radius: radius,
-        dateRange: dateRange
+        numDays: dateRange,
+        zip: zipCode
       },
       dataType: 'json',
       contentType: 'text/plain',
@@ -221,16 +248,25 @@ class Upcoming extends React.Component {
         <br/>
         <br/>
         <select id = "radius">
+        <option value="5">5 miles</option>
+        <option value="10">10 miles</option>
         <option value="25">25 miles</option>
-        <option value="50">50 miles</option>
-        <option value="100">100 miles</option>
         </select>
 
         <select id = "dateRange">
-        <option value="30">30 Days</option>
-        <option value="60">60 Days</option>
-        <option value="90">90 Days</option>
+        <option value="30">7 Days</option>
+        <option value="60">14 Days</option>
+        <option value="90">30 Days</option>
         </select>
+
+        <br/> <br/>
+
+        <label>Zip Code</label>
+        <input 
+        name = "zipcode"
+        type = "text"
+        id = "zipcode"
+        />
 
         <GridList
           cellHeight='auto'
@@ -252,3 +288,7 @@ class Upcoming extends React.Component {
 }
 
 export default Upcoming;
+
+//Sample API Request:
+//http://data.tmsapi.com/v1.1/movies/showings?startDate=2017-10-31&numDays=7&zip=94117&radius=25&api_key=kew4j86k7c8ckcuv6q3sbbsk
+//http://data.tmsapi.com/v1.1/movies/showings?startDate=2016-09-18&numDays=60&zip=94117&radius=10&api_key=kew4j86k7c8ckcuv6q3sbbsk
