@@ -205,7 +205,11 @@ To connect to query from your local command prompt:
 `mongodump --db fetcher` at regular (not mongo) command prompt to create a backup of the local DB schema
 
 Various options for restoring the db under the `Tools` section of the addon, we used the first one (use the properties for your addon but looks like below):
-`mongorestore -h ds133814.mlab.com:33814 -d heroku_t46wfkgc -u <username> -p <password> dump/fetcher/`
+staging:
+`mongorestore -h ds135624.mlab.com:35624 -d heroku_9vff0tpt -u <username> -p <password> dump/fetcher/`
+production:
+`mongorestore -h ds133814.mlab.com:33814 -d heroku_kbc22vfb -u <username> -p <password> dump/fetcher/`
+
 
 ## Update configs
 

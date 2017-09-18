@@ -1,4 +1,6 @@
 const models = require('../../db/models');
+var tmdb = require('../movieAPIHelpers/tmdb');
+var tmdbHelper = require('../movieAPIHelpers/tmdbHelpers');
 
 module.exports.getAllMovies = (req, res) => {
   models.Movies.fetchAll()
@@ -114,7 +116,33 @@ module.exports.addMovie = (movie, callback) => {
                         .then(function(model) {
                           console.log(actor, ': Actor Created');
                           metadataObj.actors.push(model.attributes.id);
-                          resolve(model.attributes.id);
+                          //do an update to the crew field on model.attributes.id
+                          //get actor and director images in postgres db
+                          //later? add to mongo too
+                          tmdbHelper.getCrewByName(model.attributes.name, (err, crew_id) => {
+                            if (err) {
+                              console.log('********* getCrewByName error ', err);
+                            } else {
+                              tmdbHelper.getCrewImageById(crew_id, (err, crewObj) => {
+                                if (err) {
+                                  console.log('********** getCrewImageById error ', err);
+                                } else if (crewObj === undefined || crewObj === null) {
+                                  console.log('************ crewObj is undefined or null ', crewObj);
+                                } else {
+                                  console.log('************** crewObj ', crewObj);
+                                  if (crewObj.profiles.length > 0) {
+                                    var crew_url = tmdb.images_uri + crewObj.profiles[0].width + crewObj.profiles[0].file_path;
+                                    models.Crew.where({id: model.attributes.id})
+                                      .save({image_url: crew_url}, {patch: true})
+                                      .then(result => {
+                                        console.log('******** result from crew image save ', result);
+                                        resolve(model.attributes.id);
+                                      });
+                                  }
+                                }
+                              });
+                            }
+                          });
                         });
                     })
                     .catch(function(err) {

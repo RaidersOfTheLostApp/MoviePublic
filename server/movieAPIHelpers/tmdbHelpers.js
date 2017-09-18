@@ -23,18 +23,24 @@ var MovieList = {
       'query': query,
       'include_adult': false
     }, (e) => {
-      console.log('********* getCrewByName ', e.results);
-      cb(null, e.results[0].id);
+      if (e.results[0] === undefined) {
+        console.log('************** e of undefined results in getCrewByName', e);
+        cb(e, null);
+      } else {
+        cb(null, e.results[0].id);
+      }
     }, (e) => {
       cb(e, null);
     });
   },
 
   getCrewImageById: (id, cb) => {
-    tmdb.call('/person' + id + '/images', {
+    tmdb.call('/person/' + id + '/images', {
     }, (e) => {
-      console.log('******** getCrewImageById ', e.results);
-      cb(null, e.results.profiles[0].file_path);
+      if (e === undefined) {
+        console.log('********** id of undefined crewObj ', id);
+      }
+      cb(null, e);
     }, (e) => {
       cb(e, null);
     });
