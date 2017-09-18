@@ -64,7 +64,7 @@ var searchByIds = (idArray, cb) => {
     var len = idArray.length;
     idArray.forEach((value, i) => {
        if (value.length > 20) {
-         getMovies({ _id: ObjectId(value) }, (err, res) => {
+         getMovies({ _id: JSON.parse(value) }, (err, res) => {
            if (err) {
              cb(err, null);
            } else {
