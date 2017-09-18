@@ -7,10 +7,33 @@ var MovieList = {
     tmdb.call('/search/movie', {
       'language': 'en-US',
       'query': query,
+      'include_adult': false,
       'video': true,
       'page': 1
     }, (e) => {
       cb(null, e.results);
+    }, (e) => {
+      cb(e, null);
+    });
+  },
+
+  getCrewByName: (query, cb) => { //input is name as string
+    tmdb.call('/search/person', {
+      'query': query,
+      'include_adult': false
+    }, (e) => {
+      console.log('********* getCrewByName ', e.results);
+      cb(null, e.results[0].id);
+    }, (e) => {
+      cb(e, null);
+    });
+  },
+
+  getCrewImageById: (id, cb) => {
+    tmdb.call('/person' + id + '/images', {
+    }, (e) => {
+      console.log('******** getCrewImageById ', e.results);
+      cb(null, e.results.profiles[0].file_path);
     }, (e) => {
       cb(e, null);
     });
