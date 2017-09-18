@@ -62,9 +62,13 @@ var searchByIds = (idArray, cb) => {
   } else {
     var movieList = [];
     var len = idArray.length;
+    console.log('********** idArray in searchByIds ', idArray);
     idArray.forEach((value, i) => {
        if (value.length > 20) {
-         getMovies({ _id: JSON.parse(value) }, (err, res) => {
+         console.log('********** in searchByIds type of ', typeof value);
+         console.log('********* value ', value);
+        //  getMovies({ _id: JSON.parse(value) }, (err, res) => {
+         getMovies({ _id: value }, (err, res) => {
            if (err) {
              cb(err, null);
            } else {
