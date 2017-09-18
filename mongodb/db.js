@@ -22,7 +22,7 @@ searchDb.once('open', () => {
 
 var movieSchema = mongoose.Schema({
   id: { type: String, unique: true },
-  title: String,
+  title: { type: String, required: true },
   year: { type: Number, required: true },
   release_date: { type: String, required: true },
   genre: { type: Array, required: true },
@@ -32,7 +32,7 @@ var movieSchema = mongoose.Schema({
   actors: { type: Array, required: true },
   description: { type: String, unique: true },
   awards: { type: Array, required: true },
-  poster: { type: String, required: true },
+  poster: { type: String, required: true, unique: true},
   ratings: { type: Array, required: true },
   language: Array,
   box_office: String,
@@ -101,15 +101,17 @@ var getMovies = (query, cb) => {
 };
 
 var saveMovies = (movies, cb) => {
-  if (movies) {
+  // console.log(movies,'movies@@@@')
+  if (!movies) {
+    console.log('nomovies');
+  } else {
     movies.forEach((value) => {
-      // console.log('the title is ', value.title);
-      searchTitle(value.title, (err, data) => {
-        data = JSON.parse(data.request.response.body);
-        if (err) {
+      console.log('the title is ', value);
+      searchTitle(value.title, value.release_date, (err, data) => {
+        if (data[0] === '<') {
           console.log('brokeninsaveMovies');
         } else {
-          // console.log(data, 'MongoDB - Data Variable');
+          data = JSON.parse(data);
           var searchid = data.Id;
           var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
           var id = data.imdbID;
@@ -177,15 +179,19 @@ var saveMovies = (movies, cb) => {
                     }
                   });
                 }
+
               });
             }
-          }); //End Movie.find
-        } //End Else Statement
-      }); //Close search Title
-    }); //End forEach
+
+          });
+
+        }
+
+      });
+
+    });
+
     cb();
-  } else {
-    console.log(movies, 'MongoDB: No Movies Given');
   }
 };
 

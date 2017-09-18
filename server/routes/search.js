@@ -44,37 +44,52 @@ router.route('/')
             //grab each movie title and send API request to OMDB to get movie data
             searchDb.saveMovies(data, () => {
               searchDb.getMovies({}, (err, res2) => {
-                var options = {
-                  shouldSort: true,
-                  tokenize: true,
-                  findAllMatches: true,
-                  includeScore: true,
-                  includeMatches: true,
-                  threshold: 0.6,
-                  location: 0,
-                  distance: 100,
-                  maxPatternLength: 32,
-                  minMatchCharLength: 3,
-                  keys: [
-                    'title',
-                    'actors',
-                    'director',
-                    'genre',
-                    'year',
-                  ]
-                };
-                var fuse = new Fuse(res2, options); // "list" is the item array
-                var result = fuse.search(req.query.value);
-                var sorted = sortByKey(result, 'score');
-                // console.log('*************** sorted[0] ', sorted[0]);
-                // console.log('************** sorted', sorted);
-                // MovieController.getAllMovies();
-                var movieArr = [];
-                for (var i = 0; i < sorted.length; i++) {
-                  movieArr.push(sorted[i].item);
-                  if (i === sorted.length - 1) {
-                    res.json(movieArr);
+                if (err) {
+                  console.log('borken in 2nd part of savemovies db');
+                } else {
+                  var options = {
+                    shouldSort: true,
+                    tokenize: true,
+                    findAllMatches: true,
+                    includeScore: true,
+                    includeMatches: true,
+                    threshold: 0.6,
+                    location: 0,
+                    distance: 100,
+                    maxPatternLength: 32,
+                    minMatchCharLength: 3,
+                    keys: [
+                      'title',
+                      'actors',
+                      'director',
+                      'genre',
+                      'year',
+                    ]
+                  };
+                  var fuse = new Fuse(res2, options); // "list" is the item array
+                  var result = fuse.search(req.query.value);
+                  var sorted = sortByKey(result, 'score');
+                  // console.log('*************** sorted[0] ', sorted[0]);
+                  // console.log('************** sorted', sorted);
+                  // console.log(res2, 'Post Sorted - Res2');
+                  // MovieController.getAllMovies();
+                  var movieArr = [];
+                  for (var i = 0; i < sorted.length; i++) {
+                    movieArr.push(sorted[i].item);
+                    if (i === sorted.length - 1) {
+                      res.send(movieArr);
+                    }
                   }
+                  MovieController.addMovies(res2, (err, results) => {
+                    if (err) {
+                      console.log(err, 'Server Response - PG Unable to Add Movies');
+                      // res.status(500).send('Postgres: Error adding movies');
+                    } else {
+                      console.log(results, 'Server Response - PG Added Data');
+                      // res.status(201).send('Server Response - PG Added Data');
+                    }
+                  });
+
                 }
               });
 

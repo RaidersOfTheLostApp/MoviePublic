@@ -74,38 +74,38 @@ router.route('/login')
 router.route('/favorites')
   .get (middleware.auth.verify, (req, res, next) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (profile.new_user) {
-        res.redirect('/setup');
-      } else {
-        var movies;
-        searchDb.getMovies((err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
-            movies = data;
-            var sorted = sortByKey(movies, 'year');
-            // console.log('the favorites are + ***');
-            // console.log(profile.attributes.favorites);
-            searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log('the results length is ', results.length);
-              }
-              res.render('index.ejs', {
-                data: {
-                  movieone: sorted,
-                  favorites: results,
-                  favoriteId: profile.attributes.favorites,
-                  user: req.user
+      .then(profile => {
+        if (profile.new_user) {
+          res.redirect('/setup');
+        } else {
+          var movies;
+          searchDb.getMovies((err, data) => {
+            if (err) {
+              console.log(err);
+            } else {
+              movies = data;
+              var sorted = sortByKey(movies, 'year');
+              // console.log('the favorites are + ***');
+              // console.log(profile.attributes.favorites);
+              searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log('the results length is ', results.length);
                 }
+                res.render('index.ejs', {
+                  data: {
+                    movieone: sorted,
+                    favorites: results,
+                    favoriteId: profile.attributes.favorites,
+                    user: req.user
+                  }
+                });
               });
-            });
-          }
-        });
-      }
-    });
+            }
+          });
+        }
+      });
   });
 
 router.route('/profile')
@@ -134,7 +134,7 @@ router.route('/profile')
                 }
               });
             }
-          })
+          });
         }
       })
       .catch(err => {
@@ -148,26 +148,26 @@ router.route('/following')
     var genreList = [];
     var actorList = [];
     var directorList = [];
-    var genreMovies =[];
+    var genreMovies = [];
     var actorMovies = [];
     var directorMovies = [];
     var profileList;
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
         profileList = profile;
-        async.sortBy(profileList.attributes.follow_genre, function(file, callback) {callback(null, file.text);}, function(err, results) {
+        async.sortBy(profileList.attributes.follow_genre, function(file, callback) { callback(null, file.text); }, function(err, results) {
           genreList = results;
           async.map(genreList, function(file, callback_1) {
             // select * from movies where director @> any (array ['70', '45']::jsonb[]);
             // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
             models.Movies.where('genres', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
-            .then(genreMovieObjs => {
-              async.map(genreMovieObjs.models, function(file, callback_2) {
-                callback_2(null, file.attributes.mongo_id);
-              }, function(err, results) {
-                callback_1(null, results);
+              .then(genreMovieObjs => {
+                async.map(genreMovieObjs.models, function(file, callback_2) {
+                  callback_2(null, file.attributes.mongo_id);
+                }, function(err, results) {
+                  callback_1(null, results);
+                });
               });
-            })
           }, function(err, results) {
             // console.log('*********** final results of async ', [].concat.apply([], results));
             searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
@@ -175,19 +175,19 @@ router.route('/following')
                 console.log(err);
               } else {
                 genreMovies = movies;
-                async.sortBy(profileList.attributes.follow_actor, function(file, callback) {callback(null, file.text);}, function(err, results) {
+                async.sortBy(profileList.attributes.follow_actor, function(file, callback) { callback(null, file.text); }, function(err, results) {
                   actorList = results;
                   async.map(actorList, function(file, callback_1) {
                     // select * from movies where director @> any (array ['70', '45']::jsonb[]);
                     // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
                     models.Movies.where('actors', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
-                    .then(actorMovieObjs => {
-                      async.map(actorMovieObjs.models, function(file, callback_2) {
-                        callback_2(null, file.attributes.mongo_id);
-                      }, function(err, results) {
-                        callback_1(null, results);
+                      .then(actorMovieObjs => {
+                        async.map(actorMovieObjs.models, function(file, callback_2) {
+                          callback_2(null, file.attributes.mongo_id);
+                        }, function(err, results) {
+                          callback_1(null, results);
+                        });
                       });
-                    })
                   }, function(err, results) {
                     // console.log('*********** final results of async ', [].concat.apply([], results));
                     searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
@@ -195,17 +195,17 @@ router.route('/following')
                         console.log(err);
                       } else {
                         actorMovies = movies;
-                        async.sortBy(profileList.attributes.follow_director, function(file, callback) {callback(null, file.text);}, function(err, results) {
+                        async.sortBy(profileList.attributes.follow_director, function(file, callback) { callback(null, file.text); }, function(err, results) {
                           directorList = results;
                           async.map(directorList, function(file, callback_1) {
                             models.Movies.where('director', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
-                            .then(directorMovieObjs => {
-                              async.map(directorMovieObjs.models, function(file, callback_2) {
-                                callback_2(null, file.attributes.mongo_id);
-                              }, function(err, results) {
-                                callback_1(null, results);
+                              .then(directorMovieObjs => {
+                                async.map(directorMovieObjs.models, function(file, callback_2) {
+                                  callback_2(null, file.attributes.mongo_id);
+                                }, function(err, results) {
+                                  callback_1(null, results);
+                                });
                               });
-                            })
                           }, function(err, results) {
                             // console.log('*********** final results of async ', [].concat.apply([], results));
                             searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
@@ -242,7 +242,7 @@ router.route('/following')
         console.log('*********** /setup error ', err);
         res.status(503).send(err);
       });
-    });
+  });
 
 router.route('/setup')
   .get(middleware.auth.verify, (req, res) => {
@@ -254,47 +254,47 @@ router.route('/setup')
       .then(profile => {
         profileList = profile;
         models.Genres.fetchAll()
-        .then(genres => {
-          return genres.models.map(genre => {
-            return genre.attributes;
-          });
-        })
-        .then(genreArr => {
-          genreList = genreArr;
-          models.Crew.where({actor: true}).fetchAll()
-          .then(actors => {
-            return actors.models.map(actor => {
-              return actor.attributes;
+          .then(genres => {
+            return genres.models.map(genre => {
+              return genre.attributes;
             });
           })
-          .then(actorArr => {
-            actorList = actorArr;
-            models.Crew.where({director: true}).fetchAll()
-            .then(directors => {
-              return directors.models.map(director => {
-                return director.attributes;
+          .then(genreArr => {
+            genreList = genreArr;
+            models.Crew.where({actor: true}).fetchAll()
+              .then(actors => {
+                return actors.models.map(actor => {
+                  return actor.attributes;
+                });
+              })
+              .then(actorArr => {
+                actorList = actorArr;
+                models.Crew.where({director: true}).fetchAll()
+                  .then(directors => {
+                    return directors.models.map(director => {
+                      return director.attributes;
+                    });
+                  })
+                  .then(directorArr => {
+                    directorList = directorArr;
+                    res.render('index.ejs', {
+                      data: {
+                        user: req.user,
+                        genres: genreList,
+                        actors: actorList,
+                        directors: directorList,
+                        vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                      }
+                    });
+                  });
               });
-            })
-            .then(directorArr => {
-              directorList = directorArr;
-              res.render('index.ejs', {
-                data: {
-                  user: req.user,
-                  genres: genreList,
-                  actors: actorList,
-                  directors: directorList,
-                  vod_subscriptions: profileList.attributes.vod_subscriptions || []
-                }
-              });
-            })
-          })
-        })
+          });
       })
       .catch(err => {
         console.log('*********** /setup error ', err);
         res.status(503).send(err);
       });
-    });
+  });
 
 router.route('/logout')
   .get((req, res) => {
