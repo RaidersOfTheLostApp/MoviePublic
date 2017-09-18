@@ -164,6 +164,12 @@ var saveMovies = (movies, cb) => {
                             } else {
                               console.log(results, 'Server Response - PG Added Data');
                               // res.status(201).send('Server Response - PG Added Data');
+                              
+                              //res includes full object
+                              //get actor and director images
+                              //loop on 'actors' and 'directors' fields of _id
+                              //create new field for actor_image & director_image with format [{actor: '<name>', photo: '<url>'},..]
+
                             }
                           });
                         }
