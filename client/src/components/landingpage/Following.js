@@ -260,9 +260,9 @@ class Following extends React.Component {
             </div>
             <div className='col-4'>
               <SelectField value={this.state.select_value_genre} onChange={this.handleChangeGenre.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Select a Genre to Filter' />
+                <MenuItem key={0} value={0} primaryText='Select a Genre to Filter' />
                 {this.state.genreList.map(genre => (
-                  <MenuItem value={genre.id} primaryText={genre.text} />
+                  <MenuItem key={genre.id} value={genre.id} primaryText={genre.text} />
                 ))}
               </SelectField>
             </div>
@@ -288,10 +288,10 @@ class Following extends React.Component {
             </div>
             <div className='col-4'>
               <SelectField value={this.state.select_value_actor} onChange={this.handleChangeActor.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Select an Actor/Actress to Filter' />
-                {this.state.actorList.map(actor => (
-                  <MenuItem value={actor.id} primaryText={actor.text} />
-                ))}
+                <MenuItem key={0} value={0} primaryText='Select an Actor/Actress to Filter' />
+                  {this.state.actorList.map(actor => (
+                    <MenuItem key={actor.id} value={actor.id} primaryText={actor.text} />
+                  ))}
               </SelectField>
             </div>
           </div>
@@ -316,10 +316,10 @@ class Following extends React.Component {
             </div>
             <div className='col-4'>
               <SelectField value={this.state.select_value_director} onChange={this.handleChangeDirector.bind(this)} autoWidth={true}>
-                <MenuItem value={0} primaryText='Select a Director to Filter' />
-                {this.state.directorList.map(director => (
-                  <MenuItem value={director.id} primaryText={director.text} />
-                ))}
+                <MenuItem key={0} value={0} primaryText='Select a Director to Filter' />
+                  {this.state.directorList.map(director => (
+                    <MenuItem key={director.id} value={director.id} primaryText={director.text} />
+                  ))}
               </SelectField>
             </div>
           </div>
