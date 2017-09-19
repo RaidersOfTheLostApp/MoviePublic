@@ -131,7 +131,6 @@ router.route('/newmovies')
       if (err) {
         alert('search broken try again');
       } else {
-          console.log('the response is', res1);
           tmdbHelp.getUpcomingMovies(newMinDate, newMaxDate, (err, data) => {
            if (err) {
               console.log(err, 'UPCOMINGMOVIEERROR!');
