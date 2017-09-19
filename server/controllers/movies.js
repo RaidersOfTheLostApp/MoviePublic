@@ -65,10 +65,6 @@ module.exports.addMovie = (movie, callback) => {
                     metadataObj.genres.push(genre_record.attributes.id);
                     resolve(genre_record.attributes.id);
                   })
-                  .catch(function(err) {
-                    console.error(err, 'Genre: Create Error');
-                    reject(Error('Genre Not Created'));
-                  });
                 }
               })
               .catch(function(err) {
@@ -208,7 +204,7 @@ module.exports.addMovie = (movie, callback) => {
                               console.log('************ director crewObj is undefined or null ', crewObj);
                             } else {
                               if (crewObj.profiles.length > 0) {
-                                var crew_url = tmdb.images_uri + crewObj.profiles[0].width + crewObj.profiles[0].file_path;
+                                var crew_url = tmdb.images_uri + crewObj.profiles[0].file_path;
                                 models.Crew.where({id: crew_record.attributes.id})
                                   .save({image_url: crew_url}, {patch: true})
                                   .then(result => {

@@ -189,7 +189,8 @@ router.route('/following')
                 if (err) {throw err;}
                 callback_1(null, results);
               });
-          }, function(err, results) {
+            });
+            }, function(err, results) {
             // console.log('*********** final results of async ', [].concat.apply([], results));
             if (err) {throw err;}
             searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
@@ -212,6 +213,7 @@ router.route('/following')
                         if (err) {throw err;}
                         callback_1(null, results);
                       });
+                    });
                   }, function(err, results) {
                     // console.log('*********** final results of async ', [].concat.apply([], results));
                     if (err) {throw err;}
@@ -233,6 +235,7 @@ router.route('/following')
                                 if (err) {throw err;}
                                 callback_1(null, results);
                               });
+                            });
                           }, function(err, results) {
                             // console.log('*********** final results of async ', [].concat.apply([], results));
                             if (err) {throw err;}
@@ -255,15 +258,15 @@ router.route('/following')
                                   }
                                 });
                               }
-                            });
+                            }); //end of searchByIds
                           }); //end of the director map function
                         }); // end of sortBy directors
                       }
-                    });
+                    }); //end of searchByIds
                   }); //end of actor map
                 }); //end of sortBy actors
               }
-            });
+            }); //end of searchByIds
           }); //end of the genre map function
         }); // end of sortBy genres
       }) //end of then
@@ -290,7 +293,10 @@ router.route('/setup')
           })
           .then(genreArr => {
             genreList = genreArr;
-            models.Crew.where({actor: true}).fetchAll()
+            models.Crew.query(function(qb) {
+              qb.where('image_url', 'LIKE', '%http%')
+              .andWhere('actor', '=', true);
+            }).fetchAll()
               .then(actors => {
                 return actors.models.map(actor => {
                   return actor.attributes;
@@ -298,7 +304,10 @@ router.route('/setup')
               })
               .then(actorArr => {
                 actorList = actorArr;
-                models.Crew.where({director: true}).fetchAll()
+                models.Crew.query(function(qb) {
+                  qb.where('image_url', 'LIKE', '%http%')
+                  .andWhere('director', '=', true);
+                }).fetchAll()
                   .then(directors => {
                     return directors.models.map(director => {
                       return director.attributes;
