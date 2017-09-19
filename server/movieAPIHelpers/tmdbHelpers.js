@@ -1,6 +1,7 @@
 const tmdb = require('./tmdb.js');
 const request = require('request');
 const Promise = require('bluebird');
+const omdbSearch = require('./omdbHelpers.js').searchTitle;
 
 var MovieList = {
   getMoviesByTitle: (query, cb) => {
@@ -43,7 +44,6 @@ var MovieList = {
     tmdb.call('/movie/' + id + '/videos', {
       'language': 'en-US',
     }, (e) => {
-      // console.log(e.results, 'asdfsdfsf');
       cb(null, e.results);
     }, (e) => {
       cb(e, null);
@@ -51,21 +51,27 @@ var MovieList = {
   },
 
   getSimilarMovies: (movie, cb) => {
-    // console.log(movie, 'getSimilarMovies Helper');
-    if (!movie) {
-      // console.log('Similar Movie: no Movie');
-      cb(null, null);
-    } else {
-      tmdb.call('/movie/' + movie + '/similar', {
-        'language': 'en-US',
-      }, (e) => {
-        console.log(e.results, 'asdfsdfsf');
-        cb(null, e.results);
-      }, (err) => {
-        console.log(err, 'BROKE IN TMDBHELP');
-        cb(err, null);
+    tmdb.call('/movie/' + movie + '/similar', {
+      'language': 'en-US',
+    }, (e) => {
+      var movieArr = [];
+      e.results.forEach( value => {
+        omdbSearch(value.original_title, value.release_date, (err, res) => {
+          if (res[0] === '<' || res[0] === 'I') {
+            console.log('similarbroke');
+          } else {
+            var resp = JSON.parse(res);
+            movieArr.push(resp);
+            if (movieArr.length === e.results.length) {
+              cb(null, movieArr);
+            }
+          }
+        });
       });
-    }
+    }, (e) => {
+      cb(e, null);
+    });
+
   },
 
   // getPopularMovies: (cb) => {

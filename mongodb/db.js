@@ -101,14 +101,15 @@ var getMovies = (query, cb) => {
 };
 
 var saveMovies = (movies, cb) => {
-  // console.log(movies,'movies@@@@')
   if (!movies) {
     console.log('nomovies');
   } else {
     movies.forEach((value) => {
-      console.log('the title is ', value);
       searchTitle(value.title, value.release_date, (err, data) => {
-        if (data[0] === '<') {
+        if (err) {
+          console.log('error in savemovies');
+        }
+        if (data[0] === '<' || data[0] === 'I') {
           console.log('brokeninsaveMovies');
         } else {
           data = JSON.parse(data);
@@ -119,7 +120,7 @@ var saveMovies = (movies, cb) => {
           var trailers = [];
           Movie.find({ id: data.imdbID }, (err, res) => {
             if (res.length === 0) {
-              getSimilarMovies(data.id, (err, similarMovies) => {
+              getSimilarMovies(data.imdbID, (err, similarMovies) => {
                 if (err) {
                   console.log('Error: No Similar Movies');
                 } else {
@@ -149,22 +150,22 @@ var saveMovies = (movies, cb) => {
                         website: data.Website,
                         theater: data.Theater,
                         trailers: trailers,
-                        similar: similarMovies
+                        similar: similar
                       });
                       newMovie.save((err, res) => {
                         if (err) {
                           // console.log(err, 'MongoDB - Movie Add Error');
-                          console.log(err.name, 'MongoDB - Movie Add Error');
+                          // console.log(err.name, 'MongoDB - Movie Add Error');
                         } else {
-                          console.log(res, 'MongoDB - Movie Add Success');
+                          // console.log(res, 'MongoDB - Movie Add Success');
                           // console.log('MongoDB - Movie Add Success');
 
                           pgAddMovie(res, (err, results) => {
                             if (err) {
-                              console.log(err, 'Server Response - PG Unable to Add Movies');
+                              // console.log(err, 'Server Response - PG Unable to Add Movies');
                               // res.status(500).send('Postgres: Error adding movies');
                             } else {
-                              console.log(results, 'Server Response - PG Added Data');
+                              // console.log(results, 'Server Response - PG Added Data');
                               // res.status(201).send('Server Response - PG Added Data');
 
                               //res includes full object
