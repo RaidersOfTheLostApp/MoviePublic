@@ -91,15 +91,13 @@ class UserProfile extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.props.actorFollow.map((movie, i) => (
-              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
+            {this.props.actorFollow.map((actor, i) => (
                 <GridTile
                   key={i}
-                  title={movie.title}
+                  title={actor.name}
                 >
-                  <img src = {movie.poster}/>
+                  <img src = {actor.image_url}/>
                 </GridTile>
-              </a>
             ))}
           </GridList>
           <Divider />
@@ -109,15 +107,13 @@ class UserProfile extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.props.directorFollow.map((movie, i) => (
-              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
+            {this.props.directorFollow.map((director, i) => (
                 <GridTile
                   key={i}
-                  title={movie.title}
+                  title={director.name}
                 >
-                  <img src = {movie.poster}/>
+                  <img src = {director.image_url}/>
                 </GridTile>
-              </a>
             ))}
           </GridList>
         </div>
