@@ -50,6 +50,8 @@ class Upcoming extends React.Component {
     this.searchToServer = this.searchToServer.bind(this);
     this.handleChangeMinDate = this.handleChangeMinDate.bind(this);
     this.handleChangeMaxDate = this.handleChangeMaxDate.bind(this);
+    this.compareMovies = this.compareMovies.bind(this);
+    this.dateManipulation = this.dateManipulation.bind(this);
   }
 
   handleChangeMinDate(event, date) {
@@ -132,9 +134,6 @@ class Upcoming extends React.Component {
           movies: container,
           display: container
         });
-
-        // console.log(this.state.movies, '@#$#@$#@');
-        // this.render();
       },
       error: (err) => {
         console.log('err', err);
@@ -197,7 +196,6 @@ class Upcoming extends React.Component {
 
         if (this.dateInRange(releaseDate, minDate, maxDate)) {
           newArray.push(results[i]);
-          console.log(results[i].title);
         }
        }
 
@@ -205,7 +203,7 @@ class Upcoming extends React.Component {
         upcomingMovies: newArray
        });
 
-      console.log('the upcoming movies are', this.state.upcomingMovies);
+      console.log('the upcoming movies length is', this.state.upcomingMovies.length);
 
       },
       error: (err) => {
@@ -241,7 +239,7 @@ class Upcoming extends React.Component {
           theaterMovies: newArray
         });
 
-        console.log(this.state.theaterMovies.length);
+        console.log('the theater movie length is', this.state.theaterMovies.length);
       },
       error: (err) => {
         console.log('err', err);
@@ -249,6 +247,7 @@ class Upcoming extends React.Component {
     });
   }
 
+  //This function is used to see which of the movies currently in theaters are also on the users "upcoming movies" favorites
   compareMovies(callback) {
     var newArrayOne = [];
     var arrayOne = this.state.upcomingMovies;
@@ -264,16 +263,32 @@ class Upcoming extends React.Component {
         matchedArray.push(arrayTwo[i]);
       }
     }
-    console.log(matchedArray);
     callback(matchedArray);
   }
 
+  //This function takes the result of the "compareMovies" function and puts the data in the proper format for Twilio
   dataFormatter(array) {
+    console.log('the array is', array);
     var x = {};
     for (var i = 0; i < array.length; i++) {
-      x[array[i].title] = {};
-      for (var k = 0; k < )
+      var movieTitle = array[i].title;
+      x[movieTitle] = {};
+      for (var k = 0; k < array[i].showtimes.length; k++) {
+        var theater = array[i].showtimes[k].theatre.name;
+        var timing = this.dateManipulation(array[i].showtimes[k].dateTime);
+        if (x[movieTitle].hasOwnProperty(theater) === false) {
+          x[movieTitle][theater] = [timing];
+        }
+        else {
+          var q = x[movieTitle][theater]
+          console.log('the value of the theater is', q);
+          q.push(timing);
+          x[movieTitle][theater] = q;
+        }
+      }
     }
+    console.log('the value of the movieTimes is the following', x);
+    return x;
   }
 
   render() {  
@@ -309,7 +324,7 @@ class Upcoming extends React.Component {
         <br/> <br/>
         <button type="button" onClick = {() => this.getTheaterData(this.state.minDate)}>Click to See Theaters for Upcoming Movies!</button>
         <br/> <br/>
-        <button type="button" onClick = {() => this.compareMovies(this.dataFormatter)}>Click to see which of your favorite movies are now in theaters!</button>
+        <button type="button" onClick = {() => this.compareMovies(this.dataFormatter.bind(this))}>Click to see which of your favorite movies are now in theaters!</button>
         <br/> <br/>
         <select id = "radius">
         <option value="5">5 miles</option>
