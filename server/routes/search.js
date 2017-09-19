@@ -39,7 +39,7 @@ router.route('/')
 
         tmdbHelp.getMoviesByTitle(req.query.value, (err, data) => {
           if (err) {
-            console.log(err, 'TMBD Search Error');
+            console.log('TMBD Search Error');
           } else {
             //grab each movie title and send API request to OMDB to get movie data
             searchDb.saveMovies(data, () => {
@@ -80,15 +80,6 @@ router.route('/')
                       res.send(movieArr);
                     }
                   }
-                  MovieController.addMovies(res2, (err, results) => {
-                    if (err) {
-                      console.log(err, 'Server Response - PG Unable to Add Movies');
-                      // res.status(500).send('Postgres: Error adding movies');
-                    } else {
-                      console.log(results, 'Server Response - PG Added Data');
-                      // res.status(201).send('Server Response - PG Added Data');
-                    }
-                  });
 
                 }
               });
