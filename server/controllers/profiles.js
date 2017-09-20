@@ -205,15 +205,28 @@ module.exports.setUpFollowGenres = (req, res) => {
         throw profile;
       }
       var genreSet = [];
-      var genreText;
+      var genreText, genreId;
       var save = false;
-      for (var key in req.body) {
-        if (save) {
-          genreSet.push({'text': genreText, 'id': req.body[key]});
-          save = !save;
-        } else {
-          genreText = req.body[key];
-          save = !save;
+      var keys = Object.keys(req.body);
+      if (keys[0] === 'genreFollow[0][id]') {
+        for (var key in req.body) {
+          if (save) {
+            genreSet.push({'text': req.body[key], 'id': genreId});
+            save = !save;
+          } else {
+            genreId = req.body[key];
+            save = !save;
+          }
+        }
+      } else {
+        for (var key in req.body) {
+          if (save) {
+            genreSet.push({'text': genreText, 'id': req.body[key]});
+            save = !save;
+          } else {
+            genreText = req.body[key];
+            save = !save;
+          }
         }
       }
       return profile.save({follow_genre: JSON.stringify(genreSet)}, {patch: true});
@@ -238,15 +251,28 @@ module.exports.setUpFollowActors = (req, res) => {
         throw profile;
       }
       var actorSet = [];
-      var actorText;
+      var actorText, actorId;
       var save = false;
-      for (var key in req.body) {
-        if (save) {
-          actorSet.push({'text': actorText, 'id': req.body[key]});
-          save = !save;
-        } else {
-          actorText = req.body[key];
-          save = !save;
+      var keys = Object.keys(req.body);
+      if (keys[0] === 'actorFollow[0][id]') {
+        for (var key in req.body) {
+          if (save) {
+            actorSet.push({'text': req.body[key], 'id': actorId});
+            save = !save;
+          } else {
+            actorId = req.body[key];
+            save = !save;
+          }
+        }
+      } else {
+        for (var key in req.body) {
+          if (save) {
+            actorSet.push({'text': actorText, 'id': req.body[key]});
+            save = !save;
+          } else {
+            actorText = req.body[key];
+            save = !save;
+          }
         }
       }
       return profile.save({follow_actor: JSON.stringify(actorSet)}, {patch: true});
@@ -271,15 +297,28 @@ module.exports.setUpFollowDirectors = (req, res) => {
         throw profile;
       }
       var directorSet = [];
-      var directorText;
+      var directorText, directorId;
       var save = false;
-      for (var key in req.body) {
-        if (save) {
-          directorSet.push({'text': directorText, 'id': req.body[key]});
-          save = !save;
-        } else {
-          directorText = req.body[key];
-          save = !save;
+      var keys = Object.keys(req.body);
+      if (keys[0] === 'directorFollow[0][id]') {
+        for (var key in req.body) {
+          if (save) {
+            directorSet.push({'text': req.body[key], 'id': directorId});
+            save = !save;
+          } else {
+            directorId = req.body[key];
+            save = !save;
+          }
+        }
+      } else {
+        for (var key in req.body) {
+          if (save) {
+            directorSet.push({'text': directorText, 'id': req.body[key]});
+            save = !save;
+          } else {
+            directorText = req.body[key];
+            save = !save;
+          }
         }
       }
       return profile.save({follow_director: JSON.stringify(directorSet)}, {patch: true});

@@ -318,6 +318,10 @@ router.route('/setup')
                     res.render('index.ejs', {
                       data: {
                         user: req.user,
+                        genreFollow: profileList.attributes.follow_genre || [],
+                        actorFollow: profileList.attributes.follow_actor || [],
+                        directorFollow: profileList.attributes.follow_director || [],
+                        phone: profileList.attributes.phone || '',
                         genres: genreList,
                         actors: actorList,
                         directors: directorList,

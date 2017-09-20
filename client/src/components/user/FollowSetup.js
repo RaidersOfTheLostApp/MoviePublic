@@ -50,12 +50,12 @@ class FollowSetup extends React.Component {
   setLatestFollow(chosenRequest, index) {
     if (index === -1) {
       this.setState({
-        latestFollow: {'text': chosenRequest, 'id': 'nonKey' + this.state.nonKey++},
+        latestFollow: {'id': 'nonKey' + this.state.nonKey++, 'text': chosenRequest},
         addToDB: true
       });
     } else {
       this.setState({
-        latestFollow: {'text': this.state.dataSource[index]['name'], 'id': this.state.dataSource[index]['id']}
+        latestFollow: {'id': this.state.dataSource[index]['id'], 'text': this.state.dataSource[index]['name']}
       });
     }
   }
@@ -67,7 +67,7 @@ class FollowSetup extends React.Component {
       if (this.state.latestFollow === '') {
         //not an existing value in the DB
         var enteredText = document.getElementById('follow-field').value;
-        this.props.updateFollowList(followName, {'text': enteredText, 'id': 'nonKey' + this.state.nonKey++});
+        this.props.updateFollowList(followName, {'id': 'nonKey' + this.state.nonKey++, 'text': enteredText});
         this.setState({
           addToDB: true
         });

@@ -6,7 +6,7 @@ class PhoneSetup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      phone: ''
+      hintText: props.phone.length > 0 ? props.phone : 'Enter a 10-Digit Mobile Number'
     };
   }
 
@@ -24,7 +24,7 @@ class PhoneSetup extends React.Component {
           <div className='row'>
             <div className='col'>
               <TextField
-                hintText="Enter a 10-Digit Mobile Number"
+                hintText={this.state.hintText}
                 onChange={this.props.handleInput}
               />
             </div>
