@@ -213,7 +213,7 @@ production:
 
 ## Update configs
 
-Update Heroku Config variables for Facebook, Google, TMDB, and OMDB
+Update Heroku Config variables for Facebook, Google, TMDB, OMDB, and Twilio
 
 ## Deploy the app from the local instance
 
