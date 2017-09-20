@@ -64,6 +64,7 @@
     "redis": "^2.8.0",
     "redis-server": "^1.1.0",
     "tmdb": "^0.0.1",
+    "twilio": "^3.6.7",
     "url-parse": "^1.1.9",
     "webpack": "^3.5.6",
     "xmlhttprequest": "^1.8.0"

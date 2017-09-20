@@ -23,5 +23,11 @@
       "consumerSecret": "FILL_ME_IN",
       "callbackURL": "http://FILL_ME_IN/auth/twitter/callback"
     }
+  },
+
+  "twilio": {
+    "twilio_sid": "FILL_ME_IN",
+    "twilio_token": "FILL_ME_IN",
+    "twilio_phone": "FILL_ME_IN"
   }
 }

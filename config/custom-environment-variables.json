@@ -17,5 +17,11 @@
       "consumerSecret": "TWITTER_CLIENT_SECRET",
       "callbackURL": "TWITTER_CALLBACK_URL"
     }
+  },
+
+  "twilio": {
+    "twilio_sid": "TWILIO_SID",
+    "twilio_token": "TWILIO_TOKEN",
+    "twilio_phone": "TWILIO_PHONE"
   }
 }
