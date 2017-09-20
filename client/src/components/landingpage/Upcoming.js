@@ -276,20 +276,32 @@ class Upcoming extends React.Component {
       for (var k = 0; k < array[i].showtimes.length; k++) {
         var theater = array[i].showtimes[k].theatre.name;
         var timing = this.dateManipulation(array[i].showtimes[k].dateTime);
+        var timingArray = timing.split(',');
+        var date = timingArray[0];
+        var time = timingArray[1];
+        // var date = timing
         if (x[movieTitle].hasOwnProperty(theater) === false) {
-          x[movieTitle][theater] = [timing];
+          x[movieTitle][theater] = {};
+          x[movieTitle][theater][date] = [time];
         }
+
         else {
-          var q = x[movieTitle][theater]
-          console.log('the value of the theater is', q);
-          q.push(timing);
-          x[movieTitle][theater] = q;
+
+          if (x[movieTitle][theater].hasOwnProperty(date) === false) {
+            x[movieTitle][theater][date] = [time];
+          }
+
+          else {
+            var q = x[movieTitle][theater][date];
+             q.push(time);
+             x[movieTitle][theater][date] = q;
+          }
         }
       }
     }
     console.log('the value of the movieTimes is the following', x);
     return x;
-  }
+ }
 
   render() {  
     return (
