@@ -19,8 +19,13 @@ router.route('/newUser')
   // .delete(ProfileController.deleteOne)
 ;
 
-router.route('/vod')
-  .post(ProfileController.setUpVOD)
+// router.route('/vod')
+//   .post(ProfileController.setUpVOD)
+//   // .delete(ProfileController.deleteOne)
+// ;
+
+router.route('/phone')
+  .post(ProfileController.updatePhone)
   // .delete(ProfileController.deleteOne)
 ;
 
