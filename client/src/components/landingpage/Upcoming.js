@@ -182,6 +182,9 @@ class Upcoming extends React.Component {
   }
 
   getMovieData(minDate, maxDate) {
+    var directorArray;
+    var actorArray;
+    var genreArray;
     $.ajax({
       url: 'search/newmovies',
       method: 'GET',
@@ -203,7 +206,7 @@ class Upcoming extends React.Component {
         upcomingMovies: newArray
        });
 
-      console.log('the upcoming movies length is', this.state.upcomingMovies.length);
+      console.log('the upcoming movies are', this.state.upcomingMovies);
 
       },
       error: (err) => {
