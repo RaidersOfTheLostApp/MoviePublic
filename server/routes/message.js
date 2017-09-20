@@ -6,17 +6,20 @@ var authToken = config.twilio_token;
 
 var twilioClient = new twilio(accountSid, authToken);
 
-var to_number = '+14153146506';
-
-twilioClient.messages.create({
-  to: to_number,
-  from: config.twilio_phone,
-  body: 'Hello from Movie Master App'
-})
-.then((message) => {
-  console.log('************ twilio output ', message.sid);
-  //save this message to history in postgres
-})
-.catch((err) => {
-  console.log('******** twilio error ', err);
-});
+module.exports.sendMessage = (phone, movie, cinema, showtime, callback) {
+  twilioClient.messages.create({
+    to: phone,
+    from: config.twilio_phone,
+    body: 'Lucky you! ' + movie + 'is playing near you at ' +
+    cinema + ' starting at ' + showtime + '. Checkout Movie Master App for more movie info.'
+  })
+  .then((message) => {
+    console.log('************ twilio output ', message.sid);
+    //save this message to history in postgres
+    callback(null, 'message sent successfully');
+  })
+  .catch((err) => {
+    console.log('******** twilio error ', err);
+    callback(err);
+  });
+}
