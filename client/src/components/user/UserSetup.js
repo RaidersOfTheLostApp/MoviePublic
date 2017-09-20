@@ -25,12 +25,13 @@ class UserSetup extends React.Component {
       // hulu: false,
       // amazon: false,
       phone: '',
-      genreFollow: [], //TODO check if the user already has a following?
-      actorFollow: [],
-      directorFollow: [],
+      genreFollow: props.genreFollow,
+      actorFollow: props.actorFollow,
+      directorFollow: props.directorFollow,
       genreList: props.genres,
       actorList: props.actors,
-      directorList: props.directors
+      directorList: props.directors,
+      phone: props.phone
     };
   }
 
@@ -87,6 +88,7 @@ class UserSetup extends React.Component {
 
   finishStepTwo() {
     if (this.state.genreFollow.length > 0) {
+      console.log('********** genreFollow ', this.state.genreFollow);
       $.ajax({
         method: 'POST',
         url: '/api/profiles/follows/genres',
@@ -157,20 +159,24 @@ class UserSetup extends React.Component {
     //     console.log('************* update vod handleNext ERROR:', error);
     //   }
     // });
-    $.ajax({
-      method: 'POST',
-      url: '/api/profiles/phone',
-      data: {
-        phone: this.state.phone
-      },
-      success: (user) => {
-        user = JSON.parse(user);
-        console.log('********* success user setup phone update ', user);
-      },
-      error: (error) => {
-        console.log('************* update phone handleNext ERROR:', error);
-      }
-    });
+    if (this.state.phone.length === 10) {
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/phone',
+        data: {
+          phone: this.state.phone
+        },
+        success: (user) => {
+          user = JSON.parse(user);
+          console.log('********* success user setup phone update ', user);
+        },
+        error: (error) => {
+          console.log('************* update phone handleNext ERROR:', error);
+        }
+      });
+    } else {
+      //handle error of poor entry check
+    }
   }
 
   getStepContent(stepIndex) {
@@ -248,7 +254,7 @@ class UserSetup extends React.Component {
                       directorFollow={this.state.directorFollow}
                       updateFollowList={this.updateFollowList.bind(this)}/>
                   ) : (
-                    <PhoneSetup header={this.getStepContent(this.state.stepIndex)} handleInput={this.handlePhoneInput.bind(this)}/>
+                    <PhoneSetup header={this.getStepContent(this.state.stepIndex)} handleInput={this.handlePhoneInput.bind(this)} phone={this.state.phone}/>
                   )
                 )}
               </div>
