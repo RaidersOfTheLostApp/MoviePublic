@@ -11,7 +11,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import DemoVideo from './DemoVideo';
 import FollowSetup from './FollowSetup';
-import VODSetup from './VODSetup';
+// import VODSetup from './VODSetup';
+import PhoneSetup from './PhoneSetup';
 
 class UserSetup extends React.Component {
   constructor(props) {
@@ -19,10 +20,11 @@ class UserSetup extends React.Component {
     this.state = {
       finished: false,
       stepIndex: 0,
-      netflix: false,
-      hbo: false,
-      hulu: false,
-      amazon: false,
+      // netflix: false,
+      // hbo: false,
+      // hulu: false,
+      // amazon: false,
+      phone: '',
       genreFollow: [], //TODO check if the user already has a following?
       actorFollow: [],
       directorFollow: [],
@@ -32,11 +34,11 @@ class UserSetup extends React.Component {
     };
   }
 
-  handleToggle(e, isInputChecked) {
-    var stateObj = {};
-    stateObj[e.target.id] = isInputChecked;
-    this.setState(stateObj);
-  }
+  // handleToggle(e, isInputChecked) {
+  //   var stateObj = {};
+  //   stateObj[e.target.id] = isInputChecked;
+  //   this.setState(stateObj);
+  // }
 
   handleNext() {
     if (this.state.stepIndex === 0) {
@@ -48,7 +50,8 @@ class UserSetup extends React.Component {
       this.finishStepTwo();
     }
     if (this.state.stepIndex === 2) {
-      //update database with VOD updates
+      //(removed for now) update database with VOD updates
+      //update database with phone number
       this.finishStepThree();
     }
     this.setState({
@@ -137,21 +140,35 @@ class UserSetup extends React.Component {
   }
 
   finishStepThree() {
+    // $.ajax({
+    //   method: 'POST',
+    //   url: '/api/profiles/vod',
+    //   data: {
+    //     netflix: this.state.netflix,
+    //     hbo: this.state.hbo,
+    //     hulu: this.state.hulu,
+    //     amazon: this.state.amazon
+    //   },
+    //   success: (user) => {
+    //     user = JSON.parse(user);
+    //     console.log('********* success user setup vod update ', user);
+    //   },
+    //   error: (error) => {
+    //     console.log('************* update vod handleNext ERROR:', error);
+    //   }
+    // });
     $.ajax({
       method: 'POST',
-      url: '/api/profiles/vod',
+      url: '/api/profiles/phone',
       data: {
-        netflix: this.state.netflix,
-        hbo: this.state.hbo,
-        hulu: this.state.hulu,
-        amazon: this.state.amazon
+        phone: this.state.phone
       },
       success: (user) => {
         user = JSON.parse(user);
-        console.log('********* success user setup vod update ', user);
+        console.log('********* success user setup phone update ', user);
       },
       error: (error) => {
-        console.log('************* update vod handleNext ERROR:', error);
+        console.log('************* update phone handleNext ERROR:', error);
       }
     });
   }
@@ -161,9 +178,10 @@ class UserSetup extends React.Component {
     case 0:
       return null;
     case 1:
-      return 'Follow to Get Notifications';
+      return 'Follow Your Favorites';
     case 2:
-      return 'Select Your VOD Subscriptions';
+      // return 'Select Your VOD Subscriptions';
+      return 'Enter Your Cell Phone To Receive New Movie Release Reminders';
     default:
       'New Account Setup Instructions';
     }
@@ -173,6 +191,12 @@ class UserSetup extends React.Component {
     this.setState({
       followName: this.state[followName].push(latestFollow)
     });
+  }
+
+  handlePhoneInput(e, newValue) {
+    this.setState({
+      phone: newValue
+    })
   }
 
   render() {
@@ -195,7 +219,7 @@ class UserSetup extends React.Component {
               <StepLabel>Select Genres, Actors and Directors to Follow</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Select Your VOD Subscriptions</StepLabel>
+              <StepLabel>Get Notified About New Movie Releases and Showtimes</StepLabel>
             </Step>
           </Stepper>
           <div>
@@ -224,7 +248,7 @@ class UserSetup extends React.Component {
                       directorFollow={this.state.directorFollow}
                       updateFollowList={this.updateFollowList.bind(this)}/>
                   ) : (
-                    <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>
+                    <PhoneSetup header={this.getStepContent(this.state.stepIndex)} handleInput={this.handlePhoneInput.bind(this)}/>
                   )
                 )}
               </div>
@@ -237,3 +261,5 @@ class UserSetup extends React.Component {
 }
 
 export default UserSetup;
+
+// <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>

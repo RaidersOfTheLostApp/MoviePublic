@@ -150,29 +150,50 @@ module.exports.newUser = (req, res) => {
     });
 };
 
-module.exports.setUpVOD = (req, res) => {
+// module.exports.setUpVOD = (req, res) => {
+//   models.Profile.where({ id: req.session.passport.user }).fetch()
+//     .then(profile => {
+//       if (!profile) {
+//         throw profile;
+//       }
+//       var subs = [];
+//       for (var key in req.body) {
+//         if (req.body[key]) {
+//           subs.push(req.body[key]);
+//         }
+//       }
+//       return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
+//     })
+//     .then((profile) => {
+//       res.sendStatus(201);
+//     })
+//     .error(err => {
+//       console.log('********* error in setUpVOD ', err);
+//       res.status(500).send(err);
+//     })
+//     .catch((e) => {
+//       console.log('********* catch in setUpVOD ', e);
+//       res.sendStatus(404);
+//     });
+// };
+
+module.exports.updatePhone = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       if (!profile) {
         throw profile;
       }
-      var subs = [];
-      for (var key in req.body) {
-        if (req.body[key]) {
-          subs.push(req.body[key]);
-        }
-      }
-      return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
+      return profile.save({phone: '+1' + req.body.phone}, {patch: true});
     })
     .then((profile) => {
       res.sendStatus(201);
     })
     .error(err => {
-      console.log('********* error in setUpVOD ', err);
+      console.log('********* error in updatePhone ', err);
       res.status(500).send(err);
     })
     .catch((e) => {
-      console.log('********* catch in setUpVOD ', e);
+      console.log('********* catch in updatePhone ', e);
       res.sendStatus(404);
     });
 };
