@@ -134,6 +134,7 @@ class Results extends React.Component {
         </div>
         <Subheader>Popular Movies</Subheader>
         <GridList
+          cellHeight={100}
           cols={5}
           style={this.styleGridList}>
           {(this.state.display).map( (movie, i) => (
