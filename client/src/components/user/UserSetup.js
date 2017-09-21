@@ -33,6 +33,16 @@ class UserSetup extends React.Component {
       directorList: props.directors,
       phone: props.phone
     };
+
+  }
+
+  updateCity(city) {
+    this.setState({
+      city: city
+    })
+
+    console.log('the first check for city state is', city);
+    this.finishStepFour(city);
   }
 
   // handleToggle(e, isInputChecked) {
@@ -55,8 +65,14 @@ class UserSetup extends React.Component {
       //update database with phone number
       this.finishStepThree();
     }
+
+    // if (this.state.stepIndex === 3) {
+    //   //update database with VOD updates
+    //   this.finishStepFour();
+    // }
+
     this.setState({
-      finished: this.state.stepIndex >= 2,
+      finished: this.state.stepIndex >= 3,
       stepIndex: this.state.stepIndex + 1
     });
   }
@@ -179,6 +195,23 @@ class UserSetup extends React.Component {
     }
   }
 
+  finishStepFour(city) {
+    $.ajax({
+      method: 'POST',
+      url: '/api/profiles/city',
+      data: {
+        city: city
+      },
+      success: (user) => {
+        user = JSON.parse(user);
+        console.log('********* success! city updated for user ', user);
+      },
+      error: (error) => {
+        console.log('************* update city handleNext ERROR:', error);
+      }
+    });
+  }
+
   getStepContent(stepIndex) {
     switch (stepIndex) {
     case 0:
@@ -206,6 +239,7 @@ class UserSetup extends React.Component {
   }
 
   render() {
+    console.log('the rendered state for city is', this.state.city);
     return (
       <div className='muiThemeProvider'>
         <Subheader>New Account Setup</Subheader>
@@ -222,10 +256,13 @@ class UserSetup extends React.Component {
               <StepLabel>Welcome to Movie Master!</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Select Genres, Actors and Directors to Follow</StepLabel>
+              <StepLabel>Select Movies and Actors to Follow</StepLabel>
             </Step>
             <Step>
               <StepLabel>Get Notified About New Movie Releases and Showtimes</StepLabel>
+            </Step>
+             <Step>
+              <StepLabel>Select Your City</StepLabel>
             </Step>
           </Stepper>
           <div>
@@ -238,7 +275,7 @@ class UserSetup extends React.Component {
                 <div className='demoVideo'>
                   <div className='buttonOuter'>
                     <FlatButton className='flatButton' label='Back' disabled={this.state.stepIndex === 0} onClick={this.handlePrev.bind(this)} />
-                    <RaisedButton label={this.state.stepIndex === 3 ? 'All Good' : 'Next'} primary={true} onClick={this.handleNext.bind(this)} />
+                    <RaisedButton label={this.state.stepIndex === 3 ? 'Finished' : 'Next'} primary={true} onClick={this.handleNext.bind(this)} />
                   </div>
                 </div>
                 {this.state.stepIndex === 0 ? (
@@ -246,15 +283,20 @@ class UserSetup extends React.Component {
                 ) : (
                   this.state.stepIndex === 1 ? (
                     <FollowSetup header={this.getStepContent(this.state.stepIndex)}
+                      movieList={this.state.movieList}
                       genreList={this.state.genreList}
                       actorList={this.state.actorList}
                       directorList={this.state.directorList}
+                      writerList={this.state.writerList}
+                      movieFollow={this.state.movieFollow}
                       genreFollow={this.state.genreFollow}
                       actorFollow={this.state.actorFollow}
                       directorFollow={this.state.directorFollow}
+                      writerFollow={this.state.writerFollow}
                       updateFollowList={this.updateFollowList.bind(this)}/>
+                      
                   ) : (
-                    <PhoneSetup header={this.getStepContent(this.state.stepIndex)} handleInput={this.handlePhoneInput.bind(this)} phone={this.state.phone}/>
+                    <PhoneSetup header={this.getStepContent(this.state.stepIndex)} handleInput={this.handlePhoneInput.bind(this)} phone={this.state.phone}/>              
                   )
                 )}
               </div>
@@ -268,4 +310,4 @@ class UserSetup extends React.Component {
 
 export default UserSetup;
 
-// <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>
+
