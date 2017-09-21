@@ -9,6 +9,7 @@ import Subheader from 'material-ui/Subheader';
 import Search from './Search';
 import Filtering from './Filtering';
 import ResultsListItem from './ResultItem';
+import ResultScroll from './ResultScroll';
 import Divider from 'material-ui/Divider';
 
 class Results extends React.Component {
@@ -138,15 +139,10 @@ class Results extends React.Component {
         <br />
         <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', border: 'solid'}}>
           {this.state.movies.map((movie, i) => (
-            <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
-              <GridTile
-                key={i}
-                title={movie.title}
-
-              >
-                <img src = {movie.poster}/>
-              </GridTile>
-            </a>
+            <ResultScroll
+              key={i}
+              movieP={movie}
+              />
           ))}
         </GridList>
         <br />
