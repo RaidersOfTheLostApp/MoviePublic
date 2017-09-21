@@ -70,10 +70,15 @@ h4 {
   paddingLeft: '30px';
 }
 
-.gridList {
-  width: 1200;
-  height: 800;
+/*.gridList {
+  width: 200;
+  height: 200;
   overflowY: 'auto';
+}*/
+
+img.imgResultItem {
+  /*height: 1800px;*/
+  width: 100%;
 }
 
 .titleStyle {
