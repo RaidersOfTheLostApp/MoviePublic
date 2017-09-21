@@ -19,14 +19,16 @@ var MovieList = {
   },
 
   getCrewByName: (query, cb) => { //input is name as string
+    // console.log('************* in getCrewByName ', query);
     tmdb.call('/search/person', {
       'query': query,
       'include_adult': false
     }, (e) => {
       if (e.results[0] === undefined) {
-        console.log('************** e of undefined results in getCrewByName', e);
+        // console.log('************** e of undefined results in getCrewByName', e);
         cb(e, null);
       } else {
+        // console.log('************* result e ', e.results);
         cb(null, e.results[0].id);
       }
     }, (e) => {
@@ -35,11 +37,13 @@ var MovieList = {
   },
 
   getCrewImageById: (id, cb) => {
+    // console.log('************* in getCrewImageById ', id);
     tmdb.call('/person/' + id + '/images', {
     }, (e) => {
       if (e === undefined) {
         console.log('********** id of undefined crewObj ', id);
       }
+      // console.log('************* result e ', e);
       cb(null, e);
     }, (e) => {
       cb(e, null);
