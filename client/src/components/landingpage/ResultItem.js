@@ -195,7 +195,7 @@ class ResultsListItem extends React.Component {
           title={this.props.movieP.title}
           actionIcon={this.getFavoriteIcon(this.props.movieP)}
           titlePosition={'bottom'}
-          style={{height:'310px'}}
+          style={{height:'300px'}}
         >
           <img src={this.props.movieP.poster} onClick={this.openModal} className='imgResultItem'/>
         </GridTile>

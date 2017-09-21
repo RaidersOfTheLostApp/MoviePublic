@@ -9,6 +9,7 @@ import Subheader from 'material-ui/Subheader';
 import Search from './Search';
 import Filtering from './Filtering';
 import ResultsListItem from './ResultItem';
+import Divider from 'material-ui/Divider';
 
 class Results extends React.Component {
 
@@ -132,7 +133,26 @@ class Results extends React.Component {
             <Filtering sortByRating={this.sortByRating} rating={this.state.minRating}/>
           </div>
         </div>
+        <Subheader>Recommended Movies For You</Subheader>
+        <Divider />
+        <br />
+        <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', border: 'solid'}}>
+          {this.state.movies.map((movie, i) => (
+            <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
+              <GridTile
+                key={i}
+                title={movie.title}
+
+              >
+                <img src = {movie.poster}/>
+              </GridTile>
+            </a>
+          ))}
+        </GridList>
+        <br />
         <Subheader>Popular Movies</Subheader>
+        <Divider />
+        <br />
         <GridList
           cellHeight={100}
           cols={5}
