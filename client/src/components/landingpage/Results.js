@@ -23,6 +23,12 @@ class Results extends React.Component {
     };
     this.sortByRating = this.sortByRating.bind(this);
     this.searchToServer = this.searchToServer.bind(this);
+    this.styleGridList = {
+      width: '100%',
+      height: '1800px',
+      // cellHeight: '1500',
+      overflowY: 'auto'
+    };
   }
 
   searchToServer(cb) {
@@ -126,11 +132,10 @@ class Results extends React.Component {
             <Filtering sortByRating={this.sortByRating} rating={this.state.minRating}/>
           </div>
         </div>
+        <Subheader>Popular Movies</Subheader>
         <GridList
-          cellHeight='auto'
           cols={5}
-          className='gridList'>
-          <Subheader>Popular Movies</Subheader>
+          style={this.styleGridList}>
           {(this.state.display).map( (movie, i) => (
             <ResultsListItem
               key={i}
@@ -146,3 +151,5 @@ class Results extends React.Component {
 }
 
 export default Results;
+
+// cellHeight='350'

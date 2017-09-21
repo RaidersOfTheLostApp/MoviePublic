@@ -91,7 +91,8 @@ router.route('/favorites')
                 if (err) {
                   console.log(err);
                 } else {
-                  console.log('the results length is ', results.length);
+                  // console.log('****** results ', results);
+                  // console.log('the results length is ', results.length);
                 }
                 res.render('index.ejs', {
                   data: {

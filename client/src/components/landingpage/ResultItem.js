@@ -34,9 +34,9 @@ const styles = {
   },
   gridList: {
     display: 'flex',
-    overflowX: 'auto',
-    width: '100%',
-    height: '100%'
+    overflowX: 'auto'
+    // width: '100%'
+    // height: '200'
   },
   titleStyle: {
     color: 'rgb(0, 188, 212)',
@@ -89,10 +89,10 @@ class ResultsListItem extends React.Component {
           var favorites = this.state.favorites;
           favId.push(movieId);
           favorites.push(movie);
-      
+
           this.setState({
             favorites: favorites,
-            favoriteId: favId 
+            favoriteId: favId
           });
         },
         error: (error) => {
@@ -121,7 +121,7 @@ class ResultsListItem extends React.Component {
 
           this.setState({
             favorites: favorites,
-            favoriteId: favId 
+            favoriteId: favId
           });
 
         },
@@ -161,8 +161,8 @@ class ResultsListItem extends React.Component {
     this.setState({
       videoIsOpen: false,
     });
-    if (cb) { 
-      cb(); 
+    if (cb) {
+      cb();
     }
   }
 
@@ -194,8 +194,10 @@ class ResultsListItem extends React.Component {
           subtitle={<span>by <b>{this.props.movieP.directors}</b></span>}
           title={this.props.movieP.title}
           actionIcon={this.getFavoriteIcon(this.props.movieP)}
+
+          titlePosition={'top'}
         >
-          <img src={this.props.movieP.poster} onClick={this.openModal} height="100%" width="100%"/>
+          <img src={this.props.movieP.poster} onClick={this.openModal} className='imgResultItem'/>
         </GridTile>
         <MovieDataModal
           closeModal={this.closeModal}
