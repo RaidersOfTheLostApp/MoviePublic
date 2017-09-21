@@ -116,7 +116,6 @@ router.route('/profile')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
-          //TODO: finish to grab actors and directors once table ready
           var favorites;
           searchDb.searchByIds(profile.attributes.favorites, (err, movies) => {
             if (err) {
