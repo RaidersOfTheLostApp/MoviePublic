@@ -38,78 +38,12 @@ class Following extends React.Component {
       directorMongoIdsFiltered: props.directorFollow || [],
 
       modalIsOpen: false,
-      // favoriteId: [],
-      // followMovies: []
+
       genreList: props.genreList,
       actorList: props.actorList,
       directorList: props.directorList
     };
   }
-
-  // componentWillMount() {
-  //   this.setState({loading: true});
-  //
-  //   // this.getFollow('movies')
-  //   //   .then(movieArr => {
-  //   //     this.setState({movieFollowMongoIds: movieArr, loading: false});
-  //   //   });
-  //   this.getFollow('genres', (err, movieArr) => {
-  //     if (err) { console.log('********** error on getFollow ', err); }
-  //     var genreArr = movieArr.splice(0, 15);
-  //     var actorArr = movieArr.splice(0, 15);
-  //     var directorArr = movieArr.splice(0, 15);
-  //     this.setState({
-  //       genreFollowMongoIds: genreArr,
-  //       actorFollowMongoIds: actorArr,
-  //       directorFollowMongoIds: directorArr,
-  //       loading: false
-  //     }, () => {
-  //       console.log(this.state.actorFollowMongoIds);
-  //       this.getMoviesWithIds(this.state.actorFollowMongoIds);
-  //       //do for director movies too
-  //     });
-  //   });
-  //   // this.getFollow('actors', movieArr => {
-  //   //   console.log('************* movieArr actors results ', movieArr);
-  //   //   this.setState({actorFollowMongoIds: movieArr});
-  //   // });
-  //   // this.getFollow('directors', movieArr => {
-  //   //   console.log('************* movieArr directors results ', movieArr);
-  //   //   this.setState({directorFollowMongoIds: movieArr});
-  //   // });
-  // }
-  //
-  // getMoviesWithIds(ids) {
-  //   //console.log(ids);
-  //   $.ajax({
-  //     method: 'GET',
-  //     url: '/search/id',
-  //     query: ids,
-  //     success: (data) => {
-  //       console.log(data);
-  //       this.setState({
-  //         followMovies: data
-  //       });
-  //     },
-  //     error: (err) => {
-  //       console.log('error, err', err);
-  //     }
-  //   });
-  // }
-
-  // getFollow(type, callback) {
-  //   $.ajax({
-  //     method: 'GET',
-  //     url: '/api/profiles/follows/' + type,
-  //     success: (movieArr) => {
-  //       callback(null, movieArr);
-  //     },
-  //     error: (error) => {
-  //       console.log('************* get follow handleNext ERROR:', error);
-  //       callback(error);
-  //     }
-  //   });
-  // }
 
   openModal() {
     this.setState({modalIsOpen: true});
@@ -123,16 +57,6 @@ class Following extends React.Component {
   closeModal() {
     this.setState({modalIsOpen: false});
   }
-
-  // componentDidMount() {
-  //   console.log(this.state.movieFollowMongoIds);
-  //
-  //   this.getMoviesWithIds(this.state.movieFollowMongoIds);
-  // }
-  // componentDidUpdate() {
-  //   console.log(this.state.followMovies);
-  //   this.render();
-  // }
 
   sortMoviesGenre(movies, target, callback1) {
     var sortedArr = [];
