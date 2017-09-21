@@ -5,6 +5,7 @@ var getSimilarMovies = require('../server/movieAPIHelpers/tmdbHelpers.js').getSi
 var pgAddMovie = require('../server/controllers/movies.js').addMovie;
 var uri = process.env.MONGODB_URI || 'mongodb://localhost/fetcher';
 var ObjectId = require('mongodb').ObjectId;
+var pg = require('../db/sync');
 
 mongoose.connect(uri, {
   useMongoClient: true
@@ -152,23 +153,23 @@ var saveMovies = (movies, cb) => {
                         trailers: trailers,
                         similar: similar
                       });
-                      newMovie.save((err, res) => {
+                      newMovie.save((err, movieObj) => {
                         if (err) {
                           // console.log(err, 'MongoDB - Movie Add Error');
                           // console.log(err.name, 'MongoDB - Movie Add Error');
                         } else {
                           // console.log(res, 'MongoDB - Movie Add Success');
                           // console.log('MongoDB - Movie Add Success');
-
-                          pgAddMovie(res, (err, results) => {
-                            if (err) {
-                              // console.log(err, 'Server Response - PG Unable to Add Movies');
-                              // res.status(500).send('Postgres: Error adding movies');
-                            } else {
-                              // console.log(results, 'Server Response - PG Added Data');
-                              // res.status(201).send('Server Response - PG Added Data');
-                            }
-                          });
+                          pg.queueAdd('movie', movieObj);
+                          // pgAddMovie(res, (err, results) => {
+                          //   if (err) {
+                          //     // console.log(err, 'Server Response - PG Unable to Add Movies');
+                          //     // res.status(500).send('Postgres: Error adding movies');
+                          //   } else {
+                          //     // console.log(results, 'Server Response - PG Added Data');
+                          //     // res.status(201).send('Server Response - PG Added Data');
+                          //   }
+                          // });
                         }
                       });
                     }

@@ -63,6 +63,7 @@ var MovieList = {
       var movieArr = [];
       e.results.forEach( value => {
         omdbSearch(value.original_title, value.release_date, (err, res) => {
+          // console.log('********** check res in getSimilarMovies for errors ', res);
           if (res[0] === '<' || res[0] === 'I') {
             console.log('similarbroke');
           } else {
