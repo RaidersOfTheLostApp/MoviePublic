@@ -5,8 +5,8 @@ var tmdb = require('../server/movieAPIHelpers/tmdb');
 var tmdbHelper = require('../server/movieAPIHelpers/tmdbHelpers');
 
 // Runs Job Every 10 minutes
-var movieCron = new cron.CronJob('30 * * * * *', function() {
-  console.info('Movie CRON - job running every minute');
+var movieCron = new cron.CronJob('1 * * * * *', function() {
+  console.info('Movie CRON - job running every 2 seconds');
   workMovieQueue();
   // console.info('CRON job completed');
 }, null, //function to execute when the job stops
@@ -16,29 +16,29 @@ true, //does not start the job right now
 //test to see if job is running: movieCron.running === true or === undefined
 //movieCron.stop() to stop the job after last element completes
 
-var genreCron = new cron.CronJob('30 * * * * *', function() {
-  console.info('Genre CRON - job running every 30 seconds');
+var genreCron = new cron.CronJob('1 * * * * *', function() {
+  console.info('Genre CRON - job running every 2 seconds');
   workGenreQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var actorCron = new cron.CronJob('30 * * * * *', function() {
-  console.info('Actor CRON - job running every 30 seconds');
+var actorCron = new cron.CronJob('1 * * * * *', function() {
+  console.info('Actor CRON - job running every 2 seconds');
   workActorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var directorCron = new cron.CronJob('30 * * * * *', function() {
-  console.info('Director CRON - job running every 30 seconds');
+var directorCron = new cron.CronJob('1 * * * * *', function() {
+  console.info('Director CRON - job running every 2 seconds');
   workDirectorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var imageCron = new cron.CronJob('30 * * * * *', function() {
-  console.info('Director CRON - job running every 30 seconds');
+var imageCron = new cron.CronJob('1 * * * * *', function() {
+  console.info('Image CRON - job running every 2 seconds');
   workImageQueue();
 }, null,
 true,
@@ -58,6 +58,7 @@ module.exports.queueAdd = (type, obj) => {
     movieQueue.push(obj);
     console.log(obj.title, ' - Added to Movie Queue');
     // workQueue();
+    // console.log('************ movieCron running ', movieCron.running);
     if (movieCron.running === undefined) {
       console.log('********** starting movieCron');
       movieCron.start();
@@ -96,17 +97,19 @@ var workMovieQueue = function() {
     // return null;
     // movieCron.stop();
   } else if (movieQueue.length > 0) {
-    console.log('Enter Movie Queue Loop with movieQueue ', movieQueue);
+    // console.log('Enter Movie Queue Loop with movieQueue ', movieQueue);
     async.eachSeries(movieQueue, function(file, callback) {
-      console.log('*********** movie in Queue processing ', file);
+      // console.log('*********** movie in Queue processing ', file);
       addMovie(file, (err, results) => {
         if (err) {
           console.log('Movie Queue Error ', err);
           callback(err);
         } else {
           console.log(movieQueue.length, 'Queue - Movie Add Completed');
+          // console.log('*********** current movieQueue ', movieQueue);
           movieQueue.shift();
           console.log(movieQueue.length, 'Queue - Movie Removed');
+          // console.log('*********** current movieQueue ', movieQueue);
           // workQueue();
           console.log('********** Movie Queue Success ', results.attributes.title);
           callback();
@@ -139,8 +142,10 @@ var workGenreQueue = function() {
             callback(err);
           } else {
             console.log(genreQueue.length, 'Queue - Genre Add Completed');
+            // console.log('*********** current genreQueue ', genreQueue);
             genreQueue.shift();
             console.log(genreQueue.length, 'Queue - Genre Removed');
+            // console.log('*********** current genreQueue ', genreQueue);
             // workQueue();
             console.log('********** Genre Queue Success ');
             callback();
@@ -174,8 +179,10 @@ var workActorQueue = function() {
             callback(err);
           } else {
             console.log(actorQueue.length, 'Queue - Actor Add Completed');
+            // console.log('*********** current actorQueue ', actorQueue);
             actorQueue.shift();
             console.log(actorQueue.length, 'Queue - Actor Removed');
+            // console.log('*********** current actorQueue ', actorQueue);
             // workQueue();
             console.log('********** Actor Queue Success ');
             callback();
@@ -209,8 +216,10 @@ var workDirectorQueue = function() {
             callback(err);
           } else {
             console.log(directorQueue.length, 'Queue - Director Add Completed');
+            // console.log('*********** current directorQueue ', directorQueue);
             directorQueue.shift();
             console.log(directorQueue.length, 'Queue - Director Removed');
+            // console.log('*********** current directorQueue ', directorQueue);
             // workQueue();
             console.log('********** Director Queue Success');
             callback();
@@ -234,17 +243,19 @@ var workImageQueue = function() {
     console.log('Empty Image Queue - Congrats!');
     // imageCron.stop();
   } else if (imageQueue.length > 0) {
-    console.log('Enter Image Queue Loop with imageQueue ', imageQueue);
+    // console.log('Enter Image Queue Loop with imageQueue ', imageQueue);
     async.eachSeries(imageQueue, function(crew, callback) {
-      console.log('*********** image in Queue processing ', crew);
-      addImage(crew, (err, results) => {
+      // console.log('*********** image in Queue processing ', crew);
+      addImage(crew.attributes, (err, results) => {
         if (err) {
           console.log('Image Queue Error ', err);
           callback(err);
         } else {
           console.log(imageQueue.length, 'Queue - Image Add Completed');
+          // console.log('*********** current imageQueue ', imageQueue);
           imageQueue.shift();
           console.log(imageQueue.length, 'Queue - Image Removed');
+          // console.log('*********** current imageQueue ', imageQueue);
           // workQueue();
           console.log('********** Image Queue Success ', results);
           callback();
@@ -264,17 +275,6 @@ var workImageQueue = function() {
 var addMovie = function(movie, callback) {
   // console.log(movie, 'Movie passed from MongoDB Sync');
   if (movie) {
-    // console.log(movie.title, 'Movie passed from MongoDB Sync');
-    // console.log(movie, movie.genre, 'Movie Info');
-    // var newMovie = new Promise((resolve, reject) => {
-    //   if (resolve) {
-    //     resolve(movie);
-    //   } else {
-    //     reject(Error('It broke'));
-    //   }
-    // });
-    // newMovie.then(movie => {
-    // console.log('*********** should this become an array of strings? ', movie.genre);
     let genres = movie.genre[0].split(', ');
     let actors = movie.actors[0].split(', ');
     let directors = movie.directors[0].split(', ');
@@ -291,7 +291,8 @@ var addMovie = function(movie, callback) {
       .fetch()
       .then(function(model) {
         if (model) {
-          console.log(model.attributes.title, ' - Movie is Already in Database');
+          console.log(model.attributes.title, ' - Movie is Already in Database During Postgres Sync');
+          callback(null, model);
         } else {
           new models.Movies({
             mongo_id: movie._id,
@@ -322,20 +323,15 @@ var addMovie = function(movie, callback) {
       });
     }
   };
-  /**
-   * Promise: Helper function to create genre
-   * @param {Genre} genre
-   */
+
 var addGenre = function(movie, callback1) {
-  // return new Promise((resolve, reject) => {
-    // if (resolve) {
   var currentGenreList = JSON.parse(movie.genres);
   async.map(currentGenreList, function(genre, callback2) {
     console.log('*********** in addGenre ', genre);
     models.Genres.where({ name: genre }).fetch()
     .then(genre_record => {
       if (genre_record) {
-        console.log(genre_record.name, ' Genre is Already in Database');
+        console.log(genre_record.attributes.name, ' Genre is Already in Database');
         callback2(null, genre_record.id);
       } else {
         new models.Genres({ name: genre }).save()
@@ -366,86 +362,6 @@ var addGenre = function(movie, callback1) {
   });
 };
 
-//   models.Genres.where({ name: genre })
-//     .fetch()
-//     .then(function(model) {
-//       if (model) {
-//         console.log(model.attributes, 'Genre is Already in Database');
-//         metadataObj.genres.push(model.attributes.id);
-//         resolve(model.attributes.id);
-//       } else {
-//         new models.Genres({
-//           name: genre
-//         }).save()
-//           .then(function(model) {
-//             // console.log(model.attributes, 'Genre just added to Database');
-//             console.log(genre, ': Genre Created');
-//             metadataObj.genres.push(model.attributes.id);
-//             // resolve(model.attributes.id);
-//             callback(null, 'success');
-//           })
-//           .catch(function(err) {
-//             console.error(err, 'Genre: Create Error');
-//             callback(err);
-//           });
-//       }
-//     })
-//     .catch(err => {
-//       console.log('********** addGenre queue err ', err);
-//     });
-//     // } else {
-//     //   reject(Error('Genre Not Created'));
-//     // }
-//   // });
-// };
-      /**
-      * Promise: Helper function to create Actor
-      * @param {Genre} genre
-      */
-// var createActor = function(actor) {
-//   return new Promise((resolve, reject) => {
-//     if (resolve) {
-//       models.Crew.where({ name: actor })
-//         .fetch()
-//         .then(function(model) {
-//           if (model) {
-//             // console.log(model.attributes.name, 'Actor is Already in Database');
-//             model.save({
-//               name: actor,
-//               actor: true,
-//               director: false || model.get('director')
-//             });
-//             metadataObj.actors.push(model.attributes.id);
-//             resolve(model.attributes.id);
-//           } else {
-//             let other = false;
-//             for (var i = 0; i < directors.length; i++) {
-//               if (actor === directors[i]) {
-//                 // console.log(actor, 'Actor is Also Director');
-//                 other = true;
-//               }
-//             }
-//             new models.Crew({
-//               name: actor,
-//               actor: true,
-//               director: other,
-//             }).save()
-//               .then(function(model) {
-//                 console.log(actor, ': Actor Created');
-//                 metadataObj.actors.push(model.attributes.id);
-//                 resolve(model.attributes.id);
-//               })
-//               .catch(function(err) {
-//                 console.error(err, 'Actor: Create Error');
-//               });
-//           }
-//         });
-//     } else {
-//       reject(Error('Crew Not Added'));
-//     }
-//   });
-// };
-
 var addActor = function(movie, callback1) {
   var currentActorList = JSON.parse(movie.actors);
   // console.log('********* addActor input ', actor);
@@ -453,11 +369,10 @@ var addActor = function(movie, callback1) {
     console.log('*********** in addActor ', actor);
     models.Crew.where({ name: actor }).fetch()
     .then(actor_record => {
-      // console.log('************* actor_record ', actor_record);
       if (actor_record) {
+        console.log('************* actor_record ', actor_record);
         console.log(actor_record.name, ' Actor is Already in Database');
-        if (actor_record.actor !== true) {
-          //update to be true
+        if (actor_record.attributes.actor !== true) {
           actor_record.save({actor: true}, {patch: true});
         }
         callback2(null, actor_record.id);
@@ -498,12 +413,11 @@ var addDirector = function(movie, callback1) {
     console.log('*********** in addDirector ', director);
     models.Crew.where({ name: director }).fetch()
     .then(director_record => {
-      console.log('********** in addDirector director_record ', director_record);
+      // console.log('********** in addDirector director_record ', director_record);
       if (director_record) {
         console.log(director_record.name, ' Director is Already in Database');
-        if (actor_record.director !== true) {
-          //update to be true
-          actor_record.save({director: true}, {patch: true});
+        if (director_record.attributes.director !== true) {
+          director_record.save({director: true}, {patch: true});
         }
         callback2(null, director_record.id);
       } else {
@@ -537,120 +451,43 @@ var addDirector = function(movie, callback1) {
 };
 
 var addImage = function(crew, callback) {
-  console.log('************* crew in addImage ', crew.attributes);
-  tmdbHelper.getCrewByName(crew.attributes.name, (err, crew_id) => {
+  // console.log('************* crew in addImage ', crew.attributes);
+  tmdbHelper.getCrewByName(crew.name, (err, crew_id) => {
     if (err) {
       console.log('********* getCrewByName actor error ', err);
     } else {
+      // console.log('************* in addImage tmdb crew id ', crew_id);
       tmdbHelper.getCrewImageById(crew_id, (err, crewObj) => {
         if (err) {
           console.log('********** getCrewImageById actor error ', err);
         } else if (crewObj === undefined || crewObj === null) {
           console.log('************ actor crewObj is undefined or null ', crewObj);
         } else {
+          // console.log('************ in addImage ', crewObj);
           if (crewObj.profiles.length > 0) {
+            // console.log('************* images_uri ', tmdb.images_uri);
+            // console.log('************* file path ', crewObj.profiles[0].file_path);
             var crew_url = tmdb.images_uri + crewObj.profiles[0].file_path;
-            models.Crew.where({id: crew_record.attributes.id})
-              .save({image_url: crew_url}, {patch: true})
-              .then(result => {
+            // console.log('************ crew_url ', crew_url);
+            // console.log('********** crewObj.id ', crew.id);
+            models.Crew.where({ id: parseInt(crew.id) }).fetch()
+              .then(crew => {
+                return crew.save({image_url: crew_url}, {patch: true});
+              })
+              .then(crew => {
                 // resolve(crew_record.attributes.id);
-                callback(null, crew_record.attributes.id);
+                // console.log('*********** crew after update ', crew);
+                callback(null, crew.attributes.id);
               })
               .catch(err => {
                 callback(err);
-              })
+              });
           }
         }
       });
     }
   });
 };
-      /**
-       * Promise: Helper function to create Director
-       * @param {Director} Director
-       */
-      // var createDirector = function(director) {
-      //   return new Promise((resolve, reject) => {
-      //     if (resolve) {
-      //       models.Crew.where({ name: director })
-      //         .fetch()
-      //         .then(function(model) {
-      //           if (model) {
-      //             // console.log(model.attributes.name, 'Director is Already in Database');
-      //             // Change Boolean to Actor/Writer to True
-      //             model.save({
-      //               name: director,
-      //               actor: false || model.get('actor'),
-      //               director: true
-      //             });
-      //             metadataObj.directors.push(model.attributes.id);
-      //             // Send Kelly model.attributes
-      //             resolve(model.attributes.id);
-      //           } else {
-      //             let other = false;
-      //             for (var i = 0; i < actors.length; i++) {
-      //               if (director === actors[i]) {
-      //                 // console.log(director, 'Director is Also Actor');
-      //                 other = true;
-      //               }
-      //             }
-      //             new models.Crew({
-      //               name: director,
-      //               actor: other,
-      //               director: true,
-      //             }).save()
-      //               .then(function(model) {
-      //                 console.log(director, ': Director Created');
-      //                 metadataObj.directors.push(model.attributes.id);
-      //                 resolve(model.attributes.id);
-      //               })
-      //               .catch(function(err) {
-      //                 console.error(err, 'Director: Create Error');
-      //               });
-      //           }
-      //         });
-      //     } else {
-      //       reject(Error('Director Not Added'));
-      //     }
-      //   });
-      // };
-//       var genrePromises = genres.map(createGenre);
-//       var actorPromises = actors.map(createActor);
-//       var directorPromises = directors.map(createDirector);
-//       var moviePromises = genrePromises.concat(actorPromises, directorPromises);
-//       /**
-//       * PROMISES: Execute all promises to get Postgresql ID & send through as an object of arrays (metadata) to be inserted when movies are created
-//       */
-//       Promise.all(moviePromises)
-//         .then((unsortedIDs) => {
-//           console.log(unsortedIDs, 'Promises All: Receiving unsortedIDs');
-//           metadataObj.genres.sort();
-//           metadataObj.actors.sort();
-//           metadataObj.directors.sort();
-//           // console.log(metadataObj, 'Meta Data');
-//           return metadataObj;
-//         })
-//         .then((metadata) => {
-//           // console.log(movie, genre_array, 'Before Creating Movie');
-//           console.log(metadata, 'Before Updating Movie Metadata');
-//           models.Movies.where({ mongo_id: movie._id })
-//             .save({
-//               genres: JSON.stringify(metadata.genres),
-//               actors: JSON.stringify(metadata.actors),
-//               director: JSON.stringify(metadata.directors)
-//             }, { patch: true })
-//             .catch((err) => {
-//               console.log(err, 'Movie Update - Promise ALl Error');
-//             });
-//         });
-//       // callback(null, 'DB Bookshelf: Movies Added');
-//       callback(null, 'Movie Added');
-//     });
-//   } else { //End of If Statement for Movie Array
-//     console.log('Error - Empty Movie Array');
-//     callback('Error - Empty Movie', null);
-//   }
-// };
 
 module.exports.getAllMovies = (req, res) => {
   models.Movies.fetchAll()
@@ -665,6 +502,3 @@ module.exports.getAllMovies = (req, res) => {
 module.exports.updateMovieInfo = (newInfo, callback) => {
   console.log(newInfo, callback, 'updateMovieInfo');
 };
-
-// module.exports.movieQueue = movieQueue;
-// module.exports.workQueue = workQueue;
