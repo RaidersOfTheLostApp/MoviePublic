@@ -9,6 +9,7 @@ const router = express.Router();
 const app = express();
 const tmdb = require('../movieAPIHelpers/tmdb.js');
 const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
+const omdbHelp = require('../movieAPIHelpers/omdbHelpers.js');
 const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
 const MovieController = require('../controllers/movies.js');
@@ -23,6 +24,18 @@ const sortByKey = (array, key) => {
     return ((x < y) ? -1 : ((x > y) ? 1 : 0));
   });
 };
+
+Date.prototype.addDays = function(days) {
+  var dat = new Date(this.valueOf());
+  dat.setDate(dat.getDate() + days);
+  return dat;
+}
+
+var today = new Date();
+var future = today.addDays(90)
+
+var todayDate = today.toJSON().split('T')[0];
+var futureDate = future.toJSON().split('T')[0];
 
 router.route('/')
   .get (middleware.auth.verify, (req, res, next) => {
@@ -79,22 +92,45 @@ router.route('/upcoming')
                 if (err) {
                   console.log(err);
                 } else {
-                  res.render('index.ejs', {
-                    data: {
-                      movieone: sorted,
-                      favorites: results,
-                      favoriteId: profile.attributes.favorites,
-                      user: req.user
+                    tmdbHelp.getUpcomingMovies(todayDate, futureDate, (err, movies) => {
+                     if (err) {
+                        console.log(err, 'UPCOMINGMOVIEERROR!');
+                     } else {
+                        var resultsArray = [];
+                        movies.forEach((value) => {
+                          omdbHelp.searchTitle(value.title, value.release_date, (err, result) => {
+                          if (err) {
+                            console.log('error in savemovies');
+                          }
+                          else {
+                            resultsArray.push(result);
+                            // console.log('the results array is no equal to', resultsArray);
+                          }
+                        })
+                        return resultsArray;
+                      }).then((resultsArray) => {
+                         res.render('index.ejs', {
+                          data: {
+                            movieone: resultsArray,
+                            favorites: [],
+                            favoriteId: [],
+                            user: req.user
+                          }
+                        })            
+                      })
                     }
-                  });
-                };
+                  })
+                }
               })
-            };
+            }
           })
         }
-      });
-    });
+      })
+    })
 
+
+
+                        
 
 router.route('/login')
   .get((req, res) => {
