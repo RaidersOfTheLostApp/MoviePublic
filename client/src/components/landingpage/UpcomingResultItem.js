@@ -1,10 +1,20 @@
 import React from 'react';
+import _ from 'lodash';
+import $ from 'jquery';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
-import Favorite from 'material-ui/svg-icons/action/favorite';
-import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import MovieDataModal from './MovieDataModal.js';
-import VideoModal from './videoModal.js';
+import Star from 'material-ui/svg-icons/toggle/star';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import Subheader from 'material-ui/Subheader';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import Search from './Search';
+import Filtering from './Filtering';
+import Results from './Results';
+import UpcomingMovieDataModal from './UpcomingMovieDataModal.js';
+import UpcomingVideoModal from './UpcomingVideoModal.js';
 
 const customContentStyle = {
   backgroundColor: '#1a1aff',
@@ -25,23 +35,23 @@ const styles = {
   },
   gridList: {
     display: 'flex',
-    overflowX: 'auto'
-    // width: '100%'
-    // height: '200'
+    overflowX: 'auto',
+    width: '100%',
+    height: '100%'
   },
   titleStyle: {
     color: 'rgb(0, 188, 212)',
   },
 };
 
-class ResultsListItem extends React.Component {
+class UpcomingResultsListItem extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
-      favoriteId: this.props.favoriteId,
-      favorites: this.props.favorites,
+      followingId: this.props.followingId,
+      following: this.props.following,
       videoIsOpen: false
     };
 
@@ -53,71 +63,74 @@ class ResultsListItem extends React.Component {
     this.closeVideoModal = this.closeVideoModal.bind(this);
   }
 
-  getFavoriteIcon(movie) {
-    var arr = this.state.favoriteId;
+  getFollowingIcon(movie) {
+    var arr = this.state.followingId;
     return (
       <IconButton onClick={()=>{
-        this.addFavorites(movie);
+        this.addFollowingMovie(movie);
       }}>
-        {(arr.indexOf(movie._id.toString()) !== -1) ?
-          <Favorite color="white" /> :
-          <FavoriteBorder color="white" />
+        {(arr.indexOf(movie.imdbID.toString()) !== -1) ?
+          <Star color="white" /> :
+          <StarBorder color="white" /> 
         }
       </IconButton>
     );
   }
 
-  addFavorites(movie) {
-    var movieId = (movie._id);
-    if (this.state.favoriteId.indexOf(movieId) === -1) {
+  addFollowingMovie(movie) {
+    var movieId = (movie.imdbID);
+    if (this.state.followingId.indexOf(movieId) === -1) {
       $.ajax({
         method: 'POST',
-        url: '/api/profiles/addfavorites',
-        data: movie._id,
+        url: '/api/profiles/addfollowing',
+        data: {
+          following: movie,
+          followingId: movie.imdbID
+        },
         success: (user) => {
-          console.log('********* success favorites updated for user ' + user);
-          var favId = this.state.favoriteId;
-          var favorites = this.state.favorites;
-          favId.push(movieId);
-          favorites.push(movie);
-
+          console.log('********* success following updated for user ' + user);
+          var followingId = this.state.followingId;
+          followingId.push(movieId);
+          var following = this.state.following;
+          following.push(movie);
+      
           this.setState({
-            favorites: favorites,
-            favoriteId: favId
+            following: following,
+            followingId: followingId
           });
         },
         error: (error) => {
-          console.log('************* error updating favorites for user', error);
+          console.log('************* error updating following for user', error);
         }
       });
     } else {
-      console.log('this favorite is already in the list');
+      console.log('this following is already in the list');
 
       $.ajax({
         method: 'POST',
-        url: '/api/profiles/removefavorites',
-        data: movie._id,
+        url: '/api/profiles/removefollowing',
+        data: movie.id,
         success: (user) => {
-          console.log('********* favorite removed for user ' + user);
+          console.log('********* following removed for user ' + user);
 
-          var favId = this.state.favoriteId;
-          var favorites = this.state.favorites;
-          var favIndex = favId.indexOf(movieId);
-          favId.splice(favIndex, 1);
-          for (var i = 0; i < favorites.length; i++) {
-            if (favorites[i]._id === movieId) {
-              favorites.splice(i, 1);
+          var followingId = this.state.followingId;
+          var following = this.state.following;
+          var followingIndex = followingId.indexOf(movieId);
+          followingId.splice(followingIndex, 1);
+          for (var i = 0; i < following.length; i++) {
+            if (following[i].imdbID === movieId) {
+              following.splice(i, 1);
             }
           }
 
           this.setState({
-            favorites: favorites,
-            favoriteId: favId
+            following: following,
+            followingId: followingId 
           });
 
         },
         error: (error) => {
-          console.log('************* error removing favorite for user ', error);
+          console.log('************* error removing following for user ', error);
         }
       });
     }
@@ -152,8 +165,8 @@ class ResultsListItem extends React.Component {
     this.setState({
       videoIsOpen: false,
     });
-    if (cb) {
-      cb();
+    if (cb) { 
+      cb(); 
     }
   }
 
@@ -178,27 +191,25 @@ class ResultsListItem extends React.Component {
   }
 
   render() {
-    console.log('the results item movie is', this.props.movieP);
+    console.log(this.props.movieP.length);
     return (
-      <div style={{height: '260px'}}>
+      <div>
         <GridTile
           key={this.props.k}
-          subtitle={<span>by <b>{this.props.movieP.directors}</b></span>}
-          title={this.props.movieP.title}
-          actionIcon={this.getFavoriteIcon(this.props.movieP)}
-          titlePosition={'bottom'}
-          style={{height:'260px'}}
+          subtitle={<span>by <b>{this.props.movieP.Director}</b></span>}
+          title={this.props.movieP.Title}
+          actionIcon={this.getFollowingIcon(this.props.movieP)}
         >
-          <img src={this.props.movieP.poster} onClick={this.openModal} className='imgResultItem'/>
+          <img src={this.props.movieP.Poster} onClick={this.openModal} height="100%" width="100%"/>
         </GridTile>
-        <MovieDataModal
+        <UpcomingMovieDataModal
           closeModal={this.closeModal}
           openModal={this.openModal}
           movieP={this.props.movieP}
           modalIsOpen={this.state.modalIsOpen}
           switchToVideoModal={this.switchToVideoModal}
         />
-        <VideoModal
+        <UpcomingVideoModal
           closeModal={this.closeVideoModal}
           openModal={this.switchToVideoModal}
           movieP={this.props.movieP}
@@ -210,4 +221,4 @@ class ResultsListItem extends React.Component {
   }
 }
 
-export default ResultsListItem;
+export default UpcomingResultsListItem;
