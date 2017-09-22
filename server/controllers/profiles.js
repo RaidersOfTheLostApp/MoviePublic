@@ -410,8 +410,10 @@ module.exports.removeFavorites = (req, res) => {
 };
 
 module.exports.addFollowing = (req, res) => {
+  var movie = req.body;
   var movieId = req.body.imdbID;
   console.log('the request is', movieId);
+  console.log('the movie is *****', movie);
   var newArray = [];
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
