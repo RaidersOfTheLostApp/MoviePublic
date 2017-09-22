@@ -118,11 +118,11 @@ class Results extends React.Component {
             <Filtering sortByRating={this.sortByRating} rating={this.state.minRating}/>
           </div>
         </div>
-        <Subheader>Recommended Movies For You</Subheader>
+        <Subheader>Top 10 Recommended Movies For You</Subheader>
         <Divider />
         <br />
         <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', border: 'solid'}}>
-          {this.state.movies.map((movie, i) => (
+          {this.props.recs.map((movie, i) => (
             <ResultScroll
               k={i}
               movieP={movie}

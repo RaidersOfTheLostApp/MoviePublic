@@ -1,6 +1,6 @@
 const models = require('../../db/models');
 
-module.exports.getRecommendations = (req, res) => {
+module.exports.getRecommendations = (user_id, callback) => {
   let favoritesObj = {
     favorites: [],
     genres: [],
@@ -10,18 +10,28 @@ module.exports.getRecommendations = (req, res) => {
   };
   // console.log(req.params.id, 'req id');
 
-  var isFavorite = function(id) {
-    for (var k = 0; k < favorites.length; k++) {
-      if (id === favorites[k]) {
-        console.log('Favorite True');
-        return true;
-      }
-    }
-    console.log('Favorite False');
-    return false;
-  };
-  models.Profile.where({ id: req.params.id }).fetch()
-    .then(profile => {
+  // var isFavorite = function(id) {
+  //   for (var k = 0; k < favorites.length; k++) {
+  //     if (id === favorites[k]) {
+  //       console.log('Favorite True');
+  //       return true;
+  //     }
+  //   }
+  //   console.log('Favorite False');
+  //   return false;
+  // };
+  // console.log(req, ‘sess’);
+  // //ID is the ID corresponding to the Postgres ID Index for the User
+  // var insertID = 1;
+  // if (req.session.passport.user) {
+  //   insertID = req.session.passport.user;
+  // } else if (req.params.id) {
+  //   insertID = req.params.id;
+  // }
+  //  console.log(req, ‘sess’);
+
+   models.Profile.where({ id: user_id }).fetch()
+     .then(profile => {
       if (!profile) {
         throw profile;
       }
@@ -50,23 +60,28 @@ module.exports.getRecommendations = (req, res) => {
           recAlgorithm(favoritesObj, movies, (err, results) => {
             if (err) {
               console.log(err, 'Alg Err');
-              res.status(500).send(err);
+              // res.status(500).send(err);
+              callback(err);
             } else {
               console.log(results, 'Results');
               // res.status(201).send(results);
+              callback(null, results);
             }
           });
         })
         .error(err => {
           console.log('Server Controller get all Movies - Error Caught');
+          callback(err);
         });
 
     })
     .error(err => {
-      res.status(500).send(err);
+      // res.status(500).send(err);
+      callback(err);
     })
     .catch((err) => {
       console.log(err, 'Big Error Caught');
+      callback(err);
     });
 };
 
@@ -153,10 +168,11 @@ var recAlgorithm = function(favorites, allMovies, callback) {
   var recommendedMovies = filteredMovies.slice(0, 10);
 
   var movieRatingID = recommendedMovies.map((movie) => {
-    newMovie = {
-      mongo_id: movie.mongo_id,
-      algRating: movie.algRating
-    };
+    // newMovie = {
+    //   mongo_id: JSON.parse(movie.mongo_id),
+    //   algRating: movie.algRating
+    // };
+    newMovie = JSON.parse(movie.mongo_id);
     return newMovie;
   });
 
@@ -165,6 +181,7 @@ var recAlgorithm = function(favorites, allMovies, callback) {
 
   // console.log(movieRatingID, 'Just ID Ratings');
   callback(null, movieRatingID);
+  //no error catch code anywhere
 };
 
 

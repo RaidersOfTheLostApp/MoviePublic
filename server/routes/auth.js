@@ -12,9 +12,10 @@ const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const omdbHelp = require('../movieAPIHelpers/omdbHelpers.js');
 const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
-const MovieController = require('../controllers/movies.js');
+// const MovieController = require('../controllers/movies.js');
 const search = require('./search.js');
 const async = require('async');
+const RecController = require('../controllers/recs');
 
 app.use(bodyParser.text({ type: 'text/plain' }));
 
@@ -47,30 +48,40 @@ router.route('/')
           var movies;
           searchDb.getMovies((err, data) => {
             if (err) {
-              console.log(err);
+              console.log('************* error from getMovies ', err);
             } else {
               movies = data;
               var sorted = sortByKey(movies, 'year');
-              searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+              var recommendations;
+              RecController.getRecommendations(req.session.passport.user, (err, data) => {
                 if (err) {
-                  console.log(err);
+                  console.log('********** error from getRecommendations ', err);
                 } else {
-                  console.log('the results length is ', results.length);
-                  res.render('index.ejs', {
-                    data: {
-                      movieone: sorted,
-                      favorites: results,
-                      favoriteId: profile.attributes.favorites || [],
-                      user: req.user
+                  // console.log('********** data for searchByIds ', data);
+                  searchDb.searchByIds(data, (err, results) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log('********** recommendations results ', results);
+                      recommendations = results;
+                      res.render('index.ejs', {
+                        data: {
+                          movieone: sorted,
+                          favorites: results,
+                          favoriteId: profile.attributes.favorites || [],
+                          user: req.user,
+                          recs: recommendations || []
+                        }
+                      });
                     }
-                  });
+                  })
                 }
               });
             }
           });
         }
       });
-  });
+    });
 
 router.route('/upcoming')
   .get (middleware.auth.verify, (req, res, next) => {
@@ -103,7 +114,7 @@ router.route('/upcoming')
                               }
                             })
                           }
-                        })       
+                        })
                       }
                     })
                   }
@@ -111,8 +122,8 @@ router.route('/upcoming')
               }
             })
           })
-        
-       
+
+
 
 router.route('/login')
   .get((req, res) => {

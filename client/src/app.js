@@ -33,7 +33,11 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" render={() => (
             <MuiThemeProvider>
-              <Results results = {dataFromServer.movieone} rerender ={this.state.resultsRend} favoriteId = {this.state.favoriteId} favorites = {this.state.favorites} />
+              <Results results = {dataFromServer.movieone}
+                rerender ={this.state.resultsRend}
+                favoriteId = {this.state.favoriteId}
+                favorites = {this.state.favorites}
+                recs = {dataFromServer.recs}/>
             </MuiThemeProvider>
           )}
           />
@@ -57,7 +61,7 @@ class App extends React.Component {
             <MuiThemeProvider>
               <UserSetup user={dataFromServer.user}
                 genres={dataFromServer.genres}
-                actors={dataFromServer.actors} 
+                actors={dataFromServer.actors}
                 directors={dataFromServer.directors}
                 genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}
