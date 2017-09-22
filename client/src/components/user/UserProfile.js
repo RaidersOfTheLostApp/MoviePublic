@@ -9,6 +9,7 @@ import CommunicationEmail from 'material-ui/svg-icons/communication/email';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import {GridList, GridTile} from 'material-ui/GridList';
+import ResultScroll from '../landingpage/ResultScroll';
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -50,14 +51,12 @@ class UserProfile extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.favorites.map((movie, i) => (
-              <a href = {movie.website === 'N/A' ? '#' : movie.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={movie.title}
-                >
-                  <img src = {movie.poster}/>
-                </GridTile>
-              </a>
+              <ResultScroll
+                k={i}
+                movieP={movie}
+                title={movie.title}
+                subtitle={<span>by <b>{movie.directors[0]}</b></span>}
+                />
             ))}
           </GridList>
           <Divider />
