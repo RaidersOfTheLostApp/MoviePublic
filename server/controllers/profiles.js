@@ -453,11 +453,11 @@ module.exports.removeFavorites = (req, res) => {
 //     });
 // };
 
-module.exports.addFollowing = (req, res) => {
+module.exports.addIMDbFollow = (req, res) => {
   var movie = req.body;
   var movieId = req.body.imdbID;
-  console.log('the request is', movieId);
-  console.log('the movie is *****', movie);
+  // console.log('the request is', movieId);
+  // console.log('the movie is *****', req.body);
   var newArray = [];
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
@@ -473,6 +473,7 @@ module.exports.addFollowing = (req, res) => {
       console.log(following === null);
       if (following === null) {
         newArray = newArray.concat([movieId]);
+        // newArray.push(movieId);
       } else {
         for (var i = 0; i < following.length; i++) {
           newArray.push(following[i]);
@@ -484,6 +485,7 @@ module.exports.addFollowing = (req, res) => {
     })
     .then((profile) => {
       console.log('********* following values have successfully been saved to DB for user ' + profile.attributes.display);
+      UpcomingMovies.addUpcomingMovie(movie);
       res.status(201).send(profile.attributes.display);
     })
     .error(err => {

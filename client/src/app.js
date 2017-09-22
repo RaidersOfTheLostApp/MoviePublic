@@ -79,6 +79,7 @@ class App extends React.Component {
                 genreList={dataFromServer.genres}
                 actorList={dataFromServer.actors}
                 directorList={dataFromServer.directors}
+                imdbFollow={dataFromServer.imdbFollow}
                 vod={dataFromServer.vod_subscriptions}/>
             </MuiThemeProvider>
           )}

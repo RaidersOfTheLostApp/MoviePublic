@@ -26,7 +26,9 @@ class Following extends React.Component {
 
       genreList: props.genreList,
       actorList: props.actorList,
-      directorList: props.directorList
+      directorList: props.directorList,
+
+      imdbFollow: props.imdbFollow || []
     };
   }
 
@@ -144,8 +146,28 @@ class Following extends React.Component {
   }
 
   render() {
+    console.log('********* movieP', this.state.imdbFollow);
     return (
       <div className='muiThemeProvider'>
+        <div className='followRoot container'>
+          <div className='row'>
+            <div className='col-4'>
+              <Subheader>UPCOMING MOVIES You Are Following</Subheader>
+            </div>
+            <div className='col-4'>
+            </div>
+          </div>
+          <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+            {this.state.imdbFollow.map((imdb, i) => (
+              <ResultScroll
+                k={i}
+                movieP={imdb}
+                title={imdb.title}
+                subtitle={<span>Release Date <b>{imdb.release_date}</b></span>}
+              />
+            ))}
+          </GridList>
+        </div>
         <div className='followRoot container'>
           <div className='row'>
             <div className='col-4'>
