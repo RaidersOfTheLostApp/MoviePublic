@@ -76,8 +76,12 @@ h4 {
   overflowY: 'auto';
 }*/
 
+div.box-sizing {
+  height: '260px';
+}
+
 img.imgResultItem {
-  /*height: 310px;*/
+  height: 100%;
   width: 100%;
 }
 
