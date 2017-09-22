@@ -42,6 +42,7 @@ class Results extends React.Component {
         console.log(results, '^^^^');
         var container = [];
         for (var i = 0; i < results.length; i++) {
+          console.log(results, '!!');
           container.push(results[i].item);
           if (container.length === results.length) {
             this.setState({

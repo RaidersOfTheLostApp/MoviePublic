@@ -92,15 +92,15 @@ exports.up = function (knex, Promise) {
   ]);
 };
 
-exports.down = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.dropTable('auths'),
-    knex.schema.dropTable('profiles'),
-    knex.schema.dropTable('awards'),
-    knex.schema.dropTable('crew'),
-    knex.schema.dropTable('genres'),
-    knex.schema.dropTable('movies'),
-    knex.schema.dropTable('payment_methods'),
-    knex.schema.dropTable('transactions')
-  ]);
-};
+// exports.down = function(knex, Promise) {
+//   return Promise.all([
+//     knex.schema.dropTable('auths'),
+//     knex.schema.dropTable('profiles'),
+//     knex.schema.dropTable('awards'),
+//     knex.schema.dropTable('crew'),
+//     knex.schema.dropTable('genres'),
+//     knex.schema.dropTable('movies'),
+//     knex.schema.dropTable('payment_methods'),
+//     knex.schema.dropTable('transactions')
+//   ]);
+// };

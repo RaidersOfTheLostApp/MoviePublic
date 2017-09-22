@@ -50,7 +50,6 @@ var movieSchema = mongoose.Schema({
   website: { type: String, required: true },
   theater: Array,
   trailers: { type: Array, required: true },
-  similar: Array,
   count: Number
 });
 
@@ -128,7 +127,7 @@ var saveMovies = (movies, cb) => {
         console.log(value.title, value.release_date, '@@@@@@@@@@');
         if (!data || data[0] === '<' || data[0] === 'I') {
 
-          console.log(data);
+
           console.log('data is wierd');
         } else {
           data = JSON.parse(data);
@@ -165,15 +164,15 @@ var saveMovies = (movies, cb) => {
                     website: data.Website,
                     theater: data.Theater,
                     trailers: trailers,
-                    similar: similar,
                     count: 1
                   });
+                  // console.log(newMovie, '!%!%!%')
                   newMovie.save((err, movieObj) => {
                     if (err) {
-                      // console.log(err, 'MongoDB - Movie Add Error');
+                      console.log('MongoDB - Movie Add Error');
                       // console.log(err.name, 'MongoDB - Movie Add Error');
                     } else {
-                      // console.log(res, 'MongoDB - Movie Add Success');
+                      console.log('MongoDB - Movie Add Success');
                       // console.log('MongoDB - Movie Add Success');
                       pg.queueAdd('movie', movieObj);
                       // pgAddMovie(res, (err, results) => {
@@ -191,7 +190,7 @@ var saveMovies = (movies, cb) => {
               });
 
 
-            
+
             }
 
           });
@@ -207,7 +206,7 @@ var saveMovies = (movies, cb) => {
 };
 
 var saveToId = (array, cb) => {
-  console.log(array, 'THINGSAREHERE');
+
   async.each(array, (movie) => {
     findById(movie.id, (err, res) => {
       if (err) {

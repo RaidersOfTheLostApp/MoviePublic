@@ -12,6 +12,7 @@ const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const omdbHelp = require('../movieAPIHelpers/omdbHelpers.js');
 const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
+var flash = require('connect-flash');
 // const MovieController = require('../controllers/movies.js');
 const search = require('./search.js');
 const async = require('async');
@@ -74,14 +75,14 @@ router.route('/')
                         }
                       });
                     }
-                  })
+                  });
                 }
               });
             }
           });
         }
       });
-    });
+  });
 
 router.route('/upcoming')
   .get (middleware.auth.verify, (req, res, next) => {
@@ -115,18 +116,18 @@ router.route('/upcoming')
                               favoriteId: [],
                               user: req.user
                             }
-                          })
+                          });
                         }
-                      })
+                      });
                     }
-                  })
+                  });
                 }
-              })
+              });
             }
-          })
+          });
         }
-      })
-    })
+      });
+  });
 
 
 

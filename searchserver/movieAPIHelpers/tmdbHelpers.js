@@ -44,8 +44,10 @@ var MovieList = {
     tmdb.call('/movie/' + id + '/videos', {
       'language': 'en-US',
     }, (e) => {
+      console.log(e, 'trailers');
       cb(null, e.results);
     }, (e) => {
+      console.log('errorintrailers');
       cb(e, null);
     });
   },
