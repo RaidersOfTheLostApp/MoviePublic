@@ -23,8 +23,8 @@ const customTitleStyle = {
 };
 
 const customInBoxStyle = {
-  backgroundColor: '#999999',
-  padding: '0px'
+  padding: '0px 0px 0px',
+  backgroundColor: 'red'
 };
 const styles = {
   root: {
@@ -43,7 +43,7 @@ const styles = {
 class MovieDataModal extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props, '%%%$$^^');
+    // console.log(this.props, '%%%$$^^');
     this.state = {
       similar: this.props.movieP.similar
     };
@@ -52,6 +52,7 @@ class MovieDataModal extends React.Component {
   }
 
   render() {
+
     const actions = [
       <FlatButton
         label="Movie Trailers"
@@ -64,10 +65,6 @@ class MovieDataModal extends React.Component {
         primary={true}
         onClick={this.props.closeModal}
       />,
-      <FlatButton
-        label="Buy Tickets"
-        primary={true}
-      />
     ];
     return (
       <div>
