@@ -25,7 +25,6 @@ class Navbar extends React.Component {
                 <a href="/profile"><RaisedButton label="Profile" /></a>
                 <a href="/setup"><RaisedButton label="Setup" /></a>
                 <a href="/logout"><RaisedButton label="Logout" /></a>
-                <a href="/upcoming"><RaisedButton label="Upcoming"/></a>
               </div>
               <div className='toolBarPadding'>
               </div>
