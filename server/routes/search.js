@@ -24,31 +24,31 @@ const querystring = require('querystring');
 
 router.route('/')
   .get(middleware.auth.verify, (req, res, next) => {
-    console.log(querystring.stringify(req.query))
-    axios.get('http://127.0.0.1:8080?value='+req.query.value)
+    console.log(querystring.stringify(req.query));
+    axios.get('http://127.0.0.1:8080?value=' + req.query.value)
       .then( data => {
-        console.log(data.data, '%%%%%')
-        res.send(data.data)
+        console.log(data.data, '%%%%%');
+        res.send(data.data);
       })
       .catch( err => {
-        console.log(err, 'searchbroke')
+        console.log(err, 'searchbroke');
       }
-    )
-  })
+      );
+  });
 
 router.route('/id')
   .get(middleware.auth.verify, (req, res, next) => {
-    console.log(querystring.stringify(req.query), 'in id')
-    axios.get('http://127.0.0.1:8080/id?value='+req.query.value)
+    console.log(querystring.stringify(req.query), 'in id');
+    axios.get('http://127.0.0.1:8080/id?value=' + req.query.value)
       .then( data => {
-        console.log(data.data, 'MAIN SERVER RESPONSE FROM SEARCH SERVER')
-        res.json(data.data)
+        console.log(data.data, 'MAIN SERVER RESPONSE FROM SEARCH SERVER');
+        res.json(data.data);
       })
       .catch( err => {
-        console.log(err, 'searchbroke')
+        console.log(err, 'searchbroke');
       }
-    )
-  })
+      );
+  });
 
 // router.route('/gettheaters')
 // .get(middleware.auth.verify, (req, res, next) => {

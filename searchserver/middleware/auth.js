@@ -11,13 +11,13 @@ var Promise = require('bluebird');
 //   };
 //   var newRedis = new RedisStore(redisStoreClient);
 // } else {
-  const redisClient = require('redis').createClient();
-  var redisStoreClient = {
-    client: redisClient,
-    host: 'localhost',
-    port: 6379
-  };
-  var newRedis = new RedisStore(redisStoreClient);
+const redisClient = require('redis').createClient();
+var redisStoreClient = {
+  client: redisClient,
+  host: 'localhost',
+  port: 6379
+};
+var newRedis = new RedisStore(redisStoreClient);
 // }
 
 module.exports.verify = (req, res, next) => {

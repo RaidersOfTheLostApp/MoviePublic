@@ -38,14 +38,14 @@ router.route('/')
         alert('search broken try again');
       } else {
         //if the search value is empty send every movie in the responseevery movie
-        if(req.query.value.length === 0) {
+        if (req.query.value.length === 0) {
 
           for (var i = 0; i < res1.length; i++) {
             res1[i].count ++;
           }
-          res.send(res1)
+          res.send(res1);
 
-        }else{
+        } else {
 
           //sort through searched movies and then send the results in the response
           var options = {
@@ -53,7 +53,7 @@ router.route('/')
             tokenize: false,
             includeScore: true,
             includeMatches: true,
-            threshold: 0.4  ,
+            threshold: 0.4,
             location: 0,
             distance: 100,
             maxPatternLength: 50,
@@ -69,7 +69,7 @@ router.route('/')
           var fuse = new Fuse(res1, options); // "list" is the item array
           var result = fuse.search(req.query.value);
           var sorted = sortByKey(result, 'score');
-          res.send(sorted)
+          res.send(sorted);
         }
       }
 
@@ -78,60 +78,60 @@ router.route('/')
         if (err) {
           console.log('TMBD Search Error');
         } else {
-          if(!movie){
-            return
+          if (!movie) {
+            return;
           }
           // console.log(movie, '@@@');
           searchDb.getidlist( (err, ids) => {
-            if(err) {
-              console.log(err, 'getidsbroken')
+            if (err) {
+              console.log(err, 'getidsbroken');
             }
             // console.log(ids, ')(())')
 
             //if the id table is empty, insert all movies
-            if(ids.length === 0) {
+            if (ids.length === 0) {
               movie.forEach(value => {
                 saveArray.push({
                   id: value.id,
                   title: value.title,
                   release_date: value.release_date,
                   count: 1
-                })
-              })
-              console.log(saveArray)
-              if(saveArray.length === movie.length){
+                });
+              });
+              console.log(saveArray);
+              if (saveArray.length === movie.length) {
                 searchDb.saveToId(saveArray, (err, res) => {
-                  if(err){
-                    console.log('error')
-                  }else{
+                  if (err) {
+                    console.log('error');
+                  } else {
                     // console.log(res)
                   }
-                })
+                });
               }
-            }else{
+            } else {
               //otherwise, grab every movie and create an object with id and count to store in a queue
               //the code should update counts for stored ids and create new objects for new ids
-              for (var j = 0; j < movie.length; j++){
-                for(var i = 0; i < ids.length; i++) {
-                  console.log(movie[j].id , ids[i].id)
-                  if(movie[j].id === ids[i].id) {
-                    console.log('here')
+              for (var j = 0; j < movie.length; j++) {
+                for (var i = 0; i < ids.length; i++) {
+                  console.log(movie[j].id, ids[i].id);
+                  if (movie[j].id === ids[i].id) {
+                    console.log('here');
                     saveArray.push({
                       id: movie[j].id,
                       title: movie[j].title,
                       release_date: movie[j].release_date,
                       stored: ids[i].stored
-                    })
+                    });
                     break;
                   }
                 }
                 if (i === ids.length) {
-                  console.log('madeend')
+                  console.log('madeend');
                   saveArray.push({
                     id: movie[j].id,
                     title: movie[j].title,
                     release_date: movie[j].release_date,
-                  })
+                  });
                   // console.log(saveArray, j , '%%%')
                 }
                 // console.log(saveArray, '((((((()))))))');
@@ -143,16 +143,16 @@ router.route('/')
               }
             }
             searchDb.saveToId(saveArray, (err, res) => {
-              if(err){
+              if (err) {
                 // console.log('error')
-              }else{
+              } else {
                 // console.log('working')
               }
-            })
+            });
           });
         }
       });
-    })
+    });
   });
 
 router.route('/id')
