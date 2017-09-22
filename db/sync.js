@@ -6,7 +6,7 @@ var tmdbHelper = require('../server/movieAPIHelpers/tmdbHelpers');
 
 // Runs Job Every 10 minutes
 var movieCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Movie CRON - job running every 2 seconds');
+  console.info('Movie CRON - job running every 1 seconds');
   workMovieQueue();
   // console.info('CRON job completed');
 }, null, //function to execute when the job stops
@@ -17,32 +17,71 @@ true, //does not start the job right now
 //movieCron.stop() to stop the job after last element completes
 
 var genreCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Genre CRON - job running every 2 seconds');
+  console.info('Genre CRON - job running every 1 seconds');
   workGenreQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
 var actorCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Actor CRON - job running every 2 seconds');
+  console.info('Actor CRON - job running every 1 seconds');
   workActorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
 var directorCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Director CRON - job running every 2 seconds');
+  console.info('Director CRON - job running every 1 seconds');
   workDirectorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
 var imageCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Image CRON - job running every 2 seconds');
+  console.info('Image CRON - job running every 1 seconds');
   workImageQueue();
 }, null,
 true,
 'America/Los_Angeles');
+
+var upcomingCron = new cron.CronJob('1 * * * * *', function() {
+  console.info('Upcoming CRON - job running every 1 seconds');
+  checkUpcomingQueue();
+}, null,
+true,
+'America/Los_Angeles');
+
+var checkUpcomingQueue = function() {
+  console.log('Upcoming Queue - Pre Work');
+  //get all movies from upcoming where release date in minus 7 days
+  //get phone number for all users with that id in follow_imdbMovies field
+  //send twilio to those phone numbers with movie name and release date
+  // models.Upcoming.where().fetchAll()
+  //   async.eachSeries(imageQueue, function(crew, callback) {
+  //     // console.log('*********** image in Queue processing ', crew);
+  //     addImage(crew.attributes, (err, results) => {
+  //       if (err) {
+  //         console.log('Image Queue Error ', err);
+  //         callback(err);
+  //       } else {
+  //         console.log(imageQueue.length, 'Queue - Image Add Completed');
+  //         // console.log('*********** current imageQueue ', imageQueue);
+  //         imageQueue.shift();
+  //         console.log(imageQueue.length, 'Queue - Image Removed');
+  //         // console.log('*********** current imageQueue ', imageQueue);
+  //         // workQueue();
+  //         console.log('********** Image Queue Success ', results);
+  //         callback();
+  //       }
+  //     });
+  //   }, function(err) {
+  //     if (err) {
+  //       console.log('********** workImageQueue eachSeries error ', err);
+  //     } else {
+  //       console.log('************ workImageQueue success all files complete');
+  //     }
+  //   });
+};
 
 /**
 * Queue for Movies to be Added to Postgres
