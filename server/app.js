@@ -24,7 +24,7 @@ app.use('/', routes.auth);
 app.use('/api', routes.api);
 app.use('/api/profiles', routes.profiles);
 app.use('/search', routes.search);
-app.use('/recs', routes.recs);
+// app.use('/recs', routes.recs);
 // app.use('/message', routes.message);
 // app.use('/api/favorites', routes.favorites);
 

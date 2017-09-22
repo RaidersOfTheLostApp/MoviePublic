@@ -14,6 +14,11 @@ import ResultScroll from '../landingpage/ResultScroll';
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      favorites: this.props.favorites,
+      favoriteId: this.props.favoriteId,
+      movieP: this.props.movie
+    };
   }
   render() {
     return (

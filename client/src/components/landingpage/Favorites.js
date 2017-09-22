@@ -10,27 +10,27 @@ class Favorites extends React.Component {
     this.state = {
       favorites: this.props.favorites,
       favoriteId: this.props.favoriteId,
-      modalIsOpen: false,
+      // modalIsOpen: false,
       movieP: this.props.movie
     };
   }
 
-  openModal() {
-    this.setState({modalIsOpen: true});
-  }
-
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#f00';
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
-  }
-
-  componentDidUpdate() {
-    this.render();
-  }
+  // openModal() {
+  //   this.setState({modalIsOpen: true});
+  // }
+  //
+  // afterOpenModal() {
+  //   // references are now sync'd and can be accessed.
+  //   this.subtitle.style.color = '#f00';
+  // }
+  //
+  // closeModal() {
+  //   this.setState({modalIsOpen: false});
+  // }
+  //
+  // componentDidUpdate() {
+  //   this.render();
+  // }
 
   render() {
     return (
