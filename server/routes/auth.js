@@ -25,17 +25,17 @@ const sortByKey = (array, key) => {
   });
 };
 
-// Date.prototype.addDays = function(days) {
-//   var dat = new Date(this.valueOf());
-//   dat.setDate(dat.getDate() + days);
-//   return dat;
-// }
+Date.prototype.addDays = function(days) {
+  var dat = new Date(this.valueOf());
+  dat.setDate(dat.getDate() + days);
+  return dat;
+}
 
-// var today = new Date();
-// var future = today.addDays(90)
+var today = new Date();
+var future = today.addDays(90)
 
-// var todayDate = today.toJSON().split('T')[0];
-// var futureDate = future.toJSON().split('T')[0];
+var todayDate = today.toJSON().split('T')[0];
+var futureDate = future.toJSON().split('T')[0];
 
 router.route('/')
   .get (middleware.auth.verify, (req, res, next) => {
