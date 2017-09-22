@@ -76,30 +76,30 @@ var MovieList = {
     });
   },
 
-  getSimilarMovies: (movie, cb) => {
-    tmdb.call('/movie/' + movie + '/similar', {
-      'language': 'en-US',
-    }, (e) => {
-      var movieArr = [];
-      e.results.forEach( value => {
-        console.log(value);
-        omdbSearch(value.title, value.release_date, (err, res) => {
-          if (!res || res[0] === '<' || res[0] === 'I') {
-            cb(err, null);
-          } else {
-            var resp = JSON.parse(res);
-            movieArr.push(resp.imdbID);
-            if (movieArr.length === e.results.length) {
-              cb(null, movieArr);
-            }
-          }
-        });
-      });
-    }, (e) => {
-      cb(e, null);
-    });
-
-  },
+  // getSimilarMovies: (movie, cb) => {
+  //   tmdb.call('/movie/' + movie + '/similar', {
+  //     'language': 'en-US',
+  //   }, (e) => {
+  //     var movieArr = [];
+  //     e.results.forEach( value => {
+  //       console.log(value);
+  //       omdbSearch(value.title, value.release_date, (err, res) => {
+  //         if (!res || res[0] === '<' || res[0] === 'I') {
+  //           cb(err, null);
+  //         } else {
+  //           var resp = JSON.parse(res);
+  //           movieArr.push(resp.imdbID);
+  //           if (movieArr.length === e.results.length) {
+  //             cb(null, movieArr);
+  //           }
+  //         }
+  //       });
+  //     });
+  //   }, (e) => {
+  //     cb(e, null);
+  //   });
+  //
+  // },
 
   // getPopularMovies: (cb) => {
   //   tmdb.call('/movie/popular', (e) => {

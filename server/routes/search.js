@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const app = express();
 
-const tmdb = require('../movieAPIHelpers/tmdb.js');
-const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const models = require('../../db/models');
 const searchDb = require('../../mongodb/db.js');
 const search = require('./search.js');

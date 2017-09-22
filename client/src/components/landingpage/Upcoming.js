@@ -34,7 +34,7 @@ class Upcoming extends React.Component {
     this.setState({
       [event.target.name]: toggled,
     });
-  };
+  }
 
   render() { 
     console.log('the upcoming movies are', this.state.movies); 

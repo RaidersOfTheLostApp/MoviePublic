@@ -139,62 +139,59 @@ var saveMovies = (movies, cb) => {
           var trailers = [];
           Movie.find({ id: data.imdbID }, (err, res) => {
             if (res.length === 0) {
-              getSimilarMovies(data.imdbID, (err, res) => {
+
+              getTrailers(id, (err, res) => {
                 if (err) {
-                  console.log('Error: No Similar Movies');
+                  console.log('Error: getTrailers Search');
+                } else {
+                  trailers = res;
+                  var newMovie = new Movie({
+                    id: id,
+                    title: data.Title,
+                    year: data.Year,
+                    release_date: data.Released,
+                    genre: data.Genre,
+                    runtime: data.Runtime,
+                    directors: data.Director,
+                    writers: data.Writer,
+                    actors: data.Actors,
+                    description: data.Plot,
+                    awards: data.Awards,
+                    poster: data.Poster,
+                    ratings: data.Ratings,
+                    language: data.Language,
+                    box_office: data.BoxOffice,
+                    production: data.Production,
+                    website: data.Website,
+                    theater: data.Theater,
+                    trailers: trailers,
+                    similar: similar,
+                    count: 1
+                  });
+                  newMovie.save((err, movieObj) => {
+                    if (err) {
+                      // console.log(err, 'MongoDB - Movie Add Error');
+                      // console.log(err.name, 'MongoDB - Movie Add Error');
+                    } else {
+                      // console.log(res, 'MongoDB - Movie Add Success');
+                      // console.log('MongoDB - Movie Add Success');
+                      pg.queueAdd('movie', movieObj);
+                      // pgAddMovie(res, (err, results) => {
+                      //   if (err) {
+                      //     // console.log(err, 'Server Response - PG Unable to Add Movies');
+                      //     // res.status(500).send('Postgres: Error adding movies');
+                      //   } else {
+                      //     // console.log(results, 'Server Response - PG Added Data');
+                      //     // res.status(201).send('Server Response - PG Added Data');
+                      //   }
+                      // });
+                    }
+                  });
                 }
-                getTrailers(id, (err, res) => {
-                  if (err) {
-                    console.log('Error: getTrailers Search');
-                  } else {
-                    trailers = res;
-                    var newMovie = new Movie({
-                      id: id,
-                      title: data.Title,
-                      year: data.Year,
-                      release_date: data.Released,
-                      genre: data.Genre,
-                      runtime: data.Runtime,
-                      directors: data.Director,
-                      writers: data.Writer,
-                      actors: data.Actors,
-                      description: data.Plot,
-                      awards: data.Awards,
-                      poster: data.Poster,
-                      ratings: data.Ratings,
-                      language: data.Language,
-                      box_office: data.BoxOffice,
-                      production: data.Production,
-                      website: data.Website,
-                      theater: data.Theater,
-                      trailers: trailers,
-                      similar: similar,
-                      count: 1
-                    });
-                    newMovie.save((err, movieObj) => {
-                      if (err) {
-                        // console.log(err, 'MongoDB - Movie Add Error');
-                        // console.log(err.name, 'MongoDB - Movie Add Error');
-                      } else {
-                        // console.log(res, 'MongoDB - Movie Add Success');
-                        // console.log('MongoDB - Movie Add Success');
-                        pg.queueAdd('movie', movieObj);
-                        // pgAddMovie(res, (err, results) => {
-                        //   if (err) {
-                        //     // console.log(err, 'Server Response - PG Unable to Add Movies');
-                        //     // res.status(500).send('Postgres: Error adding movies');
-                        //   } else {
-                        //     // console.log(results, 'Server Response - PG Added Data');
-                        //     // res.status(201).send('Server Response - PG Added Data');
-                        //   }
-                        // });
-                      }
-                    });
-                  }
-                });
-
-
               });
+
+
+            
             }
 
           });
