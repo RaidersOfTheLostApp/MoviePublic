@@ -16,8 +16,7 @@ class UserProfile extends React.Component {
     super(props);
     this.state = {
       favorites: this.props.favorites,
-      favoriteId: this.props.favoriteId,
-      movieP: this.props.movie
+      favoriteId: this.props.favoriteId, //TODO: get  from dataFromServer
     };
   }
   render() {
