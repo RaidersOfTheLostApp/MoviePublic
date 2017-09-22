@@ -1,6 +1,6 @@
 -- FOR LOADING SCHEMA ON HEROKU / DON'T RUN LOCALLY
 -- ?? heroku pg:psql --app app_name DATABASE < SCHEMA.sql
-
+--
 -- DROP DATABASE IF EXISTS movies;
 -- CREATE DATABASE movies;
 --

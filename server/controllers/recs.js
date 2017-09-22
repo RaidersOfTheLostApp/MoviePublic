@@ -30,8 +30,8 @@ module.exports.getRecommendations = (user_id, callback) => {
   // }
   //  console.log(req, ‘sess’);
 
-   models.Profile.where({ id: user_id }).fetch()
-     .then(profile => {
+  models.Profile.where({ id: user_id }).fetch()
+    .then(profile => {
       if (!profile) {
         throw profile;
       }

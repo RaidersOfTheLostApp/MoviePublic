@@ -60,7 +60,7 @@ class UserProfile extends React.Component {
                 movieP={movie}
                 title={movie.title}
                 subtitle={<span>by <b>{movie.directors[0]}</b></span>}
-                />
+              />
             ))}
           </GridList>
           <Divider />
@@ -95,13 +95,13 @@ class UserProfile extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.actorFollow.map((actor, i) => (
-                <GridTile
-                  key={i}
-                  title={actor.name}
-                  style={{height:'200px'}}
-                >
-                  <img src = {actor.image_url} className='imgResultItem'/>
-                </GridTile>
+              <GridTile
+                key={i}
+                title={actor.name}
+                style={{height: '200px'}}
+              >
+                <img src = {actor.image_url} className='imgResultItem'/>
+              </GridTile>
             ))}
           </GridList>
           <Divider />
@@ -112,13 +112,13 @@ class UserProfile extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.directorFollow.map((director, i) => (
-                <GridTile
-                  key={i}
-                  title={director.name}
-                  style={{height:'200px'}}
-                >
-                  <img src = {director.image_url} className='imgResultItem'/>
-                </GridTile>
+              <GridTile
+                key={i}
+                title={director.name}
+                style={{height: '200px'}}
+              >
+                <img src = {director.image_url} className='imgResultItem'/>
+              </GridTile>
             ))}
           </GridList>
         </div>

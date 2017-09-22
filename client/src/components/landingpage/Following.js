@@ -167,7 +167,7 @@ class Following extends React.Component {
                 movieP={genre}
                 title={genre.title}
                 subtitle={<span>by <b>{genre.directors[0]}</b></span>}
-                />
+              />
             ))}
           </GridList>
         </div>
@@ -192,7 +192,7 @@ class Following extends React.Component {
                 movieP={actor}
                 title={actor.title}
                 subtitle={<span>by <b>{actor.directors[0]}</b></span>}
-                />
+              />
             ))}
           </GridList>
         </div>
@@ -217,7 +217,7 @@ class Following extends React.Component {
                 movieP={director}
                 title={director.title}
                 subtitle={<span>by <b>{director.directors[0]}</b></span>}
-                />
+              />
             ))}
           </GridList>
         </div>
