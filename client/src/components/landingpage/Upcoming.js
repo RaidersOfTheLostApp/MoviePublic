@@ -10,7 +10,6 @@ import Filtering from './Filtering';
 import ResultsListItem from './ResultItem';
 import DatePicker from 'material-ui/DatePicker';
 import Toggle from 'material-ui/Toggle';
-import movieData from './movieTheaterData';
 
 const optionsStyle = {
   maxWidth: 255,
@@ -41,9 +40,7 @@ class Upcoming extends React.Component {
       minRating: 0,
       display: this.props.results,
       radius: 0,
-      dateRange: null,
-      upcomingMovies: [],
-      theaterMovies: movieData
+      dateRange: null
     };
 
     this.sortByRating = this.sortByRating.bind(this);
@@ -176,23 +173,15 @@ class Upcoming extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
-      var newArray = [];
+      // console.log(results);
       for (var i = 0; i < results.length; i++) {
         var releaseDate = results[i].release_date; 
         releaseDate = this.dateConvert(releaseDate);
 
         if (this.dateInRange(releaseDate, minDate, maxDate)) {
-          newArray.push(results[i]);
-          console.log(results[i].title);
+          console.log(results[i].title, releaseDate)
         }
        }
-
-       this.setState({
-        upcomingMovies: newArray
-       });
-
-      console.log('the upcoming movies are', this.state.upcomingMovies);
-
       },
       error: (err) => {
         console.log('err', err);
@@ -216,17 +205,7 @@ class Upcoming extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
-        // console.log(results);
-        for (var i = 0; i < results.length; i++) {
-          // console.log(results[i].title);
-        }
-
-        this.setState({
-          theaterMovies: results
-        });
-
         console.log(results);
-        // console.log('the movies in theaters are ', this.state.theaterMovies);
       },
       error: (err) => {
         console.log('err', err);
@@ -234,35 +213,7 @@ class Upcoming extends React.Component {
     });
   }
 
-  compareMovies() {
-    // var arrayOne = this.state.upcomingMovies;
-    var newArray = [];
-    var arrayTwo = this.state.theaterMovies;
-    // var matchedArray = [];
-    // var newArrayTwo = [];
-    for (var i = 0; i < arrayTwo.length; i++) {
-      if (arrayTwo[i].releaseYear === 2017) {
-        newArray.push(arrayTwo[i]);
-        console.log(arrayTwo[i].title);
-      }
-    }
-    console.log(newArray);
-    return newArray;
-
-    // for (var i = 0; i < arrayTwo.length; i++) {
-    //   newArrayTwo.push(arrayTwo[i].title);
-    // }
-
-    // for (var i = 0; i < arrayOne.length; i++) {
-    //   if (newArrayTwo.includes(arrayOne[i].title)) {
-    //     matchedArray.push(arrayOne[i]);
-    //   }
-    // }
-    // console.log(matchedArray);
-    // return matchedArray
-  }
-
-  render() {  
+  render() {
     return (
       <div className='gridRoot container'>
         <div className='row'>
@@ -294,9 +245,8 @@ class Upcoming extends React.Component {
         <button type="button" onClick = {() => this.getMovieData(this.state.minDate, this.state.maxDate)}>Click to Get Upcoming Movies!</button>
         <br/> <br/>
         <button type="button" onClick = {() => this.getTheaterData(this.state.minDate)}>Click to See Theaters for Upcoming Movies!</button>
-        <br/> <br/>
-        <button type="button" onClick = {() => this.compareMovies()}>Click to see which of your favorite movies are now in theaters!</button>
-        <br/> <br/>
+        <br/>
+        <br/>
         <select id = "radius">
         <option value="5">5 miles</option>
         <option value="10">10 miles</option>
@@ -304,9 +254,9 @@ class Upcoming extends React.Component {
         </select>
 
         <select id = "dateRange">
-        <option value="7">7 Days</option>
-        <option value="14">14 Days</option>
-        <option value="30">30 Days</option>
+        <option value="30">7 Days</option>
+        <option value="60">14 Days</option>
+        <option value="90">30 Days</option>
         </select>
 
         <br/> <br/>
@@ -340,4 +290,5 @@ class Upcoming extends React.Component {
 export default Upcoming;
 
 //Sample API Request:
+//http://data.tmsapi.com/v1.1/movies/showings?startDate=2017-10-31&numDays=7&zip=94117&radius=25&api_key=kew4j86k7c8ckcuv6q3sbbsk
 //http://data.tmsapi.com/v1.1/movies/showings?startDate=2016-09-18&numDays=60&zip=94117&radius=10&api_key=kew4j86k7c8ckcuv6q3sbbsk
