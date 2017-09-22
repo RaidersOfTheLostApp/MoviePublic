@@ -10,7 +10,7 @@ var MovieList = {
       'query': query,
       'include_adult': false,
       'video': true,
-      'page': 1,
+      'page': 1
     }, (e) => {
       cb(null, e.results);
     }, (e) => {

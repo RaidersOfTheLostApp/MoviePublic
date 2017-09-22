@@ -38,9 +38,7 @@ class Upcoming extends React.Component {
       favorites: this.props.favorites,
       movies: this.props.results,
       minRating: 0,
-      display: this.props.results,
-      radius: 0,
-      dateRange: null
+      display: this.props.results
     };
 
     this.sortByRating = this.sortByRating.bind(this);
@@ -164,28 +162,6 @@ class Upcoming extends React.Component {
     });
   }
 
-  getTheaterData(playingDate) {
-    var radius = document.getElementById('radius').value;
-    var dateRange = document.getElementById('dateRange').value;
-    $.ajax({
-      url: 'search/gettheaters',
-      method: 'GET',
-      data: {
-        playingDate: playingDate,
-        radius: radius,
-        dateRange: dateRange
-      },
-      dataType: 'json',
-      contentType: 'text/plain',
-      success: (results) => {
-        console.log(results);
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  }
-
   render() {
     return (
       <div className='gridRoot container'>
@@ -216,22 +192,6 @@ class Upcoming extends React.Component {
         </div>
         <br/>
         <button type="button" onClick = {() => this.getMovieData(this.state.minDate, this.state.maxDate)}>Click to Get Upcoming Movies!</button>
-        <br/> <br/>
-        <button type="button" onClick = {() => this.getTheaterData(this.state.minDate)}>Click to See Theaters for Upcoming Movies!</button>
-        <br/>
-        <br/>
-        <select id = "radius">
-        <option value="25">25 miles</option>
-        <option value="50">50 miles</option>
-        <option value="100">100 miles</option>
-        </select>
-
-        <select id = "dateRange">
-        <option value="30">30 Days</option>
-        <option value="60">60 Days</option>
-        <option value="90">90 Days</option>
-        </select>
-
         <GridList
           cellHeight='auto'
           cols={5}
