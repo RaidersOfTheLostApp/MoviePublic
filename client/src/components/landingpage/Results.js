@@ -25,12 +25,12 @@ class Results extends React.Component {
     };
     this.sortByRating = this.sortByRating.bind(this);
     this.searchToServer = this.searchToServer.bind(this);
-    this.styleGridList = {
-      width: '100%',
-      height: '1800px',
-      // cellHeight: '1500',
-      overflowY: 'auto'
-    };
+    // this.styleGridList = {
+    //   width: '100%',
+    //   height: '100%',
+    //   // cellHeight: '260px',
+    //   overflowY: 'auto'
+    // };
   }
 
   searchToServer(cb) {
@@ -140,8 +140,10 @@ class Results extends React.Component {
         <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', border: 'solid'}}>
           {this.state.movies.map((movie, i) => (
             <ResultScroll
-              key={i}
+              k={i}
               movieP={movie}
+              title={' '}
+              subtitle={movie.title}
               />
           ))}
         </GridList>
@@ -150,15 +152,16 @@ class Results extends React.Component {
         <Divider />
         <br />
         <GridList
-          cellHeight={100}
+          cellHeight={260}
           cols={5}
-          style={this.styleGridList}>
+          style={{overflowY: 'auto', height: '260px'}}>
           {(this.state.display).map( (movie, i) => (
             <ResultsListItem
-              key={i}
+              k={i}
               movieP={movie}
               favoriteId = {this.state.favoriteId}
               favorites = {this.state.favorites}
+              style={{height: '260px'}}
             />
           ))}
         </GridList>

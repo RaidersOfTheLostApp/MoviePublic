@@ -188,14 +188,14 @@ class ResultsListItem extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{height: '260px'}}>
         <GridTile
           key={this.props.k}
           subtitle={<span>by <b>{this.props.movieP.directors}</b></span>}
           title={this.props.movieP.title}
           actionIcon={this.getFavoriteIcon(this.props.movieP)}
           titlePosition={'bottom'}
-          style={{height:'300px'}}
+          style={{height:'260px'}}
         >
           <img src={this.props.movieP.poster} onClick={this.openModal} className='imgResultItem'/>
         </GridTile>

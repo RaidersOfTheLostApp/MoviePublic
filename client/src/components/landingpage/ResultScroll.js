@@ -191,7 +191,8 @@ class ResultScroll extends React.Component {
       <div>
         <GridTile
             key={this.props.k}
-            title={this.props.movieP.title}
+            title={this.props.title}
+            subtitle={this.props.subtitle}
             titlePosition={'bottom'}
             style={{height:'200px'}}
           >
