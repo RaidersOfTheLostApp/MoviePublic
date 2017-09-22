@@ -47,7 +47,7 @@ class Search extends React.Component {
             </div>
           </div>
           <div className='col-4 buttonSearch'>
-            <RaisedButton label='Submit' primary={true} onClick={this.props.searchToServer} />
+            <RaisedButton color="danger" label='Submit' primary={true} onClick={this.props.searchToServer} />
           </div>
         </div>
       </div>

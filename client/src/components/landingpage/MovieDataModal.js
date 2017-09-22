@@ -2,6 +2,7 @@ import React from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Subheader from 'material-ui/Subheader';
 
 const customContentStyle = {
 

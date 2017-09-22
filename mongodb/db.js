@@ -75,31 +75,6 @@ var searchByIds = (idArray, cb) => {
     var movieList = [];
     var len = idArray.length;
     idArray.forEach((value, i) => {
-<<<<<<< 293faf53d03faa49da1f362dda8aefd24eb79b37
-       if (value.length > 20) {
-         getMovies({ _id: value }, (err, res) => {
-           if (err) {
-             cb(err, null);
-           } else {
-             movieList.push(res[0]);
-           }
-           if (movieList.length === len) {
-             cb(null, movieList);
-           }
-         });
-       } else {
-         getMovies({ id: value }, (err, res) => {
-           if (err) {
-             cb(err, null);
-           } else {
-             movieList.push(res[0]);
-           }
-           if (movieList.length === len) {
-             cb(null, movieList);
-           }
-         });
-       }
-=======
       if (value.length > 20) {
         console.log(value, '@@@@@%%%%%');
         getMovies({ _id: value }, (err, res) => {
@@ -124,7 +99,6 @@ var searchByIds = (idArray, cb) => {
           }
         });
       }
->>>>>>> eslinting lst commit
     });
   }
 };
@@ -169,57 +143,6 @@ var saveMovies = (movies, cb) => {
                 if (err) {
                   console.log('Error: No Similar Movies');
                 }
-<<<<<<< 293faf53d03faa49da1f362dda8aefd24eb79b37
-                  getTrailers(id, (err, res) => {
-                    if (err) {
-                      console.log('Error: getTrailers Search');
-                    } else {
-                      trailers = res;
-                      var newMovie = new Movie({
-                        id: id,
-                        title: data.Title,
-                        year: data.Year,
-                        release_date: data.Released,
-                        genre: data.Genre,
-                        runtime: data.Runtime,
-                        directors: data.Director,
-                        writers: data.Writer,
-                        actors: data.Actors,
-                        description: data.Plot,
-                        awards: data.Awards,
-                        poster: data.Poster,
-                        ratings: data.Ratings,
-                        language: data.Language,
-                        box_office: data.BoxOffice,
-                        production: data.Production,
-                        website: data.Website,
-                        theater: data.Theater,
-                        trailers: trailers,
-                        similar: similar,
-                        count: 1
-                      });
-                      newMovie.save((err, movieObj) => {
-                        if (err) {
-                          // console.log(err, 'MongoDB - Movie Add Error');
-                          // console.log(err.name, 'MongoDB - Movie Add Error');
-                        } else {
-                          // console.log(res, 'MongoDB - Movie Add Success');
-                          // console.log('MongoDB - Movie Add Success');
-                          pg.queueAdd('movie', movieObj);
-                          // pgAddMovie(res, (err, results) => {
-                          //   if (err) {
-                          //     // console.log(err, 'Server Response - PG Unable to Add Movies');
-                          //     // res.status(500).send('Postgres: Error adding movies');
-                          //   } else {
-                          //     // console.log(results, 'Server Response - PG Added Data');
-                          //     // res.status(201).send('Server Response - PG Added Data');
-                          //   }
-                          // });
-                        }
-                      });
-                    }
-                  });
-=======
                 getTrailers(id, (err, res) => {
                   if (err) {
                     console.log('Error: getTrailers Search');
@@ -248,34 +171,27 @@ var saveMovies = (movies, cb) => {
                       similar: similar,
                       count: 1
                     });
-                    newMovie.save((err, res) => {
+                    newMovie.save((err, movieObj) => {
                       if (err) {
                         // console.log(err, 'MongoDB - Movie Add Error');
                         // console.log(err.name, 'MongoDB - Movie Add Error');
                       } else {
                         // console.log(res, 'MongoDB - Movie Add Success');
                         // console.log('MongoDB - Movie Add Success');
-
-                        pgAddMovie(res, (err, results) => {
-                          if (err) {
-                            // console.log(err, 'Server Response - PG Unable to Add Movies');
-                            // res.status(500).send('Postgres: Error adding movies');
-                          } else {
-                            // console.log(results, 'Server Response - PG Added Data');
-                            // res.status(201).send('Server Response - PG Added Data');
-
-                            //res includes full object
-                            //get actor and director images
-                            //loop on 'actors' and 'directors' fields of _id
-                            //create new field for actor_image & director_image with format [{actor: '<name>', photo: '<url>'},..]
-
-                          }
-                        });
+                        pg.queueAdd('movie', movieObj);
+                        // pgAddMovie(res, (err, results) => {
+                        //   if (err) {
+                        //     // console.log(err, 'Server Response - PG Unable to Add Movies');
+                        //     // res.status(500).send('Postgres: Error adding movies');
+                        //   } else {
+                        //     // console.log(results, 'Server Response - PG Added Data');
+                        //     // res.status(201).send('Server Response - PG Added Data');
+                        //   }
+                        // });
                       }
                     });
                   }
                 });
->>>>>>> eslinting lst commit
 
 
               });
@@ -294,6 +210,7 @@ var saveMovies = (movies, cb) => {
 };
 
 var saveToId = (array, cb) => {
+  console.log(array, 'THINGSAREHERE');
   async.each(array, (movie) => {
     findById(movie.id, (err, res) => {
       if (err) {
@@ -311,6 +228,7 @@ var saveToId = (array, cb) => {
           });
           movie.save((err, res) => {
             if (err) {
+              console.log('savenotworking');
               cb(err, null);
             } else {
               cb(null, err);

@@ -307,44 +307,44 @@ var addMovie = function(movie, callback) {
             production: movie.production,
             ratings: JSON.stringify(movie.ratings)
           }).save()
-          .then(movieObj => {
-            module.exports.queueAdd('genre', movieObj);
-            module.exports.queueAdd('actor', movieObj);
-            module.exports.queueAdd('director', movieObj);
-            // console.log(movie, movie.title, 'Movie Added');
-            console.log(movieObj.attributes.title, ': PG Movie Added');
-            callback(null, movieObj);
-          })
+            .then(movieObj => {
+              module.exports.queueAdd('genre', movieObj);
+              module.exports.queueAdd('actor', movieObj);
+              module.exports.queueAdd('director', movieObj);
+              // console.log(movie, movie.title, 'Movie Added');
+              console.log(movieObj.attributes.title, ': PG Movie Added');
+              callback(null, movieObj);
+            });
         }
       })
       .catch((err) => {
         console.log('Movie Add - Promise Error', err);
         callback(err);
       });
-    }
-  };
+  }
+};
 
 var addGenre = function(movie, callback1) {
   var currentGenreList = JSON.parse(movie.genres);
   async.map(currentGenreList, function(genre, callback2) {
     console.log('*********** in addGenre ', genre);
     models.Genres.where({ name: genre }).fetch()
-    .then(genre_record => {
-      if (genre_record) {
-        console.log(genre_record.attributes.name, ' Genre is Already in Database');
-        callback2(null, genre_record.id);
-      } else {
-        new models.Genres({ name: genre }).save()
-        .then(genre_record => {
-          console.log(genre_record.attributes.name, ' Genre Saved in Database');
+      .then(genre_record => {
+        if (genre_record) {
+          console.log(genre_record.attributes.name, ' Genre is Already in Database');
           callback2(null, genre_record.id);
-        })
-        .catch(err => {
-          console.log('*********** new genre save error ', err);
-          callback2(err);
-        });
-      }
-    });
+        } else {
+          new models.Genres({ name: genre }).save()
+            .then(genre_record => {
+              console.log(genre_record.attributes.name, ' Genre Saved in Database');
+              callback2(null, genre_record.id);
+            })
+            .catch(err => {
+              console.log('*********** new genre save error ', err);
+              callback2(err);
+            });
+        }
+      });
   }, function(err, genre_results) {
     if (err) { throw err; }
     console.log('************* updating movie with new genreList ', genre_results);
@@ -368,27 +368,27 @@ var addActor = function(movie, callback1) {
   async.map(currentActorList, function(actor, callback2) {
     console.log('*********** in addActor ', actor);
     models.Crew.where({ name: actor }).fetch()
-    .then(actor_record => {
-      if (actor_record) {
-        console.log('************* actor_record ', actor_record);
-        console.log(actor_record.name, ' Actor is Already in Database');
-        if (actor_record.attributes.actor !== true) {
-          actor_record.save({actor: true}, {patch: true});
-        }
-        callback2(null, actor_record.id);
-      } else {
-        new models.Crew({ name: actor, actor: true}).save()
-        .then(actor_record => {
-          console.log(actor_record.attributes.name, ' Actor Saved to Database');
-          module.exports.queueAdd('image', actor_record);
+      .then(actor_record => {
+        if (actor_record) {
+          console.log('************* actor_record ', actor_record);
+          console.log(actor_record.name, ' Actor is Already in Database');
+          if (actor_record.attributes.actor !== true) {
+            actor_record.save({actor: true}, {patch: true});
+          }
           callback2(null, actor_record.id);
-        })
-        .catch(err => {
-          console.log('*********** new actor save error ', err);
-          callback2(err);
-        });
-      }
-    });
+        } else {
+          new models.Crew({ name: actor, actor: true}).save()
+            .then(actor_record => {
+              console.log(actor_record.attributes.name, ' Actor Saved to Database');
+              module.exports.queueAdd('image', actor_record);
+              callback2(null, actor_record.id);
+            })
+            .catch(err => {
+              console.log('*********** new actor save error ', err);
+              callback2(err);
+            });
+        }
+      });
   }, function(err, actor_results) {
     if (err) { throw err; }
     console.log('*********** update movie with actorList ', actor_results);
@@ -412,27 +412,27 @@ var addDirector = function(movie, callback1) {
   async.map(currentDirectorList, function(director, callback2) {
     console.log('*********** in addDirector ', director);
     models.Crew.where({ name: director }).fetch()
-    .then(director_record => {
+      .then(director_record => {
       // console.log('********** in addDirector director_record ', director_record);
-      if (director_record) {
-        console.log(director_record.name, ' Director is Already in Database');
-        if (director_record.attributes.director !== true) {
-          director_record.save({director: true}, {patch: true});
-        }
-        callback2(null, director_record.id);
-      } else {
-        new models.Crew({ name: director, director: true}).save()
-        .then(director_record => {
-          console.log(director_record.attributes.name, ' Director Saved in Database');
-          module.exports.queueAdd('image', director_record);
+        if (director_record) {
+          console.log(director_record.name, ' Director is Already in Database');
+          if (director_record.attributes.director !== true) {
+            director_record.save({director: true}, {patch: true});
+          }
           callback2(null, director_record.id);
-        })
-        .catch(err => {
-          console.log('*********** new director save error ', err);
-          callback2(err);
-        });
-      }
-    });
+        } else {
+          new models.Crew({ name: director, director: true}).save()
+            .then(director_record => {
+              console.log(director_record.attributes.name, ' Director Saved in Database');
+              module.exports.queueAdd('image', director_record);
+              callback2(null, director_record.id);
+            })
+            .catch(err => {
+              console.log('*********** new director save error ', err);
+              callback2(err);
+            });
+        }
+      });
   }, function(err, director_results) {
     if (err) { throw err; }
     console.log('************* updating movie with directorList ', director_results);
