@@ -130,8 +130,6 @@ router.route('/upcoming')
   });
 
 
-
-
 router.route('/login')
   .get((req, res) => {
     res.render('login.ejs', { message: req.flash('loginMessage') });
