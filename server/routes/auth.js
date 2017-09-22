@@ -25,17 +25,17 @@ const sortByKey = (array, key) => {
   });
 };
 
-Date.prototype.addDays = function(days) {
-  var dat = new Date(this.valueOf());
-  dat.setDate(dat.getDate() + days);
-  return dat;
-}
+// Date.prototype.addDays = function(days) {
+//   var dat = new Date(this.valueOf());
+//   dat.setDate(dat.getDate() + days);
+//   return dat;
+// }
 
-var today = new Date();
-var future = today.addDays(90)
+// var today = new Date();
+// var future = today.addDays(90)
 
-var todayDate = today.toJSON().split('T')[0];
-var futureDate = future.toJSON().split('T')[0];
+// var todayDate = today.toJSON().split('T')[0];
+// var futureDate = future.toJSON().split('T')[0];
 
 router.route('/')
   .get (middleware.auth.verify, (req, res, next) => {
@@ -79,6 +79,15 @@ router.route('/upcoming')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
+          var movies;
+          searchDb.getMovies((err, data) => {
+            if (err) {
+              console.log(err);
+            } else {
+              movies = data;
+              var sorted = sortByKey(movies, 'year');
+              // console.log('the favorites are + ***');
+              // console.log(profile.attributes.favorites);
               searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
                 if (err) {
                   console.log(err);
@@ -87,32 +96,41 @@ router.route('/upcoming')
                      if (err) {
                         console.log(err, 'UPCOMINGMOVIEERROR!');
                      } else {
-                          omdbHelp.searchTitleArray(movies, (err, result) => {
-                          // console.log(result);
+                        var resultsArray = [];
+                        movies.forEach((value) => {
+                          omdbHelp.searchTitle(value.title, value.release_date, (err, result) => {
                           if (err) {
-                            console.log('error with movieArray Search!');
+                            console.log('error in savemovies');
                           }
-
                           else {
-                            res.render('index.ejs', {
-                              data: {
-                              movieone: result,
-                              favorites: [],
-                              favoriteId: [],
-                              user: req.user
-                              }
-                            })
+                            resultsArray.push(result);
+                            // console.log('the results array is no equal to', resultsArray);
                           }
-                        })       
-                      }
-                    })
-                  }
-                })
-              }
-            })
+                        })
+                        return resultsArray;
+                      }).then((resultsArray) => {
+                         res.render('index.ejs', {
+                          data: {
+                            movieone: resultsArray,
+                            favorites: [],
+                            favoriteId: [],
+                            user: req.user
+                          }
+                        })            
+                      })
+                    }
+                  })
+                }
+              })
+            }
           })
-        
-       
+        }
+      })
+    })
+
+
+
+                        
 
 router.route('/login')
   .get((req, res) => {
