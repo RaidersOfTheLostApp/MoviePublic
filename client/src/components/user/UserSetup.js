@@ -51,11 +51,6 @@ class UserSetup extends React.Component {
       this.finishStepThree();
     }
 
-    // if (this.state.stepIndex === 3) {
-    //   //update database with VOD updates
-    //   this.finishStepFour();
-    // }
-
     this.setState({
       finished: this.state.stepIndex >= 2,
       stepIndex: this.state.stepIndex + 1
@@ -223,10 +218,10 @@ class UserSetup extends React.Component {
               <StepLabel>Welcome to Movie Master!</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Select Movies and Actors to Follow</StepLabel>
+              <StepLabel>Select Genres, Actors, and Directors to Follow</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Get Notified About New Movie Releases and Showtimes</StepLabel>
+              <StepLabel>Get Notified About New Movie Releases</StepLabel>
             </Step>
           </Stepper>
           <div>
@@ -251,12 +246,10 @@ class UserSetup extends React.Component {
                       genreList={this.state.genreList}
                       actorList={this.state.actorList}
                       directorList={this.state.directorList}
-                      writerList={this.state.writerList}
                       movieFollow={this.state.movieFollow}
                       genreFollow={this.state.genreFollow}
                       actorFollow={this.state.actorFollow}
                       directorFollow={this.state.directorFollow}
-                      writerFollow={this.state.writerFollow}
                       updateFollowList={this.updateFollowList.bind(this)}/>
 
                   ) : (
