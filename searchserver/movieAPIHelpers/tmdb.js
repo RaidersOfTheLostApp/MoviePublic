@@ -15,14 +15,14 @@ const tmdb = {
     }
     var xhr = new XMLHttpRequest();
     xhr.timeout = tmdb.timeout;
-    xhr.ontimeout = function () {
+    xhr.ontimeout = function() {
       throw ('Request timed out: ' + url + ' ' + params_str);
     };
-    console.log(tmdb.base_uri + url + '?' + params_str, 'dfdfdfdfd');
+    // console.log(tmdb.base_uri + url + '?' + params_str, 'dfdfdfdfd');
     xhr.open('GET', tmdb.base_uri + url + '?' + params_str, true);
     xhr.setRequestHeader('Accept', 'application/json');
     xhr.responseType = 'text';
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
       if (this.readyState === 4) {
         if (this.status === 200) {
           if (typeof success == 'function') {
@@ -48,4 +48,3 @@ const tmdb = {
 };
 
 module.exports = tmdb;
-// })()

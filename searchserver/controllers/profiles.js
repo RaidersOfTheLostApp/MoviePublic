@@ -42,29 +42,6 @@ module.exports.getOne = (req, res) => {
     });
 };
 
-module.exports.getFollowMovies = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      var moviesArr = [];
-      for (var i = 0; i < profile.attributes.follow_movies.length; i++) {
-        moviesArr.push(profile.attributes.follow_movies[i].id);
-      }
-      searchDb.searchByIds(moviesArr, (err, mongoMovieArr) => {
-        if (err) { throw err; }
-        res.status(200).send(mongoMovieArr);
-      });
-    })
-    .error(err => {
-      res.status(500).send(err);
-    })
-    .catch(() => {
-      res.sendStatus(404);
-    });
-};
-
 module.exports.getFollowGenres = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
@@ -83,7 +60,7 @@ module.exports.getFollowGenres = (req, res) => {
             searchMovieIds.push(JSON.parse(moviesArr.models[i].attributes.mongo_id));
           }
           searchDb.searchByIds(searchMovieIds, (err, mongoMovieArr) => {
-            console.log('************* genre movies search movie ids', mongoMovieArr);
+            // console.log('************* genre movies search movie ids', mongoMovieArr);
 
             if (err) { throw err; }
             res.status(200).send(mongoMovieArr);
@@ -132,23 +109,6 @@ module.exports.getFollowDirectors = (req, res) => {
     });
 };
 
-module.exports.getFollowWriters = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      //TODO call mongo and pass in array, see getFollowGenres
-      res.status(200).send(moviesArr);
-    })
-    .error(err => {
-      res.status(500).send(err);
-    })
-    .catch(() => {
-      res.sendStatus(404);
-    });
-};
-
 module.exports.update = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
@@ -171,13 +131,13 @@ module.exports.update = (req, res) => {
 
 module.exports.newUser = (req, res) => {
   models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
+    .then((profile) => {
       if (!profile) {
         throw profile;
       }
       return profile.save({new_user: false}, {patch: true});
     })
-    .then(() => {
+    .then((profile) => {
       res.sendStatus(201);
     })
     .error(err => {
@@ -204,7 +164,7 @@ module.exports.setUpVOD = (req, res) => {
       }
       return profile.save({vod_subscriptions: JSON.stringify(subs)}, {patch: true});
     })
-    .then(() => {
+    .then((profile) => {
       res.sendStatus(201);
     })
     .error(err => {
@@ -213,41 +173,6 @@ module.exports.setUpVOD = (req, res) => {
     })
     .catch((e) => {
       console.log('********* catch in setUpVOD ', e);
-      res.sendStatus(404);
-    });
-};
-
-module.exports.setUpFollowMovies = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      //format of values: { 'movieFollow[0][text]': 'Raiders of the Lost Ark', 'movieFollow[0][id]': '1', 'movieFollow[1][text]': 'Temple of Doom', 'movieFollow[1][id]': '2' }
-      //indexes match Postgres table indexes for the movies table
-      var movieSet = [];
-      var movieText;
-      var save = false;
-      for (var key in req.body) {
-        if (save) {
-          movieSet.push({'text': movieText, 'id': req.body[key]});
-          save = !save;
-        } else {
-          movieText = req.body[key];
-          save = !save;
-        }
-      }
-      return profile.save({follow_movies: JSON.stringify(movieSet)}, {patch: true});
-    })
-    .then((result) => {
-      res.sendStatus(201);
-    })
-    .error(err => {
-      console.log('********* error in setUpFollowMovies ', err);
-      res.status(500).send(err);
-    })
-    .catch((e) => {
-      console.log('********* catch in setUpFollowMovies ', e);
       res.sendStatus(404);
     });
 };
@@ -351,40 +276,9 @@ module.exports.setUpFollowDirectors = (req, res) => {
     });
 };
 
-module.exports.setUpFollowWriters = (req, res) => {
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      var writerSet = [];
-      var writerText;
-      var save = false;
-      for (var key in req.body) {
-        if (save) {
-          writerSet.push({'text': writerText, 'id': req.body[key]});
-          save = !save;
-        } else {
-          writerText = req.body[key];
-          save = !save;
-        }
-      }
-      return profile.save({follow_writers: JSON.stringify(writerSet)}, {patch: true});
-    })
-    .then((result) => {
-      res.sendStatus(201);
-    })
-    .error(err => {
-      console.log('********* error in setUpFollowWriters ', err);
-      res.status(500).send(err);
-    })
-    .catch((e) => {
-      console.log('********* catch in setUpFollowWriters ', e);
-      res.sendStatus(404);
-    });
-};
-
 module.exports.addFavorites = (req, res) => {
+  var movieId = Object.keys(req.body);
+  var newArray = [];
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       console.log('we are going to add favorites!');
@@ -395,16 +289,16 @@ module.exports.addFavorites = (req, res) => {
     })
     .then((profile) => {
       var favorites = profile.attributes.favorites;
-      var newarray = [];
+      console.log(favorites);
       if (favorites === null) {
-        newarray.push(req.body);
+        newArray = newArray.concat(movieId);
       } else {
         for (var i = 0; i < favorites.length; i++) {
-          newarray.push(favorites[i]);
+          newArray.push(favorites[i]);
         }
-        newarray.push(req.body);
+        newArray = newArray.concat(movieId);
       }
-      return profile.save({favorites: JSON.stringify(newarray)}, {patch: true});
+      return profile.save({favorites: JSON.stringify(newArray)}, {patch: true});
     })
     .then((profile) => {
       console.log('********* favorites have successfully been saved to DB for user ' + profile.attributes.display);
@@ -421,7 +315,7 @@ module.exports.addFavorites = (req, res) => {
 };
 
 module.exports.removeFavorites = (req, res) => {
-  var movieId = req.body.id;
+  var movieId = Object.keys(req.body).toString();
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
       console.log('we are going to remove favorites!');
@@ -432,8 +326,10 @@ module.exports.removeFavorites = (req, res) => {
     })
     .then((profile) => {
       var favorites = profile.attributes.favorites;
+      console.log(favorites);
       for (var i = 0; i < favorites.length; i++) {
-        if (favorites[i].id === movieId) {
+        console.log(favorites[i] === movieId);
+        if (favorites[i] === movieId) {
           favorites.splice(i, 1);
         }
       }
@@ -475,7 +371,3 @@ module.exports.getFavorites = (req, res) => {
       res.sendStatus(404);
     });
 };
-
-
-
-

@@ -82,13 +82,13 @@ var MovieList = {
     }, (e) => {
       var movieArr = [];
       e.results.forEach( value => {
-        omdbSearch(value.original_title, value.release_date, (err, res) => {
-          // console.log('********** check res in getSimilarMovies for errors ', res);
-          if (res[0] === '<' || res[0] === 'I') {
-            console.log('similarbroke');
+        console.log(value)
+        omdbSearch(value.title, value.release_date, (err, res) => {
+          if (!res || res[0] === '<' || res[0] === 'I') {
+            cb(err, null)
           } else {
             var resp = JSON.parse(res);
-            movieArr.push(resp);
+            movieArr.push(resp.imdbID);
             if (movieArr.length === e.results.length) {
               cb(null, movieArr);
             }
