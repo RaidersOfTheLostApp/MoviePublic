@@ -83,10 +83,7 @@ class UpcomingResultsListItem extends React.Component {
       $.ajax({
         method: 'POST',
         url: '/api/profiles/addfollowing',
-        data: {
-          following: movie,
-          followingId: movie.imdbID
-        },
+        data: movie,
         success: (user) => {
           console.log('********* success following updated for user ' + user);
           var followingId = this.state.followingId;
@@ -103,38 +100,39 @@ class UpcomingResultsListItem extends React.Component {
           console.log('************* error updating following for user', error);
         }
       });
-    } else {
-      console.log('this following is already in the list');
+    // } else {
+    //   console.log('this following is already in the list');
 
-      $.ajax({
-        method: 'POST',
-        url: '/api/profiles/removefollowing',
-        data: movie.id,
-        success: (user) => {
-          console.log('********* following removed for user ' + user);
+    //   $.ajax({
+    //     method: 'POST',
+    //     url: '/api/profiles/removefollowing',
+    //     data: movie.id,
+    //     success: (user) => {
+    //       console.log('********* following removed for user ' + user);
 
-          var followingId = this.state.followingId;
-          var following = this.state.following;
-          var followingIndex = followingId.indexOf(movieId);
-          followingId.splice(followingIndex, 1);
-          for (var i = 0; i < following.length; i++) {
-            if (following[i].imdbID === movieId) {
-              following.splice(i, 1);
-            }
-          }
+    //       var followingId = this.state.followingId;
+    //       var following = this.state.following;
+    //       var followingIndex = followingId.indexOf(movieId);
+    //       followingId.splice(followingIndex, 1);
+    //       for (var i = 0; i < following.length; i++) {
+    //         if (following[i].imdbID === movieId) {
+    //           following.splice(i, 1);
+    //         }
+    //       }
 
-          this.setState({
-            following: following,
-            followingId: followingId 
-          });
+    //       this.setState({
+    //         following: following,
+    //         followingId: followingId 
+    //       });
 
-        },
-        error: (error) => {
-          console.log('************* error removing following for user ', error);
-        }
-      });
-    }
+    //     },
+    //     error: (error) => {
+    //       console.log('************* error removing following for user ', error);
+    //     }
+    //   });
+    // }
   }
+}
 
   openModal() {
     if (this.state.videoIsOpen) {
