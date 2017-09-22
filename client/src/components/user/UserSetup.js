@@ -203,7 +203,7 @@ class UserSetup extends React.Component {
   handlePhoneInput(e, newValue) {
     this.setState({
       phone: newValue
-    })
+    });
   }
 
   render() {

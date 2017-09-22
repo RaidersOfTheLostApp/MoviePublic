@@ -180,13 +180,13 @@ class ResultScroll extends React.Component {
     return (
       <div>
         <GridTile
-            key={this.props.k}
-            title={this.props.title}
-            subtitle={this.props.subtitle}
-            titlePosition={'bottom'}
-            style={{height:'200px'}}
-          >
-          <img src = {this.props.movieP.poster}  onClick={this.openModal}/>
+          key={this.props.k}
+          title={this.props.title}
+          subtitle={this.props.subtitle}
+          titlePosition={'bottom'}
+          style={{height: '200px'}}
+        >
+          <img src = {this.props.movieP.poster} onClick={this.openModal}/>
         </GridTile>
         <MovieDataModal
           closeModal={this.closeModal}

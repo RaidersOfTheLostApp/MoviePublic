@@ -34,10 +34,6 @@ const styles = {
 class VideoModal extends React.Component {
   constructor(props) {
     super(props);
-<<<<<<< 5196e1e71258bce9abe624f4dda9714ee131b0d1
-=======
-    // console.log(this.props, '@@@@');
->>>>>>> refactor search with counts and make save async
     this.state = {
       videos: this.props.movieP.trailers,
       video: null

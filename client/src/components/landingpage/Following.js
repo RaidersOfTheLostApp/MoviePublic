@@ -202,9 +202,9 @@ class Following extends React.Component {
             <div className='col-4'>
               <SelectField value={this.state.select_value_actor} onChange={this.handleChangeActor.bind(this)} autoWidth={true}>
                 <MenuItem key={0} value={0} primaryText='Select an Actor/Actress to Filter' />
-                  {this.state.actorList.map(actor => (
-                    <MenuItem key={actor.id} value={actor.id} primaryText={actor.text} />
-                  ))}
+                {this.state.actorList.map(actor => (
+                  <MenuItem key={actor.id} value={actor.id} primaryText={actor.text} />
+                ))}
               </SelectField>
             </div>
           </div>
@@ -230,9 +230,9 @@ class Following extends React.Component {
             <div className='col-4'>
               <SelectField value={this.state.select_value_director} onChange={this.handleChangeDirector.bind(this)} autoWidth={true}>
                 <MenuItem key={0} value={0} primaryText='Select a Director to Filter' />
-                  {this.state.directorList.map(director => (
-                    <MenuItem key={director.id} value={director.id} primaryText={director.text} />
-                  ))}
+                {this.state.directorList.map(director => (
+                  <MenuItem key={director.id} value={director.id} primaryText={director.text} />
+                ))}
               </SelectField>
             </div>
           </div>

@@ -55,7 +55,7 @@ router.route('/')
                 if (err) {
                   console.log(err);
                 } else {
-                  //console.log('the results length is ', results.length);
+                  console.log('the results length is ', results.length);
                   res.render('index.ejs', {
                     data: {
                       movieone: sorted,
@@ -192,19 +192,19 @@ router.route('/profile')
               //get crew objects that have id, name, and url
               async.map(profile.attributes.follow_actor, function(actor, callback) {
                 models.Crew.where({ id: parseInt(actor.id) }).fetch()
-                .then(actor_record => {
-                  callback(null, actor_record);
-                })
+                  .then(actor_record => {
+                    callback(null, actor_record);
+                  });
               }, function(err, actor_results) {
-                if (err) {throw err;}
+                if (err) { throw err; }
                 actorImages = actor_results;
                 async.map(profile.attributes.follow_director, function(director, callback) {
                   models.Crew.where({ id: parseInt(director.id) }).fetch()
-                  .then(director_record => {
-                    callback(null, director_record);
-                  })
+                    .then(director_record => {
+                      callback(null, director_record);
+                    });
                 }, function(err, director_results) {
-                  if (err) {throw err;}
+                  if (err) { throw err; }
                   directorImages = director_results;
                   res.render('index.ejs', {
                     data: {
@@ -247,17 +247,17 @@ router.route('/following')
             // select * from movies where director @> any (array ['70', '45']::jsonb[]);
             // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
             models.Movies.where('genres', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
-            .then(genreMovieObjs => {
-              async.map(genreMovieObjs.models, function(file, callback_2) {
-                callback_2(null, JSON.parse(file.attributes.mongo_id));
-              }, function(err, results) {
-                if (err) {throw err;}
-                callback_1(null, results);
+              .then(genreMovieObjs => {
+                async.map(genreMovieObjs.models, function(file, callback_2) {
+                  callback_2(null, JSON.parse(file.attributes.mongo_id));
+                }, function(err, results) {
+                  if (err) { throw err; }
+                  callback_1(null, results);
+                });
               });
-            });
-            }, function(err, results) {
+          }, function(err, results) {
             // console.log('*********** final results of async ', [].concat.apply([], results));
-            if (err) {throw err;}
+            if (err) { throw err; }
             searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
               if (err) {
                 console.log(err);
@@ -271,39 +271,39 @@ router.route('/following')
                     // select * from movies where director @> any (array ['70', '45']::jsonb[]);
                     // current profiles format for follow_director: [{"id": "45", "text": "Charles Walters"}, {"id": "70", "text": "Jordan Vogt-Roberts"}]
                     models.Movies.where('actors', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
-                    .then(actorMovieObjs => {
-                      async.map(actorMovieObjs.models, function(file, callback_2) {
-                        callback_2(null, JSON.parse(file.attributes.mongo_id));
-                      }, function(err, results) {
-                        if (err) {throw err;}
-                        callback_1(null, results);
+                      .then(actorMovieObjs => {
+                        async.map(actorMovieObjs.models, function(file, callback_2) {
+                          callback_2(null, JSON.parse(file.attributes.mongo_id));
+                        }, function(err, results) {
+                          if (err) { throw err; }
+                          callback_1(null, results);
+                        });
                       });
-                    });
                   }, function(err, results) {
                     // console.log('*********** final results of async ', [].concat.apply([], results));
-                    if (err) {throw err;}
+                    if (err) { throw err; }
                     searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
                       if (err) {
                         console.log(err);
                         throw err;
                       } else {
                         actorMovies = movies;
-                        async.sortBy(profileList.attributes.follow_director, function(file, callback) {callback(null, file.text);}, function(err, results) {
-                          if (err) {throw err;}
+                        async.sortBy(profileList.attributes.follow_director, function(file, callback) { callback(null, file.text); }, function(err, results) {
+                          if (err) { throw err; }
                           directorList = results;
                           async.map(directorList, function(file, callback_1) {
                             models.Movies.where('director', '@>', JSON.stringify([parseInt(file.id)])).fetchAll({columns: ['mongo_id']})
-                            .then(directorMovieObjs => {
-                              async.map(directorMovieObjs.models, function(file, callback_2) {
-                                callback_2(null, JSON.parse(file.attributes.mongo_id));
-                              }, function(err, results) {
-                                if (err) {throw err;}
-                                callback_1(null, results);
+                              .then(directorMovieObjs => {
+                                async.map(directorMovieObjs.models, function(file, callback_2) {
+                                  callback_2(null, JSON.parse(file.attributes.mongo_id));
+                                }, function(err, results) {
+                                  if (err) { throw err; }
+                                  callback_1(null, results);
+                                });
                               });
-                            });
                           }, function(err, results) {
                             // console.log('*********** final results of async ', [].concat.apply([], results));
-                            if (err) {throw err;}
+                            if (err) { throw err; }
                             searchDb.searchByIds([].concat.apply([], results), (err, movies) => {
                               if (err) {
                                 console.log(err);
@@ -360,7 +360,7 @@ router.route('/setup')
             genreList = genreArr;
             models.Crew.query(function(qb) {
               qb.where('image_url', 'LIKE', '%http%')
-              .andWhere('actor', '=', true);
+                .andWhere('actor', '=', true);
             }).fetchAll()
               .then(actors => {
                 return actors.models.map(actor => {
@@ -371,7 +371,7 @@ router.route('/setup')
                 actorList = actorArr;
                 models.Crew.query(function(qb) {
                   qb.where('image_url', 'LIKE', '%http%')
-                  .andWhere('director', '=', true);
+                    .andWhere('director', '=', true);
                 }).fetchAll()
                   .then(directors => {
                     return directors.models.map(director => {

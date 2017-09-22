@@ -37,12 +37,12 @@ class Results extends React.Component {
       method: 'GET',
       data: {value: searchInput},
       dataType: 'json',
-      contentType: 'text/plain',
+      contentType: 'application/json',
       success: (results) => {
         console.log(results, '^^^^');
         var container = [];
         for (var i = 0; i < results.length; i++) {
-          container.push(results[i].item);
+          container.push(results[i]);
           if (container.length === results.length) {
             this.setState({
               movies: container,
@@ -128,7 +128,7 @@ class Results extends React.Component {
               movieP={movie}
               title={' '}
               subtitle={movie.title}
-              />
+            />
           ))}
         </GridList>
         <br />
@@ -138,7 +138,7 @@ class Results extends React.Component {
         <GridList
           cellHeight={260}
           cols={5}
-          style={{overflowY: 'auto', height: '260px'}}>
+        >
           {(this.state.display).map( (movie, i) => (
             <ResultsListItem
               k={i}

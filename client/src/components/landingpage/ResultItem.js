@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Favorite from 'material-ui/svg-icons/action/favorite';
@@ -196,7 +197,7 @@ class ResultsListItem extends React.Component {
           title={this.props.movieP.title}
           actionIcon={this.getFavoriteIcon(this.props.movieP)}
           titlePosition={'bottom'}
-          style={{height:'260px'}}
+          style={{height: '260px'}}
         >
           <img src={this.props.movieP.poster} onClick={this.openModal} className='imgResultItem'/>
         </GridTile>

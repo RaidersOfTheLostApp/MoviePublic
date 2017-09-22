@@ -37,14 +37,10 @@ router.route('/')
       if (err) {
         alert('search broken try again');
       } else {
+        console.log(req.query.value, '@$%@%@%@%@%');
         //if the search value is empty send every movie in the responseevery movie
         if (req.query.value.length === 0) {
-
-          for (var i = 0; i < res1.length; i++) {
-            res1[i].count ++;
-          }
           res.send(res1);
-
         } else {
 
           //sort through searched movies and then send the results in the response
