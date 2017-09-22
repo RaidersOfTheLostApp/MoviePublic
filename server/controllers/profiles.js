@@ -135,7 +135,7 @@ module.exports.newUser = (req, res) => {
       if (!profile) {
         throw profile;
       }
-      return profile.save({new_user: false}, {patch: true});
+      return profile.save({ new_user: false }, { patch: true });
     })
     .then((profile) => {
       res.sendStatus(201);
@@ -183,7 +183,7 @@ module.exports.updatePhone = (req, res) => {
       if (!profile) {
         throw profile;
       }
-      return profile.save({phone: '+1' + req.body.phone}, {patch: true});
+      return profile.save({ phone: '+1' + req.body.phone }, { patch: true });
     })
     .then((profile) => {
       res.sendStatus(201);
@@ -211,7 +211,7 @@ module.exports.setUpFollowGenres = (req, res) => {
       if (keys[0] === 'genreFollow[0][id]') {
         for (var key in req.body) {
           if (save) {
-            genreSet.push({'text': req.body[key], 'id': genreId});
+            genreSet.push({ 'text': req.body[key], 'id': genreId });
             save = !save;
           } else {
             genreId = req.body[key];
@@ -221,7 +221,7 @@ module.exports.setUpFollowGenres = (req, res) => {
       } else {
         for (var key in req.body) {
           if (save) {
-            genreSet.push({'text': genreText, 'id': req.body[key]});
+            genreSet.push({ 'text': genreText, 'id': req.body[key] });
             save = !save;
           } else {
             genreText = req.body[key];
@@ -229,7 +229,7 @@ module.exports.setUpFollowGenres = (req, res) => {
           }
         }
       }
-      return profile.save({follow_genre: JSON.stringify(genreSet)}, {patch: true});
+      return profile.save({ follow_genre: JSON.stringify(genreSet) }, { patch: true });
     })
     .then((result) => {
       res.sendStatus(201);
@@ -257,7 +257,7 @@ module.exports.setUpFollowActors = (req, res) => {
       if (keys[0] === 'actorFollow[0][id]') {
         for (var key in req.body) {
           if (save) {
-            actorSet.push({'text': req.body[key], 'id': actorId});
+            actorSet.push({ 'text': req.body[key], 'id': actorId });
             save = !save;
           } else {
             actorId = req.body[key];
@@ -267,7 +267,7 @@ module.exports.setUpFollowActors = (req, res) => {
       } else {
         for (var key in req.body) {
           if (save) {
-            actorSet.push({'text': actorText, 'id': req.body[key]});
+            actorSet.push({ 'text': actorText, 'id': req.body[key] });
             save = !save;
           } else {
             actorText = req.body[key];
@@ -275,7 +275,7 @@ module.exports.setUpFollowActors = (req, res) => {
           }
         }
       }
-      return profile.save({follow_actor: JSON.stringify(actorSet)}, {patch: true});
+      return profile.save({ follow_actor: JSON.stringify(actorSet) }, { patch: true });
     })
     .then((result) => {
       res.sendStatus(201);
@@ -303,7 +303,7 @@ module.exports.setUpFollowDirectors = (req, res) => {
       if (keys[0] === 'directorFollow[0][id]') {
         for (var key in req.body) {
           if (save) {
-            directorSet.push({'text': req.body[key], 'id': directorId});
+            directorSet.push({ 'text': req.body[key], 'id': directorId });
             save = !save;
           } else {
             directorId = req.body[key];
@@ -313,7 +313,7 @@ module.exports.setUpFollowDirectors = (req, res) => {
       } else {
         for (var key in req.body) {
           if (save) {
-            directorSet.push({'text': directorText, 'id': req.body[key]});
+            directorSet.push({ 'text': directorText, 'id': req.body[key] });
             save = !save;
           } else {
             directorText = req.body[key];
@@ -321,7 +321,7 @@ module.exports.setUpFollowDirectors = (req, res) => {
           }
         }
       }
-      return profile.save({follow_director: JSON.stringify(directorSet)}, {patch: true});
+      return profile.save({ follow_director: JSON.stringify(directorSet) }, { patch: true });
     })
     .then((result) => {
       res.sendStatus(201);
@@ -358,7 +358,7 @@ module.exports.addFavorites = (req, res) => {
         }
         newArray = newArray.concat(movieId);
       }
-      return profile.save({favorites: JSON.stringify(newArray)}, {patch: true});
+      return profile.save({ favorites: JSON.stringify(newArray) }, { patch: true });
     })
     .then((profile) => {
       console.log('********* favorites have successfully been saved to DB for user ' + profile.attributes.display);
@@ -393,7 +393,7 @@ module.exports.removeFavorites = (req, res) => {
           favorites.splice(i, 1);
         }
       }
-      return profile.save({favorites: JSON.stringify(favorites)}, {patch: true});
+      return profile.save({ favorites: JSON.stringify(favorites) }, { patch: true });
     })
     .then((profile) => {
       console.log('********* favorites have been successfully removed for ' + profile.attributes.display);

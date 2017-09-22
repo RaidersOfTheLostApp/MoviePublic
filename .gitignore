@@ -6,6 +6,8 @@ config/development.json
 
 #npm related files
 package-lock.json
+.gitignore
+package.json
 
 # Logs
 logs
