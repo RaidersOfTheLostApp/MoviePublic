@@ -428,4 +428,61 @@ router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook
   failureFlash: true
 }));
 
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../react-client/dist/index.html'));
+// });
+
+// router.get('/auth/twitter', middleware.passport.authenticate('twitter'));
+//
+// router.get('/auth/twitter/callback', middleware.passport.authenticate('twitter', {
+//   successRedirect: '/profile',
+//   failureRedirect: '/login'
+// }));
+
 module.exports = router;
+
+// app.use(express.static(__dirname + '/../react-client/dist'));
+
+// var chosencategory;
+// var dbvalues = [];
+
+// var dbdata = function(data) {
+//   for (var i = 0; i < data.length; i++) {
+//     dbvalues.push(data[i].playlistname + ': ' + data[i].playlisturl);
+//   }
+//   console.log('the sql values are' + dbvalues);
+// }
+
+// var modifieddata = function(data) {
+//   for (var i = 0; i < data.length; i++) {
+//     if (data[i].push(chosencategory));
+//   }
+
+//   for (var m = 0; m < data.length; m++) {
+//       var playlist = data[m];
+//       mysql.insertValues(playlist);
+//     }
+// }
+
+// // app.post('/items', function (req, res) {
+// //   console.log('we received the POST request on the server!');
+// //   var category = req.body;
+// //   chosencategory = category;
+// //   console.log(chosencategory);
+// //   var newreq = apiHelpers.categoryRouter(category, apiHelpers.listFormatter);
+// // });
+
+// // app.get('/items', function (req, res) {
+// //   console.log('we received the GET request on the server!')
+// //   var category = req.query.value;
+// //   mysql.grabValues(category, function(err, data) {
+// //     if (err) {
+// //       console.log(err);
+// //     }
+// //     else {
+// //       console.log('this worked!');
+// //       dbdata(data);
+// //       res.send(dbvalues);
+// //     }
+// //   });
+// // })
