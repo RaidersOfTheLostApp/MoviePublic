@@ -51,6 +51,7 @@ class App extends React.Component {
             <MuiThemeProvider>
               <UserProfile user={dataFromServer.user}
                 favorites={dataFromServer.favorites}
+                favoriteId = {this.state.favoriteId}
                 genreFollow={dataFromServer.genreFollow}
                 actorFollow={dataFromServer.actorFollow}
                 directorFollow={dataFromServer.directorFollow}/>

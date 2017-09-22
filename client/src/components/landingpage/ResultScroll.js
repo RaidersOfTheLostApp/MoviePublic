@@ -2,6 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import $ from 'jquery';
 import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import Favorite from 'material-ui/svg-icons/action/favorite';
+import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import MovieDataModal from './MovieDataModal.js';
 import VideoModal from './videoModal.js';
 
@@ -32,15 +35,19 @@ const styles = {
     color: 'rgb(0, 188, 212)',
   },
 };
-
+//TODO: test favorites works on profile to remove
+//make sure it doesn't mess with recommended display with heart
+//add duplicate code to profile to delete actor, genre, director
+//add code to check dates of movies and send twilio sms
+//add following movie to profile page once field there
 class ResultScroll extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
-      // favoriteId: this.props.favoriteId,
-      // favorites: this.props.favorites,
+      favoriteId: this.props.favoriteId,
+      favorites: this.props.favorites,
       videoIsOpen: false
     };
 
@@ -52,75 +59,75 @@ class ResultScroll extends React.Component {
     this.closeVideoModal = this.closeVideoModal.bind(this);
   }
 
-  // getFavoriteIcon(movie) {
-  //   var arr = this.state.favoriteId;
-  //   return (
-  //     <IconButton onClick={()=>{
-  //       this.addFavorites(movie);
-  //     }}>
-  //       {(arr.indexOf(movie._id.toString()) !== -1) ?
-  //         <Favorite color="white" /> :
-  //         <FavoriteBorder color="white" />
-  //       }
-  //     </IconButton>
-  //   );
-  // }
-  //
-  // addFavorites(movie) {
-  //   var movieId = (movie._id);
-  //   if (this.state.favoriteId.indexOf(movieId) === -1) {
-  //     $.ajax({
-  //       method: 'POST',
-  //       url: '/api/profiles/addfavorites',
-  //       data: movie._id,
-  //       success: (user) => {
-  //         console.log('********* success favorites updated for user ' + user);
-  //         var favId = this.state.favoriteId;
-  //         var favorites = this.state.favorites;
-  //         favId.push(movieId);
-  //         favorites.push(movie);
-  //
-  //         this.setState({
-  //           favorites: favorites,
-  //           favoriteId: favId
-  //         });
-  //       },
-  //       error: (error) => {
-  //         console.log('************* error updating favorites for user', error);
-  //       }
-  //     });
-  //   } else {
-  //     console.log('this favorite is already in the list');
-  //
-  //     $.ajax({
-  //       method: 'POST',
-  //       url: '/api/profiles/removefavorites',
-  //       data: movie._id,
-  //       success: (user) => {
-  //         console.log('********* favorite removed for user ' + user);
-  //
-  //         var favId = this.state.favoriteId;
-  //         var favorites = this.state.favorites;
-  //         var favIndex = favId.indexOf(movieId);
-  //         favId.splice(favIndex, 1);
-  //         for (var i = 0; i < favorites.length; i++) {
-  //           if (favorites[i]._id === movieId) {
-  //             favorites.splice(i, 1);
-  //           }
-  //         }
-  //
-  //         this.setState({
-  //           favorites: favorites,
-  //           favoriteId: favId
-  //         });
-  //
-  //       },
-  //       error: (error) => {
-  //         console.log('************* error removing favorite for user ', error);
-  //       }
-  //     });
-  //   }
-  // }
+  getFavoriteIcon(movie) {
+    var arr = this.state.favoriteId;
+    return (
+      <IconButton onClick={()=>{
+        this.addFavorites(movie);
+      }}>
+        {(arr.indexOf(movie._id.toString()) !== -1) ?
+          <Favorite color="white" /> :
+          <FavoriteBorder color="white" />
+        }
+      </IconButton>
+    );
+  }
+
+  addFavorites(movie) {
+    var movieId = (movie._id);
+    if (this.state.favoriteId.indexOf(movieId) === -1) {
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/addfavorites',
+        data: movie._id,
+        success: (user) => {
+          console.log('********* success favorites updated for user ' + user);
+          var favId = this.state.favoriteId;
+          var favorites = this.state.favorites;
+          favId.push(movieId);
+          favorites.push(movie);
+
+          this.setState({
+            favorites: favorites,
+            favoriteId: favId
+          });
+        },
+        error: (error) => {
+          console.log('************* error updating favorites for user', error);
+        }
+      });
+    } else {
+      console.log('this favorite is already in the list');
+
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/removefavorites',
+        data: movie._id,
+        success: (user) => {
+          console.log('********* favorite removed for user ' + user);
+
+          var favId = this.state.favoriteId;
+          var favorites = this.state.favorites;
+          var favIndex = favId.indexOf(movieId);
+          favId.splice(favIndex, 1);
+          for (var i = 0; i < favorites.length; i++) {
+            if (favorites[i]._id === movieId) {
+              favorites.splice(i, 1);
+            }
+          }
+
+          this.setState({
+            favorites: favorites,
+            favoriteId: favId
+          });
+
+        },
+        error: (error) => {
+          console.log('************* error removing favorite for user ', error);
+        }
+      });
+    }
+  }
 
   openModal() {
     if (this.state.videoIsOpen) {
@@ -183,6 +190,7 @@ class ResultScroll extends React.Component {
           key={this.props.k}
           title={this.props.title}
           subtitle={this.props.subtitle}
+          actionIcon={this.getFavoriteIcon(this.props.movieP)}
           titlePosition={'bottom'}
           style={{height: '200px'}}
         >
