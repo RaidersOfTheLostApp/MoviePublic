@@ -23,10 +23,12 @@ const customContentStyle = {
 const customTitleStyle = {
   // backgroundColor:'#50B6C2',
   textAlign: 'center',
-  backgroundImage: '-webkit-gradient(linear, left top, left bottom, from(#3D8DB5),to(#5583B5))',
-  backgroundImage: '-webkit-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
-  backgroundImage: '-o-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
-  backgroundImage: 'linear-gradient(to bottom, #3D8DB5 0%,#5583B5 100%)',
+  boxShadow: '0px 3px 0px #888888',
+  background: ' rgb(0,210,229)',
+  background: '-moz-linear-gradient(top, rgba(0,210,229,1) 0%, rgba(0,175,198,1) 100%)',
+  background: '-webkit-linear-gradient(top, rgba(0,210,229,1) 0%,rgba(0,175,198,1) 100%)',
+  background: 'linear-gradient(to bottom, rgba(0,210,229,1) 0%,rgba(0,175,198,1) 100%)',
+  filter: 'progid:DXImageTransform.Microsoft.gradient( startColorstr="#00d2e5", endColorstr="#00afc6",GradientType=0 )'
 };
 const styles = {
   root: {
@@ -68,7 +70,7 @@ class UpcomingMovieDataModal extends React.Component {
     return (
       <div>
         <Dialog
-          title={this.props.movieP.title}
+          title={this.props.movieP.Title}
           titleStyle={customTitleStyle}
           modal={true}
           actions={actions}
@@ -84,7 +86,7 @@ class UpcomingMovieDataModal extends React.Component {
                 <p></p>
                 <img
                   className="img-responsive"
-                  src={this.props.movieP.poster}
+                  src={this.props.movieP.Poster}
                   style={{
                     width: '100%',
                   }}/>
@@ -92,24 +94,17 @@ class UpcomingMovieDataModal extends React.Component {
               <div className="col-md-6">
                 <form>
                   <p></p>
-                  <p><strong>Description</strong>: {this.props.movieP.description}</p>
-                  <p><strong>Actors/Actresses</strong>: {this.props.movieP.actors}</p>
-                  <p><strong>Director/s</strong>: {this.props.movieP.directors}</p>
-                  <p><strong>Release Date</strong>: {this.props.movieP.release_date}</p>
-                  <p><strong>Genre/s</strong>: {this.props.movieP.genre}</p>
-                  <p><strong>Runtime</strong>: {this.props.movieP.runtime}</p>
-                  <p><strong>Website</strong>: <a href={this.props.movieP.website}>{this.props.movieP.website}</a></p>
+                  <p><strong>Description</strong>: {this.props.movieP.Plot}</p>
+                  <p><strong>Actors/Actresses</strong>: {this.props.movieP.Actors}</p>
+                  <p><strong>Director/s</strong>: {this.props.movieP.Director}</p>
+                  <p><strong>Release Date</strong>: {this.props.movieP.Released}</p>
+                  <p><strong>Genre/s</strong>: {this.props.movieP.Genre}</p>
+                  <p><strong>Runtime</strong>: {this.props.movieP.Runtime}</p>
+                  <p><strong>Website</strong>: <a href={this.props.movieP.Website}>{this.props.movieP.website}</a></p>
                   <p><strong>Ratings</strong></p>
                   {(this.props.movieP.Ratings).map( value => {
                     return (<p>{value['Source']}: {value['Value']}</p>);
                   })}
-                  <p><strong>Similar Movies</strong></p>
-                  <div style={styles.root}>
-                    <GridList style={styles.gridList} cols={2.2}>
-                      {
-                      }
-                    </GridList>
-                  </div>
                 </form>
               </div>
             </div>
