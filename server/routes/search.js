@@ -106,39 +106,75 @@ router.route('/id')
     });
   });
 
-// router.route('/gettheaters')
-// .get(middleware.auth.verify, (req, res, next) => {
-//   var playingArray = req.query.startDate.split(' ');
-//   var monthArray = {
-//   'Jan': '01',
-//   'Feb': '02',
-//   'Mar': '03',
-//   'Apr': '04',
-//   'May': '05',
-//   'Jun': '06',
-//   'Jul': '07',
-//   'Aug': '08',
-//   'Sep': '09',
-//   'Oct': '10',
-//   'Nov': '11',
-//   'Dec': '12'
-//   }
+router.route('/newmovies')
+.get(middleware.auth.verify, (req, res, next) => {
+  var minArray = req.query.minDate.split(' ');
+  var maxArray = req.query.maxDate.split(' ');
+  var monthArray = {
+  'Jan': '01',
+  'Feb': '02',
+  'Mar': '03',
+  'Apr': '04',
+  'May': '05',
+  'Jun': '06',
+  'Jul': '07',
+  'Aug': '08',
+  'Sep': '09',
+  'Oct': '10',
+  'Nov': '11',
+  'Dec': '12'
+  }
+  var newMinDate = minArray[3] + '-' + monthArray[minArray[1]] + '-' + minArray[2];
+  var newMaxDate = maxArray[3] + '-' + monthArray[maxArray[1]] + '-' + maxArray[2]; 
 
-//   var newPlayingData = playingArray[3] + '-' + monthArray[playingArray[1]] + '-' + playingArray[2];
+  searchDb.getMovies({}, (err, res1) => {
+      if (err) {
+        alert('search broken try again');
+      } else {
+          tmdbHelp.getUpcomingMovies(newMinDate, newMaxDate, (err, data) => {
+           if (err) {
+              console.log(err, 'UPCOMINGMOVIEERROR!');
+            } else {
+              res.send(data);
+              };
+          });
+        };
+    })
+  })
 
-//   var params = {
-//     startDate: newPlayingData, 
-//     numDays: req.query.numDays,
-//     zip: req.query.zip,
-//     radius: req.query.radius
-//   }
+router.route('/gettheaters')
+.get(middleware.auth.verify, (req, res, next) => {
+  var playingArray = req.query.startDate.split(' ');
+  var monthArray = {
+  'Jan': '01',
+  'Feb': '02',
+  'Mar': '03',
+  'Apr': '04',
+  'May': '05',
+  'Jun': '06',
+  'Jul': '07',
+  'Aug': '08',
+  'Sep': '09',
+  'Oct': '10',
+  'Nov': '11',
+  'Dec': '12'
+  }
 
-//   gracenote.call(params, (data) => {
-//       res.send(data);  
-//     }, (data) => {
-//       res.send(null);
-//   });
-// })
+  var newPlayingData = playingArray[3] + '-' + monthArray[playingArray[1]] + '-' + playingArray[2];
+
+  var params = {
+    startDate: newPlayingData, 
+    numDays: req.query.numDays,
+    zip: req.query.zip,
+    radius: req.query.radius
+  }
+
+  gracenote.call(params, (data) => {
+      res.send(data);  
+    }, (data) => {
+      res.send(null);
+  });
+})
             
 module.exports = router;
 

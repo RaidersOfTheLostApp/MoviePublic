@@ -37,14 +37,6 @@ router.route('/removefavorites')
   .post(ProfileController.removeFavorites)
 ;
 
-router.route('/addfollowing')
-  .post(ProfileController.addFollowing)
-;
-
-// router.route('/removefollowing')
-//   .post(ProfileController.removeFollowing)
-// ;
-
 router.route('/follows/genres')
   .post(ProfileController.setUpFollowGenres)
   .get(ProfileController.getFollowGenres)
@@ -61,6 +53,10 @@ router.route('/follows/directors')
   .post(ProfileController.setUpFollowDirectors)
   .get(ProfileController.getFollowDirectors)
   // .delete(ProfileController.deleteOne)
+;
+
+router.route('/city')
+  .post(ProfileController.setCity)
 ;
 
 module.exports = router;
