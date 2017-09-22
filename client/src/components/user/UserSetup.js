@@ -36,6 +36,21 @@ class UserSetup extends React.Component {
 
   }
 
+  updateCity(city) {
+    this.setState({
+      city: city
+    })
+
+    console.log('the first check for city state is', city);
+    this.finishStepFour(city);
+  }
+
+  // handleToggle(e, isInputChecked) {
+  //   var stateObj = {};
+  //   stateObj[e.target.id] = isInputChecked;
+  //   this.setState(stateObj);
+  // }
+
   handleNext() {
     if (this.state.stepIndex === 0) {
       //update newUser field to false
@@ -57,7 +72,7 @@ class UserSetup extends React.Component {
     // }
 
     this.setState({
-      finished: this.state.stepIndex >= 2,
+      finished: this.state.stepIndex >= 3,
       stepIndex: this.state.stepIndex + 1
     });
   }
@@ -180,6 +195,23 @@ class UserSetup extends React.Component {
     }
   }
 
+  finishStepFour(city) {
+    $.ajax({
+      method: 'POST',
+      url: '/api/profiles/city',
+      data: {
+        city: city
+      },
+      success: (user) => {
+        user = JSON.parse(user);
+        console.log('********* success! city updated for user ', user);
+      },
+      error: (error) => {
+        console.log('************* update city handleNext ERROR:', error);
+      }
+    });
+  }
+
   getStepContent(stepIndex) {
     switch (stepIndex) {
     case 0:
@@ -207,6 +239,7 @@ class UserSetup extends React.Component {
   }
 
   render() {
+    console.log('the rendered state for city is', this.state.city);
     return (
       <div className='muiThemeProvider'>
         <Subheader>New Account Setup</Subheader>
@@ -227,6 +260,9 @@ class UserSetup extends React.Component {
             </Step>
             <Step>
               <StepLabel>Get Notified About New Movie Releases and Showtimes</StepLabel>
+            </Step>
+             <Step>
+              <StepLabel>Select Your City</StepLabel>
             </Step>
           </Stepper>
           <div>
@@ -258,7 +294,7 @@ class UserSetup extends React.Component {
                       directorFollow={this.state.directorFollow}
                       writerFollow={this.state.writerFollow}
                       updateFollowList={this.updateFollowList.bind(this)}/>
-
+                      
                   ) : (
                     <PhoneSetup header={this.getStepContent(this.state.stepIndex)} handleInput={this.handlePhoneInput.bind(this)} phone={this.state.phone}/>              
                   )
