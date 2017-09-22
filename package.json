@@ -15,6 +15,7 @@
   "author": "Hack Reactor",
   "license": "MIT",
   "dependencies": {
+    "agenda": "^1.0.0",
     "async": "^2.5.0",
     "axios": "^0.16.2",
     "babel-core": "^6.26.0",
@@ -45,6 +46,7 @@
     "hulu-api-client": "^1.0.1",
     "jquery": "^3.2.1",
     "knex": "^0.13.0",
+    "kue": "^0.11.6",
     "material-design-icons": "^3.0.1",
     "material-ui": "^0.19.1",
     "material-ui-icons": "^1.0.0-beta.5",
@@ -58,6 +60,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "pg": "^7.3.0",
+    "querystring": "^0.2.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-material-icons": "^1.0.2",

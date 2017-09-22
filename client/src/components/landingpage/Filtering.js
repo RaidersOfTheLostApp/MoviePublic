@@ -13,7 +13,8 @@ class Filtering extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ratings: props.rating
+      ratings: props.rating,
+      sortMethod: props.sort
       // genre: props.genre
     };
   }

@@ -51,20 +51,27 @@ class ResultsListItem extends React.Component {
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.closeVideoModal = this.closeVideoModal.bind(this);
+    this.getFavoriteIcon = this.getFavoriteIcon.bind(this);
+    // this.addFavorites = this.addFavorites.bind(this);
   }
 
   getFavoriteIcon(movie) {
-    var arr = this.state.favoriteId;
-    return (
-      <IconButton onClick={()=>{
-        this.addFavorites(movie);
-      }}>
-        {(arr.indexOf(movie._id.toString()) !== -1) ?
-          <Favorite color="white" /> :
-          <FavoriteBorder color="white" />
-        }
-      </IconButton>
-    );
+    if(this.state.favoriteId){
+      var arr = this.state.favoriteId;
+      if(movie._id){
+        return (
+          <IconButton onClick={()=>{
+              this.addFavorites(movie);
+            }}>
+            {(arr.indexOf(movie._id.toString()) !== -1) ?
+              <Favorite color="white" /> :
+                <FavoriteBorder color="white" />
+              }
+            </IconButton>
+          );
+      }
+
+    }
   }
 
   addFavorites(movie) {
@@ -124,10 +131,12 @@ class ResultsListItem extends React.Component {
   }
 
   openModal() {
+    console.log(this.state, 'dfsfdsf')
     if (this.state.videoIsOpen) {
       this.setState({
         modalIsOpen: true,
-        videoIsOpen: false
+        videoIsOpen: false,
+        similar: this.props.movieP
       });
     } else {
       this.setState({
@@ -178,7 +187,7 @@ class ResultsListItem extends React.Component {
   }
 
   render() {
-    console.log('the results item movie is', this.props.movieP);
+    // console.log(this.props.movieP.title, '@#$#$#$#$#$')
     return (
       <div style={{height: '260px'}}>
         <GridTile
@@ -197,6 +206,8 @@ class ResultsListItem extends React.Component {
           movieP={this.props.movieP}
           modalIsOpen={this.state.modalIsOpen}
           switchToVideoModal={this.switchToVideoModal}
+          getFavoriteIcon={this.getFavoriteIcon}
+          addFavorites={this.addFavorites}
         />
         <VideoModal
           closeModal={this.closeVideoModal}
