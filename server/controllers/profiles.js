@@ -408,30 +408,3 @@ module.exports.removeFavorites = (req, res) => {
       res.sendStatus(404);
     });
 };
-
-module.exports.setCity = (req, res) => {
-  var city = req.body.city;
-  models.Profile.where({ id: req.session.passport.user }).fetch()
-    .then(profile => {
-      if (!profile) {
-        throw profile;
-      }
-      return profile;
-    })
-    .then((profile) => {
-      console.log(profile);
-      return profile.save({city: city}, {patch: true});
-    })
-    .then((profile) => {
-      console.log('********* the city has successfully been set for ' + profile.attributes.display);
-      res.status(201).send(profile);
-    })
-    .error(err => {
-      console.log('********* error in setting the city in the DB', err);
-      res.status(500).send(err);
-    })
-    .catch((e) => {
-      console.log('********* catch in setting the city', e);
-      res.sendStatus(404);
-    });
-};

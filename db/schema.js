@@ -12,7 +12,6 @@ exports.up = function (knex, Promise) {
       table.string('display', 100).nullable();
       table.string('email', 100).nullable().unique();
       table.string('phone', 100).nullable();
-      table.string('city', 100).nullable();
       table.timestamps(true, true);
       table.text('avatar').nullable();
       table.jsonb('favorites').nullable();
