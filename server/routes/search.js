@@ -2,10 +2,9 @@
 const express = require('express');
 const middleware = require('../middleware');
 const bodyParser = require('body-parser');
-const fuse = require('fuse.js');
-const Fuse = require('../../node_modules/fuse.js/src/index.js');
 const router = express.Router();
 const app = express();
+
 const tmdb = require('../movieAPIHelpers/tmdb.js');
 const tmdbHelp = require('../movieAPIHelpers/tmdbHelpers.js');
 const models = require('../../db/models');
@@ -20,91 +19,36 @@ const sortByKey = (array, key) => {
   });
 };
 
+const axios = require('axios');
+const querystring = require('querystring');
+
 router.route('/')
   .get(middleware.auth.verify, (req, res, next) => {
-
-    module.exports.sortByKey = (array, key) => {
-      return array.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
-        return ((x > y) ? -1 : ((x < y) ? 1 : 0));
-      });
-    };
-
-    var outputarr = [];
-
-    searchDb.getMovies({}, (err, res1) => {
-
-      if (err) {
-        alert('search broken try again');
-      } else {
-
-        tmdbHelp.getMoviesByTitle(req.query.value, (err, data) => {
-          if (err) {
-            console.log('TMBD Search Error');
-          } else {
-            //grab each movie title and send API request to OMDB to get movie data
-            searchDb.saveMovies(data, () => {
-              searchDb.getMovies({}, (err, res2) => {
-                if (err) {
-                  console.log('borken in 2nd part of savemovies db');
-                } else {
-                  var options = {
-                    shouldSort: true,
-                    tokenize: true,
-                    findAllMatches: true,
-                    includeScore: true,
-                    includeMatches: true,
-                    threshold: 0.6,
-                    location: 0,
-                    distance: 100,
-                    maxPatternLength: 32,
-                    minMatchCharLength: 3,
-                    keys: [
-                      'title',
-                      'actors',
-                      'director',
-                      'genre',
-                      'year',
-                    ]
-                  };
-                  var fuse = new Fuse(res2, options); // "list" is the item array
-                  var result = fuse.search(req.query.value);
-                  var sorted = sortByKey(result, 'score');
-                  // console.log('*************** sorted[0] ', sorted[0]);
-                  // console.log('************** sorted', sorted);
-                  // console.log(res2, 'Post Sorted - Res2');
-                  // MovieController.getAllMovies();
-                  var movieArr = [];
-                  for (var i = 0; i < sorted.length; i++) {
-                    movieArr.push(sorted[i].item);
-                    if (i === sorted.length - 1) {
-                      res.send(movieArr);
-                    }
-                  }
-
-                }
-              });
-
-            });
-
-          }
-        });
-
+    console.log(querystring.stringify(req.query))
+    axios.get('http://127.0.0.1:8080?value='+req.query.value)
+      .then( data => {
+        console.log(data.data, '%%%%%')
+        res.send(data.data)
+      })
+      .catch( err => {
+        console.log(err, 'searchbroke')
       }
-    });
-  });
+    )
+  })
 
 router.route('/id')
   .get(middleware.auth.verify, (req, res, next) => {
-    // console.log(req, '@@@@@@2');
-    searchDb.searchByIds(req.body, (err, data) => {
-      if (err) {
-        throw err;
-      } else {
-        res.json(data);
+    console.log(querystring.stringify(req.query), 'in id')
+    axios.get('http://127.0.0.1:8080/id?value='+req.query.value)
+      .then( data => {
+        console.log(data.data, 'MAIN SERVER RESPONSE FROM SEARCH SERVER')
+        res.json(data.data)
+      })
+      .catch( err => {
+        console.log(err, 'searchbroke')
       }
-    });
-  });
+    )
+  })
 
 // router.route('/gettheaters')
 // .get(middleware.auth.verify, (req, res, next) => {
@@ -127,19 +71,19 @@ router.route('/id')
 //   var newPlayingData = playingArray[3] + '-' + monthArray[playingArray[1]] + '-' + playingArray[2];
 
 //   var params = {
-//     startDate: newPlayingData, 
+//     startDate: newPlayingData,
 //     numDays: req.query.numDays,
 //     zip: req.query.zip,
 //     radius: req.query.radius
 //   }
 
 //   gracenote.call(params, (data) => {
-//       res.send(data);  
+//       res.send(data);
 //     }, (data) => {
 //       res.send(null);
 //   });
 // })
-            
+
 module.exports = router;
 
 //sample movie path: http://image.tmdb.org/t/p/w500/cbRQVCia0urtv5UGsVFTdqLDIRv.jpg
