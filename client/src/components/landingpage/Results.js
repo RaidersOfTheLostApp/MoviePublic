@@ -128,7 +128,7 @@ class Results extends React.Component {
               k={i}
               movieP={movie}
               title={' '}
-              subtitle={movie.title}
+              subtitle={movie.title || null}
             />
           ))}
         </GridList>

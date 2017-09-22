@@ -132,72 +132,78 @@ var saveMovies = (movies, cb) => {
         } else {
           data = JSON.parse(data);
           var searchid = data.Id;
-          var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
-          var id = data.imdbID;
-          var similar = [];
-          var trailers = [];
-          Movie.find({ id: data.imdbID }, (err, res) => {
-            if (res.length === 0) {
-
-              getTrailers(id, (err, res) => {
-                if (err) {
-                  console.log('Error: getTrailers Search');
-                } else {
-                  trailers = res;
-                  var newMovie = new Movie({
-                    id: id,
-                    title: data.Title,
-                    year: data.Year,
-                    release_date: data.Released,
-                    genre: data.Genre,
-                    runtime: data.Runtime,
-                    directors: data.Director,
-                    writers: data.Writer,
-                    actors: data.Actors,
-                    description: data.Plot,
-                    awards: data.Awards,
-                    poster: data.Poster,
-                    ratings: data.Ratings,
-                    language: data.Language,
-                    box_office: data.BoxOffice,
-                    production: data.Production,
-                    website: data.Website,
-                    theater: data.Theater,
-                    trailers: trailers,
-                    count: 1
-                  });
-                  // console.log(newMovie, '!%!%!%')
-                  newMovie.save((err, movieObj) => {
-                    if (err) {
-                      console.log('MongoDB - Movie Add Error');
-                      // console.log(err.name, 'MongoDB - Movie Add Error');
-                    } else {
-                      console.log('MongoDB - Movie Add Success');
-                      // console.log('MongoDB - Movie Add Success');
-                      pg.queueAdd('movie', movieObj);
-                      // pgAddMovie(res, (err, results) => {
-                      //   if (err) {
-                      //     // console.log(err, 'Server Response - PG Unable to Add Movies');
-                      //     // res.status(500).send('Postgres: Error adding movies');
-                      //   } else {
-                      //     // console.log(results, 'Server Response - PG Added Data');
-                      //     // res.status(201).send('Server Response - PG Added Data');
-                      //   }
-                      // });
-                    }
-                  });
-                }
-              });
 
 
+          if(value.poster_path === 'N/A'){
 
-            }
+          }else{
+            var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
+            var id = data.imdbID;
+            var similar = [];
+            var trailers = [];
+            Movie.find({ id: data.imdbID }, (err, res) => {
+              if (res.length === 0) {
 
-          });
+                getTrailers(id, (err, res) => {
+                  if (err) {
+                    console.log('Error: getTrailers Search');
+                  } else {
+                    trailers = res;
+                    var newMovie = new Movie({
+                      id: id,
+                      title: data.Title,
+                      year: data.Year,
+                      release_date: data.Released,
+                      genre: data.Genre,
+                      runtime: data.Runtime,
+                      directors: data.Director,
+                      writers: data.Writer,
+                      actors: data.Actors,
+                      description: data.Plot,
+                      awards: data.Awards,
+                      poster: data.Poster,
+                      ratings: data.Ratings,
+                      language: data.Language,
+                      box_office: data.BoxOffice,
+                      production: data.Production,
+                      website: data.Website,
+                      theater: data.Theater,
+                      trailers: trailers,
+                      count: 1
+                    });
+                    // console.log(newMovie, '!%!%!%')
+                    newMovie.save((err, movieObj) => {
+                      if (err) {
+                        console.log('MongoDB - Movie Add Error');
+                        // console.log(err.name, 'MongoDB - Movie Add Error');
+                      } else {
+                        console.log('MongoDB - Movie Add Success');
+                        // console.log('MongoDB - Movie Add Success');
+                        pg.queueAdd('movie', movieObj);
+                        // pgAddMovie(res, (err, results) => {
+                        //   if (err) {
+                        //     // console.log(err, 'Server Response - PG Unable to Add Movies');
+                        //     // res.status(500).send('Postgres: Error adding movies');
+                        //   } else {
+                        //     // console.log(results, 'Server Response - PG Added Data');
+                        //     // res.status(201).send('Server Response - PG Added Data');
+                        //   }
+                        // });
+                      }
+                    });
+                  }
+                });
+
+
+
+              }
+
+            });
+
+          }
 
         }
-
-      });
+      })
 
     });
 
@@ -231,6 +237,7 @@ var saveToId = (array, cb) => {
 
             }
           });
+          updateMovies();
         } else {
           // console.log(res[0].count, 'counting')
           Id.update({id: res[0].id}, { $set: {count: res[0].count + 1}}, (err, res) => {
@@ -238,6 +245,7 @@ var saveToId = (array, cb) => {
               cb(err, null);
             } else {
               cb(null, err);
+              updateMovies();
 
             }
           });
@@ -245,7 +253,6 @@ var saveToId = (array, cb) => {
       }
     });
   });
-  updateMovies();
 };
 
 var updateMovies = () => {
