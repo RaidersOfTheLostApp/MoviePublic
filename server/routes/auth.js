@@ -315,18 +315,42 @@ router.route('/following')
                                 throw err;
                               } else {
                                 directorMovies = movies;
-                                res.render('index.ejs', {
-                                  data: {
-                                    user: req.user,
-                                    genres: genreList || [], //TODO: use to add edits to add new genres, etc.
-                                    actors: actorList || [],
-                                    directors: directorList || [],
-                                    genreFollow: genreMovies || [],
-                                    actorFollow: actorMovies || [],
-                                    directorFollow: directorMovies || [],
-                                    vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                                //get follow_imdbMovies here
+                                async.map(profileList.attributes.follow_imdbMovies, function(file, callback) {
+                                  models.Upcoming.where({ imdb_id: file }).fetch()
+                                    .then(imdbMovie => {
+                                      console.log('********* in imdb map ', imdbMovie);
+                                      if (imdbMovie) {
+                                        callback(null,imdbMovie);
+                                      } else {
+                                        callback('get upcoming movie error');
+                                      }
+                                    })
+                                    .catch(err => {
+                                      console.log('****** error in get upcoming movie ', err)
+                                      callback(err);
+                                    });
+                                }, function(err, results) {
+                                  console.log('*********** final results of imdb movie get ', results);
+                                  if (err) {
+                                    console.log('********* error in get imdb movie for following ', err);
+                                    throw err;
+                                  } else {
+                                    res.render('index.ejs', {
+                                      data: {
+                                        user: req.user,
+                                        genres: genreList || [], //TODO: use to add edits to add new genres, etc.
+                                        actors: actorList || [],
+                                        directors: directorList || [],
+                                        genreFollow: genreMovies || [],
+                                        actorFollow: actorMovies || [],
+                                        directorFollow: directorMovies || [],
+                                        imdbFollow: results,
+                                        vod_subscriptions: profileList.attributes.vod_subscriptions || []
+                                      }
+                                    });
                                   }
-                                });
+                                }); //end of imdb map
                               }
                             }); //end of searchByIds
                           }); //end of the director map function

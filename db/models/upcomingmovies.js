@@ -3,8 +3,9 @@ const Promise = require('bluebird');
 
 const Upcoming = db.Model.extend({
   tableName: 'upcoming_movies',
-  upcoming: function() {
+  upcoming_movies: function() {
     return this.belongsTo('Upcoming');
+
   },
 });
 

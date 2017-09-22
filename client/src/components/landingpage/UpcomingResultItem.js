@@ -71,7 +71,7 @@ class UpcomingResultsListItem extends React.Component {
       }}>
         {(arr.indexOf(movie.imdbID.toString()) !== -1) ?
           <Star color="white" /> :
-          <StarBorder color="white" /> 
+          <StarBorder color="white" />
         }
       </IconButton>
     );
@@ -79,10 +79,11 @@ class UpcomingResultsListItem extends React.Component {
 
   addFollowingMovie(movie) {
     var movieId = (movie.imdbID);
+    // console.log('********** movie in addFollowingMovie ', movie);
     if (this.state.followingId.indexOf(movieId) === -1) {
       $.ajax({
         method: 'POST',
-        url: '/api/profiles/addfollowing',
+        url: '/api/profiles/addIMDbFollow',
         data: movie,
         success: (user) => {
           console.log('********* success following updated for user ' + user);
@@ -90,7 +91,7 @@ class UpcomingResultsListItem extends React.Component {
           followingId.push(movieId);
           var following = this.state.following;
           following.push(movie);
-      
+
           this.setState({
             following: following,
             followingId: followingId
@@ -122,7 +123,7 @@ class UpcomingResultsListItem extends React.Component {
 
     //       this.setState({
     //         following: following,
-    //         followingId: followingId 
+    //         followingId: followingId
     //       });
 
     //     },
@@ -163,8 +164,8 @@ class UpcomingResultsListItem extends React.Component {
     this.setState({
       videoIsOpen: false,
     });
-    if (cb) { 
-      cb(); 
+    if (cb) {
+      cb();
     }
   }
 
@@ -189,7 +190,6 @@ class UpcomingResultsListItem extends React.Component {
   }
 
   render() {
-    console.log(this.props.movieP.length);
     return (
       <div>
         <GridTile

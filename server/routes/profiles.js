@@ -37,8 +37,8 @@ router.route('/removefavorites')
   .post(ProfileController.removeFavorites)
 ;
 
-router.route('/addfollowing')
-  .post(ProfileController.addFollowing)
+router.route('/addIMDbFollow')
+  .post(ProfileController.addIMDbFollow)
 ;
 
 // router.route('/removefollowing')

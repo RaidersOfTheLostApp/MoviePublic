@@ -3,7 +3,7 @@ const Promise = require('bluebird');
 
 const Awards = db.Model.extend({
   tableName: 'awards',
-  genres: function() {
+  awards: function() {
     return this.belongsTo('Awards');
   },
 });

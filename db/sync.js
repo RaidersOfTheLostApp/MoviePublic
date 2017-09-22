@@ -81,6 +81,15 @@ module.exports.queueAdd = (type, obj) => {
     if (directorCron.running === undefined) {
       directorCron.start();
     }
+  // } else if (type === 'upcoming') {
+  //   upcomingQueue.push(obj);
+  //   console.log(obj.Title, ' - Added to Movie Queue');
+  //   // workQueue();
+  //   // console.log('************ movieCron running ', movieCron.running);
+  //   if (movieCron.running === undefined) {
+  //     console.log('********** starting movieCron');
+  //     movieCron.start();
+  //   }
   } else {
     imageQueue.push(obj);
     console.log(obj.attributes.name, ' - Added to Image Queue');
