@@ -91,12 +91,13 @@ class UserProfile extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.actorFollow.map((actor, i) => (
-              <GridTile
-                key={i}
-                title={actor.name}
-              >
-                <img src = {actor.image_url}/>
-              </GridTile>
+                <GridTile
+                  key={i}
+                  title={actor.name}
+                  style={{height:'200px'}}
+                >
+                  <img src = {actor.image_url} className='imgResultItem'/>
+                </GridTile>
             ))}
           </GridList>
           <Divider />
@@ -107,12 +108,13 @@ class UserProfile extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.directorFollow.map((director, i) => (
-              <GridTile
-                key={i}
-                title={director.name}
-              >
-                <img src = {director.image_url}/>
-              </GridTile>
+                <GridTile
+                  key={i}
+                  title={director.name}
+                  style={{height:'200px'}}
+                >
+                  <img src = {director.image_url} className='imgResultItem'/>
+                </GridTile>
             ))}
           </GridList>
         </div>

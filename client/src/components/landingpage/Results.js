@@ -131,7 +131,6 @@ class Results extends React.Component {
             />
           ))}
         </GridList>
-        <br />
         <Subheader>Popular Movies</Subheader>
         <Divider />
         <br />
