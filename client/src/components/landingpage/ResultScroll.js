@@ -2,19 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import $ from 'jquery';
 import {GridList, GridTile} from 'material-ui/GridList';
-// import IconButton from 'material-ui/IconButton';
-// import Favorite from 'material-ui/svg-icons/action/favorite';
-// import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import Subheader from 'material-ui/Subheader';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import Search from './Search';
-import Filtering from './Filtering';
-import Results from './Results';
 import MovieDataModal from './MovieDataModal.js';
 import VideoModal from './videoModal.js';
+
 const customContentStyle = {
   backgroundColor: '#1a1aff',
   width: '60%',

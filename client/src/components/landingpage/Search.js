@@ -1,8 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
-import $ from 'jquery';
 import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 class Search extends React.Component {

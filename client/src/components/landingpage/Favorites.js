@@ -1,16 +1,8 @@
 import React from 'react';
-import _ from 'lodash';
 import {GridList, GridTile} from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import Favorite from 'material-ui/svg-icons/action/favorite';
-import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Search from './Search';
-import $ from 'jquery';
 import ResultsListItem from './ResultItem';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 
 class Favorites extends React.Component {
   constructor(props) {
