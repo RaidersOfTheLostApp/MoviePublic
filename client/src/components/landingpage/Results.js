@@ -65,6 +65,21 @@ class Results extends React.Component {
     this.render();
   }
 
+  // addFavorites(movie) {
+  //   $.ajax({
+  //     method: 'POST',
+  //     url: '/api/profiles/addfavorites',
+  //     data: movie,
+  //     success: (user) => {
+  //       // user = JSON.parse(user);
+  //       console.log('********* success favorites updated for user ' + user);
+  //     },
+  //     error: (error) => {
+  //       console.log('************* error updating favorites for user', error);
+  //     }
+  //   });
+  // }
+
   filterByRating(array) {
     var output = [];
     var end = [];
