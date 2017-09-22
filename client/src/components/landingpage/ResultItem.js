@@ -56,19 +56,19 @@ class ResultsListItem extends React.Component {
   }
 
   getFavoriteIcon(movie) {
-    if(this.state.favoriteId){
+    if (this.state.favoriteId) {
       var arr = this.state.favoriteId;
-      if(movie._id){
+      if (movie._id) {
         return (
           <IconButton onClick={()=>{
-              this.addFavorites(movie);
-            }}>
+            this.addFavorites(movie);
+          }}>
             {(arr.indexOf(movie._id.toString()) !== -1) ?
               <Favorite color="white" /> :
-                <FavoriteBorder color="white" />
-              }
-            </IconButton>
-          );
+              <FavoriteBorder color="white" />
+            }
+          </IconButton>
+        );
       }
 
     }
@@ -131,7 +131,7 @@ class ResultsListItem extends React.Component {
   }
 
   openModal() {
-    console.log(this.state, 'dfsfdsf')
+    console.log(this.state, 'dfsfdsf');
     if (this.state.videoIsOpen) {
       this.setState({
         modalIsOpen: true,

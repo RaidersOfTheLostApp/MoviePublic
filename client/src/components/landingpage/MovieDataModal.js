@@ -42,10 +42,10 @@ const styles = {
 class MovieDataModal extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props, '%%%$$^^')
+    console.log(this.props, '%%%$$^^');
     this.state = {
       similar: this.props.movieP.similar
-    }
+    };
 
     // this.renderSimilar = this.renderSimilar.bind(this);
   }
@@ -82,7 +82,7 @@ class MovieDataModal extends React.Component {
           contentClassName='dialog'
         >
           <div className="container" style={customInBoxStyle}>>
-            <div  className="row">
+            <div className="row">
               <div className="col-md-6">
                 <p></p>
                 <img

@@ -82,10 +82,10 @@ var MovieList = {
     }, (e) => {
       var movieArr = [];
       e.results.forEach( value => {
-        console.log(value)
+        console.log(value);
         omdbSearch(value.title, value.release_date, (err, res) => {
           if (!res || res[0] === '<' || res[0] === 'I') {
-            cb(err, null)
+            cb(err, null);
           } else {
             var resp = JSON.parse(res);
             movieArr.push(resp.imdbID);
