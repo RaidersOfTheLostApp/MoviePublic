@@ -50,7 +50,7 @@ class ResultScroll extends React.Component {
       favorites: this.props.favorites,
       videoIsOpen: false
     };
-
+    console.log('********** favoriteId ', this.props.favoriteId);
     this.switchToVideoModal = this.switchToVideoModal.bind(this);
     this.switchToDataModal = this.switchToDataModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -60,17 +60,21 @@ class ResultScroll extends React.Component {
   }
 
   getFavoriteIcon(movie) {
-    var arr = this.state.favoriteId;
-    return (
-      <IconButton onClick={()=>{
-        this.addFavorites(movie);
-      }}>
-        {(arr.indexOf(movie._id.toString()) !== -1) ?
-          <Favorite color="white" /> :
-          <FavoriteBorder color="white" />
-        }
-      </IconButton>
-    );
+    if (this.state.favoriteId) {
+      var arr = this.state.favoriteId;
+      if (movie._id) {
+        return (
+          <IconButton onClick={()=>{
+            this.addFavorites(movie);
+          }}>
+            {(arr.indexOf(movie._id.toString()) !== -1) ?
+              <Favorite color="white" /> :
+              <FavoriteBorder color="white" />
+            }
+          </IconButton>
+        );
+      }
+    }
   }
 
   addFavorites(movie) {

@@ -6,7 +6,7 @@ body {
   margin: 0px;
   background-image: url('assets/bg2.jpg');
   background-size: 100%;
-  background-attachment: fixed;
+  /*background-attachment: fixed;*/
 }
 
 .root {
