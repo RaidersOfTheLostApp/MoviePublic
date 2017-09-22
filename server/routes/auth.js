@@ -59,7 +59,19 @@ router.route('/')
       });
   });
 
-router.route('/upcoming')
+
+router.route('/login')
+  .get((req, res) => {
+    res.render('login.ejs', { message: req.flash('loginMessage') });
+  })
+  .post(middleware.passport.authenticate('local-login', {
+    //if new user, then go to /setup, else go to movies page
+    successRedirect: '/setup',
+    failureRedirect: '/login',
+    failureFlash: true
+  }));
+
+router.route('/favorites')
   .get (middleware.auth.verify, (req, res, next) => {
     models.Profile.where({ id: req.session.passport.user }).fetch()
       .then(profile => {
@@ -79,35 +91,25 @@ router.route('/upcoming')
                 if (err) {
                   console.log(err);
                 } else {
-                  res.render('index.ejs', {
-                    data: {
-                      movieone: sorted,
-                      favorites: results,
-                      favoriteId: profile.attributes.favorites,
-                      user: req.user
-                    }
-                  });
-                };
-              })
-            };
-          })
+                  // console.log('****** results ', results);
+                  // console.log('the results length is ', results.length);
+                }
+                res.render('index.ejs', {
+                  data: {
+                    movieone: sorted,
+                    favorites: results,
+                    favoriteId: profile.attributes.favorites,
+                    user: req.user
+                  }
+                });
+              });
+            }
+          });
         }
       });
-    });
+  });
 
-
-router.route('/login')
-  .get((req, res) => {
-    res.render('login.ejs', { message: req.flash('loginMessage') });
-  })
-  .post(middleware.passport.authenticate('local-login', {
-    //if new user, then go to /setup, else go to movies page
-    successRedirect: '/setup',
-    failureRedirect: '/login',
-    failureFlash: true
-  }));
-
-router.route('/favorites')
+router.route('/upcoming')
   .get (middleware.auth.verify, (req, res, next) => {
     var movies;
     searchDb.getMovies( (err, data) => {
@@ -143,7 +145,7 @@ router.route('/favorites')
                       data: {
                         movieone: sorted,
                         favorites: results,
-                        favoriteId: profile.attributes.favorites,
+                        favoriteId: profile.attributes.favorites || [],
                         user: req.user
                       }
                     });
@@ -152,8 +154,8 @@ router.route('/favorites')
               });
             }
           });
-      }
-    });
+        }
+     });
   });
 
 router.route('/profile')

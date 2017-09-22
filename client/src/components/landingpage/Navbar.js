@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
-import Upcoming from './Upcoming';
 
 class Navbar extends React.Component {
   constructor(props) {

@@ -50,12 +50,10 @@ var MovieList = {
     });
   },
 
-  getUpcomingMovies: (minDate, maxDate, cb) => {
+  getUpcomingMovies: (query, cb) => {
     tmdb.call('/discover/movie', {
       'language': 'en-US',
-      'region': 'US',
-      'release_date.gte': minDate,
-      'release_date.lte': maxDate,
+      'query': query,
       'video': true,
       'page': 1
     }, (e) => {
