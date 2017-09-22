@@ -39,9 +39,10 @@ class Results extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
+        console.log(results, '^^^^')
         var container = [];
         for (var i = 0; i < results.length; i++) {
-          container.push(results[i]);
+          container.push(results[i].item);
           if (container.length === results.length) {
             this.setState({
               movies: container,
@@ -80,7 +81,9 @@ class Results extends React.Component {
     });
     return output;
   }
+  sortByActor(actor) {
 
+  }
   sortByRating(rating) {
     this.setState({
       minRating: rating
@@ -107,7 +110,7 @@ class Results extends React.Component {
   render() {
     return (
       <div className='gridRoot container'>
-        <div className='row'>
+        <div className='top row'>
           <div className='col-md-6'>
             <Search searchToServer={this.searchToServer}/>
           </div>

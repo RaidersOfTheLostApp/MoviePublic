@@ -6,6 +6,7 @@ var pgAddMovie = require('../server/controllers/movies.js').addMovie;
 var uri = process.env.MONGODB_URI || 'mongodb://localhost/fetcher';
 var ObjectId = require('mongodb').ObjectId;
 var pg = require('../db/sync');
+const async = require('async');
 
 mongoose.connect(uri, {
   useMongoClient: true
@@ -20,6 +21,14 @@ searchDb.on('error', () => {
 searchDb.once('open', () => {
   console.log('mongoose connected successfully');
 });
+
+var idSchema = mongoose.Schema({
+  id: {type: Number, required: true, unique: true},
+  title: {type: String, required: true},
+  release_date:  {type: String, required: true},
+  count: {type: Number, required: true},
+  stored: {type: Boolean, require: true}
+})
 
 var movieSchema = mongoose.Schema({
   id: { type: String, unique: true },
@@ -41,10 +50,12 @@ var movieSchema = mongoose.Schema({
   website: { type: String, required: true },
   theater: Array,
   trailers: { type: Array, required: true },
-  similar: Array
+  similar: Array,
+  count: Number
 });
 
 var Movie = mongoose.model('Movie', movieSchema, 'movies');
+var Id = mongoose.model('Id', idSchema, 'id');
 
 var searchByTitle = (title, cb) => {
   getMovies({ title: title }, (err, res) => {
@@ -105,27 +116,32 @@ var saveMovies = (movies, cb) => {
   if (!movies) {
     console.log('nomovies');
   } else {
-    movies.forEach((value) => {
+
+    async.each(movies, (value) => {
+
       searchTitle(value.title, value.release_date, (err, data) => {
         if (err) {
-          console.log('error in savemovies');
+          console.log(err, 'error in savemovies');
         }
-        if (data[0] === '<' || data[0] === 'I') {
-          console.log('brokeninsaveMovies');
+        var year = value.release_date.slice(0,4);
+        console.log(value.title, value.release_date, '@@@@@@@@@@')
+        if (!data || data[0] === '<' || data[0] === 'I') {
+
+          console.log(data)
+          console.log('data is wierd')
         } else {
           data = JSON.parse(data);
           var searchid = data.Id;
           var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
           var id = data.imdbID;
-          var similar;
+          var similar = [];
           var trailers = [];
           Movie.find({ id: data.imdbID }, (err, res) => {
             if (res.length === 0) {
-              getSimilarMovies(data.imdbID, (err, similarMovies) => {
+              getSimilarMovies(data.imdbID, (err, res) => {
                 if (err) {
                   console.log('Error: No Similar Movies');
-                } else {
-                  similar = similarMovies;
+                }
                   getTrailers(id, (err, res) => {
                     if (err) {
                       console.log('Error: getTrailers Search');
@@ -151,7 +167,8 @@ var saveMovies = (movies, cb) => {
                         website: data.Website,
                         theater: data.Theater,
                         trailers: trailers,
-                        similar: similar
+                        similar: similar,
+                        count: 1
                       });
                       newMovie.save((err, movieObj) => {
                         if (err) {
@@ -174,7 +191,7 @@ var saveMovies = (movies, cb) => {
                       });
                     }
                   });
-                }
+
 
               });
             }
@@ -187,9 +204,80 @@ var saveMovies = (movies, cb) => {
 
     });
 
-    cb();
+    if(cb){cb()}
   }
 };
+
+var saveToId = (array, cb) => {
+  async.each(array, (movie) => {
+    findById(movie.id, (err, res) => {
+      if(err){
+        console.log('savetoidbroken')
+      }else{
+        // console.log(res, '111')
+        if(res.length === 0){
+          // console.log(movie, '@@@@@@')
+          movie = new Id({
+            id: movie.id,
+            title: movie.title,
+            release_date: movie.release_date,
+            count: 1,
+            stored: false
+          })
+          movie.save((err , res) => {
+            if(err){
+              cb(err, null)
+            }else{
+              cb(null, err)
+
+            }
+          })
+        }else{
+          // console.log(res[0].count, 'counting')
+          Id.update({id: res[0].id}, { $set: {count: res[0].count+1}}, (err , res) => {
+            if(err){
+              cb(err, null)
+            }else{
+              cb(null, err)
+
+            }
+          })
+        }
+      }
+    });
+  })
+  updateMovies();
+}
+
+var updateMovies = () => {
+  Id.find({})
+    .sort({count: -1})
+    .limit(5000)
+    .exec( (err, res) => {
+      // console.log(res, 'IN UPDATE')
+      saveMovies(res)
+    })
+}
+
+var getidlist = (cb) => {
+  Id.find({}, (err, res) => {
+    if(err){
+      cb(err, null)
+    }else{
+      cb(null, res);
+    }
+  })
+}
+
+var findById = (id, cb) => {
+  return Id.find({id: id}, (err , res) => {
+    if(err){
+      cb(err, null)
+    }else{
+      cb(null,res)
+    }
+  })
+}
 
 // var saveFavorites = (req, res) => {
 //   console.log('we made it to save favorites!');
@@ -219,9 +307,10 @@ var saveMovies = (movies, cb) => {
 //       res.sendStatus(404);
 //     });
 // };
-
+module.exports.getidlist = getidlist;
 module.exports.searchDb = searchDb;
 module.exports.searchByTitle = searchByTitle;
 module.exports.searchByIds = searchByIds;
 module.exports.saveMovies = saveMovies;
 module.exports.getMovies = getMovies;
+module.exports.saveToId = saveToId;

@@ -4,18 +4,26 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 const customContentStyle = {
-  backgroundColor: '#1a1aff',
+
+  background: '#999999',
   width: '60%',
   maxWidth: 'none',
   fontFamily: 'Roboto, sans-serif',
+
 };
 const customTitleStyle = {
   // backgroundColor:'#50B6C2',
   textAlign: 'center',
+  boxShadow: '0px 3px 0px #888888',
   backgroundImage: '-webkit-gradient(linear, left top, left bottom, from(#3D8DB5),to(#5583B5))',
   backgroundImage: '-webkit-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
   backgroundImage: '-o-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
   backgroundImage: 'linear-gradient(to bottom, #3D8DB5 0%,#5583B5 100%)',
+};
+
+const customInBoxStyle = {
+  backgroundColor: '#999999',
+  padding: '0px'
 };
 const styles = {
   root: {
@@ -34,8 +42,14 @@ const styles = {
 class MovieDataModal extends React.Component {
   constructor(props) {
     super(props);
-    // console.log(this.props)
+    console.log(this.props, '%%%$$^^')
+    this.state = {
+      similar: this.props.movieP.similar
+    }
+
+    // this.renderSimilar = this.renderSimilar.bind(this);
   }
+
   render() {
     const actions = [
       <FlatButton
@@ -67,8 +81,8 @@ class MovieDataModal extends React.Component {
           autoScrollBodyContent={true}
           contentClassName='dialog'
         >
-          <div className="container">
-            <div className="row">
+          <div className="container" style={customInBoxStyle}>>
+            <div  className="row">
               <div className="col-md-6">
                 <p></p>
                 <img
@@ -92,11 +106,12 @@ class MovieDataModal extends React.Component {
                   {(this.props.movieP.ratings).map( value => {
                     return (<p>{value['Source']}: {value['Value']}</p>);
                   })}
-                  <p><strong>Similar Movies</strong></p>
-                  <div style={styles.root}>
-                    <GridList style={styles.gridList} cols={2.2}>
+                  <div style={styles.gridlist}>
+                    <GridList style = {styles.gridlist} className='gridList' cellHeight='auto' cols={2.2}>
+                      <Subheader><strong>Similar Movies</strong></Subheader>
                       {
                       }
+
                     </GridList>
                   </div>
                 </form>

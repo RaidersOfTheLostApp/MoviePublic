@@ -1,12 +1,17 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import SelectField from 'material-ui/SelectField';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: ''
+      searchTerm: '',
     };
 
     this.updateSearch = this.updateSearch.bind(this);
@@ -14,6 +19,13 @@ class Search extends React.Component {
 
   updateSearch(event) {
     this.setState({searchTerm: event.target.value});
+  }
+
+  handleChange(event, index, value) {
+    this.setState({
+      searchCat: value
+    });
+    this.props.sortByRating(value);
   }
 
   render() {

@@ -4,6 +4,9 @@ body {
   font-size: 14px;
   color: rgb(60, 60, 60);
   margin: 0px;
+  background-image: url('assets/bg1.jpg');
+  background-size: 100%;
+  background-attachment: fixed;
 }
 
 .root {
@@ -93,6 +96,9 @@ img.imgResultItem {
   display: 'flex';
   flexWrap: 'nowrap';
   justifyContent: 'space-around';
+  background-color: rgba(61, 61, 61, 0.8);
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .followRoot {
@@ -196,4 +202,8 @@ img.imgResultItem {
 .outline {
   border: 1px solid grey;
   width: 25%
+}
+
+.top {
+
 }
