@@ -1,10 +1,10 @@
-// window.apiKeys = { 
+window.apiKeys = { 
  
-//  "Gracenote": {
-//    "key": "kew4j86k7c8ckcuv6q3sbbsk"
-//  }
+ "Gracenote": {
+   "key": "kew4j86k7c8ckcuv6q3sbbsk"
+ }
 
-// }
+}
 
 //http://developer.tmsapi.com/docs/data_v1_1/Movies/
 //http://developer.tmsapi.com/docs/data_v1_1/movies/Movies_playing_in_local_theatres
@@ -575,5 +575,5 @@ Sample API Data
 //                 "ticketURI": "http://www.fandango.com/tms.asp?t=AAQLT&m=11254&d=2017-10-01"
 //             }
 //         ]
-// ]
 //     }
+// ]
