@@ -30,9 +30,9 @@ module.exports.searchTitleArray = (movies, cb) => {
     var year = JSON.stringify(date).slice(1, 5);
     newQuery = query + 't=' + title + '&y=' + year;
     request(newQuery, (err, res) => {
-    if (err) {
-      console.log('there was an error querying the data!');
-    } else {
+      if (err) {
+        console.log('there was an error querying the data!');
+      } else {
         var data = res.body;
         if (!data || data[0] === '<' || data[0] === 'I') {
           // console.log('the code is breaking under Searching it');
@@ -41,28 +41,25 @@ module.exports.searchTitleArray = (movies, cb) => {
         getTrailers(newData.imdbID, (err, result) => {
           if (err) {
             // console.log ('there was a problem getting the trailer!');
-          }
-
-          else {
+          } else {
             newData['trailers'] = result;
             if (newData.Response !== 'False') {
-            newArray.push(newData)
+              newArray.push(newData);
             }
             console.log('the new array is', newArray);
             callback();
           }
-        }) 
+        }); 
       }
-    })
+    });
   }, function(err) {
     if (err) {
       console.log('we got an error');
-    }
-    else {
+    } else {
       cb(err, newArray);
     }
-  })
-}
+  });
+};
 
 
 

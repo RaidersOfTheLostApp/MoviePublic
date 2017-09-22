@@ -30,10 +30,10 @@ Date.prototype.addDays = function(days) {
   var dat = new Date(this.valueOf());
   dat.setDate(dat.getDate() + days);
   return dat;
-}
+};
 
 var today = new Date();
-var future = today.addDays(90)
+var future = today.addDays(90);
 
 var todayDate = today.toJSON().split('T')[0];
 var futureDate = future.toJSON().split('T')[0];
@@ -90,38 +90,44 @@ router.route('/upcoming')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
-              searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+          searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
+            if (err) {
+              console.log(err);
+            } else {
+              tmdbHelp.getUpcomingMovies(todayDate, futureDate, (err, movies) => {
                 if (err) {
-                  console.log(err);
+                  console.log(err, 'UPCOMINGMOVIEERROR!');
                 } else {
-                    tmdbHelp.getUpcomingMovies(todayDate, futureDate, (err, movies) => {
-                     if (err) {
-                        console.log(err, 'UPCOMINGMOVIEERROR!');
-                     } else {
-                          omdbHelp.searchTitleArray(movies, (err, result) => {
-                          // console.log(result);
-                          if (err) {
-                            console.log('error with movieArray Search!');
-                          }
 
-                          else {
-                            res.render('index.ejs', {
-                              data: {
+                  tmdbHelp.getUpcomingMovies(todayDate, futureDate, (err, movies) => {
+                    if (err) {
+                      console.log(err, 'UPCOMINGMOVIEERROR!');
+                    } else {
+                      omdbHelp.searchTitleArray(movies, (err, result) => {
+                        // console.log(result);
+                        if (err) {
+                          console.log('error with movieArray Search!');
+                        } else {
+                          res.render('index.ejs', {
+                            data: {
                               movieone: result,
                               favorites: [],
                               favoriteId: [],
                               user: req.user
-                              }
-                            })
-                          }
-                        })
-                      }
-                    })
-                  }
-                })
-              }
-            })
+                            }
+                          })
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            }
           })
+        }
+      })
+    })
+
 
 
 

@@ -50,29 +50,29 @@ var MovieList = {
     });
   },
 
-  getSimilarMovies: (movie, cb) => {
-    tmdb.call('/movie/' + movie + '/similar', {
-      'language': 'en-US',
-    }, (e) => {
-      var movieArr = [];
-      e.results.forEach( value => {
-        omdbSearch(value.original_title, value.release_date, (err, res) => {
-          if (res[0] === '<' || res[0] === 'I') {
-            console.log('similarbroke');
-          } else {
-            var resp = JSON.parse(res);
-            movieArr.push(resp);
-            if (movieArr.length === e.results.length) {
-              cb(null, movieArr);
-            }
-          }
-        });
-      });
-    }, (e) => {
-      cb(e, null);
-    });
-
-  },
+  // getSimilarMovies: (movie, cb) => {
+  //   tmdb.call('/movie/' + movie + '/similar', {
+  //     'language': 'en-US',
+  //   }, (e) => {
+  //     var movieArr = [];
+  //     e.results.forEach( value => {
+  //       omdbSearch(value.original_title, value.release_date, (err, res) => {
+  //         if (res[0] === '<' || res[0] === 'I') {
+  //           console.log('similarbroke');
+  //         } else {
+  //           var resp = JSON.parse(res);
+  //           movieArr.push(resp);
+  //           if (movieArr.length === e.results.length) {
+  //             cb(null, movieArr);
+  //           }
+  //         }
+  //       });
+  //     });
+  //   }, (e) => {
+  //     cb(e, null);
+  //   });
+  //
+  // },
 
   // getPopularMovies: (cb) => {
   //   tmdb.call('/movie/popular', (e) => {

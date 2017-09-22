@@ -131,8 +131,8 @@ class UpcomingResultsListItem extends React.Component {
     //     }
     //   });
     // }
+    }
   }
-}
 
   openModal() {
     if (this.state.videoIsOpen) {
