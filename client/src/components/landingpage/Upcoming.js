@@ -43,7 +43,7 @@ class Upcoming extends React.Component {
       radius: 0,
       dateRange: null,
       upcomingMovies: [],
-      theaterMovies: []
+      theaterMovies: movieData
     };
 
     this.sortByRating = this.sortByRating.bind(this);
@@ -98,20 +98,6 @@ class Upcoming extends React.Component {
         start <= d && d <= end :
         NaN
     );
-  }
-
-  dateManipulation(string) {
-    var d = string.split('T');
-    var t = d[1].split(':');
-    var valOne = Number(t[0]);
-    var valTwo = t[1];
-    if (valOne > 12) {
-      var newVal = (valOne - 12).toString() + ':' + valTwo + 'PM';
-    }
-    else {
-      newVal = valOne.toString() + ':' + valTwo + 'AM';
-    }
-    return d[0] + ', ' + newVal;
   }
 
   searchToServer(cb) {
@@ -230,18 +216,17 @@ class Upcoming extends React.Component {
       dataType: 'json',
       contentType: 'text/plain',
       success: (results) => {
-        var newArray = [];
+        // console.log(results);
         for (var i = 0; i < results.length; i++) {
-          if (results[i].releaseYear === 2017) {
-            newArray.push(results[i]);
-          }
+          // console.log(results[i].title);
         }
 
         this.setState({
-          theaterMovies: newArray
+          theaterMovies: results
         });
 
-        console.log(this.state.theaterMovies.length);
+        console.log(results);
+        // console.log('the movies in theaters are ', this.state.theaterMovies);
       },
       error: (err) => {
         console.log('err', err);
@@ -249,31 +234,32 @@ class Upcoming extends React.Component {
     });
   }
 
-  compareMovies(callback) {
-    var newArrayOne = [];
-    var arrayOne = this.state.upcomingMovies;
+  compareMovies() {
+    // var arrayOne = this.state.upcomingMovies;
+    var newArray = [];
     var arrayTwo = this.state.theaterMovies;
-    var matchedArray = [];
-
-    for (var i = 0; i < arrayOne.length; i++) {
-      newArrayOne.push(arrayOne[i].title);
-    }
-
+    // var matchedArray = [];
+    // var newArrayTwo = [];
     for (var i = 0; i < arrayTwo.length; i++) {
-      if (newArrayOne.includes(arrayTwo[i].title)) {
-        matchedArray.push(arrayTwo[i]);
+      if (arrayTwo[i].releaseYear === 2017) {
+        newArray.push(arrayTwo[i]);
+        console.log(arrayTwo[i].title);
       }
     }
-    console.log(matchedArray);
-    callback(matchedArray);
-  }
+    console.log(newArray);
+    return newArray;
 
-  dataFormatter(array) {
-    var x = {};
-    for (var i = 0; i < array.length; i++) {
-      x[array[i].title] = {};
-      for (var k = 0; k < )
-    }
+    // for (var i = 0; i < arrayTwo.length; i++) {
+    //   newArrayTwo.push(arrayTwo[i].title);
+    // }
+
+    // for (var i = 0; i < arrayOne.length; i++) {
+    //   if (newArrayTwo.includes(arrayOne[i].title)) {
+    //     matchedArray.push(arrayOne[i]);
+    //   }
+    // }
+    // console.log(matchedArray);
+    // return matchedArray
   }
 
   render() {  
@@ -309,7 +295,7 @@ class Upcoming extends React.Component {
         <br/> <br/>
         <button type="button" onClick = {() => this.getTheaterData(this.state.minDate)}>Click to See Theaters for Upcoming Movies!</button>
         <br/> <br/>
-        <button type="button" onClick = {() => this.compareMovies(this.dataFormatter)}>Click to see which of your favorite movies are now in theaters!</button>
+        <button type="button" onClick = {() => this.compareMovies()}>Click to see which of your favorite movies are now in theaters!</button>
         <br/> <br/>
         <select id = "radius">
         <option value="5">5 miles</option>
