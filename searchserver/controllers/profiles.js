@@ -476,6 +476,3 @@ module.exports.getFavorites = (req, res) => {
     });
 };
 
-
-
-

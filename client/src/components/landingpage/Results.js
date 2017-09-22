@@ -105,6 +105,7 @@ class Results extends React.Component {
   }
 
   render() {
+    console.log(this.state, '@###@');
     return (
       <div className='gridRoot container'>
         <div className='row'>

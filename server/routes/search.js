@@ -177,5 +177,3 @@ router.route('/gettheaters')
 })
             
 module.exports = router;
-
-//sample movie path: http://image.tmdb.org/t/p/w500/cbRQVCia0urtv5UGsVFTdqLDIRv.jpg

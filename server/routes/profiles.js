@@ -55,8 +55,4 @@ router.route('/follows/directors')
   // .delete(ProfileController.deleteOne)
 ;
 
-router.route('/city')
-  .post(ProfileController.setCity)
-;
-
 module.exports = router;

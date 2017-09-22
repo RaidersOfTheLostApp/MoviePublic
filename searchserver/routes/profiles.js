@@ -51,6 +51,7 @@ router.route('/follows/genres')
 router.route('/follows/actors')
   .post(ProfileController.setUpFollowActors)
   .get(ProfileController.getFollowActors)
+  // .delete(ProfileController.deleteOne)
 ;
 
 router.route('/follows/directors')
