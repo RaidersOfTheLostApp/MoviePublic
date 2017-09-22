@@ -16,8 +16,6 @@ class Following extends React.Component {
       select_value_actor: 0,
       select_value_director: 0,
 
-      loading: false,
-
       genreFollowMongoIds: props.genreFollow || [],
       actorFollowMongoIds: props.actorFollow || [],
       directorFollowMongoIds: props.directorFollow || [],
@@ -26,25 +24,10 @@ class Following extends React.Component {
       actorMongoIdsFiltered: props.actorFollow || [],
       directorMongoIdsFiltered: props.directorFollow || [],
 
-      modalIsOpen: false,
-
       genreList: props.genreList,
       actorList: props.actorList,
       directorList: props.directorList
     };
-  }
-
-  openModal() {
-    this.setState({modalIsOpen: true});
-  }
-
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#f00';
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
   }
 
   sortMoviesGenre(movies, target, callback1) {
@@ -161,9 +144,6 @@ class Following extends React.Component {
   }
 
   render() {
-    if (this.state.loading) {
-      return null;
-    }
     return (
       <div className='muiThemeProvider'>
         <div className='followRoot container'>
@@ -182,15 +162,12 @@ class Following extends React.Component {
           </div>
           <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.genreMongoIdsFiltered.map((genre, i) => (
-              <a href = {genre.website === 'N/A' ? '#' : genre.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={genre.title}
-                  subtitle={<span>by <b>{genre.directors[0]}</b></span>}
-                >
-                  <img src = {genre.poster}/>
-                </GridTile>
-              </a>
+              <ResultScroll
+                k={i}
+                movieP={genre}
+                title={genre.title}
+                subtitle={<span>by <b>{genre.directors[0]}</b></span>}
+                />
             ))}
           </GridList>
         </div>
@@ -210,15 +187,12 @@ class Following extends React.Component {
           </div>
           <GridList key={2} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.actorMongoIdsFiltered.map((actor, i) => (
-              <a href = {actor.website === 'N/A' ? '#' : actor.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={actor.title}
-                  subtitle={<span>by <b>{actor.directors[0]}</b></span>}
-                >
-                  <img src = {actor.poster}/>
-                </GridTile>
-              </a>
+              <ResultScroll
+                k={i}
+                movieP={actor}
+                title={actor.title}
+                subtitle={<span>by <b>{actor.directors[0]}</b></span>}
+                />
             ))}
           </GridList>
         </div>
@@ -238,15 +212,12 @@ class Following extends React.Component {
           </div>
           <GridList key={3} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.directorMongoIdsFiltered.map((director, i) => (
-              <a href = {director.website === 'N/A' ? '#' : director.website} target = "_blank">
-                <GridTile
-                  key={i}
-                  title={director.title}
-                  subtitle={<span>by <b>{director.directors[0]}</b></span>}
-                >
-                  <img src = {director.poster}/>
-                </GridTile>
-              </a>
+              <ResultScroll
+                k={i}
+                movieP={director}
+                title={director.title}
+                subtitle={<span>by <b>{director.directors[0]}</b></span>}
+                />
             ))}
           </GridList>
         </div>
