@@ -143,51 +143,39 @@ router.route('/login')
 
 router.route('/favorites')
   .get (middleware.auth.verify, (req, res, next) => {
-    var movies;
-    searchDb.getMovies( (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-
-        movies = data;
-
-        var sorted = sortByKey(movies, 'year');
-
-        models.Profile.where({ id: req.session.passport.user }).fetch()
-          .then(profile => {
-            if (profile.new_user) {
-              res.redirect('/setup');
+    models.Profile.where({ id: req.session.passport.user }).fetch()
+      .then(profile => {
+        if (profile.new_user) {
+          res.redirect('/setup');
+        } else {
+          var movies;
+          searchDb.getMovies((err, data) => {
+            if (err) {
+              console.log(err);
             } else {
-              var movies;
-              searchDb.getMovies((err, data) => {
+              movies = data;
+              var sorted = sortByKey(movies, 'year');
+              // console.log('the favorites are + ***');
+              // console.log(profile.attributes.favorites);
+              searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
                 if (err) {
                   console.log(err);
                 } else {
-                  movies = data;
-                  var sorted = sortByKey(movies, 'year');
-                  // console.log('the favorites are + ***');
-                  // console.log(profile.attributes.favorites);
-                  searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log('the results length is ', results.length);
-                    }
-                    res.render('index.ejs', {
-                      data: {
-                        movieone: sorted,
-                        favorites: results,
-                        favoriteId: profile.attributes.favorites,
-                        user: req.user
-                      }
-                    });
-                  });
+                  console.log('the results length is ', results.length);
                 }
+                res.render('index.ejs', {
+                  data: {
+                    movieone: sorted,
+                    favorites: results,
+                    favoriteId: profile.attributes.favorites,
+                    user: req.user
+                  }
+                });
               });
             }
           });
-      }
-    });
+        }
+      });
   });
 
 router.route('/profile')
