@@ -16,10 +16,11 @@ const customTitleStyle = {
   // backgroundColor:'#50B6C2',
   textAlign: 'center',
   boxShadow: '0px 3px 0px #888888',
-  backgroundImage: '-webkit-gradient(linear, left top, left bottom, from(#3D8DB5),to(#5583B5))',
-  backgroundImage: '-webkit-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
-  backgroundImage: '-o-linear-gradient(top, #3D8DB5 0%,#5583B5 100%)',
-  backgroundImage: 'linear-gradient(to bottom, #3D8DB5 0%,#5583B5 100%)',
+  background: ' rgb(0,210,229)',
+  background: '-moz-linear-gradient(top, rgba(0,210,229,1) 0%, rgba(0,175,198,1) 100%)',
+  background: '-webkit-linear-gradient(top, rgba(0,210,229,1) 0%,rgba(0,175,198,1) 100%)',
+  background: 'linear-gradient(to bottom, rgba(0,210,229,1) 0%,rgba(0,175,198,1) 100%)',
+  filter: 'progid:DXImageTransform.Microsoft.gradient( startColorstr="#00d2e5", endColorstr="#00afc6",GradientType=0 )'
 };
 
 const customInBoxStyle = {

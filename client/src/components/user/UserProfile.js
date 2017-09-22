@@ -21,11 +21,11 @@ class UserProfile extends React.Component {
   }
   render() {
     return (
-      <div className='muiThemeProvider container'>
+      <div className='muiThemeProvider container' style={{backgroundColor: 'rgba(200, 200, 200, .8)'}}>
         <Subheader>Account Profile</Subheader>
         <div className='row'>
           <div className='col-6'>
-            <List>
+            <List className=''>
               <ListItem
                 leftIcon={<Avatar src={this.props.user.avatar} />}
                 primaryText={this.props.user.display}
