@@ -226,6 +226,7 @@ router.route('/profile')
                     data: {
                       user: req.user,
                       favorites: favorites || [],
+                      favoriteId: profile.attributes.favorites || [],
                       genreFollow: profile.attributes.follow_genre || [],
                       actorFollow: actorImages || [],
                       directorFollow: directorImages || [],

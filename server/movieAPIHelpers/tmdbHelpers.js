@@ -1,7 +1,7 @@
 const tmdb = require('./tmdb.js');
 const request = require('request');
 const Promise = require('bluebird');
-const omdbSearch = require('./omdbHelpers.js').searchTitle;
+const omdbSearch = require('./omdbHelpers').searchTitle;
 
 var MovieList = {
   getMoviesByTitle: (query, cb) => {

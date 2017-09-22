@@ -13,7 +13,7 @@ const searchDb = require('../../mongodb/db.js');
 const search = require('./search.js');
 const omdbHelper = require('../movieAPIHelpers/omdbHelpers.js');
 const async = require('async');
-
+ 
 const sortByKey = (array, key) => {
   return array.sort(function(a, b) {
     var x = a[key]; var y = b[key];

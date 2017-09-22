@@ -165,6 +165,8 @@ To run tests: `yarn run test`
 
 To run your redis server for the session store `redis-server`
 
+To run the search server: `yarn run startm`
+
 ## Deploy to Heroku
 
 Create a new app on Heroku

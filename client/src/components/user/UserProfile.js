@@ -10,15 +10,30 @@ import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import {GridList, GridTile} from 'material-ui/GridList';
 import ResultScroll from '../landingpage/ResultScroll';
+import IconButton from 'material-ui/IconButton';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
 
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       favorites: this.props.favorites,
-      favoriteId: this.props.favoriteId, //TODO: get  from dataFromServer
+      favoriteId: this.props.favoriteId,
     };
   }
+
+  deleteGenre(id) {
+    //remove that genre from follow list in db
+  }
+
+  deleteActor(id) {
+    //remove that genre from follow list in db
+  }
+
+  deleteDirector(id) {
+    //remove that genre from follow list in db
+  }
+
   render() {
     return (
       <div className='muiThemeProvider container' style={{backgroundColor: 'rgba(200, 200, 200, .8)'}}>
@@ -60,7 +75,9 @@ class UserProfile extends React.Component {
                 movieP={movie}
                 title={movie.title}
                 subtitle={<span>by <b>{movie.directors[0]}</b></span>}
-              />
+                favoriteId={this.state.favoriteId}
+                favorites={this.state.favorites}
+                />
             ))}
           </GridList>
           <Divider />
@@ -81,6 +98,11 @@ class UserProfile extends React.Component {
               <GridTile
                 key={i}
                 title={genre.text}
+                actionIcon={
+                  <IconButton onClick={()=>{this.deleteGenre(genre.id);}}>
+                    <DeleteIcon color="white" />
+                  </IconButton>
+                }
               >
                 <img src = ""/>
               </GridTile>
@@ -95,13 +117,18 @@ class UserProfile extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.actorFollow.map((actor, i) => (
-              <GridTile
-                key={i}
-                title={actor.name}
-                style={{height: '200px'}}
-              >
-                <img src = {actor.image_url} className='imgResultItem'/>
-              </GridTile>
+                <GridTile
+                  key={i}
+                  title={actor.name}
+                  style={{height:'200px'}}
+                  actionIcon={
+                    <IconButton onClick={()=>{this.deleteActor(actor.id);}}>
+                      <DeleteIcon color="white" />
+                    </IconButton>
+                  }
+                >
+                  <img src = {actor.image_url} className='imgResultItem'/>
+                </GridTile>
             ))}
           </GridList>
           <Divider />
@@ -112,13 +139,18 @@ class UserProfile extends React.Component {
           </div>
           <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.directorFollow.map((director, i) => (
-              <GridTile
-                key={i}
-                title={director.name}
-                style={{height: '200px'}}
-              >
-                <img src = {director.image_url} className='imgResultItem'/>
-              </GridTile>
+                <GridTile
+                  key={i}
+                  title={director.name}
+                  style={{height:'200px'}}
+                  actionIcon={
+                    <IconButton onClick={()=>{this.deleteDirector(director.id);}}>
+                      <DeleteIcon color="white" />
+                    </IconButton>
+                  }
+                >
+                  <img src = {director.image_url} className='imgResultItem'/>
+                </GridTile>
             ))}
           </GridList>
         </div>
