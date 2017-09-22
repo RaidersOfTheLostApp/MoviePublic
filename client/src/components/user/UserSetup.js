@@ -19,7 +19,7 @@ class UserSetup extends React.Component {
     super(props);
     this.state = {
       finished: false,
-      stepIndex: 0,
+      stepIndex: 1,
       // netflix: false,
       // hbo: false,
       // hulu: false,
@@ -217,11 +217,11 @@ class UserSetup extends React.Component {
           />
         </List>
         <Divider />
+        <br />
+         Welcome to Movie Master!
+
         <div className='stepper'>
           <Stepper activeStep={this.state.stepIndex}>
-            <Step>
-              <StepLabel>Welcome to Movie Master!</StepLabel>
-            </Step>
             <Step>
               <StepLabel>Select Genres, Actors, and Directors to Follow</StepLabel>
             </Step>
@@ -258,7 +258,7 @@ class UserSetup extends React.Component {
                       updateFollowList={this.updateFollowList.bind(this)}/>
 
                   ) : (
-                    <PhoneSetup header={this.getStepContent(this.state.stepIndex)} handleInput={this.handlePhoneInput.bind(this)} phone={this.state.phone}/>              
+                    <PhoneSetup header={this.getStepContent(this.state.stepIndex)} handleInput={this.handlePhoneInput.bind(this)} phone={this.state.phone}/>
                   )
                 )}
               </div>
@@ -273,7 +273,3 @@ class UserSetup extends React.Component {
 export default UserSetup;
 
 // <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>
-      
-
-
-
