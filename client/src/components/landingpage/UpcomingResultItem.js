@@ -190,11 +190,12 @@ class UpcomingResultsListItem extends React.Component {
   }
 
   render() {
+    console.log('*********** upcoming movies ', this.props.movieP);
     return (
       <div>
         <GridTile
           key={this.props.k}
-          subtitle={<span>by <b>{this.props.movieP.Director}</b></span>}
+          subtitle={<span>Release Date: <b>{this.props.movieP.Released}</b></span>}
           title={this.props.movieP.Title}
           actionIcon={this.getFollowingIcon(this.props.movieP)}
         >
