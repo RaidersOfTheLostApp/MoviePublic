@@ -409,29 +409,70 @@ module.exports.removeFavorites = (req, res) => {
     });
 };
 
-module.exports.setCity = (req, res) => {
-  var city = req.body.city;
+module.exports.addFollowing = (req, res) => {
+  var movieId = req.body.imdbID;
+  console.log('the request is', movieId);
+  var newArray = [];
   models.Profile.where({ id: req.session.passport.user }).fetch()
     .then(profile => {
+      console.log('we are going to add following!');
       if (!profile) {
         throw profile;
       }
       return profile;
     })
     .then((profile) => {
-      console.log(profile);
-      return profile.save({city: city}, {patch: true});
+      var following = profile.attributes.follow_imdbMovies;
+      console.log('the users following is', following);
+      console.log(following === null);
+      if (following === null) {
+        newArray = newArray.concat([movieId]);
+      } else {
+        for (var i = 0; i < following.length; i++) {
+          newArray.push(following[i]);
+        }
+        newArray = newArray.concat([movieId]);
+      }
+      console.log('the value of newArray is', newArray);
+      return profile.save({follow_imdbMovies: JSON.stringify(newArray)}, {patch: true});
     })
     .then((profile) => {
-      console.log('********* the city has successfully been set for ' + profile.attributes.display);
-      res.status(201).send(profile);
+      console.log('********* following values have successfully been saved to DB for user ' + profile.attributes.display);
+      res.status(201).send(profile.attributes.display);
     })
     .error(err => {
-      console.log('********* error in setting the city in the DB', err);
+      console.log('********* error in saving following to DB', err);
       res.status(500).send(err);
     })
     .catch((e) => {
-      console.log('********* catch in setting the city', e);
+      console.log('********* catch in setFolloiwng', e);
       res.sendStatus(404);
     });
 };
+
+// module.exports.setCity = (req, res) => {
+//   var city = req.body.city;
+//   models.Profile.where({ id: req.session.passport.user }).fetch()
+//     .then(profile => {
+//       if (!profile) {
+//         throw profile;
+//       }
+//       return profile;
+//     })
+//     .then((profile) => {
+//       console.log(profile);
+//       return profile.save({city: city}, {patch: true});
+//     })
+//     .then((profile) => {
+//       console.log('********* the city has successfully been set for ' + profile.attributes.display);
+//       res.status(201).send(profile);
+//     })
+//     .error(err => {
+//       console.log('********* error in setting the city in the DB', err);
+//       res.status(500).send(err);
+//     })
+//     .catch((e) => {
+//       console.log('********* catch in setting the city', e);
+//       res.sendStatus(404);
+//     });
+// };
