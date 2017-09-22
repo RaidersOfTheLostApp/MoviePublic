@@ -56,31 +56,42 @@ var checkUpcomingQueue = function() {
   //get all movies from upcoming where release date in minus 7 days
   //get phone number for all users with that id in follow_imdbMovies field
   //send twilio to those phone numbers with movie name and release date
-  // models.Upcoming.where().fetchAll()
-  //   async.eachSeries(imageQueue, function(crew, callback) {
-  //     // console.log('*********** image in Queue processing ', crew);
-  //     addImage(crew.attributes, (err, results) => {
-  //       if (err) {
-  //         console.log('Image Queue Error ', err);
-  //         callback(err);
-  //       } else {
-  //         console.log(imageQueue.length, 'Queue - Image Add Completed');
-  //         // console.log('*********** current imageQueue ', imageQueue);
-  //         imageQueue.shift();
-  //         console.log(imageQueue.length, 'Queue - Image Removed');
-  //         // console.log('*********** current imageQueue ', imageQueue);
-  //         // workQueue();
-  //         console.log('********** Image Queue Success ', results);
-  //         callback();
-  //       }
-  //     });
-  //   }, function(err) {
-  //     if (err) {
-  //       console.log('********** workImageQueue eachSeries error ', err);
-  //     } else {
-  //       console.log('************ workImageQueue success all files complete');
-  //     }
-  //   });
+  console.log('******* today ', Date.now());
+  console.log('******* in a week ', Date.now() + 7);
+  models.Upcoming.query(function(qb) {
+    qb.where('release_date', '>=', Date.now())
+      .andWhere('release_date', '<', Date.now() + 7);
+  }).fetchAll()
+    .then(soonReleases => {
+      console.log('********* soonReleases ', soonReleases);
+      // async.eachSeries(imageQueue, function(crew, callback) {
+      //   // console.log('*********** image in Queue processing ', crew);
+      //   addImage(crew.attributes, (err, results) => {
+      //     if (err) {
+      //       console.log('Image Queue Error ', err);
+      //       callback(err);
+      //     } else {
+      //       console.log(imageQueue.length, 'Queue - Image Add Completed');
+      //       // console.log('*********** current imageQueue ', imageQueue);
+      //       imageQueue.shift();
+      //       console.log(imageQueue.length, 'Queue - Image Removed');
+      //       // console.log('*********** current imageQueue ', imageQueue);
+      //       // workQueue();
+      //       console.log('********** Image Queue Success ', results);
+      //       callback();
+      //     }
+      //   });
+      // }, function(err) {
+      //   if (err) {
+      //     console.log('********** workImageQueue eachSeries error ', err);
+      //   } else {
+      //     console.log('************ workImageQueue success all files complete');
+      //   }
+      // });
+    })
+    .catch(err => {
+      console.log('******** error ', err);
+    })
 };
 
 /**
