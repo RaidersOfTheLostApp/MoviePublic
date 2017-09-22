@@ -36,6 +36,11 @@ class UserSetup extends React.Component {
 
   }
 
+  // handleToggle(e, isInputChecked) {
+  //   var stateObj = {};
+  //   stateObj[e.target.id] = isInputChecked;
+  //   this.setState(stateObj);
+
   handleNext() {
     if (this.state.stepIndex === 0) {
       //update newUser field to false
@@ -266,5 +271,9 @@ class UserSetup extends React.Component {
 }
 
 export default UserSetup;
+
+// <VODSetup header={this.getStepContent(this.state.stepIndex)} handleToggle={this.handleToggle.bind(this)}/>
+      
+
 
 
