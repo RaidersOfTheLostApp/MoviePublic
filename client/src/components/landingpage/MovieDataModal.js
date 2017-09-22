@@ -24,7 +24,6 @@ const customTitleStyle = {
 
 const customInBoxStyle = {
   padding: '0px 0px 0px',
-  backgroundColor: 'red'
 };
 const styles = {
   root: {
