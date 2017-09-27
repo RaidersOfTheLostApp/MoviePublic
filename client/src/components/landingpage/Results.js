@@ -39,10 +39,10 @@ class Results extends React.Component {
       dataType: 'json',
       contentType: 'application/json',
       success: (results) => {
-        console.log(results, '^^^^');
+        // console.log(results, '^^^^');
         var container = [];
         for (var i = 0; i < results.length; i++) {
-          console.log(results, '!!');
+          // console.log(results, '!!');
           container.push(results[i].item);
           if (container.length === results.length) {
             this.setState({
@@ -74,7 +74,7 @@ class Results extends React.Component {
       if (value.ratings[0]) {
         var score = value.ratings[0].Value.split('/')[0];
         var num = parseFloat(score);
-        console.log(this.state.minRating, num, 'rating');
+        // console.log(this.state.minRating, num, 'rating');
         if (num >= this.state.minRating) {
           output.push(value);
         }
@@ -90,7 +90,7 @@ class Results extends React.Component {
       minRating: rating
     }, () => {
       var filtered = this.filterByRating(this.state.movies);
-      console.log(filtered);
+      // console.log(filtered);
       var sorted = filtered.sort( (a, b) =>{
         if (a.ratings[0] && b.ratings[0]) {
           if (a.ratings[0].Value > b.ratings[0].Value) {

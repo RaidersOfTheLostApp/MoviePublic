@@ -64,6 +64,7 @@ class UpcomingResultsListItem extends React.Component {
   }
 
   getFollowingIcon(movie) {
+    // console.log('********** getFollowingIcon movie ', movie);
     var arr = this.state.followingId;
     return (
       <IconButton onClick={()=>{
@@ -85,8 +86,8 @@ class UpcomingResultsListItem extends React.Component {
         method: 'POST',
         url: '/api/profiles/addIMDbFollow',
         data: movie,
-        success: (user) => {
-          console.log('********* success following updated for user ' + user);
+        success: (movie) => {
+          console.log('********* success following updated for movie ' + movie);
           var followingId = this.state.followingId;
           followingId.push(movieId);
           var following = this.state.following;
@@ -195,11 +196,11 @@ class UpcomingResultsListItem extends React.Component {
       <div>
         <GridTile
           key={this.props.k}
-          subtitle={<span>Release Date: <b>{this.props.movieP.Released}</b></span>}
-          title={this.props.movieP.Title}
+          subtitle={<span>Release Date: <b>{this.props.movieP.release_date.slice(5)}</b></span>}
+          title={this.props.movieP.title}
           actionIcon={this.getFollowingIcon(this.props.movieP)}
         >
-          <img src={this.props.movieP.Poster} onClick={this.openModal} height="100%" width="100%"/>
+          <img src={this.props.movieP.poster_path} onClick={this.openModal} height="100%" width="100%"/>
         </GridTile>
         <UpcomingMovieDataModal
           closeModal={this.closeModal}

@@ -2,7 +2,7 @@ const models = require('../../db/models');
 var tmdb = require('../movieAPIHelpers/tmdb');
 var tmdbHelper = require('../movieAPIHelpers/tmdbHelpers');
 
-module.exports.addUpcomingMovie = (movie) => { //(movie, callback) => {
+module.exports.addUpcomingMovie = (movie, callback) => { //(movie, callback) => {
   console.log('the movie is', movie);
   models.Upcoming.where({ imdb_id: movie.imdbID }).fetch()
     .then(function(model) {
@@ -30,9 +30,11 @@ module.exports.addUpcomingMovie = (movie) => { //(movie, callback) => {
         }).save();
         // console.log(movie, movie.title, 'Movie Added');
         console.log(movie.Title, ' - Movie Added');
+        callback(null, movie.Title);
       }
     })
     .catch((err) => {
         console.log(err, 'Movie Add - Promise Error');
+        callback(err);
       });
 };

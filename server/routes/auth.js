@@ -99,24 +99,16 @@ router.route('/upcoming')
                 if (err) {
                   console.log(err, 'UPCOMINGMOVIEERROR!');
                 } else {
-
-                  tmdbHelp.getUpcomingMovies(todayDate, futureDate, (err, movies) => {
+                  omdbHelp.searchTitleArray(movies, (err, result) => {
                     if (err) {
-                      console.log(err, 'UPCOMINGMOVIEERROR!');
+                      console.log('error with movieArray Search!');
                     } else {
-                      omdbHelp.searchTitleArray(movies, (err, result) => {
-                        // console.log(result);
-                        if (err) {
-                          console.log('error with movieArray Search!');
-                        } else {
-                          res.render('index.ejs', {
-                            data: {
-                              movieone: result,
-                              favorites: [],
-                              favoriteId: [],
-                              user: req.user
-                            }
-                          });
+                      res.render('index.ejs', {
+                        data: {
+                          movieone: result,
+                          favorites: [],
+                          favoriteId: [],
+                          user: req.user
                         }
                       });
                     }
@@ -317,13 +309,13 @@ router.route('/following')
                                 directorMovies = movies;
                                 //get follow_imdbMovies here
                                 async.map(profileList.attributes.follow_imdbMovies, function(file, callback) {
+                                  console.log('********* call to upcoming where imdb_id = ', file);
                                   models.Upcoming.where({ imdb_id: file }).fetch()
                                     .then(imdbMovie => {
                                       console.log('********* in imdb map ', imdbMovie);
                                       if (imdbMovie) {
-                                        callback(null,imdbMovie);
-                                      } else {
-                                        callback('get upcoming movie error');
+                                        // console.log('********** callback for ', imdbMovie);
+                                        callback(null, imdbMovie);
                                       }
                                     })
                                     .catch(err => {

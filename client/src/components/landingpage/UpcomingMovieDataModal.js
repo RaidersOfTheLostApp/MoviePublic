@@ -70,7 +70,7 @@ class UpcomingMovieDataModal extends React.Component {
     return (
       <div>
         <Dialog
-          title={this.props.movieP.Title}
+          title={this.props.movieP.title}
           titleStyle={customTitleStyle}
           modal={true}
           actions={actions}
@@ -86,7 +86,7 @@ class UpcomingMovieDataModal extends React.Component {
                 <p></p>
                 <img
                   className="img-responsive"
-                  src={this.props.movieP.Poster}
+                  src={this.props.movieP.poster_path}
                   style={{
                     width: '100%',
                   }}/>
@@ -94,13 +94,13 @@ class UpcomingMovieDataModal extends React.Component {
               <div className="col-md-6">
                 <form>
                   <p></p>
-                  <p><strong>Description</strong>: {this.props.movieP.Plot}</p>
+                  <p><strong>Description</strong>: {this.props.movieP.overview}</p>
                   <p><strong>Actors/Actresses</strong>: {this.props.movieP.Actors}</p>
                   <p><strong>Director/s</strong>: {this.props.movieP.Director}</p>
-                  <p><strong>Release Date</strong>: {this.props.movieP.Released}</p>
+                  <p><strong>Release Date</strong>: {this.props.movieP.release_date}</p>
                   <p><strong>Genre/s</strong>: {this.props.movieP.Genre}</p>
                   <p><strong>Runtime</strong>: {this.props.movieP.Runtime}</p>
-                  <p><strong>Website</strong>: <a href={this.props.movieP.Website}>{this.props.movieP.website}</a></p>
+                  <p><strong>Website</strong>: <a href={this.props.movieP.Website}>{this.props.movieP.Website}</a></p>
                   <p><strong>Ratings</strong></p>
                   {(this.props.movieP.Ratings).map( value => {
                     return (<p>{value['Source']}: {value['Value']}</p>);

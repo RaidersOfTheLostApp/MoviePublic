@@ -83,7 +83,7 @@ class ResultsListItem extends React.Component {
         url: '/api/profiles/addfavorites',
         data: movie._id,
         success: (user) => {
-          console.log('********* success favorites updated for user ' + user);
+          // console.log('********* success favorites updated for user ' + user);
           var favId = this.state.favoriteId;
           var favorites = this.state.favorites;
           favId.push(movieId);
@@ -132,7 +132,7 @@ class ResultsListItem extends React.Component {
   }
 
   openModal() {
-    console.log(this.state, 'dfsfdsf');
+    // console.log(this.state, 'dfsfdsf');
     if (this.state.videoIsOpen) {
       this.setState({
         modalIsOpen: true,
@@ -188,7 +188,7 @@ class ResultsListItem extends React.Component {
   }
 
   render() {
-    console.log('************ movieP', this.props.movieP)
+    // console.log('************ movieP', this.props.movieP)
     return (
       <div style={{height: '260px'}}>
         <GridTile
