@@ -36,8 +36,8 @@ class Upcoming extends React.Component {
     });
   }
 
-  render() { 
-    console.log('the upcoming movies are', this.state.movies); 
+  render() {
+    // console.log('the upcoming movies are', this.state.movies); 
     return (
       <div className='gridRoot container'>
         <GridList

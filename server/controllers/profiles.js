@@ -485,8 +485,11 @@ module.exports.addIMDbFollow = (req, res) => {
     })
     .then((profile) => {
       console.log('********* following values have successfully been saved to DB for user ' + profile.attributes.display);
-      UpcomingMovies.addUpcomingMovie(movie);
-      res.status(201).send(profile.attributes.display);
+      UpcomingMovies.addUpcomingMovie(movie, (err, movie) => {
+        if (err) { console.log(' ********** error on upcoming movie add ', err);}
+        res.status(201).send(movie);
+      });
+
     })
     .error(err => {
       console.log('********* error in saving following to DB', err);

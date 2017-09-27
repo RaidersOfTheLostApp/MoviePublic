@@ -5,7 +5,7 @@ var tmdb = require('../server/movieAPIHelpers/tmdb');
 var tmdbHelper = require('../server/movieAPIHelpers/tmdbHelpers');
 
 // Runs Job Every 10 minutes
-var movieCron = new cron.CronJob('1 * * * * *', function() {
+var movieCron = new cron.CronJob('* 01 * * * *', function() {
   console.info('Movie CRON - job running every 1 seconds');
   workMovieQueue();
   // console.info('CRON job completed');
@@ -16,36 +16,36 @@ true, //does not start the job right now
 //test to see if job is running: movieCron.running === true or === undefined
 //movieCron.stop() to stop the job after last element completes
 
-var genreCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Genre CRON - job running every 1 seconds');
+var genreCron = new cron.CronJob('* 01 * * * *', function() {
+  console.info('Genre CRON - job running every 1 min');
   workGenreQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var actorCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Actor CRON - job running every 1 seconds');
+var actorCron = new cron.CronJob('* 01 * * * *', function() {
+  console.info('Actor CRON - job running every 1 min');
   workActorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var directorCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Director CRON - job running every 1 seconds');
+var directorCron = new cron.CronJob('* 01 * * * *', function() {
+  console.info('Director CRON - job running every 1 min');
   workDirectorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var imageCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Image CRON - job running every 1 seconds');
+var imageCron = new cron.CronJob('* 01 * * * *', function() {
+  console.info('Image CRON - job running every 1 min');
   workImageQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var upcomingCron = new cron.CronJob('* 10 * * * *', function() {
-  console.info('Upcoming CRON - job running every 1 seconds');
+var upcomingCron = new cron.CronJob('* 05 * * * *', function() {
+  console.info('Upcoming CRON - job running every 5 mins');
   checkUpcomingQueue();
 }, null,
 true,
