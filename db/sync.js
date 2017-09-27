@@ -44,7 +44,7 @@ var imageCron = new cron.CronJob('1 * * * * *', function() {
 true,
 'America/Los_Angeles');
 
-var upcomingCron = new cron.CronJob('1 * * * * *', function() {
+var upcomingCron = new cron.CronJob('* 10 * * * *', function() {
   console.info('Upcoming CRON - job running every 1 seconds');
   checkUpcomingQueue();
 }, null,
@@ -306,10 +306,15 @@ var workImageQueue = function() {
     console.log('Empty Image Queue - Congrats!');
     // imageCron.stop();
   } else if (imageQueue.length > 0) {
-    // console.log('Enter Image Queue Loop with imageQueue ', imageQueue);
+    console.log('Enter Image Queue Loop with imageQueue ', imageQueue);
     async.eachSeries(imageQueue, function(crew, callback) {
-      // console.log('*********** image in Queue processing ', crew);
+      console.log('*********** image in Queue processing ', crew);
+      if (crew === undefined) {
+        callback('crew is undefined');
+      }
       addImage(crew.attributes, (err, results) => {
+        console.log('*********** addImage results ', results);
+        console.log('********** addImage err ', err);
         if (err) {
           console.log('Image Queue Error ', err);
           callback(err);
