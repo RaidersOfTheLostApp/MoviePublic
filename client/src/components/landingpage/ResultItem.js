@@ -188,7 +188,7 @@ class ResultsListItem extends React.Component {
   }
 
   render() {
-    // console.log(this.props.movieP.title, '@#$#$#$#$#$')
+    console.log('************ movieP', this.props.movieP)
     return (
       <div style={{height: '260px'}}>
         <GridTile
