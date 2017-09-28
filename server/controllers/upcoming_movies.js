@@ -9,16 +9,16 @@ module.exports.addUpcomingMovie = (movie, callback) => { //(movie, callback) => 
       if (model) {
         console.log(movie.title, ' - Movie is Already in Database');
       } else {
-        console.log('********** save upcoming movie ', movie.imdbID);
-        var month = {'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9,' Nov': 10, 'Dec': 11};
-        var releaseDate = new Date(movie.release_date.slice(7), month[movie.release_date.slice(3, 6)], movie.release_date.slice(0,2));
-        console.log('********** releaseDate ', releaseDate);
+        // console.log('********** save upcoming movie ', movie.imdbID);
+        // var month = {'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9,' Nov': 10, 'Dec': 11};
+        var releaseDate = new Date(movie.release_date.slice(0, 4), parseInt(movie.release_date.slice(5, 7)) - 1, movie.release_date.slice(8));
+        // console.log('********** releaseDate ', releaseDate);
         new models.Upcoming({
           // id: id,
           imdb_id: movie.imdbID,
           title: movie.title,
           year: movie.Year,
-          release_date: release_date, //check format!!
+          release_date: releaseDate, //check format!!
           genres: JSON.stringify(movie.Genre.split(', ')), //send to queue
           awards: JSON.stringify([movie.Awards]),
           director: JSON.stringify(movie.Director.split(', ')),
@@ -30,7 +30,7 @@ module.exports.addUpcomingMovie = (movie, callback) => { //(movie, callback) => 
         }).save();
         // console.log(movie, movie.title, 'Movie Added');
         console.log(movie.title, ' - Movie Added');
-        callback(null, movie.title);
+        callback(null, movie);
       }
     })
     .catch((err) => {
