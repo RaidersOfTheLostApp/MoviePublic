@@ -484,7 +484,7 @@ module.exports.addIMDbFollow = (req, res) => {
       return profile.save({follow_imdbMovies: JSON.stringify(newArray)}, {patch: true});
     })
     .then((profile) => {
-      console.log('********* following values have successfully been saved to DB for user ' + profile.attributes.display);
+      // console.log('********* following values have successfully been saved to DB for user ' + profile.attributes.display);
       UpcomingMovies.addUpcomingMovie(movie, (err, movie) => {
         if (err) { console.log(' ********** error on upcoming movie add ', err);}
         res.status(201).send(movie);
@@ -501,8 +501,42 @@ module.exports.addIMDbFollow = (req, res) => {
     });
 };
 
-
-
+module.exports.removeFollowing = (req, res) => {
+  var movieId = req.body.imdbID;
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      console.log('we are going to remove following for upcoming movies!');
+      if (!profile) {
+        throw profile;
+      }
+      return profile;
+    })
+    .then((profile) => {
+      var following = profile.attributes.follow_imdbMovies;
+      console.log(following);
+      for (var i = 0; i < following.length; i++) {
+        console.log('*********** movieId ', movieId);
+        console.log('*********** following[i] ', following[i]);
+        if (following[i] === movieId) {
+          following.splice(i, 1);
+          break;
+        }
+      }
+      return profile.save({ follow_imdbMovies: JSON.stringify(following) }, { patch: true });
+    })
+    .then((profile) => {
+      console.log('********* follow_imdbMovies have been successfully removed for ' + profile.attributes.display);
+      res.status(201).send(profile.attributes.display);
+    })
+    .error(err => {
+      console.log('********* error in removing follow_imdbMovies from DB', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in removeFollowing', e);
+      res.sendStatus(404);
+    });
+};
 
 // module.exports.setCity = (req, res) => {
 //   var city = req.body.city;

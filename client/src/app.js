@@ -86,7 +86,7 @@ class App extends React.Component {
           />
           <Route path="/upcoming" render={() => (
             <MuiThemeProvider>
-              <Upcoming results = {dataFromServer.movieone} rerender ={this.state.resultsRend} favoriteId = {this.state.favoriteId} favorites = {this.state.favorites} />
+              <Upcoming results = {dataFromServer.movieone} rerender ={this.state.resultsRend} followingImdb = {dataFromServer.followingImdb}/>
             </MuiThemeProvider>
           )}
           />
