@@ -44,12 +44,13 @@ var imageCron = new cron.CronJob('05 * * * * *', function() {
 true,
 'America/Los_Angeles');
 
-var upcomingCron = new cron.CronJob('* 05 * * * *', function() {
-  console.info('Upcoming CRON - job running every 5 mins');
-  checkUpcomingQueue();
-}, null,
-true,
-'America/Los_Angeles');
+//TODO: uncomment below when ready to link to Twilio API
+// var upcomingCron = new cron.CronJob('* 05 * * * *', function() {
+//   console.info('Upcoming CRON - job running every 5 mins');
+//   checkUpcomingQueue();
+// }, null,
+// true,
+// 'America/Los_Angeles');
 
 Date.prototype.addDays = function(days) {
  var dat = new Date(this.valueOf());
