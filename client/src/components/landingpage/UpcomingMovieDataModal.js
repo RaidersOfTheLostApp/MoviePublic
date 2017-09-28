@@ -101,10 +101,6 @@ class UpcomingMovieDataModal extends React.Component {
                   <p><strong>Genre/s</strong>: {this.props.movieP.Genre}</p>
                   <p><strong>Runtime</strong>: {this.props.movieP.Runtime}</p>
                   <p><strong>Website</strong>: <a href={this.props.movieP.Website}>{this.props.movieP.Website}</a></p>
-                  <p><strong>Ratings</strong></p>
-                  {(this.props.movieP.Ratings).map( value => {
-                    return (<p>{value['Source']}: {value['Value']}</p>);
-                  })}
                 </form>
               </div>
             </div>

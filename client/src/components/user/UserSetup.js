@@ -98,7 +98,7 @@ class UserSetup extends React.Component {
           //format of values: [{'text': chosenRequest, 'id': null},...]
         },
         success: (user) => {
-          user = JSON.parse(user);
+          // user = JSON.parse(user);
           console.log('********* success user setup follow Genres ', user);
         },
         error: (error) => {
@@ -115,7 +115,7 @@ class UserSetup extends React.Component {
           actorFollow: this.state.actorFollow
         },
         success: (user) => {
-          user = JSON.parse(user);
+          // user = JSON.parse(user);
           console.log('********* success user setup follow Actors ', user);
         },
         error: (error) => {
@@ -132,7 +132,7 @@ class UserSetup extends React.Component {
           directorFollow: this.state.directorFollow
         },
         success: (user) => {
-          user = JSON.parse(user);
+          // user = JSON.parse(user);
           console.log('********* success user setup follow Directors ', user);
         },
         error: (error) => {
@@ -168,7 +168,7 @@ class UserSetup extends React.Component {
           phone: this.state.phone
         },
         success: (user) => {
-          user = JSON.parse(user);
+          // user = JSON.parse(user);
           console.log('********* success user setup phone update ', user);
         },
         error: (error) => {

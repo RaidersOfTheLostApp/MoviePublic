@@ -47,7 +47,7 @@ module.exports.searchTitleArray = (movies, cb) => {
           value['Genre'] = newData.Genre ? newData.Genre : 'N/A';
           value['Runtime'] = newData.Runtime ? newData.Runtime : 'N/A';
           value['Website'] = newData.Website ? newData.Website : 'N/A';
-          value['Ratings'] = newData.Ratings ? newData.Ratings : [];
+          value['Ratings'] = newData.Ratings ? newData.Ratings : [{'Source': 'N/A', 'Value': 'N/A'}];
           value['imdbID'] = newData.imdbID ? newData.imdbID : 'noimdbID-' + value.title;
           // console.log('********** newData to update poster ', newData.Title);
           getTrailers(newData.imdbID, (err, result) => {
