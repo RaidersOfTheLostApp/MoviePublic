@@ -115,7 +115,7 @@ class UserProfile extends React.Component {
               <Subheader>ACTOR/ACTRESSES</Subheader>
             </div>
           </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={4.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.actorFollow.map((actor, i) => (
                 <GridTile
                   key={i}
@@ -137,7 +137,7 @@ class UserProfile extends React.Component {
               <Subheader>DIRECTORS</Subheader>
             </div>
           </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={4.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.directorFollow.map((director, i) => (
                 <GridTile
                   key={i}
