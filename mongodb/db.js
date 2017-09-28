@@ -124,19 +124,15 @@ var saveMovies = (movies, cb) => {
           console.log(err, 'error in savemovies');
         }
         var year = value.release_date.slice(0, 4);
-        console.log(value.title, value.release_date, '@@@@@@@@@@');
+        // console.log(value.title, value.release_date, '@@@@@@@@@@');
         if (!data || data[0] === '<' || data[0] === 'I') {
-
-
           console.log('data is wierd');
         } else {
           data = JSON.parse(data);
           var searchid = data.Id;
+          if (value.poster_path === 'N/A') {
 
-
-          if(value.poster_path === 'N/A'){
-
-          }else{
+          } else {
             var posterurl = 'https://image.tmdb.org/t/p/w500' + value.poster_path;
             var id = data.imdbID;
             var similar = [];
@@ -174,7 +170,7 @@ var saveMovies = (movies, cb) => {
                     // console.log(newMovie, '!%!%!%')
                     newMovie.save((err, movieObj) => {
                       if (err) {
-                        console.log('MongoDB - Movie Add Error');
+                        // console.log('MongoDB - Movie Add Error');
                         // console.log(err.name, 'MongoDB - Movie Add Error');
                       } else {
                         console.log('MongoDB - Movie Add Success');
