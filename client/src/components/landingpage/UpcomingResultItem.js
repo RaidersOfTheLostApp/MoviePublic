@@ -101,7 +101,7 @@ class UpcomingResultsListItem extends React.Component {
       // console.log('this following is already in the list');
       $.ajax({
         method: 'POST',
-        url: '/api/profiles/removefollowing',
+        url: '/api/profiles/removefollowingIMDB',
         data: movie,
         success: (user) => {
           console.log('********* following removed for user ' + user);

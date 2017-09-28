@@ -539,6 +539,117 @@ module.exports.removeFollowing = (req, res) => {
     });
 };
 
+module.exports.removeFollowGenres = (req, res) => {
+  var genreId = req.body.id;
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      // console.log('we are going to remove following for this genre!');
+      if (!profile) {
+        throw profile;
+      }
+      return profile;
+    })
+    .then((profile) => {
+      var following = profile.attributes.follow_genre;
+      // console.log(following);
+      for (var i = 0; i < following.length; i++) {
+        // console.log('*********** movieId ', movieId);
+        // console.log('*********** following[i] ', following[i]);
+        if (following[i]['id'] === genreId) {
+          following.splice(i, 1);
+          break;
+        }
+      }
+      return profile.save({ follow_genre: JSON.stringify(following) }, { patch: true });
+    })
+    .then((profile) => {
+      // console.log('********* removeFollowGenres have been successfully removed for ' + profile.attributes.display);
+      res.status(201).send(profile.attributes.follow_genre);
+    })
+    .error(err => {
+      console.log('********* error in removing removeFollowGenres from DB', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in removeFollowGenres', e);
+      res.sendStatus(404);
+    });
+};
+
+module.exports.removeFollowActors = (req, res) => {
+  var actorId = req.body.id;
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      // console.log('we are going to remove following for this actor!');
+      if (!profile) {
+        throw profile;
+      }
+      return profile;
+    })
+    .then((profile) => {
+      var following = profile.attributes.follow_actor;
+      // console.log(following);
+      for (var i = 0; i < following.length; i++) {
+        // console.log('*********** movieId ', movieId);
+        // console.log('*********** following[i] ', following[i]);
+        if (following[i]['id'] === actorId) {
+          following.splice(i, 1);
+          break;
+        }
+      }
+      return profile.save({ follow_actor: JSON.stringify(following) }, { patch: true });
+    })
+    .then((profile) => {
+      // console.log('********* removeFollowActors have been successfully removed for ' + profile.attributes.display);
+      res.status(201).send(profile.attributes.follow_actor);
+    })
+    .error(err => {
+      console.log('********* error in removing removeFollowActors from DB', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in removeFollowActors', e);
+      res.sendStatus(404);
+    });
+};
+
+module.exports.removeFollowDirectors = (req, res) => {
+  var directorId = req.body.id;
+  models.Profile.where({ id: req.session.passport.user }).fetch()
+    .then(profile => {
+      // console.log('we are going to remove following for this director!');
+      if (!profile) {
+        throw profile;
+      }
+      return profile;
+    })
+    .then((profile) => {
+      var following = profile.attributes.follow_director;
+      // console.log(following);
+      for (var i = 0; i < following.length; i++) {
+        // console.log('*********** movieId ', movieId);
+        // console.log('*********** following[i] ', following[i]);
+        if (following[i]['id'] === directorId) {
+          following.splice(i, 1);
+          break;
+        }
+      }
+      return profile.save({ follow_director: JSON.stringify(following) }, { patch: true });
+    })
+    .then((profile) => {
+      // console.log('********* removeFollowDirectors have been successfully removed for ' + profile.attributes.display);
+      res.status(201).send(profile.attributes.follow_director);
+    })
+    .error(err => {
+      console.log('********* error in removing removeFollowDirectors from DB', err);
+      res.status(500).send(err);
+    })
+    .catch((e) => {
+      console.log('********* catch in removeFollowDirectors', e);
+      res.sendStatus(404);
+    });
+};
+
 // module.exports.setCity = (req, res) => {
 //   var city = req.body.city;
 //   models.Profile.where({ id: req.session.passport.user }).fetch()

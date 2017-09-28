@@ -89,7 +89,7 @@ class UserSetup extends React.Component {
 
   finishStepTwo() {
     if (this.state.genreFollow.length > 0) {
-      console.log('********** genreFollow ', this.state.genreFollow);
+      // console.log('********** genreFollow ', this.state.genreFollow);
       $.ajax({
         method: 'POST',
         url: '/api/profiles/follows/genres',
@@ -99,7 +99,7 @@ class UserSetup extends React.Component {
         },
         success: (user) => {
           // user = JSON.parse(user);
-          console.log('********* success user setup follow Genres ', user);
+          // console.log('********* success user setup follow Genres ', user);
         },
         error: (error) => {
           console.log('************* update Genre follow list handleNext ERROR:', error);
@@ -116,7 +116,7 @@ class UserSetup extends React.Component {
         },
         success: (user) => {
           // user = JSON.parse(user);
-          console.log('********* success user setup follow Actors ', user);
+          // console.log('********* success user setup follow Actors ', user);
         },
         error: (error) => {
           console.log('************* update Actors follow list handleNext ERROR:', error);
@@ -133,7 +133,7 @@ class UserSetup extends React.Component {
         },
         success: (user) => {
           // user = JSON.parse(user);
-          console.log('********* success user setup follow Directors ', user);
+          // console.log('********* success user setup follow Directors ', user);
         },
         error: (error) => {
           console.log('************* update Directors follow list handleNext ERROR:', error);

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
@@ -19,20 +20,55 @@ class UserProfile extends React.Component {
     this.state = {
       favorites: this.props.favorites,
       favoriteId: this.props.favoriteId,
+      GenreFollow: this.props.genreFollow,
+      ActorFollow: this.props.actorFollow,
+      DirectorFollow: this.props.directorFollow
     };
   }
 
-  deleteGenre(id) {
-    //remove that genre from follow list in db
-    //copy remove following code
+  updateState(type, value, id) {
+    value = JSON.parse(value);
+    if (type === 'Genre') {
+      this.setState({
+        GenreFollow: value
+      })
+    } else if (type === 'Actor') {
+      var stateActor = this.state.ActorFollow;
+      for (var i = 0; i < stateActor.length; i++) {
+        if (stateActor[i]['id'] === id) {
+          stateActor.splice(i,1);
+          break;
+        }
+      }
+      this.setState({
+        ActorFollow: stateActor
+      })
+    } else {
+      var stateDirector = this.state.DirectorFollow;
+      for (var i = 0; i < stateDirector.length; i++) {
+        if (stateDirector[i]['id'] === id) {
+          stateDirector.splice(i,1);
+          break;
+        }
+      }
+      this.setState({
+        DirectorFollow: stateDirector
+      })
+    }
   }
 
-  deleteActor(id) {
-    //remove that genre from follow list in db
-  }
-
-  deleteDirector(id) {
-    //remove that genre from follow list in db
+  deleteFollowing(type, id) {
+    $.ajax({
+      method: 'POST',
+      url: '/api/profiles/removefollowing' + type,
+      data: {'id': id},
+      success: (followingUpdated) => {
+        this.updateState(type, followingUpdated, id);
+      },
+      error: (error) => {
+        console.log('************* error removing following for ' + type + ' for user ', error);
+      }
+    });
   }
 
   render() {
@@ -95,12 +131,12 @@ class UserProfile extends React.Component {
             </div>
           </div>
           <GridList cellHeight={50} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.props.genreFollow.map((genre, i) => (
+            {this.state.GenreFollow.map((genre, i) => (
               <GridTile
                 key={i}
                 title={genre.text}
                 actionIcon={
-                  <IconButton onClick={()=>{this.deleteGenre(genre.id);}}>
+                  <IconButton onClick={()=>{this.deleteFollowing('Genre', genre.id);}}>
                     <DeleteIcon color="white" />
                   </IconButton>
                 }
@@ -117,13 +153,13 @@ class UserProfile extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={6} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.props.actorFollow.map((actor, i) => (
+            {this.state.ActorFollow.map((actor, i) => (
                 <GridTile
                   key={i}
                   title={actor.name}
                   style={{height:'200px'}}
                   actionIcon={
-                    <IconButton onClick={()=>{this.deleteActor(actor.id);}}>
+                    <IconButton onClick={()=>{this.deleteFollowing('Actor', actor.id);}}>
                       <DeleteIcon color="white" />
                     </IconButton>
                   }
@@ -139,13 +175,13 @@ class UserProfile extends React.Component {
             </div>
           </div>
           <GridList cellHeight={200} cols={6} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
-            {this.props.directorFollow.map((director, i) => (
+            {this.state.DirectorFollow.map((director, i) => (
                 <GridTile
                   key={i}
                   title={director.name}
                   style={{height:'200px'}}
                   actionIcon={
-                    <IconButton onClick={()=>{this.deleteDirector(director.id);}}>
+                    <IconButton onClick={()=>{this.deleteFollowing('Director', director.id);}}>
                       <DeleteIcon color="white" />
                     </IconButton>
                   }
