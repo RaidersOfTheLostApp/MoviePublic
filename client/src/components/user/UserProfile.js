@@ -24,6 +24,7 @@ class UserProfile extends React.Component {
 
   deleteGenre(id) {
     //remove that genre from follow list in db
+    //copy remove following code
   }
 
   deleteActor(id) {
@@ -68,7 +69,7 @@ class UserProfile extends React.Component {
               <Subheader>EDIT YOUR FAVORITES</Subheader>
             </div>
           </div>
-          <GridList cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={5.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.favorites.map((movie, i) => (
               <ResultScroll
                 k={i}
@@ -115,7 +116,7 @@ class UserProfile extends React.Component {
               <Subheader>ACTOR/ACTRESSES</Subheader>
             </div>
           </div>
-          <GridList cellHeight={200} cols={4.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={6} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.actorFollow.map((actor, i) => (
                 <GridTile
                   key={i}
@@ -137,7 +138,7 @@ class UserProfile extends React.Component {
               <Subheader>DIRECTORS</Subheader>
             </div>
           </div>
-          <GridList cellHeight={200} cols={4.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList cellHeight={200} cols={6} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.props.directorFollow.map((director, i) => (
                 <GridTile
                   key={i}
