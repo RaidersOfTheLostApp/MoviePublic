@@ -57,10 +57,12 @@ class UpcomingVideoModal extends React.Component {
     this.render();
   }
   componentDidMount() {
-    if (this.state.videos.length > 0) {
-      this.setState({
-        video: this.state.videos[0].key
-      });
+    if (this.state.videos) {
+      if (this.state.videos.length > 0) {
+        this.setState({
+          video: this.state.videos[0].key
+        });
+      }
     }
   }
   render() {

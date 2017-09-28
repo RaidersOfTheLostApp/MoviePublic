@@ -50,7 +50,7 @@ class ResultScroll extends React.Component {
       favorites: this.props.favorites,
       videoIsOpen: false
     };
-    console.log('********** favoriteId ', this.props.favoriteId);
+    // console.log('********** favoriteId ', this.props.favoriteId);
     this.switchToVideoModal = this.switchToVideoModal.bind(this);
     this.switchToDataModal = this.switchToDataModal.bind(this);
     this.openModal = this.openModal.bind(this);

@@ -50,11 +50,10 @@ class UpcomingResultsListItem extends React.Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      followingId: this.props.followingId,
       following: this.props.following,
       videoIsOpen: false
     };
-
+    // console.log('************* following ', this.props.following);
     this.switchToVideoModal = this.switchToVideoModal.bind(this);
     this.switchToDataModal = this.switchToDataModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -64,7 +63,8 @@ class UpcomingResultsListItem extends React.Component {
   }
 
   getFollowingIcon(movie) {
-    var arr = this.state.followingId;
+    // console.log('********** getFollowingIcon movie ', movie);
+    var arr = this.state.following;
     return (
       <IconButton onClick={()=>{
         this.addFollowingMovie(movie);
@@ -80,58 +80,42 @@ class UpcomingResultsListItem extends React.Component {
   addFollowingMovie(movie) {
     var movieId = (movie.imdbID);
     // console.log('********** movie in addFollowingMovie ', movie);
-    if (this.state.followingId.indexOf(movieId) === -1) {
+    if (this.state.following.indexOf(movieId) === -1) {
       $.ajax({
         method: 'POST',
         url: '/api/profiles/addIMDbFollow',
         data: movie,
-        success: (user) => {
-          console.log('********* success following updated for user ' + user);
-          var followingId = this.state.followingId;
-          followingId.push(movieId);
+        success: (movie) => {
+          console.log('********* success following updated for movie ');
           var following = this.state.following;
-          following.push(movie);
-
+          following.push(movie.imdbID);
           this.setState({
-            following: following,
-            followingId: followingId
+            following: following
           });
         },
         error: (error) => {
           console.log('************* error updating following for user', error);
         }
       });
-    // } else {
-    //   console.log('this following is already in the list');
-
-    //   $.ajax({
-    //     method: 'POST',
-    //     url: '/api/profiles/removefollowing',
-    //     data: movie.id,
-    //     success: (user) => {
-    //       console.log('********* following removed for user ' + user);
-
-    //       var followingId = this.state.followingId;
-    //       var following = this.state.following;
-    //       var followingIndex = followingId.indexOf(movieId);
-    //       followingId.splice(followingIndex, 1);
-    //       for (var i = 0; i < following.length; i++) {
-    //         if (following[i].imdbID === movieId) {
-    //           following.splice(i, 1);
-    //         }
-    //       }
-
-    //       this.setState({
-    //         following: following,
-    //         followingId: followingId
-    //       });
-
-    //     },
-    //     error: (error) => {
-    //       console.log('************* error removing following for user ', error);
-    //     }
-    //   });
-    // }
+    } else {
+      // console.log('this following is already in the list');
+      $.ajax({
+        method: 'POST',
+        url: '/api/profiles/removefollowing',
+        data: movie,
+        success: (user) => {
+          console.log('********* following removed for user ' + user);
+          var following = this.state.following;
+          var followingIndex = following.indexOf(movieId);
+          following.splice(followingIndex, 1);
+          this.setState({
+            following: following
+          });
+        },
+        error: (error) => {
+          console.log('************* error removing following for user ', error);
+        }
+      });
     }
   }
 
@@ -190,16 +174,16 @@ class UpcomingResultsListItem extends React.Component {
   }
 
   render() {
-    console.log('*********** upcoming movies ', this.props.movieP);
+    // console.log('*********** upcoming movies ', this.props.movieP);
     return (
       <div>
         <GridTile
           key={this.props.k}
-          subtitle={<span>Release Date: <b>{this.props.movieP.Released}</b></span>}
-          title={this.props.movieP.Title}
+          subtitle={<span>Release Date: <b>{this.props.movieP.release_date.slice(5)}</b></span>}
+          title={this.props.movieP.title}
           actionIcon={this.getFollowingIcon(this.props.movieP)}
         >
-          <img src={this.props.movieP.Poster} onClick={this.openModal} height="100%" width="100%"/>
+          <img src={this.props.movieP.poster_path} onClick={this.openModal} height="100%" width="100%"/>
         </GridTile>
         <UpcomingMovieDataModal
           closeModal={this.closeModal}

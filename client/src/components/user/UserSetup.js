@@ -98,7 +98,7 @@ class UserSetup extends React.Component {
           //format of values: [{'text': chosenRequest, 'id': null},...]
         },
         success: (user) => {
-          user = JSON.parse(user);
+          // user = JSON.parse(user);
           console.log('********* success user setup follow Genres ', user);
         },
         error: (error) => {
@@ -115,7 +115,7 @@ class UserSetup extends React.Component {
           actorFollow: this.state.actorFollow
         },
         success: (user) => {
-          user = JSON.parse(user);
+          // user = JSON.parse(user);
           console.log('********* success user setup follow Actors ', user);
         },
         error: (error) => {
@@ -132,7 +132,7 @@ class UserSetup extends React.Component {
           directorFollow: this.state.directorFollow
         },
         success: (user) => {
-          user = JSON.parse(user);
+          // user = JSON.parse(user);
           console.log('********* success user setup follow Directors ', user);
         },
         error: (error) => {
@@ -168,7 +168,7 @@ class UserSetup extends React.Component {
           phone: this.state.phone
         },
         success: (user) => {
-          user = JSON.parse(user);
+          // user = JSON.parse(user);
           console.log('********* success user setup phone update ', user);
         },
         error: (error) => {
@@ -218,15 +218,15 @@ class UserSetup extends React.Component {
         </List>
         <Divider />
         <br />
-         Welcome to Movie Master!
+         <b>Welcome to Premiere!</b>
 
-        <div className='stepper'>
+        <div className='stepper' style={{background: 'white'}}>
           <Stepper activeStep={this.state.stepIndex}>
             <Step>
-              <StepLabel>Select Genres, Actors, and Directors to Follow</StepLabel>
+              <StepLabel><b>Select Genres, Actors, and Directors to Follow</b></StepLabel>
             </Step>
             <Step>
-              <StepLabel>Get Notified About New Movie Releases</StepLabel>
+              <StepLabel><b>Get Notified About New Movie Releases</b></StepLabel>
             </Step>
           </Stepper>
           <div>

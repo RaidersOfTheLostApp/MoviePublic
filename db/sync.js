@@ -5,7 +5,7 @@ var tmdb = require('../server/movieAPIHelpers/tmdb');
 var tmdbHelper = require('../server/movieAPIHelpers/tmdbHelpers');
 
 // Runs Job Every 10 minutes
-var movieCron = new cron.CronJob('1 * * * * *', function() {
+var movieCron = new cron.CronJob('* 01 * * * *', function() {
   console.info('Movie CRON - job running every 1 seconds');
   workMovieQueue();
   // console.info('CRON job completed');
@@ -16,76 +16,80 @@ true, //does not start the job right now
 //test to see if job is running: movieCron.running === true or === undefined
 //movieCron.stop() to stop the job after last element completes
 
-var genreCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Genre CRON - job running every 1 seconds');
+var genreCron = new cron.CronJob('* 01 * * * *', function() {
+  console.info('Genre CRON - job running every 1 min');
   workGenreQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var actorCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Actor CRON - job running every 1 seconds');
+var actorCron = new cron.CronJob('* 01 * * * *', function() {
+  console.info('Actor CRON - job running every 1 min');
   workActorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var directorCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Director CRON - job running every 1 seconds');
+var directorCron = new cron.CronJob('* 01 * * * *', function() {
+  console.info('Director CRON - job running every 1 min');
   workDirectorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var imageCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Image CRON - job running every 1 seconds');
+var imageCron = new cron.CronJob('* 01 * * * *', function() {
+  console.info('Image CRON - job running every 1 min');
   workImageQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var upcomingCron = new cron.CronJob('1 * * * * *', function() {
-  console.info('Upcoming CRON - job running every 1 seconds');
+var upcomingCron = new cron.CronJob('* 05 * * * *', function() {
+  console.info('Upcoming CRON - job running every 5 mins');
   checkUpcomingQueue();
 }, null,
 true,
 'America/Los_Angeles');
+
+Date.prototype.addDays = function(days) {
+ var dat = new Date(this.valueOf());
+ dat.setDate(dat.getDate() + days);
+ return dat;
+};
 
 var checkUpcomingQueue = function() {
   console.log('Upcoming Queue - Pre Work');
   //get all movies from upcoming where release date in minus 7 days
   //get phone number for all users with that id in follow_imdbMovies field
   //send twilio to those phone numbers with movie name and release date
-  console.log('******* today ', Date.now());
-  console.log('******* in a week ', Date.now() + 7);
+  var today = new Date();
+  console.log('******* in a week ', today.addDays(7));
   models.Upcoming.query(function(qb) {
-    qb.where('release_date', '>=', Date.now())
-      .andWhere('release_date', '<', Date.now() + 7);
+    qb.where('release_date', '>=', today)
+      .andWhere('release_date', '<', today.addDays(7));
   }).fetchAll()
     .then(soonReleases => {
       console.log('********* soonReleases ', soonReleases);
-      // async.eachSeries(imageQueue, function(crew, callback) {
+      //once have soonReleases...
+
+      // async.eachSeries(upcomingQueue, function(upcoming, callback) {
       //   // console.log('*********** image in Queue processing ', crew);
-      //   addImage(crew.attributes, (err, results) => {
-      //     if (err) {
-      //       console.log('Image Queue Error ', err);
-      //       callback(err);
-      //     } else {
-      //       console.log(imageQueue.length, 'Queue - Image Add Completed');
-      //       // console.log('*********** current imageQueue ', imageQueue);
-      //       imageQueue.shift();
-      //       console.log(imageQueue.length, 'Queue - Image Removed');
-      //       // console.log('*********** current imageQueue ', imageQueue);
-      //       // workQueue();
-      //       console.log('********** Image Queue Success ', results);
-      //       callback();
-      //     }
-      //   });
+      //   //TODO: create this
+      //   // findUserMatch(upcoming.models.attributes.imdb_id, (err, results) => {
+      //   //   if (err) {
+      //   //     console.log('Upcoming find user match Error ', err);
+      //   //     callback(err);
+      //   //   } else {
+      //   //     addUserTwilioQueue(results); //TODO: create this
+      //   //     console.log('********** Find user Queue Success ', results);
+      //   //     callback();
+      //   //   }
+      //   // });
       // }, function(err) {
       //   if (err) {
-      //     console.log('********** workImageQueue eachSeries error ', err);
+      //     console.log('********** upcomingQueue eachSeries error ', err);
       //   } else {
-      //     console.log('************ workImageQueue success all files complete');
+      //     console.log('************ upcomingQueue success all files complete');
       //   }
       // });
     })
@@ -302,10 +306,15 @@ var workImageQueue = function() {
     console.log('Empty Image Queue - Congrats!');
     // imageCron.stop();
   } else if (imageQueue.length > 0) {
-    // console.log('Enter Image Queue Loop with imageQueue ', imageQueue);
+    console.log('Enter Image Queue Loop with imageQueue ', imageQueue);
     async.eachSeries(imageQueue, function(crew, callback) {
-      // console.log('*********** image in Queue processing ', crew);
+      console.log('*********** image in Queue processing ', crew);
+      if (crew === undefined) {
+        callback('crew is undefined');
+      }
       addImage(crew.attributes, (err, results) => {
+        console.log('*********** addImage results ', results);
+        console.log('********** addImage err ', err);
         if (err) {
           console.log('Image Queue Error ', err);
           callback(err);

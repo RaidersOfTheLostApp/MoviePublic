@@ -96,70 +96,94 @@ class FollowSetup extends React.Component {
       value: 'id'
     };
     return (
+      <div>
       <div className='follow container'>
         <div className='row'>
           <div className='col'>
             <Subheader>{this.props.header}</Subheader>
-            <div className='col'>
-              <div className='row'>
-                <div className='col'>
-                  <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
-                    <MenuItem value={0} primaryText='Genre' />
-                    <MenuItem value={1} primaryText='Actor' />
-                    <MenuItem value={2} primaryText='Director' />
-                  </SelectField>
-                </div>
-                <div className='col'>
-                  <AutoComplete
-                    id='follow-field'
-                    ref={'autoComplete'}
-                    hintText={this.state.hintText[this.state.select_value]}
-                    filter={AutoComplete.fuzzyFilter}
-                    dataSource={this.state.dataSource}
-                    dataSourceConfig={dataSourceConfig}
-                    maxSearchResults={10}
-                    onNewRequest={this.setLatestFollow.bind(this)}
-                  />
-                </div>
-                <div className='col'>
-                  <FloatingActionButton className='floatButton' mini={true} onClick={this.addFollow.bind(this)}>
-                    <ContentAdd />
-                  </FloatingActionButton>
-                </div>
+            <div className='row'>
+              <div className='col'>
+                <SelectField value={this.state.select_value} onChange={this.handleChange.bind(this)} autoWidth={true}>
+                  <MenuItem value={0} primaryText='Genre' />
+                  <MenuItem value={1} primaryText='Actor' />
+                  <MenuItem value={2} primaryText='Director' />
+                </SelectField>
+              </div>
+              <div className='col'>
+                <AutoComplete
+                  id='follow-field'
+                  ref={'autoComplete'}
+                  hintText={this.state.hintText[this.state.select_value]}
+                  filter={AutoComplete.fuzzyFilter}
+                  dataSource={this.state.dataSource}
+                  dataSourceConfig={dataSourceConfig}
+                  maxSearchResults={10}
+                  onNewRequest={this.setLatestFollow.bind(this)}
+                />
+              </div>
+              <div className='col'>
+                <FloatingActionButton className='floatButton' mini={true} onClick={this.addFollow.bind(this)}>
+                  <ContentAdd />
+                </FloatingActionButton>
               </div>
             </div>
           </div>
         </div>
-        <div className='muiThemeProvider outline'>
-          <Subheader>GENRES</Subheader>
-          <List>
-            {this.props.genreFollow.map(genre =>
-              <ListItem key={genre.id}
-                leftIcon={<ActionGrade />}
-                primaryText={genre.text}
-              />
-            )}
-          </List>
-          <Subheader>ACTOR/ACTRESSES</Subheader>
-          <List>
-            {this.props.actorFollow.map(actor =>
-              <ListItem key={actor.id}
-                leftIcon={<ActionGrade />}
-                primaryText={actor.text}
-              />
-            )}
-          </List>
-          <Subheader>DIRECTORS</Subheader>
-          <List>
-            {this.props.directorFollow.map(director =>
-              <ListItem key={director.id}
-                leftIcon={<ActionGrade />}
-                primaryText={director.text}
-              />
-            )}
-          </List>
+      </div>
+      <div className='container'>
+        <div className='row'>
+          <div className='col muiThemeProvider outline '>
+            <div className='row'>
+              <div className='col'>
+                <Subheader>GENRES</Subheader>
+                <List>
+                  {this.props.genreFollow.map(genre =>
+                    <ListItem key={genre.id}
+                      leftIcon={<ActionGrade />}
+                      primaryText={genre.text}
+                    />
+                  )}
+                </List>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col muiThemeProvider outline '>
+            <div className='row'>
+              <div className='col'>
+                <Subheader>ACTOR/ACTRESSES</Subheader>
+                <List>
+                  {this.props.actorFollow.map(actor =>
+                    <ListItem key={actor.id}
+                      leftIcon={<ActionGrade />}
+                      primaryText={actor.text}
+                    />
+                  )}
+                </List>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col muiThemeProvider outline '>
+            <div className='row'>
+              <div className='col'>
+                <Subheader>DIRECTORS</Subheader>
+                <List>
+                  {this.props.directorFollow.map(director =>
+                    <ListItem key={director.id}
+                      leftIcon={<ActionGrade />}
+                      primaryText={director.text}
+                    />
+                  )}
+                </List>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
     );
   }
 }

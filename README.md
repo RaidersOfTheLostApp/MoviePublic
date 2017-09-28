@@ -155,17 +155,21 @@ To populate the database with seed data, run:
 
 Note: `--env NODE_ENV` may be omitted for development. For example, `knex migrate:latest` will run all migrations in the development environment, while `knex migrate:latest --env test` will migrate in the test environment.
 
-## Running the App
+## Running the App - need 5 terminals open
 
 To run webpack build: `yarn run build`
 
 To run server: `yarn run start`
 
-To run tests: `yarn run test`
-
 To run your redis server for the session store `redis-server`
 
 To run the search server: `yarn run startm`
+
+To start the database: `mongod`
+
+## To run tests
+
+`yarn run test`
 
 ## Deploy to Heroku
 

@@ -63,7 +63,7 @@ router.route('/')
                     if (err) {
                       console.log(err);
                     } else {
-                      console.log('********** recommendations results ', results);
+                      // console.log('********** recommendations results ', results);
                       recommendations = results;
                       res.render('index.ejs', {
                         data: {
@@ -91,42 +91,34 @@ router.route('/upcoming')
         if (profile.new_user) {
           res.redirect('/setup');
         } else {
-          searchDb.searchByIds(profile.attributes.favorites, (err, results) => {
-            if (err) {
-              console.log(err);
-            } else {
-              tmdbHelp.getUpcomingMovies(todayDate, futureDate, (err, movies) => {
-                if (err) {
-                  console.log(err, 'UPCOMINGMOVIEERROR!');
-                } else {
-
-                  tmdbHelp.getUpcomingMovies(todayDate, futureDate, (err, movies) => {
-                    if (err) {
-                      console.log(err, 'UPCOMINGMOVIEERROR!');
-                    } else {
-                      omdbHelp.searchTitleArray(movies, (err, result) => {
-                        // console.log(result);
-                        if (err) {
-                          console.log('error with movieArray Search!');
-                        } else {
-                          res.render('index.ejs', {
-                            data: {
-                              movieone: result,
-                              favorites: [],
-                              favoriteId: [],
-                              user: req.user
-                            }
-                          });
-                        }
-                      });
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
-      });
+          // searchDb.searchByIds(profile.attributes.follow_imdbMovies, (err, imdb_results) => {
+          //   if (err) {
+          //     console.log(err);
+          //   } else {
+              // console.log('*********** imdb_results', imdb_results);
+            tmdbHelp.getUpcomingMovies(todayDate, futureDate, (err, movies) => {
+              if (err) {
+                console.log(err, 'UPCOMINGMOVIEERROR!');
+              } else {
+                omdbHelp.searchTitleArray(movies, (err, result) => {
+                  if (err) {
+                    console.log('error with movieArray Search!');
+                  } else {
+                    res.render('index.ejs', {
+                      data: {
+                        movieone: result || [],
+                        followingImdb: profile.attributes.follow_imdbMovies || [],
+                        user: req.user
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      // }
+    // });
   });
 
 
@@ -317,13 +309,13 @@ router.route('/following')
                                 directorMovies = movies;
                                 //get follow_imdbMovies here
                                 async.map(profileList.attributes.follow_imdbMovies, function(file, callback) {
+                                  console.log('********* call to upcoming where imdb_id = ', file);
                                   models.Upcoming.where({ imdb_id: file }).fetch()
                                     .then(imdbMovie => {
                                       console.log('********* in imdb map ', imdbMovie);
                                       if (imdbMovie) {
-                                        callback(null,imdbMovie);
-                                      } else {
-                                        callback('get upcoming movie error');
+                                        // console.log('********** callback for ', imdbMovie);
+                                        callback(null, imdbMovie);
                                       }
                                     })
                                     .catch(err => {

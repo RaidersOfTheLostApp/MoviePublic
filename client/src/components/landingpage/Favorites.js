@@ -11,8 +11,9 @@ class Favorites extends React.Component {
       favorites: this.props.favorites,
       favoriteId: this.props.favoriteId,
       // modalIsOpen: false,
-      movieP: this.props.movie
+      // movieP: this.props.movie
     };
+    console.log('********* movie ', this.props.favorites);
   }
 
   // openModal() {

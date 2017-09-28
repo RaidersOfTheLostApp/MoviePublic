@@ -41,9 +41,9 @@ router.route('/addIMDbFollow')
   .post(ProfileController.addIMDbFollow)
 ;
 
-// router.route('/removefollowing')
-//   .post(ProfileController.removeFollowing)
-// ;
+router.route('/removefollowing')
+  .post(ProfileController.removeFollowing)
+;
 
 router.route('/follows/genres')
   .post(ProfileController.setUpFollowGenres)

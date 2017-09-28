@@ -75,7 +75,7 @@ var searchByIds = (idArray, cb) => {
     var len = idArray.length;
     idArray.forEach((value, i) => {
       if (value.length > 20) {
-        console.log(value, '@@@@@%%%%%');
+        // console.log(value, '@@@@@%%%%%');
         getMovies({ _id: value }, (err, res) => {
           if (err) {
             cb(err, null);
