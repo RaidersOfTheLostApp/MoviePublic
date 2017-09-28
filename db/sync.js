@@ -5,8 +5,8 @@ var tmdb = require('../server/movieAPIHelpers/tmdb');
 var tmdbHelper = require('../server/movieAPIHelpers/tmdbHelpers');
 
 // Runs Job Every 10 minutes
-var movieCron = new cron.CronJob('* 01 * * * *', function() {
-  console.info('Movie CRON - job running every 1 seconds');
+var movieCron = new cron.CronJob('05 * * * * *', function() {
+  console.info('Movie CRON - job running every 5 sec');
   workMovieQueue();
   // console.info('CRON job completed');
 }, null, //function to execute when the job stops
@@ -16,29 +16,29 @@ true, //does not start the job right now
 //test to see if job is running: movieCron.running === true or === undefined
 //movieCron.stop() to stop the job after last element completes
 
-var genreCron = new cron.CronJob('* 01 * * * *', function() {
-  console.info('Genre CRON - job running every 1 min');
+var genreCron = new cron.CronJob('05 * * * * *', function() {
+  console.info('Genre CRON - job running every 5 sec');
   workGenreQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var actorCron = new cron.CronJob('* 01 * * * *', function() {
-  console.info('Actor CRON - job running every 1 min');
+var actorCron = new cron.CronJob('05 * * * * *', function() {
+  console.info('Actor CRON - job running every 5 sec');
   workActorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var directorCron = new cron.CronJob('* 01 * * * *', function() {
-  console.info('Director CRON - job running every 1 min');
+var directorCron = new cron.CronJob('05 * * * * *', function() {
+  console.info('Director CRON - job running every 5 sec');
   workDirectorQueue();
 }, null,
 true,
 'America/Los_Angeles');
 
-var imageCron = new cron.CronJob('* 01 * * * *', function() {
-  console.info('Image CRON - job running every 1 min');
+var imageCron = new cron.CronJob('05 * * * * *', function() {
+  console.info('Image CRON - job running every 5 sec');
   workImageQueue();
 }, null,
 true,
@@ -63,13 +63,13 @@ var checkUpcomingQueue = function() {
   //get phone number for all users with that id in follow_imdbMovies field
   //send twilio to those phone numbers with movie name and release date
   var today = new Date();
-  console.log('******* in a week ', today.addDays(7));
+  // console.log('******* in a week ', today.addDays(7));
   models.Upcoming.query(function(qb) {
     qb.where('release_date', '>=', today)
       .andWhere('release_date', '<', today.addDays(7));
   }).fetchAll()
     .then(soonReleases => {
-      console.log('********* soonReleases ', soonReleases);
+      // console.log('********* soonReleases ', soonReleases);
       //once have soonReleases...
 
       // async.eachSeries(upcomingQueue, function(upcoming, callback) {
@@ -306,18 +306,21 @@ var workImageQueue = function() {
     console.log('Empty Image Queue - Congrats!');
     // imageCron.stop();
   } else if (imageQueue.length > 0) {
-    console.log('Enter Image Queue Loop with imageQueue ', imageQueue);
+    // console.log('Enter Image Queue Loop with imageQueue ', imageQueue);
     async.eachSeries(imageQueue, function(crew, callback) {
-      console.log('*********** image in Queue processing ', crew);
       if (crew === undefined) {
         callback('crew is undefined');
       }
+      console.log('*********** image in Queue processing ', crew.attributes);
       addImage(crew.attributes, (err, results) => {
         console.log('*********** addImage results ', results);
-        console.log('********** addImage err ', err);
+        // console.log('********** addImage err ', err);
         if (err) {
           console.log('Image Queue Error ', err);
           callback(err);
+        } else if (!results) {
+          console.log('********** crew value is undefined or null ', results);
+          callback();
         } else {
           console.log(imageQueue.length, 'Queue - Image Add Completed');
           // console.log('*********** current imageQueue ', imageQueue);
@@ -438,8 +441,8 @@ var addActor = function(movie, callback1) {
     models.Crew.where({ name: actor }).fetch()
       .then(actor_record => {
         if (actor_record) {
-          console.log('************* actor_record ', actor_record);
-          console.log(actor_record.name, ' Actor is Already in Database');
+          console.log('************* actor_record ', actor_record.attributes.name);
+          console.log(actor_record.attributes.name, ' Actor is Already in Database');
           if (actor_record.attributes.actor !== true) {
             actor_record.save({actor: true}, {patch: true});
           }
@@ -483,7 +486,7 @@ var addDirector = function(movie, callback1) {
       .then(director_record => {
       // console.log('********** in addDirector director_record ', director_record);
         if (director_record) {
-          console.log(director_record.name, ' Director is Already in Database');
+          console.log(director_record.attributes.name, ' Director is Already in Database');
           if (director_record.attributes.director !== true) {
             director_record.save({director: true}, {patch: true});
           }
