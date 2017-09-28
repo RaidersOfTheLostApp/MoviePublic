@@ -86,9 +86,9 @@ class UpcomingResultsListItem extends React.Component {
         url: '/api/profiles/addIMDbFollow',
         data: movie,
         success: (movie) => {
-          console.log('********* success following updated for movie ' + movie);
+          console.log('********* success following updated for movie ');
           var following = this.state.following;
-          following.push(movie);
+          following.push(movie.imdbID);
           this.setState({
             following: following
           });
