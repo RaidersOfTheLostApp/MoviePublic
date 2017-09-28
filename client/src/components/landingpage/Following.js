@@ -146,7 +146,7 @@ class Following extends React.Component {
   }
 
   render() {
-    console.log('********* movieP', this.state.imdbFollow);
+    // console.log('********* genreList', this.state.genreList);
     return (
       <div className='muiThemeProvider'>
         <div className='followRoot container'>
@@ -157,13 +157,13 @@ class Following extends React.Component {
             <div className='col-4'>
             </div>
           </div>
-          <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={1} cellHeight={200} cols={6.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.imdbFollow.map((imdb, i) => (
               <ResultScroll
                 k={i}
                 movieP={imdb}
                 title={imdb.title}
-                subtitle={<span>Release Date <b>{imdb.release_date}</b></span>}
+                subtitle={<span><b>{imdb.release_date.slice(0, 10)}</b></span>}
               />
             ))}
           </GridList>
@@ -182,7 +182,7 @@ class Following extends React.Component {
               </SelectField>
             </div>
           </div>
-          <GridList key={1} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={1} cellHeight={200} cols={6.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.genreMongoIdsFiltered.map((genre, i) => (
               <ResultScroll
                 k={i}
@@ -207,7 +207,7 @@ class Following extends React.Component {
               </SelectField>
             </div>
           </div>
-          <GridList key={2} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={2} cellHeight={200} cols={6.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.actorMongoIdsFiltered.map((actor, i) => (
               <ResultScroll
                 k={i}
@@ -232,7 +232,7 @@ class Following extends React.Component {
               </SelectField>
             </div>
           </div>
-          <GridList key={3} cellHeight={200} cols={3} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
+          <GridList key={3} cellHeight={200} cols={6.5} className='followingList' style={{display: 'flex', flexWrap: 'nowrap', overflowX: 'auto'}}>
             {this.state.directorMongoIdsFiltered.map((director, i) => (
               <ResultScroll
                 k={i}

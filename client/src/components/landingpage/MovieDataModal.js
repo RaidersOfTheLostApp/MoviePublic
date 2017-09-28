@@ -100,10 +100,7 @@ class MovieDataModal extends React.Component {
                   <p><strong>Genre/s</strong>: {this.props.movieP.genre}</p>
                   <p><strong>Runtime</strong>: {this.props.movieP.runtime}</p>
                   <p><strong>Website</strong>: <a href={this.props.movieP.website}>{this.props.movieP.website}</a></p>
-                  <p><strong>Ratings</strong></p>
-                  {(this.props.movieP.ratings).map( value => {
-                    return (<p>{value['Source']}: {value['Value']}</p>);
-                  })}
+
                   <div style={styles.gridlist}>
                     <GridList style = {styles.gridlist} className='gridList' cellHeight='auto' cols={2.2}>
                       <Subheader><strong>Similar Movies</strong></Subheader>
