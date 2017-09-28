@@ -25,8 +25,7 @@ class Upcoming extends React.Component {
       disableYearSelection: false,
       minRating: 0,
       movies: this.props.results,
-      following: [],
-      followingId: []
+      following: this.props.followingImdb
     };
   }
 
@@ -37,7 +36,7 @@ class Upcoming extends React.Component {
   }
 
   render() {
-    // console.log('the upcoming movies are', this.state.movies); 
+    // console.log('the upcoming movies are', this.state.movies);
     return (
       <div className='gridRoot container'>
         <GridList
@@ -49,7 +48,6 @@ class Upcoming extends React.Component {
             <UpcomingResultsListItem
               key={i}
               movieP={movie}
-              followingId = {this.state.followingId}
               following = {this.state.following}
             />
           ))}

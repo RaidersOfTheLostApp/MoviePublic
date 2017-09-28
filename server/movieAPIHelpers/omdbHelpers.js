@@ -40,6 +40,7 @@ module.exports.searchTitleArray = (movies, cb) => {
           console.log('the code is breaking under Searching it ', data);
         }
         var newData = JSON.parse(data);
+        value['Year'] = newData.Year ? newData.Year : value.release_date.slice(0,4);
         value['Actors'] = newData.Actors ? newData.Actors : 'N/A';
         value['Director'] = newData.Director ? newData.Director : 'N/A';
         value['Genre'] = newData.Genre ? newData.Genre : 'N/A';
