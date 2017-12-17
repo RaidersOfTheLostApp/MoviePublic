@@ -1,6 +1,6 @@
  # Project Name
 
-The project description
+Premiere is a movie recommendation engine.
 
 ## Team
 
@@ -11,11 +11,11 @@ The project description
 
 ## Roadmap
 
-View the project roadmap [https://docs.google.com/document/d/1G0QEuFhXAR2H6vbSgyYonfQ1UkbpUq5ephmo5YCSVgc/edit?usp=sharing]
+View the [project roadmap] (https://docs.google.com/document/d/1G0QEuFhXAR2H6vbSgyYonfQ1UkbpUq5ephmo5YCSVgc/edit?usp=sharing)
 
 ## Contributing
 
-See [CONTRIBUTING.md]for contribution guidelines.
+See [CONTRIBUTING.md](https://github.com/artliou/premiere/blob/master/CONTRIBUTING.md) for contribution guidelines.
 
 # Table of Contents
 
@@ -33,7 +33,7 @@ See [CONTRIBUTING.md]for contribution guidelines.
 
 ## Usage
 
-> Some usage instructions
+>
 
 ## Requirements
 
@@ -79,8 +79,7 @@ Override settings `config/default.json` in any environment by making a copy of `
 
 For environments that require use of environment variables, you can supply variables as defined in `config/custom-environment-variables.json`.
 
-See https://www.npmjs.com/package/config
-And https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables
+See https://www.npmjs.com/package/config and https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables
 
 If you are using Atom and don't see these new files, follow instructions here:
 http://blog.lukebennett.com/2015/09/21/show-hidden-files-in-atom-sidebar/
@@ -93,7 +92,7 @@ IMPORTANT: ensure `postgres` is running before performing these steps with below
 
 `brew services start postgresql`
 
-See DB_DOCUMENTATION.md for more explanation of the DB setup
+See [DB_DOCUMENTATION.md](https://github.com/artliou/premiere/blob/master/DB_DOCUMENTATION.md) for more explanation of the DB setup
 
 ### Database User Setup
 
@@ -155,7 +154,9 @@ To populate the database with seed data, run:
 
 Note: `--env NODE_ENV` may be omitted for development. For example, `knex migrate:latest` will run all migrations in the development environment, while `knex migrate:latest --env test` will migrate in the test environment.
 
-## Running the App - need 5 terminals open
+## Running the App
+
+Requirements: 5 Open Tabs
 
 To run webpack build: `yarn run build`
 
@@ -173,7 +174,7 @@ To start the database: `mongod`
 
 ## Deploy to Heroku
 
-Create a new app on Heroku
+Start by creating a new app on Heroku
 
 ## Install Heroku Addon for Heroku Postgres
 
@@ -217,19 +218,18 @@ production:
 `mongorestore -h ds133814.mlab.com:33814 -d heroku_kbc22vfb -u <username> -p <password> dump/fetcher/`
 
 
-## Update configs
+## Update Configs
 
 Update Heroku Config variables for Facebook, Google, TMDB, OMDB, and Twilio
 
-## Deploy the app from the local instance
+## Deploy the App from the Local Instance
 
-Then deploy -
 Your master will auto deploy so if you want to deploy from your branch, follow this command:
 
 `git push heroku <nameofbranch>:master`
 
-## Build the pipeline for GitHub
+## Build the Pipeline for GitHub
 
-Connect to github account
+Start by connecting to your Github account
 
-Build the pipline for staging and update configs to match that environment for callback urls. Need to update Facebook to have multiple developer apps for each environment. Need to add new domains to the Google developers page.
+> Build the pipeline for staging and update configs to match that environment for callback urls. Need to update Facebook to have multiple developer apps for each environment. Need to add new domains to the Google developers page.
